@@ -94,5 +94,9 @@ fabric.properties
 .R*
 *__init__*
 *.pdf
-./Software/Results/*
-./Software/Restr/*
+Software/Results/*
+Software/Restr/*
+Software/Datasets/*
+Documentacion/*
+*xml
+*iml
