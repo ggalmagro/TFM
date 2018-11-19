@@ -1,5 +1,5 @@
 import numpy as np
-from AGConst.BRKGA import BRKGA
+from BRKGA.BRKGA import BRKGA
 from functions import *
 from sklearn.metrics import adjusted_rand_score
 import time

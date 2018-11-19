@@ -17,9 +17,9 @@ def main():
     datasets_array = datasets_array[0:5]
     labels_array = labels_array[0:5]
 
-    names_array = [names_array[0]]
-    datasets_array = [datasets_array[0]]
-    labels_array = [labels_array[0]]
+    # names_array = [names_array[0]]
+    # datasets_array = [datasets_array[0]]
+    # labels_array = [labels_array[0]]
 
     general_table_file = open("Results/SHADE/general_table_file.txt", "w+")
     results_file = open("Results/SHADE/results_file.txt", "w+")

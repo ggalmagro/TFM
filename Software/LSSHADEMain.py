@@ -1,31 +1,8 @@
 import numpy as np
-from sklearn import datasets
-from DE.DE import DE
+from LSSHADE.LSSHADE import LSSHADE
 from functions import *
-import matplotlib.pyplot as plt
-import csv
 from sklearn.metrics import adjusted_rand_score
 import time
-from sklearn.neighbors.nearest_centroid import NearestCentroid
-import scipy.spatial.distance
-
-
-
-def get_usat_percent(ml, cl, clustering):
-
-    unsat = 0
-
-    for i in range(len(ml)):
-
-        if clustering[ml[i][0]] != clustering[ml[i][1]]:
-            unsat += 1
-
-    for i in range(len(cl)):
-
-        if clustering[cl[i][0]] == clustering[cl[i][1]]:
-            unsat += 1
-
-    return (unsat / (len(ml) + len(cl))) * 100
 
 
 def main():
@@ -36,19 +13,26 @@ def main():
 
     names_array, datasets_array, labels_array = load_all_datasets()
 
+    names_array = names_array[0:2]
+    datasets_array = datasets_array[0:2]
+    labels_array = labels_array[0:2]
+
     # names_array = [names_array[0]]
     # datasets_array = [datasets_array[0]]
     # labels_array = [labels_array[0]]
 
-    general_table_file = open("Results/DE/general_table_file.txt", "w+")
-    results_file = open("Results/DE/results_file.txt", "w+")
+    general_table_file = open("Results/LSSHADE/general_table_file.txt", "w+")
+    results_file = open("Results/LSSHADE/results_file.txt", "w+")
 
     #BUCLE DE OBTENCION DE DATOS
 
     const_percent_vector = np.array([0.05, 0.1, 0.15, 0.2])
+    const_percent_vector = np.array([0.05])
     nb_runs = 1
-    max_eval = 100000
-    population_size = 120
+    max_eval = 300000
+    population_size = 100
+
+    general_start = time.time()
 
     for label_percent in const_percent_vector:
 
@@ -56,7 +40,7 @@ def main():
         general_table_file.write("------------ Procesando en porcentaje de restricciones: " + str(label_percent) + " ------------\n")
         general_table_file.write("Dataset RandIndex   Time(s)   Unsat(%)   TotalRestr   ML(%)   CL(%)\n")
         results_file.write("------------ Procesando en porcentaje de restricciones: " + str(label_percent) + " ------------\n")
-        results_file.write("Dataset RandIndex   Time(s)   Unsat(%)   TotalRestr   ML(%)   CL(%)\n")
+        results_file.write("Dataset RandIndex   Time(s)   Unsat(%)\n")
 
         for i in range(len(names_array)):
 
@@ -79,7 +63,7 @@ def main():
             mean_unsat_percent = 0
 
             for j in range(nb_runs):
-                de = DE(data_set, ml_const, cl_const, population_size, 1, 0.5, nb_clust, 10)
+                de = LSSHADE(data_set, ml_const, cl_const, population_size, nb_clust)
                 start = time.time()
                 de_assignment = de.run(max_eval)[1]
                 end = time.time()
@@ -90,6 +74,8 @@ def main():
             mean_ars /= nb_runs
             mean_execution_time /= nb_runs
             mean_unsat_percent /= nb_runs
+
+            print("Numero de clusters: " + str(len(set(de_assignment))))
 
             print("Restricciones Totales: " + str(nb_const) + " | ML (%): " + str(ml_const_percent) \
                   + " | CL (%): " + str(cl_const_percent))
@@ -104,6 +90,10 @@ def main():
 
     general_table_file.close()
     results_file.close()
+
+    general_end = time.time()
+
+    print("Time --------------> " + str(general_end - general_start))
 
     #REPRESENTANDO ALGUNOS RESULTADOS
     # iris_plot1 = draw_data_2DNC(data_set, np.asarray(labels, np.uint8), 3, "DE Iris Dataset ML")
