@@ -2,10 +2,9 @@ import numpy as np
 import copy as cp
 import scipy.stats
 
-
 class SHADE:
 
-    def __init__(self, data, ml_const, cl_const, population_size, nb_clust, mu, ls=False):
+    def __init__(self, data, ml_const, cl_const, population_size, nb_clust, ls=False):
 
         self._data = data
         self._ml = ml_const
@@ -13,7 +12,6 @@ class SHADE:
         self._dim = data.shape[0]
         self._population_size = population_size
         self._result_nb_clust = nb_clust
-        self._mu = mu
         self._external_archive = np.empty((0, 0))
         self._h_record_cr = np.empty((0, 0))
         self._h_record_f = np.empty((0, 0))
@@ -121,15 +119,15 @@ class SHADE:
         while self._evals_done < max_eval:
 
             #Ordenamos la poblacion segun el valor fitness de cada individuo
-            population_fitness = self.get_fitness()[0]
-            sorted_population_index = np.argsort(population_fitness)
-            population_fitness = population_fitness[sorted_population_index]
+            self._population_fitness = self.get_fitness()[0]
+            sorted_population_index = np.argsort(self._population_fitness)
+            self._population_fitness = self._population_fitness[sorted_population_index]
             self._population = self._population[sorted_population_index]
 
-            if population_fitness[0] < self._best_fitness:
+            if self._population_fitness[0] < self._best_fitness:
 
                 self._best = cp.deepcopy(self.decode_random_key(self._population[0, :]))
-                self._best_fitness = population_fitness[0]
+                self._best_fitness = self._population_fitness[0]
 
             if self._ls:
 
@@ -186,7 +184,7 @@ class SHADE:
                 f = self.get_single_fitness(trial)[0]
 
                 #Aplicamos el operador de sustitucion
-                if f <= population_fitness[j]:
+                if f <= self._population_fitness[j]:
 
                     next_gen[j, :] = trial
 
@@ -195,11 +193,11 @@ class SHADE:
                     next_gen[j, :] = x_i
 
                 #Actualizamos la informacion para el calculo de los parametros adaptativos
-                if f < population_fitness[j]:
+                if f < self._population_fitness[j]:
 
                     s_cr = np.append(s_cr, cr_i)
                     s_f = np.append(s_f, f_i)
-                    fitness_improvements = np.append(fitness_improvements, [population_fitness[j] - f])
+                    fitness_improvements = np.append(fitness_improvements, [self._population_fitness[j] - f])
 
                     #Si x_i ha sido sustituido por su descendencia, almacenamos x_i en el archivo externo
                     if external_archive_size < len(self._external_archive):
@@ -232,9 +230,9 @@ class SHADE:
             generations += 1
 
         #Obtenemos el mejor individuo tras la iteracion final
-        population_fitness = self.get_fitness()[0]
-        best_index = np.argmin(population_fitness)
-        self._best_fitness = population_fitness[best_index]
+        self._population_fitness = self.get_fitness()[0]
+        best_index = np.argmin(self._population_fitness)
+        self._best_fitness = self._population_fitness[best_index]
         self._best = self.decode_random_key(self._population[best_index])
 
         return self._best_fitness, self._best
@@ -242,10 +240,12 @@ class SHADE:
     # Busqueda local por trayectorias simples
     def local_search(self):
 
-        for clust in range(int(self._population_size * 0.2)):
+        top = int(self._population_size * 0.2)
+
+        for clust in range(top):
 
             current_clustering = cp.deepcopy(self.decode_random_key(self._population[clust, :]))
-            current_fitness = self.get_single_fitness(current_clustering)[0]
+            current_fitness = self._population_fitness[clust]
 
             improvement = True
             object_index = 0
@@ -254,22 +254,22 @@ class SHADE:
 
                 improvement = False
                 original_label = current_clustering[object_index]
+                other_labels = set(range(self._result_nb_clust))
+                other_labels.remove(original_label)
 
-                for label in range(self._result_nb_clust):
+                for label in other_labels:
 
-                    if label != original_label:
+                    current_clustering[object_index] = label
+                    new_fitness = self.get_single_fitness(current_clustering)[0]
 
-                        current_clustering[object_index] = label
-                        new_fitness = self.get_single_fitness(current_clustering)[0]
+                    if new_fitness < current_fitness:
 
-                        if new_fitness < current_fitness:
+                        current_fitness = new_fitness
+                        improvement = True
 
-                            current_fitness = new_fitness
-                            improvement = True
+                    else:
 
-                        else:
-
-                            current_clustering[object_index] = original_label
+                        current_clustering[object_index] = original_label
 
                 object_index += 1
 

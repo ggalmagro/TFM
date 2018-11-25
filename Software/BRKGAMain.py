@@ -17,8 +17,8 @@ def main():
     datasets_array = datasets_array[0:5]
     labels_array = labels_array[0:5]
 
-    general_table_file = open("Results/BRKGA/general_table_file.txt", "w+")
-    results_file = open("Results/BRKGA/results_file.txt", "w+")
+    general_table_file = open("Results/BRKGA_general_table_file.txt", "w+")
+    results_file = open("Results/BRKGA_results_file.txt", "w+")
 
     #BUCLE DE OBTENCION DE DATOS
 

@@ -13,20 +13,21 @@ def main():
 
     names_array, datasets_array, labels_array = load_all_datasets()
 
-    names_array = names_array[0:5]
-    datasets_array = datasets_array[0:5]
-    labels_array = labels_array[0:5]
+    names_array = names_array[0:3]
+    datasets_array = datasets_array[0:3]
+    labels_array = labels_array[0:3]
 
     # names_array = [names_array[0]]
     # datasets_array = [datasets_array[0]]
     # labels_array = [labels_array[0]]
 
-    general_table_file = open("Results/SHADE/general_table_file.txt", "w+")
-    results_file = open("Results/SHADE/results_file.txt", "w+")
+    general_table_file = open("Results/SHADE_general_table_file.txt", "w+")
+    results_file = open("Results/SHADE_results_file.txt", "w+")
 
     #BUCLE DE OBTENCION DE DATOS
 
     const_percent_vector = np.array([0.05, 0.1, 0.15, 0.2])
+    const_percent_vector = np.array([0.05])
     nb_runs = 1
     max_eval = 300000
     population_size = 100
@@ -60,9 +61,9 @@ def main():
             mean_unsat_percent = 0
 
             for j in range(nb_runs):
-                de = SHADE(data_set, ml_const, cl_const, population_size, nb_clust, 10, True)
+                shade = SHADE(data_set, ml_const, cl_const, population_size, nb_clust, True)
                 start = time.time()
-                de_assignment = de.run(max_eval)[1]
+                de_assignment = shade.run(max_eval)[1]
                 end = time.time()
                 mean_ars += adjusted_rand_score(labels, de_assignment)
                 mean_execution_time += end - start

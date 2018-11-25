@@ -1,5 +1,5 @@
 import numpy as np
-from LSSHADE.LSSHADE import LSSHADE
+from BRKGA.BRKGA import BRKGA
 from functions import *
 from sklearn.metrics import adjusted_rand_score
 import time
@@ -22,7 +22,7 @@ def apply(data_set, p_size, nb_clust, max_eval, nb_runs, name, label_percent, la
     mean_unsat_percent = 0
 
     for j in range(nb_runs):
-        de = LSSHADE(data_set, ml_const, cl_const, p_size, nb_clust)
+        de = BRKGA(data_set, ml_const, cl_const, p_size, 0.2, 0.2, 0.5, nb_clust, 10)
         start = time.time()
         de_assignment = de.run(max_eval)[1]
         end = time.time()
@@ -53,8 +53,8 @@ def main():
     # datasets_array = [datasets_array[0]]
     # labels_array = [labels_array[0]]
 
-    general_table_file = open("Results/LSSHADE/general_table_file.txt", "w+")
-    results_file = open("Results/LSSHADE/results_file.txt", "w+")
+    general_table_file = open("Results/BRKGA_general_table_file.txt", "w+")
+    results_file = open("Results/BRKGA_results_file.txt", "w+")
 
     #BUCLE DE OBTENCION DE DATOS
 
@@ -97,22 +97,6 @@ def main():
     general_end = time.time()
 
     print("Time --------------> " + str(general_end - general_start))
-
-    #REPRESENTANDO ALGUNOS RESULTADOS
-    # iris_plot1 = draw_data_2DNC(data_set, np.asarray(labels, np.uint8), 3, "DE Iris Dataset ML")
-    # iris_plot2 = draw_data_2DNC(data_set, np.asarray(labels, np.uint8), 3, "DE Iris Dataset ML")
-    #
-    # iris_plot3 = draw_data_2DNC(data_set, np.asarray(de_assignment, np.float), 3,
-    #                             "DE Iris Dataset Results ML")
-    #
-    # iris_plot4 = draw_data_2DNC(data_set, np.asarray(de_assignment, np.float), 3,
-    #                             "DE Iris Dataset Results CL")
-    #
-    # ax1, ax2 = draw_const(data_set, const, iris_plot1, iris_plot2, "Ml Original", "Cl Original")
-    #
-    # ax3, ax4 = draw_const(data_set, const, iris_plot3, iris_plot4, "Ml Calculado", "Cl Calculado")
-    #
-    # plt.show()
 
 
 if __name__ == "__main__": main()
