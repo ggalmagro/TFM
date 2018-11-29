@@ -168,7 +168,7 @@ class ISA:
 
         while self._evals_done < max_evals:
 
-            print("Evaluaciones: " + str(self._evals_done) + " valor: " + str(self._best_fitness))
+            #print("Evaluaciones: " + str(self._evals_done) + " valor: " + str(self._best_fitness))
 
             mutant = self.segment_mutation_operator(self._best_solution)
             improved_mutant, improved_mutant_fitness = self.simulated_annealing(mutant)

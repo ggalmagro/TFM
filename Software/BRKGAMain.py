@@ -13,27 +13,30 @@ def main():
 
     names_array, datasets_array, labels_array = load_all_datasets()
 
-    names_array = names_array[0:5]
-    datasets_array = datasets_array[0:5]
-    labels_array = labels_array[0:5]
+    names_array = names_array[0:4]
+    datasets_array = datasets_array[0:4]
+    labels_array = labels_array[0:4]
+
+    const_percent_vector = [0.05, 0.1, 0.15, 0.2]
+    #const_percent_vector = [0.1, 0.2]
+    const_array = load_constraints(names_array, const_percent_vector)
 
     general_table_file = open("Results/BRKGA_general_table_file.txt", "w+")
     results_file = open("Results/BRKGA_results_file.txt", "w+")
 
     #BUCLE DE OBTENCION DE DATOS
 
-    const_percent_vector = np.array([0.05, 0.1, 0.15, 0.2])
     nb_runs = 1
     max_eval = 300000
     population_size = 100
     run_ls = True
 
-    for label_percent in const_percent_vector:
+    for label_percent in range(len(const_percent_vector)):
 
-        print("------------ Procesando en porcentaje de restricciones: " + str(label_percent) + " ------------")
-        general_table_file.write("------------ Procesando en porcentaje de restricciones: " + str(label_percent) + " ------------\n")
+        print("------------ Procesando en porcentaje de restricciones: " + str(const_percent_vector[label_percent]) + " ------------")
+        general_table_file.write("------------ Procesando en porcentaje de restricciones: " + str(const_percent_vector[label_percent]) + " ------------\n")
         general_table_file.write("Dataset RandIndex   Time(s)   Unsat(%)   TotalRestr   ML(%)   CL(%)\n")
-        results_file.write("------------ Procesando en porcentaje de restricciones: " + str(label_percent) + " ------------\n")
+        results_file.write("------------ Procesando en porcentaje de restricciones: " + str(const_percent_vector[label_percent]) + " ------------\n")
         results_file.write("Dataset RandIndex   Time(s)   Unsat(%)\n")
 
         for i in range(len(names_array)):
@@ -43,8 +46,8 @@ def main():
             labels = labels_array[i]
             nb_clust = len(set(labels))
 
-            print("------------ Procesando " + name + " Dataset ------------ (" + str(label_percent) + ")")
-            const = np.loadtxt("Restr/" + str(name) + "(" + str(label_percent) + ").txt", dtype=np.int8)
+            print("------------ Procesando " + name + " Dataset ------------ (" + str(const_percent_vector[label_percent]) + ")")
+            const = const_array[label_percent][i]
             ml_const, cl_const = get_const_list(const)
 
             nb_const = len(ml_const) + len(cl_const)

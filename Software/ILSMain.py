@@ -1,5 +1,5 @@
 import numpy as np
-from SHADE.SHADE import SHADE
+from ILS.ILS import ILS
 from functions import *
 from sklearn.metrics import adjusted_rand_score
 import time
@@ -13,22 +13,23 @@ def main():
 
     names_array, datasets_array, labels_array = load_all_datasets()
 
-    names_array = names_array[0:4]
-    datasets_array = datasets_array[0:4]
-    labels_array = labels_array[0:4]
+    names_array = names_array[0:5]
+    datasets_array = datasets_array[0:5]
+    labels_array = labels_array[0:5]
 
     const_percent_vector = [0.05, 0.1, 0.15, 0.2]
-    # const_percent_vector = [0.1, 0.2]
+    #const_percent_vector = [0.1, 0.2]
     const_array = load_constraints(names_array, const_percent_vector)
 
-    general_table_file = open("Results/SHADE_general_table_file.txt", "w+")
-    results_file = open("Results/SHADE_results_file.txt", "w+")
+    general_table_file = open("Results/ILS_general_table_file.txt", "w+")
+    results_file = open("Results/ILS_results_file.txt", "w+")
 
     #BUCLE DE OBTENCION DE DATOS
 
     nb_runs = 1
-    max_eval = 300000
+    max_eval = 100
     population_size = 100
+    run_ls = True
 
     for label_percent in range(len(const_percent_vector)):
 
@@ -58,13 +59,14 @@ def main():
             mean_unsat_percent = 0
 
             for j in range(nb_runs):
-                shade = SHADE(data_set, ml_const, cl_const, population_size, nb_clust, True)
+
+                ils = ILS(data_set, ml_const, cl_const, nb_clust, 0.3, 300)
                 start = time.time()
-                de_assignment = shade.run(max_eval)[1]
+                ils_assignment = ils.run(max_eval)[1]
                 end = time.time()
-                mean_ars += adjusted_rand_score(labels, de_assignment)
+                mean_ars += adjusted_rand_score(labels, ils_assignment)
                 mean_execution_time += end - start
-                mean_unsat_percent += get_usat_percent(ml_const, cl_const, de_assignment)
+                mean_unsat_percent += get_usat_percent(ml_const, cl_const, ils_assignment)
 
             mean_ars /= nb_runs
             mean_execution_time /= nb_runs
@@ -85,18 +87,15 @@ def main():
     results_file.close()
 
     #REPRESENTANDO ALGUNOS RESULTADOS
-    # iris_plot1 = draw_data_2DNC(data_set, np.asarray(labels, np.uint8), 3, "DE Iris Dataset ML")
-    # iris_plot2 = draw_data_2DNC(data_set, np.asarray(labels, np.uint8), 3, "DE Iris Dataset ML")
+    # iris_plot1 = draw_data_2DNC(iris_set, np.asarray(iris_labels, np.uint8), 3, alg + "Iris Dataset ML")
+    # iris_plot2 = draw_data_2DNC(iris_set, np.asarray(iris_labels, np.uint8), 3, alg + "Iris Dataset CL")
     #
-    # iris_plot3 = draw_data_2DNC(data_set, np.asarray(de_assignment, np.float), 3,
-    #                             "DE Iris Dataset Results ML")
+    # iris_plot3 = draw_data_2DNC(iris_set, np.asarray(iris_ils_assignment, np.float), 3, alg + "Iris Dataset Results ML")
+    # iris_plot4 = draw_data_2DNC(iris_set, np.asarray(iris_ils_assignment, np.float), 3, alg + "Iris Dataset Results CL")
     #
-    # iris_plot4 = draw_data_2DNC(data_set, np.asarray(de_assignment, np.float), 3,
-    #                             "DE Iris Dataset Results CL")
+    # ax1, ax2 = draw_const(iris_set, iris_const, iris_plot1, iris_plot2, "Ml Original", "Cl Original")
     #
-    # ax1, ax2 = draw_const(data_set, const, iris_plot1, iris_plot2, "Ml Original", "Cl Original")
-    #
-    # ax3, ax4 = draw_const(data_set, const, iris_plot3, iris_plot4, "Ml Calculado", "Cl Calculado")
+    # ax3, ax4 = draw_const(iris_set, iris_const, iris_plot3, iris_plot4, "Ml Calculado", "Cl Calculado")
     #
     # plt.show()
 

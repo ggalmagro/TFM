@@ -105,12 +105,9 @@ class BRKGA:
 
         # Calcular el valor de la funcion fitness
         distance = total_mean_distance / nb_clusters
-        #penalty = self._mu * self._dim * infeasability
-        penalty = distance * infeasability
+        penalty = self._mu * self._dim * infeasability
+        #penalty = distance * infeasability
         fitness = distance + penalty
-
-        # if nb_clusters != self._result_nb_clust:
-        #     fitness = 99999999999999999999999999999999
 
         # Aumentar en uno el contador de evaluacions de la funcion objetivo
         self._evals_done += 1

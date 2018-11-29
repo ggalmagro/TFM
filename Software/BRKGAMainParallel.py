@@ -7,10 +7,9 @@ from sklearn.externals.joblib import Parallel, delayed
 import multiprocessing
 
 
-def apply(data_set, p_size, nb_clust, max_eval, nb_runs, name, label_percent, labels):
+def apply(data_set, p_size, nb_clust, max_eval, nb_runs, name, const, labels):
 
     print("Procesando " + str(name) + " dataset")
-    const = np.loadtxt("Restr/" + str(name) + "(" + str(label_percent) + ").txt", dtype=np.int8)
     ml_const, cl_const = get_const_list(const)
 
     nb_const = len(ml_const) + len(cl_const)
@@ -22,7 +21,7 @@ def apply(data_set, p_size, nb_clust, max_eval, nb_runs, name, label_percent, la
     mean_unsat_percent = 0
 
     for j in range(nb_runs):
-        de = BRKGA(data_set, ml_const, cl_const, p_size, 0.2, 0.2, 0.5, nb_clust, 10)
+        de = BRKGA(data_set, ml_const, cl_const, p_size, 0.2, 0.2, 0.6, nb_clust, 10)
         start = time.time()
         de_assignment = de.run(max_eval)[1]
         end = time.time()
@@ -45,21 +44,19 @@ def main():
 
     names_array, datasets_array, labels_array = load_all_datasets()
 
-    names_array = names_array[0:2]
-    datasets_array = datasets_array[0:2]
-    labels_array = labels_array[0:2]
+    names_array = names_array[:4]
+    datasets_array = datasets_array[:4]
+    labels_array = labels_array[:4]
 
-    # names_array = [names_array[0]]
-    # datasets_array = [datasets_array[0]]
-    # labels_array = [labels_array[0]]
+    const_percent_vector = [0.05, 0.1, 0.15, 0.2]
+    # const_percent_vector = [0.05]
+    const_array = load_constraints(names_array, const_percent_vector)
 
     general_table_file = open("Results/BRKGA_general_table_file.txt", "w+")
     results_file = open("Results/BRKGA_results_file.txt", "w+")
 
     #BUCLE DE OBTENCION DE DATOS
 
-    const_percent_vector = np.array([0.05, 0.1, 0.15, 0.2])
-    const_percent_vector = np.array([0.05])
     nb_runs = 1
     max_eval = 300000
     population_size = 100
@@ -67,6 +64,8 @@ def main():
     general_start = time.time()
 
     with Parallel(n_jobs=multiprocessing.cpu_count() - 1) as parallel:
+
+        const_array_index = 0
 
         for label_percent in const_percent_vector:
 
@@ -78,8 +77,8 @@ def main():
             results_file.write("Dataset RandIndex   Time(s)   Unsat(%)\n")
 
             results = parallel(delayed(apply)(datasets_array[i], population_size, len(set(labels_array[i])),
-                                              max_eval, nb_runs, names_array[i], label_percent, labels_array[i])
-                               for i in range(len(names_array)))
+                                              max_eval, nb_runs, names_array[i], const_array[const_array_index][i],
+                                              labels_array[i]) for i in range(len(names_array)))
 
             for i in range(len(results)):
                 general_table_file.write(
@@ -90,6 +89,7 @@ def main():
                     results[i][6]) + " \\\\ \n")
 
             print(results)
+            const_array_index += 1
 
     general_table_file.close()
     results_file.close()

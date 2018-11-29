@@ -45,9 +45,9 @@ def main():
 
     names_array, datasets_array, labels_array = load_all_datasets()
 
-    names_array = names_array[0:1]
-    datasets_array = datasets_array[0:1]
-    labels_array = labels_array[0:1]
+    names_array = names_array[0:4]
+    datasets_array = datasets_array[0:4]
+    labels_array = labels_array[0:4]
 
     # names_array = [names_array[0]]
     # datasets_array = [datasets_array[0]]
@@ -59,15 +59,13 @@ def main():
     #BUCLE DE OBTENCION DE DATOS
 
     const_percent_vector = np.array([0.05, 0.1, 0.15, 0.2])
-    const_percent_vector = np.array([0.05])
     nb_runs = 1
     max_eval = 300000
     population_size = 100
 
     general_start = time.time()
-    #multiprocessing.cpu_count() - 1
 
-    with Parallel(n_jobs=1) as parallel:
+    with Parallel(n_jobs=multiprocessing.cpu_count() - 1) as parallel:
 
         for label_percent in const_percent_vector:
 

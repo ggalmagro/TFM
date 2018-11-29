@@ -4,7 +4,7 @@ import scipy.stats
 
 class SHADE:
 
-    def __init__(self, data, ml_const, cl_const, population_size, nb_clust, ls=False):
+    def __init__(self, data, ml_const, cl_const, population_size, nb_clust, ls = False):
 
         self._data = data
         self._ml = ml_const
@@ -240,9 +240,7 @@ class SHADE:
     # Busqueda local por trayectorias simples
     def local_search(self):
 
-        top = int(self._population_size * 0.2)
-
-        for clust in range(top):
+        for clust in range(self._population_size):
 
             current_clustering = cp.deepcopy(self.decode_random_key(self._population[clust, :]))
             current_fitness = self._population_fitness[clust]

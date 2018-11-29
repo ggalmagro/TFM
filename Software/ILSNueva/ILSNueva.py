@@ -192,7 +192,7 @@ class ILSNueva:
                 self._best_fitness[worst] = improved_mutant_fitness
 
             if np.abs(self._best_fitness[0] - self._best_fitness[1]) < self._best_fitness[best] * self._restart_percent:
-                print("Reiniciado ")
+
                 self._best_solution[worst, :] = np.random.randint(0, self._result_nb_clust, self._dim)
                 self._best_fitness[worst] = self.get_single_fitness(self._best_solution[worst, :])[0]
 
