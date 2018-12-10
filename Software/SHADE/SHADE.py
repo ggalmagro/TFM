@@ -4,7 +4,7 @@ import scipy.stats
 
 class SHADE:
 
-    def __init__(self, data, ml_const, cl_const, population_size, nb_clust, ls = False):
+    def __init__(self, data, ml_const, cl_const, population_size, nb_clust, prt_elite, ls = False):
 
         self._data = data
         self._ml = ml_const
@@ -16,6 +16,7 @@ class SHADE:
         self._h_record_cr = np.empty((0, 0))
         self._h_record_f = np.empty((0, 0))
         self._ls = ls
+        self._prt_elite = prt_elite
 
 
     def init_population(self):
@@ -149,12 +150,23 @@ class SHADE:
                 f_i = scipy.stats.cauchy.rvs(loc=self._h_record_f[r_i], scale=0.1)
                 p_i = np.random.uniform(2.0/self._population_size, 0.2)
 
+                if cr_i < 0: cr_i = 0
+                if cr_i > 1: cr_i = 1
+                while f_i <= 0: f_i = scipy.stats.cauchy.rvs(loc=self._h_record_f[r_i], scale=0.1)
+                if f_i > 1: f_i = 1
+
                 #Obtenemos los individuos que intervienen en la generacion
                 x_i = self._population[j]
                 x_pbest = self._population[np.random.randint(0, int(self._population_size * p_i))]
-                x_r1 = self._population[np.random.randint(0, self._population_size)]
+
+                r1_index = np.random.randint(0, self._population_size)
+                while r1_index == j: r1_index = np.random.randint(0, self._population_size)
+
+                x_r1 = self._population[r1_index]
 
                 r2_index = np.random.randint(0, self._population_size + external_archive_size)
+                while r2_index == j or r2_index == r1_index:
+                    r2_index = np.random.randint(0, self._population_size + external_archive_size)
 
                 if r2_index < self._population_size:
 
@@ -175,7 +187,9 @@ class SHADE:
                 #         mutant[i] = np.random.rand()
 
                 #Obtenemos los puntos de cruce segun cr_i
-                cross_points = np.random.rand(self._dim) <= cr_i
+                cross_points1 = np.random.rand(self._dim) <= cr_i
+                cross_points2 = np.array(range(self._dim)) == np.random.randint(self._dim, size=self._dim)
+                cross_points = np.logical_or(cross_points1, cross_points2)
 
                 #Obtenemos el vector hijo de x_i
                 trial = np.where(cross_points, mutant, x_i)
@@ -240,7 +254,9 @@ class SHADE:
     # Busqueda local por trayectorias simples
     def local_search(self):
 
-        for clust in range(self._population_size):
+        top = int(self._population_size * self._prt_elite)
+
+        for clust in range(top):
 
             current_clustering = cp.deepcopy(self.decode_random_key(self._population[clust, :]))
             current_fitness = self._population_fitness[clust]

@@ -13,9 +13,9 @@ def main():
 
     names_array, datasets_array, labels_array = load_all_datasets()
 
-    names_array = names_array[0:4]
-    datasets_array = datasets_array[0:4]
-    labels_array = labels_array[0:4]
+    names_array = names_array[0:5]
+    datasets_array = datasets_array[0:5]
+    labels_array = labels_array[0:5]
 
     const_percent_vector = [0.05, 0.1, 0.15, 0.2]
     #const_percent_vector = [0.1, 0.2]

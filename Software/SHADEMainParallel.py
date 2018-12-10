@@ -22,7 +22,7 @@ def apply(data_set, p_size, nb_clust, max_eval, nb_runs, name, label_percent, la
     mean_unsat_percent = 0
 
     for j in range(nb_runs):
-        shade = SHADE(data_set, ml_const, cl_const, p_size, nb_clust, True)
+        shade = SHADE(data_set, ml_const, cl_const, p_size, nb_clust, 0.25, True)
         start = time.clock()
         de_assignment = shade.run(max_eval)[1]
         end = time.clock()
@@ -34,7 +34,7 @@ def apply(data_set, p_size, nb_clust, max_eval, nb_runs, name, label_percent, la
     mean_execution_time /= nb_runs
     mean_unsat_percent /= nb_runs
 
-    return tuple((name, nb_const, ml_const_percent, cl_const_percent, mean_ars, mean_execution_time, mean_unsat_percent))
+    return tuple((name, mean_ars, mean_execution_time, mean_unsat_percent))
 
 
 def main():
@@ -49,55 +49,46 @@ def main():
     datasets_array = datasets_array[:4]
     labels_array = labels_array[:4]
 
-    # names_array = [names_array[0]]
-    # datasets_array = [datasets_array[0]]
-    # labels_array = [labels_array[0]]
-
-    general_table_file = open("Results/SHADE_general_table_file.txt", "w+")
-    results_file = open("Results/SHADE_results_file.txt", "w+")
-
     #BUCLE DE OBTENCION DE DATOS
 
     const_percent_vector = np.array([0.05, 0.1, 0.15, 0.2])
-    #const_percent_vector = np.array([0.05])
+    #const_percent_vector = np.array([0.1, 0.2])
     nb_runs = 1
     max_eval = 300000
     population_size = 100
 
     general_start = time.time()
+    results_matrix = np.zeros((len(names_array), len(const_percent_vector)))
 
     with Parallel(n_jobs=multiprocessing.cpu_count() - 1) as parallel:
 
-        for label_percent in const_percent_vector:
+        for label_percent in range(len(const_percent_vector)):
 
-            general_table_file.write(
-                "------------ Procesando en porcentaje de restricciones: " + str(label_percent) + " ------------\n")
-            general_table_file.write("Dataset RandIndex   Time(s)   Unsat(%)   TotalRestr   ML(%)   CL(%)\n")
-            results_file.write(
-                "------------ Procesando en porcentaje de restricciones: " + str(label_percent) + " ------------\n")
-            results_file.write("Dataset RandIndex   Time(s)   Unsat(%)\n")
+            print("Porcentaje de restricciones: " + str(const_percent_vector[label_percent]))
 
             results = parallel(delayed(apply)(datasets_array[i], population_size, len(set(labels_array[i])),
-                                              max_eval, nb_runs, names_array[i], label_percent, labels_array[i])
-                               for i in range(len(names_array)))
+                                              max_eval, nb_runs, names_array[i], const_percent_vector[label_percent],
+                                              labels_array[i]) for i in range(len(names_array)))
 
             for i in range(len(results)):
 
-                general_table_file.write(
-                    results[i][0] + " & " + str(results[i][4]) + " & " + str(results[i][5]) + " & " + str(results[i][6]) + \
-                    " & " + str(results[i][1]) + " & " + str(results[i][2]) + " & " + str(results[i][3]) + " \\\\ \n")
-
-                results_file.write(results[i][0] + " & " + str(results[i][4]) + " & " + str(results[i][5]) + " & " + str(
-                    results[i][6]) + " \\\\ \n")
+                results_matrix[i, label_percent] = results[i][1]
 
             print(results)
 
-    general_table_file.close()
-    results_file.close()
-
     general_end = time.time()
 
-    print("Time --------------> " + str(general_end - general_start))
+    print("Time --------------> " + str(general_end - general_start) + "\n")
+
+    for i in range(np.shape(results_matrix)[0]):
+
+        print(names_array[i].title(), end='')
+
+        for j in range(np.shape(results_matrix)[1]):
+
+            print(" & %.3f" % (results_matrix[i,j]), end='')
+
+        print(" \\\\")
 
 
 if __name__ == "__main__": main()
