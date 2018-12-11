@@ -2,6 +2,9 @@
 
 \usepackage{lineno,hyperref}
 \usepackage{mathtools}
+\usepackage{multirow}
+\usepackage{adjustbox}
+\usepackage{chngpage}
 \usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
 \modulolinenumbers[5]
 
@@ -77,9 +80,11 @@ This template helps you to create a properly formatted \LaTeX\ manuscript.
 
 \section{Introduction}
 
+\section{Background}
+
 \section{Constrained Clustering}
 
-Clustering is the task of grouping instances of a dataset into subsets. The criterion used to assign an instance to a given cluster is the similarity with the rest of elements in that cluster and the dissimilarity with the rest of instances of the dataset. In this way, the clustering process obtains subsets of instances of the initial data set that present high intra-similarity and low inter-similarity.
+Clustering is the task of grouping instances of a dataset into subsets. The criterion used to assign an instance to a given cluster is the similarity with the rest of elements in that cluster, and the dissimilarity with the rest of instances of the dataset. In this way, the clustering process obtains subsets of instances of the initial data set that present high intra-similarity and low inter-similarity.
 
 In most clustering applications it is common to have some kind of information about the data set to be analyzed. In constrained clustering this information is given in the form of pairs of instances. A constraint states whether the instances which it refers to must, or must not, be assigned to the same cluster. Using this type of information it is possible to obtain a better result than by using completely unsupervised clustering algorithms. 
 
@@ -97,7 +102,7 @@ The goal of constrained clustering is to find a partition (or clustering) of $K$
 
 Knowing how a constraint is defined, Must-link constraints---from now on ML---are an example of an equivalence relation; therefore, CL constraints are reflexive, transitive and symmetric. This way, given the constraints $c_=(x_a,x_b)$ and $c_=(x_b,x_c)$ then $c_=(x_a,x_c)$ is verified. In addition, if $x_a \in c_i$ and $x_b \in c_j$ are related by $c_=(x_a,x_b)$, then $c_=(x_c,x_d)$ is verified for any $x_c \in c_i$ and $x_d \in c_j$ \cite{xu2013improving}\cite{davidson2007survey}.
 
-On the other hand, Cannot-link restrictions---from now on CL---do not constitute an equivalence relation, but they can be entailed. To illustrate that, we consider the instances $x_a \in c_i$ and $x_b \in c_j$, and the constraint $c_{\neq}(x_a,x_b)$, then is also true that $c_{\neq}(x_c,x_d)$ for all $x_c \in c_i$ and $x_d \in c_j$ \cite{davidson2007survey}. 
+On the other hand, Cannot-link restrictions---from now on CL---do not constitute an equivalence relation, but they can be entailed. To illustrate that, we consider the instances $x_a \in c_i$ and $x_b \in c_j$, and the constraint $c_{\neq}(x_a,x_b)$, then it is also true that $c_{\neq}(x_c,x_d)$ for all $x_c \in c_i$ and $x_d \in c_j$ \cite{davidson2007survey}. 
 
 \textcolor{red}{Comentar la complejidad del problema?}
 
@@ -111,9 +116,9 @@ In BRKGA each solution---also called chromosome---is represented as a vector of 
 
 BRKGA also requires a fitness function to evaluate each chromosome. This function takes the decoded solution as input and provides its fitness value as output. It is designed specifically for each problem.
 
-The BRKGA optimization process is completely independent of the problem. First, a population $P$ of $p_{size}$ vectors of random-keys is initialized, this will be the initial generation. Each random-key vector has $N$ random-keys in it. The population is sorted by the fitness value $f_i$ of each chromosome to select the first $p_e$ individuals, this is, the elite of the population. The elite will be preserved in the next generation without modification. To introduce diversity, a number $p_m$ of new random-keys are also included in the next generation. The remaining chromosome of the new generation ($p_{size} - p_e - p_m$) are obtained through crossovers between elite and non-elite parents \cite{de2017comparison}.
+The BRKGA optimization process is completely independent of the problem to solve. First, a population $P$ of $p_{size}$ vectors of random-keys is initialized, this will be the initial generation. Each random-key vector has $N$ random-keys in it. The population is sorted by the fitness value $f_i$ of each chromosome to select the first $p_e$ individuals, this is, the elite of the population. The elite will be preserved in the next generation without modification. To introduce diversity, a number $p_m$ of new random-keys are also included in the next generation. The remaining chromosome of the new generation ($p_{size} - p_e - p_m$) are obtained through crossovers between elite and non-elite parents \cite{de2017comparison}.
 
-\subsection{Adaptation of BRKGA for Constrained Clustering}
+\subsection{Adaptation of BRKGA for Constrained Clustering} \label{sec:AdaptationofBRKGA}
 
 Oliviera, Chaves and Lorena (2017) proposed an adaptation of BRKGA to apply it to constrained clustering \cite{de2017comparison}.
 
@@ -124,7 +129,7 @@ Their method randomly initializes a population of random-key vectors, each one w
 	%\setlength{\arrayrulewidth}{1mm}
 	\setlength{\tabcolsep}{7pt}
 	\renewcommand{\arraystretch}{0.9}
-	
+	\resizebox{\textwidth}{!}{
 	\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
 		\hline
 		Index & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 \\ 
@@ -134,7 +139,7 @@ Their method randomly initializes a population of random-key vectors, each one w
 		Clusters & 1 & 2 & 2 & 2 & 1 & 3 & 1 & 3 & 1 & 3 \\ 
 		\hline
 		
-	\end{tabular}
+	\end{tabular}}
 	\caption{Random-key decodification example \cite{de2017comparison}}
 	\label{tab:table1}
 \end{table}
@@ -159,7 +164,7 @@ Oliviera, Chaves and Lorena also added a new element to BRKGA, which is a local 
 
 \section{The SHADE Optimization Method}
 
-Success history based adaptive differential evolution---de ahora en adelante SHADE---is an optimization method based on differential evolution. Proposed by Tanabe and Fukunaga (2013), it was an improvement for the JADE model, created by Zhang and Sanderson \cite{tanabe2013success}\cite{zhang2009jade}.
+Success history based adaptive differential evolution---from now on SHADE---is an optimization method based on differential evolution. Proposed by Tanabe and Fukunaga (2013), it was an improvement for the JADE model, created by Zhang and Sanderson \cite{tanabe2013success}\cite{zhang2009jade}.
 
 SHADE uses a historical record of successful parameters as a mechanism for the adaptation of parameters that are involved in the process of creating new generations. Unlike JADE, which, in order to create a new generation, only considers the parameters used in the previous generation. 
 
@@ -200,7 +205,7 @@ p_{i,G} &  otherwise
 \label{eq5}
 \end{equation}
 
-To maintain diversity, SHADE can make use of an external $A$ archive, in which parents $p_{i,G}$ who were replaced by their associated trial vector $t_{i,G}$ are saved. To make use of the archive, we will consider that the individual $p_{r2,G}$ from Equation \eqref{eq3} is selected from $P \cup A$, which is the union of the population and the file $A$. The file size is the same as the population size. When the size of $A$ exceeds the size $P$, a random individual is selected to remove it and make room for the new one.
+To maintain diversity, SHADE can make use of an external archive $A$, in which parents $p_{i,G}$ who were replaced by their associated trial vector $t_{i,G}$ are saved. To make use of the archive, we will consider that the individual $p_{r2,G}$ from Equation \eqref{eq3} is selected from $P \cup A$, which is the union of the population and the file $A$. The file size is the same as the population size. When the size of $A$ exceeds the size $P$, a random individual is selected to remove it and make room for the new one.
 
 The parameters $p$, $F_i$ y $CR_i$ are difficult to adjust and their selection is not trivial, as they largely determine the success of the optimization process. These are the parameters that SHADE adaptively optimizes using the mentioned history record.
 
@@ -211,10 +216,10 @@ The SHADE method saves in memory a structure with $H$ entries for parameters $F_
 \begin{table}[!h]
 	\centering
 	%\setlength{\arrayrulewidth}{1mm}
-	\setlength{\tabcolsep}{10pt}
-	\renewcommand{\arraystretch}{0.9}
-	
-	\begin{tabular}{|>{\centering\arraybackslash}m{1cm}  |>{\centering\arraybackslash}m{1cm}|>{\centering\arraybackslash}m{1cm}|>{\centering\arraybackslash}m{1cm}|>{\centering\arraybackslash}m{1.4cm}|>{\centering\arraybackslash}m{1.2cm}|}
+	\setlength{\tabcolsep}{13pt}
+	%\renewcommand{\arraystretch}{0.9}
+	\resizebox{\textwidth}{!}{
+	\begin{tabular}{|c|c|c|c|c|c|}
 		\hline
 		 Index & 1 & 2 & $\cdots$ & $H - 1$ & $H$ \\ 
 		 \hline
@@ -224,7 +229,7 @@ The SHADE method saves in memory a structure with $H$ entries for parameters $F_
 		 $M_{F}$ & $M_{F,1}$ & $M_{F,1}$ & $\cdots$ & $M_{F,H-1}$ & $M_{F,H}$ \\ 
 		\hline
 		
-	\end{tabular}
+	\end{tabular}}
 	\caption{The historical memory $M_{CR}$, $M_{F}$  \cite{tanabe2013success}}
 	\label{tab:table2}
 \end{table}
@@ -265,7 +270,7 @@ M_{F,h,G+1} &  otherwise
 
 The $h \;\; (0 \le h \le H)$ index specifies the position of the memory $M$ to be updated. This index is initialized to $0$ at the beginning of the optimization process and increased by one after each generation. When $h \ge H$ then $h$ is restarted to 1. It is worth noting that, when in a generation there is no trial vector better than the parent which generated it, no update of $M$ is done.
 
-In Equation \ref{eq8}, the term $mean_{WA} (S_{CR})$ is the wighted mean,  which is computed following Equations \eqref{eq10} and \eqref{eq11}, which were proposed by Peng et al (2009) \cite{peng2009multi} to prevent $CR$ to converge to small value.
+In Equation \ref{eq8}, the term $mean_{WA} (S_{CR})$ is the wighted mean,  which is computed following Equations \eqref{eq10} and \eqref{eq11}, proposed by Peng et al (2009) \cite{peng2009multi} to prevent $CR$ to converge to small values.
 
 \begin{equation}
 mean_{WA} (S_{CR}) = \sum_{i = 1}^{|S_{RC}|} \omega_i * S_{RC,i}
@@ -297,7 +302,128 @@ where $p_{min}$ is set such that there is always al least two individuals to cho
 
 \subsection{Adaptation of SHADE for constrained clustering}
 
-\newpage
+Para adaptar SHADE para resolver el porblema del clustering con restricciones tomaremos algunos de los elementos que permitian adaptarlo a BRKGA. Haremos uso del concepto de random-key para crear los individuos de la población, siendo cada individuo de la misma un vector de random-keys. Utilizaremos el mismo método de inicialización y decodificación que el empleado en BRKGA (consultar Sección \ref{sec:AdaptationofBRKGA}). Proponemos una nueva función fitness para evaluar los inidividuos de la población, definida en la Ecuación \eqref{eq14}, donde $z_i$ se obtiene como en la Ecuacion \eqref{eq2}.
+
+To adapt SHADE to solve the constrained clustering problem we will take some of the elements that allowed us to adapt it to BRKGA. We will use random-keys to create the individuals of the population, this way each individual is defined as a vector of random-keys. We will also use the same initialization method and the same decoder used in BRKGA (see Section \ref{sec:AdaptationofBRKGA}). 
+
+For SHADE, we propose a new fitness function to evaluate the individuals of the population. Shade fitness function is defined in Equation \eqref{eq14}, where $z_i$ is obtained as in Equation \eqref{eq2}.
+
+\begin{equation}
+f_i = z_i * (infeasibility + 1)
+\label{eq14}
+\end{equation}
+
+Note that in Equation \eqref{eq14} no parameter is involved that cannot be calculated based on the dataset or constraints, whereas in \eqref{eq1} the $\mu$ parameter must be calculated and optimized for each individual problem.
+
+We found that with the fitness function defined in \eqref{eq1} there is no competition between the penalty term and the within-cluster-sum-of-squares term, because penalty is always way larger than it or zero. This can bias the  exploration of the solutions space to those that satisfies all the constraints, even if the within-cluster-sum-of-squares is still improvable by moving two instances implied in a constraint to different clusters without violating that constraint.
+
+With Equation \eqref{eq14} we try to find a trade-off between the within-cluster-sum-of-squares and the penalty term, allowing solutions that violate a certain number of constraints to compete with those who violate a lesser number of them but find a better within-cluster-sum-of-squares.
+
+\textcolor{red}{Poner una pintura que ejemplifique lo anterior.}\\
+\textcolor{red}{Explicar la busqueda local. Con pseudocódigo?}
+
+\clearpage
+
+\section{Experimental Setup}
+
+\subsection{Dataset}
+
+\begin{table}[!h]
+	\centering
+	%\setlength{\arrayrulewidth}{1mm}
+	\setlength{\tabcolsep}{7pt}
+	\renewcommand{\arraystretch}{0.9}
+	\resizebox{\textwidth}{!}{
+	\begin{tabular}{c c c c}
+		\hline
+		Name & Number of Instances & Number of Classes & Features \\
+		\hline
+		& & & \\
+		& & & \\
+		& & & \\
+		\hline
+		
+	\end{tabular}}
+	\caption{Summary of datasets used for the experiments \textcolor{red}{citar keel}}
+	\label{undefined}
+\end{table}
+
+\subsection{Constraints Generation}
+
+\begin{table}[!h]
+	\centering
+	\setlength{\tabcolsep}{7pt}
+	\renewcommand{\arraystretch}{0.9}
+	%\begin{adjustwidth}{-1in}{-1in}
+	\resizebox{\textwidth}{!}{
+	\begin{tabular}{lcc c cc c cc c cc}
+		\hline
+		\multirow{2}{*}{Dataset} &
+		\multicolumn{2}{c}{Percent 1\%} &&  \multicolumn{2}{c}{Percent 5\%} && \multicolumn{2}{c}{Percent 15\%} && \multicolumn{2}{c}{Percent 20\%} \\
+		\cline{2-3} \cline{5-6} \cline{8-9} \cline{11-12}
+		& ML & CL && ML & CL && ML & CL && ML & CL \\
+		\hline
+		& & && & && & && & \\
+		& & && & && & && & \\
+		& & && & && & && & \\
+		\hline
+		
+	\end{tabular}}
+	%\end{adjustwidth}
+	
+	\caption{Number of constraints used in experiments}
+	\label{undefined}
+\end{table}
+
+\subsection{Evaluation Method}
+
+We use the evaluation method proposed by Wagstaff et al. (2001) \cite{wagstaff2001constrained}, the authors of the Constrained K-Means algorithm, proposed in their work to evaluate the results.
+
+Since we have the true labels associated to each of the datasets, we can use them in post-processing to evaluate the results provided by each method. We will use Rand Index \cite{rand1971objective} to measure the accuracy of the predictions resulting from each method we test. Rand Index computes de degree of agreement between two partitions $C_1$ and $C_2$ of a given dataset $X$. $C_1$ and $C_2$ are viewed as collections of $N(N - 1)/2$ pairwise decisions.
+
+For each pair of $x_i$ and $x_j$ instances in $X$, $C_i$ assigns them to the same cluster or to different clusters. We take $a$ as the number of pairings where $x_i$ is in the same cluster as $x_j$ in $C_1$ and $C_2$ , and $b$ as the opposite event. Then, the degree of similarity between $C_1$ and $C_2$ is calculated as in Equation \eqref{eq15}.
+
+\begin{equation}
+Rand(C_1, C_2) = \frac{a + b}{N(N - 1)/2}
+\label{eq15}
+\end{equation}
+
+We will use this measure co compute the accuracy for all of our experiments.
+
+\section{Experimental Results}
+
+\begin{table}[!h]
+	\centering
+	\setlength{\tabcolsep}{7pt}
+	\renewcommand{\arraystretch}{0.9}
+	%\begin{adjustwidth}{-1in}{-1in}
+	\resizebox{\textwidth}{!}{
+		\begin{tabular}{l ccc c ccc}
+			\hline
+			\multirow{2}{*}{Dataset} &
+			\multicolumn{3}{c}{BRKGA} &&  \multicolumn{3}{c}{SHADE} \\
+			\cline{2-4} \cline{6-8}
+			& RandIndex & Unsat(\%) & Time(s) && RandIndex & Unsat(\%) & Time(s) \\
+			\hline
+			&  &  &  &&  &  &  \\
+			&  &  &  &&  &  &  \\
+			&  &  &  &&  &  &  \\
+			\hline
+			Means &  &  &  &&  &  &  \\
+			\hline
+			
+		\end{tabular}}
+		%\end{adjustwidth}
+		
+	\caption{Experimental results obtained with X\% of labeled data}
+	\label{undefined}
+\end{table}
+	
+\section{Acknowledgement}
+
+\section{Conclusions and Future Work}
+
+\clearpage
 
 \section*{References}
 
