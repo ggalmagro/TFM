@@ -96,7 +96,7 @@ def load_all_datasets():
     # CARGA DE DATOS
 
     iris = datasets.load_iris()
-    iris_set = iris.data[:, :2]
+    iris_set = iris.data#[:, :2]
     iris_labels = iris.target
     datasets_array.append(iris_set)
     labels_array.append(iris_labels)
@@ -116,12 +116,6 @@ def load_all_datasets():
     labels_array.append(soybean_labels)
     names_array.append("soybean")
 
-    # breastA_set = np.transpose(np.loadtxt("Datasets/Breast_A.gct.txt", skiprows=3, usecols=np.array(range(2, 100))))
-    # breastA_labels = np.asarray(np.loadtxt("Datasets/Breast_A.cls", skiprows=2))
-    # datasets_array.append(breastA_set)
-    # labels_array.append(breastA_labels)
-    # names_array.append("breastA")
-
     pima = np.loadtxt("Datasets/pima.dat", skiprows=13, delimiter=',', dtype=str)
     pima_labels = pima[:, 8]
     pima_set = np.asarray(pima[:, :8].astype(float))
@@ -136,6 +130,27 @@ def load_all_datasets():
     labels_array.append(balance_labels)
     names_array.append("balance")
 
+    boston = datasets.load_boston()
+    boston_labels = boston.target
+    boston_set = boston.data
+    datasets_array.append(boston_set)
+    labels_array.append(boston_labels)
+    names_array.append("boston")
+
+    diabetes = datasets.load_diabetes()
+    diabetes_labels = diabetes.target
+    diabetes_set = diabetes.data
+    datasets_array.append(diabetes_set)
+    labels_array.append(diabetes_labels)
+    names_array.append("diabetes")
+
+    breast_cancer = datasets.load_breast_cancer()
+    breast_cancer_labels = breast_cancer.target
+    breast_cancer_set = breast_cancer.data
+    datasets_array.append(breast_cancer_set)
+    labels_array.append(breast_cancer_labels)
+    names_array.append("breast_cancer")
+
     bupa = np.loadtxt("Datasets/bupa.dat", skiprows=11, delimiter=',', dtype=str)
     bupa_labels = bupa[:, 6]
     bupa_set = np.asarray(bupa[:, :6].astype(float))
@@ -143,12 +158,12 @@ def load_all_datasets():
     labels_array.append(bupa_labels)
     names_array.append("bupa")
 
-    contraceptive = np.loadtxt("Datasets/contraceptive.dat", skiprows=14, delimiter=',', dtype=str)
-    contraceptive_labels = contraceptive[:, 9]
-    contraceptive_set = np.asarray(contraceptive[:, :9].astype(float))
-    datasets_array.append(contraceptive_set)
-    labels_array.append(contraceptive_labels)
-    names_array.append("contraceptive")
+    # contraceptive = np.loadtxt("Datasets/contraceptive.dat", skiprows=14, delimiter=',', dtype=str)
+    # contraceptive_labels = contraceptive[:, 9]
+    # contraceptive_set = np.asarray(contraceptive[:, :9].astype(float))
+    # datasets_array.append(contraceptive_set)
+    # labels_array.append(contraceptive_labels)
+    # names_array.append("contraceptive")
 
     ecoli = np.loadtxt("Datasets/ecoli.dat", skiprows=12, delimiter=',', dtype=str)
     ecoli_labels = ecoli[:, 7]
@@ -287,61 +302,61 @@ def load_all_datasets():
 
     ####################################################################################
 
-    satimage = np.loadtxt("Datasets/satimage.dat", skiprows=41, delimiter=',', dtype=str)
-    satimage_labels = satimage[:, 36]
-    satimage_set = np.asarray(satimage[:, :36].astype(float))
-    datasets_array.append(satimage_set)
-    labels_array.append(satimage_labels)
-    names_array.append("satimage")
-
-    texture = np.loadtxt("Datasets/texture.dat", skiprows=45, delimiter=',', dtype=str)
-    texture_labels = texture[:, 40]
-    texture_set = np.asarray(texture[:, :40].astype(float))
-    datasets_array.append(texture_set)
-    labels_array.append(texture_labels)
-    names_array.append("texture")
-
-    pageblocks = np.loadtxt("Datasets/page-blocks.dat", skiprows=15, delimiter=',', dtype=str)
-    pageblocks_labels = pageblocks[:, 10]
-    pageblocks_set = np.asarray(pageblocks[:, :10].astype(float))
-    datasets_array.append(pageblocks_set)
-    labels_array.append(pageblocks_labels)
-    names_array.append("pageblocks")
-
-    phoneme = np.loadtxt("Datasets/phoneme.dat", skiprows=10, delimiter=',', dtype=str)
-    phoneme_labels = phoneme[:, 5]
-    phoneme_set = np.asarray(phoneme[:, :5].astype(float))
-    datasets_array.append(phoneme_set)
-    labels_array.append(phoneme_labels)
-    names_array.append("phoneme")
-
-    segment = np.loadtxt("Datasets/segment.dat", skiprows=24, delimiter=',', dtype=str)
-    segment_labels = segment[:, 19]
-    segment_set = np.asarray(segment[:, :19].astype(float))
-    datasets_array.append(segment_set)
-    labels_array.append(segment_labels)
-    names_array.append("segment")
-
-    spambase = np.loadtxt("Datasets/spambase.dat", skiprows=62, delimiter=',', dtype=str)
-    spambase_labels = spambase[:, 57]
-    spambase_set = np.asarray(spambase[:, :57].astype(float))
-    datasets_array.append(spambase_set)
-    labels_array.append(spambase_labels)
-    names_array.append("spambase")
-
-    banana = np.loadtxt("Datasets/banana.dat", skiprows=7, delimiter=',', dtype=str)
-    banana_labels = banana[:, 2]
-    banana_set = np.asarray(banana[:, :2].astype(float))
-    datasets_array.append(banana_set)
-    labels_array.append(banana_labels)
-    names_array.append("banana")
-
-    titanic = np.loadtxt("Datasets/titanic.dat", skiprows=8, delimiter=',', dtype=str)
-    titanic_labels = titanic[:, 3]
-    titanic_set = np.asarray(titanic[:, :3].astype(float))
-    datasets_array.append(titanic_set)
-    labels_array.append(titanic_labels)
-    names_array.append("titanic")
+    # satimage = np.loadtxt("Datasets/satimage.dat", skiprows=41, delimiter=',', dtype=str)
+    # satimage_labels = satimage[:, 36]
+    # satimage_set = np.asarray(satimage[:, :36].astype(float))
+    # datasets_array.append(satimage_set)
+    # labels_array.append(satimage_labels)
+    # names_array.append("satimage")
+    #
+    # texture = np.loadtxt("Datasets/texture.dat", skiprows=45, delimiter=',', dtype=str)
+    # texture_labels = texture[:, 40]
+    # texture_set = np.asarray(texture[:, :40].astype(float))
+    # datasets_array.append(texture_set)
+    # labels_array.append(texture_labels)
+    # names_array.append("texture")
+    #
+    # pageblocks = np.loadtxt("Datasets/page-blocks.dat", skiprows=15, delimiter=',', dtype=str)
+    # pageblocks_labels = pageblocks[:, 10]
+    # pageblocks_set = np.asarray(pageblocks[:, :10].astype(float))
+    # datasets_array.append(pageblocks_set)
+    # labels_array.append(pageblocks_labels)
+    # names_array.append("pageblocks")
+    #
+    # phoneme = np.loadtxt("Datasets/phoneme.dat", skiprows=10, delimiter=',', dtype=str)
+    # phoneme_labels = phoneme[:, 5]
+    # phoneme_set = np.asarray(phoneme[:, :5].astype(float))
+    # datasets_array.append(phoneme_set)
+    # labels_array.append(phoneme_labels)
+    # names_array.append("phoneme")
+    #
+    # segment = np.loadtxt("Datasets/segment.dat", skiprows=24, delimiter=',', dtype=str)
+    # segment_labels = segment[:, 19]
+    # segment_set = np.asarray(segment[:, :19].astype(float))
+    # datasets_array.append(segment_set)
+    # labels_array.append(segment_labels)
+    # names_array.append("segment")
+    #
+    # spambase = np.loadtxt("Datasets/spambase.dat", skiprows=62, delimiter=',', dtype=str)
+    # spambase_labels = spambase[:, 57]
+    # spambase_set = np.asarray(spambase[:, :57].astype(float))
+    # datasets_array.append(spambase_set)
+    # labels_array.append(spambase_labels)
+    # names_array.append("spambase")
+    #
+    # banana = np.loadtxt("Datasets/banana.dat", skiprows=7, delimiter=',', dtype=str)
+    # banana_labels = banana[:, 2]
+    # banana_set = np.asarray(banana[:, :2].astype(float))
+    # datasets_array.append(banana_set)
+    # labels_array.append(banana_labels)
+    # names_array.append("banana")
+    #
+    # titanic = np.loadtxt("Datasets/titanic.dat", skiprows=8, delimiter=',', dtype=str)
+    # titanic_labels = titanic[:, 3]
+    # titanic_set = np.asarray(titanic[:, :3].astype(float))
+    # datasets_array.append(titanic_set)
+    # labels_array.append(titanic_labels)
+    # names_array.append("titanic")
 
     ####################################################################################
 

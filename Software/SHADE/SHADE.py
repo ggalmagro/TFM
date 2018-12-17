@@ -1,6 +1,8 @@
 import numpy as np
 import copy as cp
 import scipy.stats
+import random
+import time
 
 class SHADE:
 
@@ -17,7 +19,7 @@ class SHADE:
         self._h_record_f = np.empty((0, 0))
         self._ls = ls
         self._prt_elite = prt_elite
-
+        #self._ls_max_neighbors =
 
     def init_population(self):
 
@@ -35,6 +37,7 @@ class SHADE:
 
         decoded = np.ceil(cromosome * self._result_nb_clust)
         decoded[decoded == 0] = 1
+
         return decoded - 1
 
 
@@ -115,9 +118,12 @@ class SHADE:
         generations = 0
         h_index = 0
         external_archive_size = 0
+        gen_times = []
 
         # Mientras no se haya alcanzado el numero maximo de evaluaciones
         while self._evals_done < max_eval:
+
+            start_gen = time.time()
 
             #Ordenamos la poblacion segun el valor fitness de cada individuo
             self._population_fitness = self.get_fitness()[0]
@@ -133,8 +139,6 @@ class SHADE:
             if self._ls:
 
                 self.local_search()
-
-            #print(str(generations) + " " + str(self._best_fitness))
 
             #Inicializamos estructuras de almacenamiento auxiliares
             s_cr = np.empty((0, 0))
@@ -160,12 +164,15 @@ class SHADE:
                 x_pbest = self._population[np.random.randint(0, int(self._population_size * p_i))]
 
                 r1_index = np.random.randint(0, self._population_size)
+
                 while r1_index == j: r1_index = np.random.randint(0, self._population_size)
 
                 x_r1 = self._population[r1_index]
 
                 r2_index = np.random.randint(0, self._population_size + external_archive_size)
+
                 while r2_index == j or r2_index == r1_index:
+
                     r2_index = np.random.randint(0, self._population_size + external_archive_size)
 
                 if r2_index < self._population_size:
@@ -176,15 +183,9 @@ class SHADE:
 
                     x_r2 = self._external_archive[r2_index - self._population_size]
 
-                #Generamos el mutante segun el operador current-to-best/1
+                #Generamos el mutante segun el operador current-to-pbest/1
                 mutant = x_i + f_i * (x_pbest - x_i) + f_i * (x_r1 - x_r2)
                 mutant = np.clip(mutant, 0, 1)
-
-                #Corregimos los valores fuera el rango [0,1] del mutante
-                # for i in range(len(mutant)):
-                #
-                #     if mutant[i] < 0 or mutant[i] > 1:
-                #         mutant[i] = np.random.rand()
 
                 #Obtenemos los puntos de cruce segun cr_i
                 cross_points1 = np.random.rand(self._dim) <= cr_i
@@ -242,17 +243,62 @@ class SHADE:
             #Sustituimos la poblacion por la nueva generacion
             self._population = cp.deepcopy(next_gen)
             generations += 1
+            gen_times.append(time.time() - start_gen)
 
         #Obtenemos el mejor individuo tras la iteracion final
         self._population_fitness = self.get_fitness()[0]
         best_index = np.argmin(self._population_fitness)
-        self._best_fitness = self._population_fitness[best_index]
-        self._best = self.decode_random_key(self._population[best_index])
 
-        return self._best_fitness, self._best
+        if self._population_fitness[best_index] < self._best_fitness:
+
+            self._best = cp.deepcopy(self.decode_random_key(self._population[best_index, :]))
+            self._best_fitness = self._population_fitness[best_index]
+
+        return self._best_fitness, self._best, np.median(gen_times) * generations
 
     # Busqueda local por trayectorias simples
     def local_search(self):
+
+        top = int(self._population_size * self._prt_elite)
+
+        for clust in range(top):
+
+            current_clustering = cp.deepcopy(self.decode_random_key(self._population[clust, :]))
+            current_fitness = self._population_fitness[clust]
+
+            improvement = True
+
+            while improvement:
+
+                object_index = np.random.randint(self._dim)
+                improvement = False
+                original_label = current_clustering[object_index]
+                other_labels = np.delete(np.array(range(self._result_nb_clust)), original_label)
+                random.shuffle(other_labels)
+
+                for label in other_labels:
+
+                    current_clustering[object_index] = label
+                    new_fitness = self.get_single_fitness(current_clustering)[0]
+
+                    if new_fitness < current_fitness:
+
+                        current_fitness = new_fitness
+                        improvement = True
+                        break
+
+                    else:
+
+                        current_clustering[object_index] = original_label
+
+            if current_fitness < self._best_fitness:
+
+                self._best = cp.deepcopy(current_clustering)
+                self._best_fitness = current_fitness
+
+
+    # Busqueda local por trayectorias simples sin randomizar
+    def local_search2(self):
 
         top = int(self._population_size * self._prt_elite)
 

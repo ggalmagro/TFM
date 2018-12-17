@@ -1,6 +1,7 @@
 import numpy as np
 from sklearn.neighbors.nearest_centroid import NearestCentroid
 import copy as cp
+import time
 
 class BRKGA:
 
@@ -77,11 +78,6 @@ class BRKGA:
                 tot = 0.
                 for k in range(clust.shape[0] - 1):
                     tot += ((((clust[k + 1:] - clust[k]) ** 2).sum(1)) ** .5).sum()
-
-                if ((clust.shape[0] - 1) * (clust.shape[0]) / 2.) == 0.0:
-                    print(tot)
-                    print(cromosome)
-                    print(clust)
 
                 avg = tot / ((clust.shape[0] - 1) * (clust.shape[0]) / 2.)
 
@@ -182,10 +178,12 @@ class BRKGA:
         num_mutants = int(self._population_size * self._pbt_mutation)
         offspring_size = self._population_size - num_elite - num_mutants
         generations = 0
+        gen_times = []
 
         #Mientras no se haya alcanzado el numero maximo de evaluaciones
         while self._evals_done < max_eval:
 
+            start_gen = time.time()
             #Guardar la elite de la generacion actual
             elite = self._population[:num_elite, :]
             non_elite = self._population[num_elite:, :]
@@ -217,10 +215,9 @@ class BRKGA:
                 self.local_search()
 
             generations += 1
+            gen_times.append(time.time() - start_gen)
 
-            #print(str(generations) + " " + str(fitness[sorted_fitness[0]]))
-
-        return self.decode_single_random_key(self._population[sorted_fitness[0]]), self._best
+        return self.decode_single_random_key(self._population[sorted_fitness[0]]), self._best, np.median(gen_times) * generations
 
     #Busqueda local por trayectorias simples
     def local_search(self):

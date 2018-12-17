@@ -39,15 +39,15 @@ def apply(data_set, p_size, nb_clust, max_eval, nb_runs, name, label_percent, la
 
 def main():
 
-    np.random.seed(43)
+    np.random.seed(11)
 
     #CARGA DE DATOS
 
     names_array, datasets_array, labels_array = load_all_datasets()
 
-    names_array = names_array[:4]
-    datasets_array = datasets_array[:4]
-    labels_array = labels_array[:4]
+    names_array = names_array[0:5]
+    datasets_array = datasets_array[0:5]
+    labels_array = labels_array[0:5]
 
     #BUCLE DE OBTENCION DE DATOS
 
@@ -60,7 +60,7 @@ def main():
     general_start = time.time()
     results_matrix = np.zeros((len(names_array), len(const_percent_vector)))
 
-    with Parallel(n_jobs=multiprocessing.cpu_count() - 1) as parallel:
+    with Parallel(n_jobs=4) as parallel:
 
         for label_percent in range(len(const_percent_vector)):
 

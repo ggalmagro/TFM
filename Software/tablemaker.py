@@ -6,13 +6,14 @@ def main():
 
 	names_array, datasets_array, labels_array = load_all_datasets()
 	#names_array = names_array[0:4]
+	print(len(names_array))
 
 	for i in range(len(names_array)):
 
 		n = np.shape(datasets_array[i])[0]
 		nb_class = len(set(labels_array[i]))
 
-		print(str(n) + " " + names_array[i].title() + " & " + str(n) + " & " + str(nb_class) + " &  \\\\")
+		print(names_array[i].title() + " & " + str(n) + " & " + str(nb_class) + " &  \\\\")
 
 
 	const_percent_vector = [0.05, 0.1, 0.15, 0.2]
@@ -20,7 +21,7 @@ def main():
 
 	for i in range(len(names_array)):
 
-		print(names_array[i].title(), end='')
+		print(names_array[i].title() + " & ", end='')
 
 		for l in range(len(const_percent_vector)):
 
@@ -32,7 +33,10 @@ def main():
 			ml = (d[1] - np.shape(c)[0]) / 2
 			cl = d[-1] / 2
 
-			print(" & %d & %d & %d" % (total, ml, cl), end='')
+			if l < len(const_percent_vector) - 1:
+				print("%d & %d && " % (ml, cl), end='')
+			else:
+				print("%d & %d" % (ml, cl), end='')
 
 		print(" \\\\")
 
