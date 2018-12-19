@@ -5,7 +5,10 @@
 \usepackage{multirow}
 \usepackage{adjustbox}
 \usepackage{chngpage}
+\usepackage{setspace}
+\usepackage[ruled, lined, onelanguage, linesnumbered]{algorithm2e}
 \usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
+\newcommand{\myfloatalign}{\centering}
 \modulolinenumbers[5]
 
 \journal{Applied Soft Computing}
@@ -54,6 +57,8 @@
 
 \author[mymainaddress]{Salvador Garc\'ia}
 
+\author[mymainaddress]{Another Juan}
+
 \address[mymainaddress]{Department of Computer Science and Artificial Intelligence, University of Granada, 18071 Granada, Spain}
 
 \begin{abstract}
@@ -71,9 +76,12 @@ This template helps you to create a properly formatted \LaTeX\ manuscript.
 
 \section{Introduction}
 
+\textcolor{red}{Citar a los de las hormigas}\\
+\textcolor{red}{Poner un parrafo de aplicaciones del clustering con restricciones}
+
 \section{Background}
 
-\subsection{Constrained Clustering}
+%\subsection{Constrained Clustering}
 
 Clustering is the task of grouping instances of a dataset into subsets. The criterion used to assign an instance to a given cluster is the similarity to the rest of elements in that cluster, and the dissimilarity to the rest of instances of the dataset. In this way, the clustering process obtains subsets of instances of the initial data set that present high intra-similarity and low inter-similarity.
 
@@ -93,15 +101,15 @@ The goal of constrained clustering is to find a partition (or clustering) of $K$
 
 Knowing how a constraint is defined, Must-link constraints---from now on ML---are an example of an equivalence relation; therefore, ML constraints are reflexive, transitive and symmetric. This way, given constraints $c_=(x_a,x_b)$ and $c_=(x_b,x_c)$ then $c_=(x_a,x_c)$ is verified. In addition, if $x_a \in c_i$ and $x_b \in c_j$ are related by $c_=(x_a,x_b)$, then $c_=(x_c,x_d)$ is verified for any $x_c \in c_i$ and $x_d \in c_j$ \cite{xu2013improving}\cite{davidson2007survey}.
 
-On the other hand, Cannot-link constraints---from now on CL---do not constitute an equivalence relation***, but they also can be entailed***. However, analogously, given $x_a \in c_i$ and $x_b \in c_j$, and the constraint $c_{\neq}(x_a,x_b)$, then it is also true that $c_{\neq}(x_c,x_d)$ for any $x_c \in c_i$ and $x_d \in c_j$ \cite{davidson2007survey}.
+On the other hand, Cannot-link constraints---from now on CL---do not constitute an equivalence relation. However, analogously, given $x_a \in c_i$ and $x_b \in c_j$, and the constraint $c_{\neq}(x_a,x_b)$, then it is also true that $c_{\neq}(x_c,x_d)$ for any $x_c \in c_i$ and $x_d \in c_j$ \cite{davidson2007survey}.
 
 \subsection{The Feasibility Problem}
 
-Given that constrained clustering adds a new element to the clustering problem, we must consider how this element affects the problem complexity. The feasibility problem for constrained clustering was defined by \cite{davidson2005clustering} as in Definition \ref{def1}.
+Given that constrained clustering adds a new element to the clustering problem, we must consider how this element affects the problem complexity. The feasibility problem for non hierarchical constrained clustering was defined by \cite{davidson2005clustering} as in Definition \ref{def1}.
 
 \begin{definition}
 	
-	\textbf{Feasibility Problem}: given a dataset $X$, a set of constraints $R$, and the bounds on the number of clusters $K_l \leq k \leq K_u$. Does there exists a partition $C$ of $X$ with $k$ clusters such that all constraints in $R$ are satisfied? \cite{davidson2005clustering}
+	\textbf{Feasibility Problem}: given a dataset $X$, a set of constraints $R$, and the bounds on the number of clusters $K_l \leq k \leq K_u$. Does there exists a partition $C$ of $X$ with $k$ clusters such that all constraints in $R$ are satisfied? \cite{davidson2007survey}\cite{davidson2005clustering}
 	\label{def1}
 	
 \end{definition}
@@ -112,7 +120,7 @@ In \cite{davidson2005clustering} it is proven that, when $K_l = 1$ and $K_u \ge 
 	\centering
 	%\setlength{\arrayrulewidth}{1mm}
 	\setlength{\tabcolsep}{7pt}
-	\renewcommand{\arraystretch}{0.9}
+	\renewcommand{\arraystretch}{1.2}
 	%\resizebox{\textwidth}{!}{
 		\begin{tabular}{c c}
 			\hline
@@ -128,9 +136,11 @@ In \cite{davidson2005clustering} it is proven that, when $K_l = 1$ and $K_u \ge 
 	\label{tab:feasibility}
 \end{table}
 
-These complexity results show that feasibility problem with CL constraints is intractable and hence constrained clustering is intractable too. For more details on constrained clustering problem complexity see \cite{davidson2005clustering}.
+These complexity results show that feasibility problem with CL constraints is intractable and hence constrained clustering is intractable too. For more details on constrained clustering complexity see \cite{davidson2005clustering}.
 
-Intractable problems are hard to solve with deterministic and exact methods. That is the reason why applying heuristics-guided and population-based algorithms is a good approach to find quality solutions to the constrained clustering problem.
+\textcolor{red}{El parrafo de abajo esta bien?}
+
+Intractable problems are hard to solve with deterministic and exact methods. That is the reason why applying heuristics-guided and population-based algorithms constitute a good approach to find quality solutions to the constrained clustering problem.
 
 
 \section{Brief Review of the BRKGA Algorithm}
@@ -153,7 +163,7 @@ Their method randomly initializes a population of random-key vectors, each one w
 	\centering
 	%\setlength{\arrayrulewidth}{1mm}
 	\setlength{\tabcolsep}{7pt}
-	\renewcommand{\arraystretch}{0.9}
+	\renewcommand{\arraystretch}{1.2}
 	\resizebox{\textwidth}{!}{
 	\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
 		\hline
@@ -197,21 +207,21 @@ Unlike JADE, which only considers the parameters used in the previous generation
 
 As in differential evolution, SHADE employs mutant generation, crossover and replacement operators to explore the space of solutions and bring in new generations of individuals.
 
-The mutation strategy used by SHADE is known as current-to-pbest/1, and the expression that generates new individuals is described in Equation \eqref{eq3}.
+The mutation strategy used by SHADE is known as current-to-$p$best/1, and the expression that generates new individuals is described in Equation \eqref{eq3}.
 
 \begin{equation}
-m_{i,G} = p_{i,G} + F_i * (p_{pbest, G} - p_{i,G}) + F_i * (p_{r1, G} - p_{r2,G})
+m_{[i,G]} = p_{[i,G]} + F_i * (p_{[pbest, G]} - p_{[i,G]}) + F_i * (p_{[r1, G]} - p_{[r2,G]})
 \label{eq3}
 \end{equation}
 
-Where $m_{i,G}$ is the mutant vector, which is generated with an individual $p_{i,G}$ from the population [serving as a starting point]. Indices $r1$ and $r2$ are random values in the range $[0,N]$, different from $i$ and from each other. The individual $p_{pbest, G}$ is randomly selected from among the best $N \times pbest\;|\;pbest\in [0,1]$ individuals in the population. This way, the parameter $p$ controls the greediness of the mutation strategy. The parameter $F_i$ defines the magnitude of the operator.
+Where $m_{[i,G]}$ is the mutant vector, which is generated with an individual $p_{[i,G]}$ from the population [serving as a starting point]. Indices $r1$ and $r2$ are random values in the range $[0,N]$, different from $i$ and from each other. The individual $p_{[pbest, G]}$ is randomly selected from among the best $N \times pbest\;|\;pbest\in [0,1]$ individuals in the population. This way, the parameter $p$ controls the greediness of the mutation strategy. The parameter $F_i$ defines the magnitude of the operator.
 
-After generating the mutant vector $m_{i,G}$, it is combined with the parent $p_{i,G}$ vector by means of a crossover operator; the result is the trial vector. SHADE uses the Binomial crossover operator, which is defined by the Equation \eqref{eq4}.
+After generating the mutant vector $m_{[i,G]}$, it is combined with the parent $p_{[i,G]}$ vector by means of a crossover operator; the result is the trial vector. SHADE uses the Binomial crossover operator, which is defined by the Equation \eqref{eq4}.
 
 \begin{equation}
-t_{j,i,G} = \left\{ \begin{array}{lc}
-m_{j,i,G} &   if \;\; rand[0,1) \le CR_i \;\; or \;\;j = j_{rand} \\
-p_{j,i,G} &  otherwise
+t_{[j,i,G]} = \left\{ \begin{array}{lc}
+m_{[j,i,G]} &   if \;\; \text{rand}[0,1) \le CR_i \;\; or \;\;j = j_{rand} \\
+p_{[j,i,G]} &  \text{otherwise}
 \end{array}
 \right.
 \label{eq4}
@@ -219,18 +229,18 @@ p_{j,i,G} &  otherwise
 
 Where $rand[0,1)$ is a random number selected from a normal distribution in the range $[0,1)$, $j_{rand}$ is a random integer selected from the range $[1,D]$, and $CR \in [0,1]$ is the crossover ratio.
 
-The SHADE replacement operator determines the survivors individuals for the next generation. It compares each parent $x_{i,G}$ with the trial vector $_{j,i,G}$, generated based on it. The best one of these two individuals will survive for the next generation. Equation \eqref{eq5} shows this concept.
+The SHADE replacement operator determines the survivors individuals for the next generation. It compares each parent $x_{[i,G]}$ with the trial vector $_{[j,i,G]}$, generated based on it. The best one of these two individuals will survive for the next generation. Equation \eqref{eq5} shows this concept.
 
 \begin{equation}
-p_{i,G + 1} = \left\{ \begin{array}{lc}
-t_{i,G} &   if \;\; f(t_{i,G}) \le f(p_{i,G}) \\
-p_{i,G} &  otherwise
+p_{[i,G + 1]} = \left\{ \begin{array}{lc}
+t_{[i,G]} &   if \;\; f(t_{[i,G]}) \le f(p_{[i,G]}) \\
+p_{[i,G]} &  \text{otherwise}
 \end{array}
 \right.
 \label{eq5}
 \end{equation}
 
-To maintain diversity, SHADE can make use of an external archive $A$, in which parents $p_{i,G}$ who were replaced by their associated trial vector $t_{i,G}$ are saved. To make use of the archive, we will consider that the individual $p_{r2,G}$ from Equation \eqref{eq3} is selected from $P \cup A$. The archive size is the same as the population size. When the size of $A$ exceeds the size of $P$, random individuals are selected for removal to make room for new ones.
+To maintain diversity, SHADE can make use of an external archive $A$, in which parents $p_{[i,G]}$ who were replaced by their associated trial vector $t_{[i,G]}$ are saved. To make use of the archive, we will consider that the individual $p_{[r2,G]}$ from Equation \eqref{eq3} is selected from $P \cup A$. The archive size is the same as the population size. When the size of $A$ exceeds the size of $P$, random individuals are selected for removal to make room for new ones.
 
 The parameters $p$, $F_i$ and $CR_i$ are difficult to adjust and their selection is not trivial, as they largely determine the success of the optimization process. These are the parameters that SHADE adaptively optimizes using the mentioned history record.
 
@@ -249,9 +259,9 @@ The SHADE method stores in memory a structure with $H$ entries for parameters $F
 		 Index & 1 & 2 & $\cdots$ & $H - 1$ & $H$ \\
 		 \hline
 		 \hline
-		 $M_{CR}$ & $M_{CR,1}$ & $M_{CR,1}$ & $\cdots$ & $M_{CR,H-1}$ & $M_{CR,H}$ \\
+		 $M_{CR}$ & $M_{[CR,1]}$ & $M_{[CR,1]}$ & $\cdots$ & $M_{[CR,H-1]}$ & $M_{[CR,H]}$ \\
 		 \hline
-		 $M_{F}$ & $M_{F,1}$ & $M_{F,1}$ & $\cdots$ & $M_{F,H-1}$ & $M_{F,H}$ \\
+		 $M_{F}$ & $M_{[F,1]}$ & $M_{[F,1]}$ & $\cdots$ & $M_{[F,H-1]}$ & $M_{[F,H]}$ \\
 		\hline
 
 	\end{tabular}}
@@ -262,12 +272,12 @@ The SHADE method stores in memory a structure with $H$ entries for parameters $F
 In each generation, parameters $CR_i$ and $F_i$ are calculated on the basis of the existing history by applying Equations \eqref{eq6} and \eqref{eq7}:
 
 \begin{equation}
-CR_i = randn_i(M_{CR,r_i}, 0.1)
+CR_i = \text{randn}_i(M_{[CR,r_i]}, 0.1)
 \label{eq6}
 \end{equation}
 
 \begin{equation}
-F_i = randc_i(M_{F,r_i}, 0.1)
+F_i = \text{randc}_i(M_{[F,r_i]}, 0.1)
 \label{eq7}
 \end{equation}
 
@@ -276,18 +286,18 @@ where $randn(\mu, \sigma^2)$ and $randc(\mu, \sigma^2)$ are random values from n
 SHADE keeps two auxiliar sets $S_{CR}$ and $S_F$ to store the $CR_i$ and $F_i$ values that were successfully used to generate a trial vector that replaced the parent. At the end of each generation, the content of the memory $M$ is updated following Equations \eqref{eq8} and \eqref{eq9}.
 
 \begin{equation}
-M_{CR,h,G+1} = \left\{ \begin{array}{lc}
-mean_{WA} (S_{CR}) &   if \;\; S_{CR} \neq \emptyset \\
-M_{CR,h,G+1} &  otherwise
+M_{[CR,h,G+1]} = \left\{ \begin{array}{lc}
+\text{mean}_{WA} (S_{CR}) &   if \;\; S_{CR} \neq \emptyset \\
+M_{[CR,h,G+1]} &  otherwise
 \end{array}
 \right.
 \label{eq8}
 \end{equation}
 
 \begin{equation}
-M_{F,h,G+1} = \left\{ \begin{array}{lc}
-mean_{WL} (S_{F}) &   if \;\; S_{F} \neq \emptyset \\
-M_{F,h,G+1} &  otherwise
+M_{[F,h,G+1]} = \left\{ \begin{array}{lc}
+\text{mean}_{WL} (S_{F}) &   if \;\; S_{F} \neq \emptyset \\
+M_{[F,h,G+1]} &  otherwise
 \end{array}
 \right.
 \label{eq9}
@@ -298,7 +308,7 @@ The $h \;\; (0 \le h \le H)$ index specifies the position of the memory $M$ to b
 In Equation \ref{eq8}, the term $mean_{WA} (S_{CR})$ is the weighted mean, which is computed following Equations \eqref{eq10} and \eqref{eq11}, proposed by \cite{peng2009multi} to prevent $CR$ from converging to small values.
 
 \begin{equation}
-mean_{WA} (S_{CR}) = \sum_{i = 1}^{|S_{RC}|} \omega_i * S_{RC,i}
+\text{mean}_{WA} (S_{CR}) = \sum_{i = 1}^{|S_{RC}|} \omega_i * S_{[RC,i]}
 \label{eq10}
 \end{equation}
 
@@ -307,19 +317,19 @@ mean_{WA} (S_{CR}) = \sum_{i = 1}^{|S_{RC}|} \omega_i * S_{RC,i}
 \label{eq11}
 \end{equation}
 
-where $\Delta f_i = |f(t_i,G) - f(p_i, G)|$, which is the amount of improvement obtained from the trial vector with respect to the parent.
+where $\Delta f_i = |f(t_{[i,G]}) - f(p_{[i, G]})|$, which is the amount of improvement obtained from the trial vector with respect to the parent.
 
 In Equation \ref{eq9} the term $mean_{WL} (S_{F})$ refers to the weighted Lehmer mean, which is computed as in Equation \eqref{eq12} (proposed by \cite{tanabe2013success}).
 
 \begin{equation}
-mean_{WL} (S_{F}) = \frac{\sum_{i = 1}^{|S_{F}|} \omega_i * S^2_{F,i}}{\sum_{i = 1}^{|S_{F}|} \omega_i * S_{F,i}}
+\text{mean}_{WL} (S_{F}) = \frac{\sum_{i = 1}^{|S_{F}|} \omega_i * S^2_{[F,i]}}{\sum_{i = 1}^{|S_{F}|} \omega_i * S_{[F,i]}}
 \label{eq12}
 \end{equation}
 
-Unlike parameters $S_{CR}$ and $S_F$, the parameter $pbest$ from Equation \eqref{eq3}, used to set the qreediness of the mutation strategy, is not included in the optimization process. However, it is not static: it is calculated for each individual $p_i$ of the population following Equation \eqref{eq13}.
+Unlike parameters $S_{CR}$ and $S_F$, the parameter $pbest$ from Equation \eqref{eq3}, used to set the greediness of the mutation strategy, is not included in the adaptive optimization process. However, it is not static: it is calculated for each individual $p_i$ of the population following Equation \eqref{eq13}.
 
 \begin{equation}
-pbest_i = randn[2/N, 0.2]
+pbest_i = \text{randn}[2/N, 0.2]
 \label{eq13}
 \end{equation}
 
@@ -336,26 +346,152 @@ f_i = z_i * (infeasibility + 1)
 \label{eq14}
 \end{equation}
 
-Note that in Equation \eqref{eq14} no parameter is involved that cannot be calculated from the dataset or constraints, whereas in \eqref{eq1} the $\mu$ parameter must be calculated and optimized for each individual problem.
+Note that in Equation \eqref{eq14} no parameter is involved that cannot be calculated from the dataset or constraints, whereas in Equation \eqref{eq1} the $\mu$ parameter must be calculated and optimized for each individual problem.
 
 We found that with the fitness function defined in \eqref{eq1} there is no competition between the penalty term and the within-cluster-sum-of-squares term, because the penalty is always significantly larger than it or zero. This can bias the exploration of the solution space, restricting it in practice to those that satisfy all the constraints, even if the within-cluster-sum-of-squares is still improvable by moving two instances involved in a constraint to different clusters without violating that constraint.
 
 With Equation \eqref{eq14} we try to find a trade-off between the within-cluster-sum-of-squares and the penalty term, allowing solutions that violate a certain number of constraints to compete with those who violate a smaller number of them but score a better within-cluster-sum-of-squares.
 
-\textcolor{red}{Poner una pintura que ejemplifique lo anterior.}\\
-\textcolor{red}{Explicar la busqueda local. Con pseudocódigo?}
+To put those concepts clear we consider a toy dataset and three partitions over it. Dataset from Figure \ref{img:toydatasets} contains 100 instances and a single ML constraint between two instances from the same class. Partitions $C_0$ and $C_1$ do not violate the constraint ($infeasibility = 0$), while $C_2$ does violate it ($infeasibility = 1$). 
+
+\begin{figure}[bth]
+	\myfloatalign
+	{\includegraphics[width=.45\linewidth]{Figures/Dataset}} \quad
+	%\subfloat[Imagen original]
+	{\includegraphics[width=.45\linewidth]{Figures/C0}} \quad
+	%\subfloat[Clustering sin restricciones]
+	{\includegraphics[width=.45\linewidth]{Figures/C1}} \quad
+	%\subfloat[Clustering con restricciones]
+	{\includegraphics[width=.45\linewidth]{Figures/C2}} \quad
+	\caption{Three partitions over a toy dataset.}
+	\label{img:toydatasets}
+\end{figure}
+
+Table\ref{tab:fitnessfunctions} shows fitness functions values for each partition from Figure \ref{img:toydatasets}. We call $f_1$ to the function presented in Equation \eqref{eq1} and $f_2$ to the function presented in Equation \eqref{eq14}.
+
+\begin{table}[!h]
+	\centering
+	\setlength{\tabcolsep}{7pt}
+	\renewcommand{\arraystretch}{1.3}
+	%\begin{adjustwidth}{-1in}{-1in}
+	\resizebox{\textwidth}{!}{
+		\begin{tabular}{c c c c c c}
+			\hline
+			\multirow{2}{*}{Partition} &
+			\multicolumn{2}{c}{Expression} &&
+			\multicolumn{2}{c}{Value} \\
+			\cline{2-3} \cline{5-6}
+			& $f_1$ & $f_2$ && $f_1$ & $f_2$ \\
+			\hline
+			$C_0$ & $z_0$ & $z_0$ && $0.457$  & $0.457$  \\
+			$C_1$ & $z_1$ & $z_1$  && $0.540$  & $0.540$  \\
+			$C_2$ & $z_2 + (\mu * N * infs)$ & $z_2 * (infs + 1)$  && $0.503 + 1000 = 1000.503$ &  $0.503 * 2 = 1.005$ \\
+			\hline
+			
+		\end{tabular}}
+		%\end{adjustwidth}
+		
+	\caption{Expression and value of fitness functions over three partitions. ($\mu = 10$)}
+	\label{tab:fitnessfunctions}
+\end{table}
+
+Results in Table \ref{tab:fitnessfunctions} are a clear example of the above. In the general case, with $f_2$ the penalty for violating constraints is proportional to the within-cluster-sum-of-squares, the lower it is the lower the penalty. This is not the case with $f_1$, whose penalty term is independent of the within-cluster-sum-of-squares, which can result in a difference of several orders of magnitude between partitions satisfying different number of constraints.
+
+As in \cite{de2017comparison} we apply a local optimization procedure to the individuals of the population, without transferring its results to the individual to maintain diversity. The difference is that we do not apply it to the whole population but only to a number $p_e$ of individuals considered as the elite of the population. The percentage of individuals considered as elite must be determined for each case.
+
+Algorithms \ref{alg:SHADE} shows overall SHADE optimization process and is an adaptation of the one that can be found on \cite{tanabe2013success} to include the local search procedure presented in Algorithm \ref{alg:LS}.
+
+\begin{algorithm}
+	\SetNlSty{textbf}{[}{]}
+	\SetNlSkip{0.5em}
+	\setstretch{1.2}
+	\SetKwFunction{Sort}{Sort}
+	\SetKwFunction{LocalSearch}{LocalSearch}
+	\KwIn{Dataset $X$, constraints sets $c_=$ and $c_{\neq}$, population size $p_{size}$, elite size $p_e$, number of clusters $K$.}
+	\tcp{Initialization phase}
+	$G \leftarrow 0$\\
+	Initialize population $P_0 \leftarrow \{p_{[1,0]}, \cdots, p_{[p_{size},0]}\}$\\
+	Initialize all values in $M_{CR}$, $M_F$ to 0.5\\
+	$A \leftarrow \emptyset$; $h \leftarrow 1$\\
+	\tcp{Main loop}
+	\While{Termination criteria are not met}{
+		
+		$S_{CR} \leftarrow S_F \leftarrow \emptyset$\\
+		$P_G \leftarrow$ \Sort{$P_G$} \tcp{Sort the population}
+		\tcp{Apply a LS procedure to the elite of the population}
+		\LocalSearch{$\{p_{[1,G]}, \cdots, p_{[p_{e},G]}\}$}\\
+		\For{$i \in [1,p_{size}]$}{
+			$r_i \leftarrow$ randInt$[1,H]$\\
+			$CR_{[i,G]} \leftarrow$ randn$_i(M_{[CR,r_i]}, 0.1)$\\
+			$F_{[i,G]} \leftarrow$ randc$_i(M_{[F,r_i]}, 0.1)$\\
+			$p_{[i,G]} \leftarrow$ rand$[N/2, 0.2]$\\
+			Generate trial vector $t_{[i,G]}$ by current-to-$p$best/1/bin\\
+			
+			\eIf{$f(t_{[i,G]}) \le f(p_{[i,G]})$}{
+				$p_{[i,G + 1]} \leftarrow t_{[i,G]}$
+			}{
+				$p_{[i,G + 1]} \leftarrow p_{[i,G]}$
+			}
+			
+			\If{$f(t_{[i,G]}) < f(p_{[i,G]})$}{
+				$p_{[i,G]} \rightarrow A$;
+				$CR_{[i,G]} \rightarrow S_{CR}$;
+				$F_{[i,G]} \rightarrow S_{F}$
+			}
+			
+		}
+		Whenever $|A| > |P|$, randomly select an individual from $A$ to be deleted so that $|A| \le |P|$\\
+		\If{$S_{CR} \neq \emptyset$ \textbf{and} $S_{F} \neq \emptyset$}{
+			Update $M_{[CR,h]}$ and $M_{[F,h]}$ based on $S_{CR}$ and $S_{F}$\\
+			$h \leftarrow (h + 1) \mod H$
+		}
+		$G++$
+	}
+	\caption{Modified SHADE}\label{alg:SHADE}
+\end{algorithm}
+
+\begin{algorithm}
+	\SetNlSty{textbf}{[}{]}
+	\SetNlSkip{0.5em}
+	\setstretch{1.2}
+	\SetKwFunction{RandomShuffle}{RandomShuffle}
+	\SetKwRepeat{Do}{do}{while}
+	\KwIn{Dataset $X$, constraints sets $c_=$ and $c_{\neq}$, decoded random-key vector (solution) $S$, number of clusters $K$.}
+	\BlankLine
+	\While{$improvement$}{
+		$improvement \leftarrow$ \texttt{false} \\
+
+		$s_i \leftarrow $ Select random object from $S$\\
+		\tcp{Random shuffle labels set}
+		$RSL \leftarrow $ \RandomShuffle{$\{1,\cdots,K\}$}\\
+		\For{$c \in RSL$}{
+			$S^\prime \leftarrow S$\\
+			$S^\prime$\texttt{[}$s_i$\texttt{]} $\leftarrow c$ \tcp{Move object $s_i$ to cluster $c$}
+			
+			\If{$f(S^\prime) < f(S)$}{
+				$S \leftarrow S^\prime$\\
+				$improvement \leftarrow$ \texttt{true} \\
+			}
+		}	
+	}
+	\BlankLine
+	\KwRet ($S$)
+	
+\caption{Local Search}\label{alg:LS}
+\end{algorithm}
 
 \clearpage
 
 \section{Experimental Setup}
 
-\subsection{Dataset}
+For our experiments we will compare the results obtained by BRKGA and SHADE over XX datasets. Most of the datasets used can be found at the \href{https://sci2s.ugr.es/keel/category.php?cat=clas}{Keel-dataset repository}\cite{triguero2017keel}, though some of them have been obtained via
+\href{https://scikit-learn.org/stable/datasets/index.html}{\texttt{scikit-learn} python package} \cite{scikit-learn}. Table \ref{tab:datasets} present a summary the main features of all datasets used. \textcolor{red}{Esta bien citar tambien al sklearn? Que paper de keel cito, 2017 o 2011?}
 
 \begin{table}[!h]
 	\centering
 	%\setlength{\arrayrulewidth}{1mm}
-	\setlength{\tabcolsep}{5pt}
-	\renewcommand{\arraystretch}{0.8}
+	%\setlength{\tabcolsep}{5pt}
+	%\renewcommand{\arraystretch}{1.2}
 	%\resizebox{\textwidth}{!}{
 	\small
 	\begin{tabular}{l c c c}
@@ -398,20 +534,22 @@ With Equation \eqref{eq14} we try to find a trade-off between the within-cluster
 		\hline
 
 	\end{tabular}%}
-	\caption{Summary of datasets used for the experiments \textcolor{red}{Citar keel}}
+	\caption{Summary of datasets used for the experiments \cite{triguero2017keel}\cite{scikit-learn}}
 	\label{tab:datasets}
 \end{table}
 
+\clearpage
+
 \subsection{Constraints Generation}
 
-Since we have the true labels associated with each data set, we will use the method proposed by Wagstaff and Cardie to generate artificial constraint sets \cite{wagstaff2001constrained}. This method consists in randomly selecting two instances of a data set, then comparing its labels, and finally setting an ML or CL constraint depending on whether the labels are the same or different.
+Since we have the true labels associated with each data set, we will use the method proposed by \cite{wagstaff2001constrained} to generate artificial constraint sets. This method consists in randomly selecting two instances of a data set, then comparing its labels, and finally setting an ML or CL constraint depending on whether the labels are the same or different.
 
-We will generate four different sets of constraints for each data set. The number of constraints is given by the number of edges of the complete constraints graph that we can build with a percentage of labeled data. Each constraint set is associated with a different percentage of labeled data, namely: 5\%, 10\%, 15\% and 20\%. It is worth noting that constraints are not the complete constraint graph made up of the tagged instances, this graph only sets the number of constraints to be created, this way there is a lower probability of biasing the set of constraints so that there are classes with poor representation in it.
+We will generate four different sets of constraints for each data set. The number of constraints is given by the number of edges of the complete constraints graph that we can build with a percentage of labeled data. Each constraint set is associated with a different percentage of labeled data, namely: 5\%, 10\%, 15\% and 20\%. It is worth noting that constraints are not the complete constraint graph made up of the labeled instances, this graph only sets the number of constraints to be created, this way there is a lower probability of biasing the set of constraints so that there are classes with poor representation in it. Table \ref{tab:constraints} shows the number of constraints of each type obtained for each dataset.
 
 \begin{table}[!h]
 	\centering
 	\setlength{\tabcolsep}{7pt}
-	\renewcommand{\arraystretch}{0.8}
+	\renewcommand{\arraystretch}{1.2}
 	%\begin{adjustwidth}{-1in}{-1in}
 	\resizebox{\textwidth}{!}{
 	\begin{tabular}{lcc c cc c cc c cc}
@@ -463,11 +601,13 @@ We will generate four different sets of constraints for each data set. The numbe
 	\label{tab:constraints}
 \end{table}
 
+Note that the greater the number of classes present in the data set, the fewer ML restrictions obtained with the method proposed by \cite{wagstaff2001constrained}. This is because the probability of randomly choosing two individuals from the same class decreases as the number of classes present in the data set increases.
+
+\clearpage
+
 \subsection{Evaluation Method}
 
-We use the evaluation method proposed by Wagstaff et al. (2001) \cite{wagstaff2001constrained}, the authors of the Constrained K-Means algorithm, proposed in their work to evaluate the results.
-
-Since we have the true labels associated to each of the datasets, we can use them in post-processing to evaluate the results provided by each method. We will use Rand Index \cite{rand1971objective} to measure the accuracy of the predictions resulting from each method we test. Rand Index computes de degree of agreement between two partitions $C_1$ and $C_2$ of a given dataset $X$. $C_1$ and $C_2$ are viewed as collections of $N(N - 1)/2$ pairwise decisions.
+Since we have the true labels associated to each of the datasets, we can use them in post-processing to evaluate the results provided by each method. We will use Adjusted Rand Index to measure the accuracy of the predictions resulting from each method we test \cite{hubert1985comparing}.Basic Rand Index computes de degree of agreement between two partitions $C_1$ and $C_2$ of a given dataset $X$. $C_1$ and $C_2$ are viewed as collections of $N(N - 1)/2$ pairwise decisions \cite{rand1971objective}.
 
 For each pair of $x_i$ and $x_j$ instances in $X$, $C_i$ assigns them to the same cluster or to different clusters. We take $a$ as the number of pairings where $x_i$ is in the same cluster as $x_j$ in $C_1$ and $C_2$ , and $b$ as the opposite event. Then, the degree of similarity between $C_1$ and $C_2$ is calculated as in Equation \eqref{eq15}.
 
@@ -476,16 +616,26 @@ Rand(C_1, C_2) = \frac{a + b}{N(N - 1)/2}
 \label{eq15}
 \end{equation}
 
-We will use this measure co compute the accuracy for all of our experiments.
+The Adjusted Rand Index is a corrected-for-chance version of Rand Index. This correction uses the expected similarity of all comparisons between clusterings specified by a random model to set up a baseline. The Adjusted Rand Index is computed as in Equation \eqref{eq16}.
+
+\begin{equation}
+ARI(C_1, C_2) = \frac{Rand(C_1, C_2) - ExpectedIndex}{MaximumIndex - ExpectedIndex}
+\label{eq16}
+\end{equation}
+
+where $MaximumIndex$ is expected to be 1 and $ExpectedIndex$ is the already mentioned expected degree of similarity with a random model. It is easy to see that $ARI(C_1, C_2) \in [-1,1]$, such that a $ARI$ value close to 1 means a high degree of agreement between $C_1$ and $C_2$, a positive value close to 0 means no agreement and a value smaller that 0 means that the $Rand(C_1, C_2)$ is less than expected when comparing the obtained partitions with random partitions. To summarize, the higher the $ARI$, the greater the degree of similarity between $C_1$ and $C_2$. For more details on Adjusted Rand Index see \cite{hubert1985comparing}.
+
 
 \subsection{Calibration}
+
+\clearpage
 
 \section{Experimental Results}
 
 \begin{table}[!h]
 	\centering
 	\setlength{\tabcolsep}{7pt}
-	\renewcommand{\arraystretch}{0.9}
+	\renewcommand{\arraystretch}{1.4}
 	%\begin{adjustwidth}{-1in}{-1in}
 	\resizebox{\textwidth}{!}{
 		\begin{tabular}{l ccc c ccc}
