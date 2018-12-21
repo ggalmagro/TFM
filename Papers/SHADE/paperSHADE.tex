@@ -6,6 +6,7 @@
 \usepackage{adjustbox}
 \usepackage{chngpage}
 \usepackage{setspace}
+\usepackage{amsfonts}
 \usepackage[ruled, lined, onelanguage, linesnumbered]{algorithm2e}
 \usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
 \newcommand{\myfloatalign}{\centering}
@@ -142,6 +143,40 @@ These complexity results show that feasibility problem with CL constraints is in
 
 Intractable problems are hard to solve with deterministic and exact methods. That is the reason why applying heuristics-guided and population-based algorithms constitute a good approach to find quality solutions to the constrained clustering problem.
 
+\subsection{Short insertion to Differential Evolution}
+
+To introduce Differential Evolution--from now on DE--we take as basis the review of the state-of-the-art performed by \cite{das2011differential}, where you can find a very detailed analysis on DE an its variants.
+
+The first article written on differential evolution emerged in 1995 as a technical report written by \cite{noman2008differential}. From that moment on, DE's reputation was manifested in congresses and competitions where it was able to obtain competitive results that rivaled the state of the art of that moment. Specifically DE excelled in real optimization problems.
+
+DE arises as a variant of population-based evolutionary algorithms, its goal is to perform an intelligent search in the problem's solutions space in the most optimized and effective possible way.
+
+Like most evolutionary algorithms, DE uses a population of individuals $P$, where each individual $p_i$ is a vector of real values $p_i = \{p_{i,1},\cdots,p_{i,D}\}$ that serve as parameters for the function to be optimized. These individuals are considered solutions to the problem.
+
+To guide the optimization process, we use an objective function. DE's task is to seek the parameter vector $p_i$ that minimizes a function such that $f(p_i)(f: \Omega \subseteq \mathfrak{R}^D \rightarrow \mathfrak{R})$, where $f(p_i^*) < f(p_i)$ for all $p_i \Omega$ with omega a nonempty finite set that is the search domain.
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=0.4]{Figures/DEop.png}
+	\caption{DE optimization process \cite{das2011differential}.}\label{img:DE}
+\end{figure}
+
+DE optimization process works through a simple cycle of stages, presented in Figure \ref{img:DE} that we can summarize stages in as follow:
+
+\begin{itemize}
+	
+	\item \textbf{Initialization of Vectors}: DE begins with a randomly initiated populations of $N$ $D$-dimensionals arrays of parameters. These vectors constitute a candidate solution for the problem to solve.
+	
+	\item \textbf{Difference-vector based mutation}: DE introduces diversity on the population via mutation operator. This operator is applied to each individual of the population, known ins this context as parent vector. It combines the parent vector with two randomly selected vectors from the population by applying an arithmetic operator to them. The result of this process is a mutant vector.
+	
+	\item \textbf{Crossover/Recombination}: The mutant vector exanges some components with its associated parent to from a trial vector, which will be the candidate to replace the parent vector. There exist several strategies to generate this trial vector, we will not delve into them but they can be found in \cite{das2011differential}.
+	
+	\item \textbf{Selection}: The newly generated trial vector is compared with its associated parent using the objective function. If the trial vector is better than the parent, then it will replace the parent in the next generation. It is worth noting that, following this strategy, the population never degenerates, only get better or remains the same.
+	
+\end{itemize}
+
+Even though DE was a major breakthrough in terms of real optimization, many variants have been developed since its invention that provide better results. We will focus on the SHADE variant, which adaptively optimizes some of the DE parameters (see Section \ref{sec:SHADE}).
+
 
 \section{Brief Review of the BRKGA Algorithm}
 
@@ -197,7 +232,7 @@ Where $C_i$ is the partition of dataset $X$ defined by solution $p_i$, and $(x_a
 
 In \cite{de2017comparison} authors also added a new element to BRKGA, a local search procedure. This local optimization method is applied to each decoded individual in each generation, but its results are not transferred to the individual, so that diversity is maintained. Thus, the individuals produced by the local search are only used to update the best solution found so far if needed. For more details on BRKGA see \cite{de2017comparison}.
 
-\section{The SHADE Optimization Method}
+\section{The SHADE Optimization Method} \label{sec:SHADE}
 
 Success history based adaptive differential evolution---from now on SHADE---is an optimization method based on differential evolution. Proposed by \cite{tanabe2013success}, it was an improvement for the JADE model, created by \cite{zhang2009jade}.
 
