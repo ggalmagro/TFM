@@ -75,10 +75,11 @@ This template helps you to create a properly formatted \LaTeX\ manuscript.
 
 \linenumbers
 
+\textcolor{red}{Revisar que todos los subindices en los que aparecan comas lleven corchetes. Revisar que las asignaciones en los algoritmo sean flechas y no =}
+
 \section{Introduction}
 
-\textcolor{red}{Citar a los de las hormigas}\\
-\textcolor{red}{Poner un parrafo de aplicaciones del clustering con restricciones}
+\textcolor{red}{Citar a los de las hormigas. Poner un parrafo de aplicaciones del clustering con restricciones}
 
 \section{Background}
 
@@ -143,11 +144,13 @@ These complexity results show that feasibility problem with CL constraints is in
 
 Intractable problems are hard to solve with deterministic and exact methods. That is the reason why applying heuristics-guided and population-based algorithms constitute a good approach to find quality solutions to the constrained clustering problem.
 
-\subsection{Short insertion to Differential Evolution}
+\subsection{Short Introduction to Differential Evolution}
 
-To introduce Differential Evolution--from now on DE--we take as basis the review of the state-of-the-art performed by \cite{das2011differential}, where you can find a very detailed analysis on DE an its variants.
+\textcolor{red}{Eliminar toda la notacion matematica de esta seccion?}
 
-The first article written on differential evolution emerged in 1995 as a technical report written by \cite{noman2008differential}. From that moment on, DE's reputation was manifested in congresses and competitions where it was able to obtain competitive results that rivaled the state of the art of that moment. Specifically DE excelled in real optimization problems.
+To introduce Differential Evolution--from now on DE--we take as basis the review of the state-of-the-art performed by \cite{das2011differential}. You can also find in \cite{das2011differential} a very detailed analysis on DE an its variants.
+
+The first article written on DE emerged in 1995 as a technical report written by \cite{noman2008differential}. From that moment on, DE's reputation was manifested in congresses and competitions where it was able to obtain competitive results that rivaled the state-of-the-art of that moment. Specifically DE excelled in real optimization problems.
 
 DE arises as a variant of population-based evolutionary algorithms, its goal is to perform an intelligent search in the problem's solutions space in the most optimized and effective possible way.
 
@@ -177,6 +180,19 @@ DE optimization process works through a simple cycle of stages, presented in Fig
 
 Even though DE was a major breakthrough in terms of real optimization, many variants have been developed since its invention that provide better results. We will focus on the SHADE variant, which adaptively optimizes some of the DE parameters (see Section \ref{sec:SHADE}).
 
+\subsection{(Classic) Resolution Methods}
+
+\textcolor{red}{Clasicos clasicos no son}
+
+Constrained clustering has many applications and has been widely studied in the literature. The first adaptation of a classic clustering method for constrained clustering was proposed by \cite{wagstaff2001constrained}. It involved modifying the widely studied K-medias algorithm to take into account instance level constraints, the already known ML and CL. This method was named COP-kmeans.
+
+In \cite{antoine2012cecm} authors propose an adaptation of the evidential C-means algorithm, within the fuzzy clustering framework, for constrained clustering. The particularity of this resolution method is that the membership of instances to cluster is defined by a probabilistic belief function. This method redefines constraints from the point of view of belief functions and includes them in the cost function.
+
+In \cite{pelleg2007k} LCVQE, a modification of CVQE (Constrained Vector Cuantization Error), is proposed. The adaptation of CVQE for constrained clustering was proven to produce high quality results, at the cost of a very high computational complexity. LCVQE (Linear CVQE) introduces a modification on CVQE objective function to make it more intuitive and less computationally complex. The experimentation resulted in a dramatic improvement on clustering quality over both noisy and clean constraints sets.
+
+TVClust (Two Views Clustering) and RDP-means (Relation Dirichlet Process - Means) were prosed by \cite{khashabi2015clustering}. TVClust is able to incorporate the constraints to the clustering problem making a relaxed interpretation of them. The authors model the data set and constraints in different ways, perform clustering methods on them and try to find a consensus between both interpretations. Using this model as basis authors derive the deterministic algorithm RDP-means. This method can ve viewed as an extension of K-means that include side information (constraints) and has the property that the number of clusters ($K$) does not need to be specified.
+
+\textcolor{red}{Decir que voy a comparar con ellos? Incluir mas métodos ``clasicos``?}
 
 \section{Brief Review of the BRKGA Algorithm}
 
@@ -577,6 +593,8 @@ For our experiments we will compare the results obtained by BRKGA and SHADE over
 
 \subsection{Constraints Generation}
 
+\textcolor{red}{En esta seccion podria simplemente decir el numero de restricciones que genero como un numero magico sin meterme en nada de grafos, pero igual es un poco burro.}
+
 Since we have the true labels associated with each data set, we will use the method proposed by \cite{wagstaff2001constrained} to generate artificial constraint sets. This method consists in randomly selecting two instances of a data set, then comparing its labels, and finally setting an ML or CL constraint depending on whether the labels are the same or different.
 
 We will generate four different sets of constraints for each data set. The number of constraints is given by the number of edges of the complete constraints graph that we can build with a percentage of labeled data. Each constraint set is associated with a different percentage of labeled data, namely: 5\%, 10\%, 15\% and 20\%. It is worth noting that constraints are not the complete constraint graph made up of the labeled instances, this graph only sets the number of constraints to be created, this way there is a lower probability of biasing the set of constraints so that there are classes with poor representation in it. Table \ref{tab:constraints} shows the number of constraints of each type obtained for each dataset.
@@ -642,7 +660,7 @@ Note that the greater the number of classes present in the data set, the fewer M
 
 \subsection{Evaluation Method}
 
-Since we have the true labels associated to each of the datasets, we can use them in post-processing to evaluate the results provided by each method. We will use Adjusted Rand Index to measure the accuracy of the predictions resulting from each method we test \cite{hubert1985comparing}.Basic Rand Index computes de degree of agreement between two partitions $C_1$ and $C_2$ of a given dataset $X$. $C_1$ and $C_2$ are viewed as collections of $N(N - 1)/2$ pairwise decisions \cite{rand1971objective}.
+Since we have the true labels associated to each of the datasets, we can use them in post-processing to evaluate the results provided by each method. We will use Adjusted Rand Index to measure the accuracy of the predictions resulting from each method we test \cite{hubert1985comparing}. Basic Rand Index computes de degree of agreement between two partitions $C_1$ and $C_2$ of a given dataset $X$. $C_1$ and $C_2$ are viewed as collections of $N(N - 1)/2$ pairwise decisions \cite{rand1971objective}.
 
 For each pair of $x_i$ and $x_j$ instances in $X$, $C_i$ assigns them to the same cluster or to different clusters. We take $a$ as the number of pairings where $x_i$ is in the same cluster as $x_j$ in $C_1$ and $C_2$ , and $b$ as the opposite event. Then, the degree of similarity between $C_1$ and $C_2$ is calculated as in Equation \eqref{eq15}.
 

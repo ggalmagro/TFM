@@ -4,7 +4,7 @@ import copy as cp
 
 class ILSNueva:
 
-    def __init__(self, data, ml_const, cl_const, nb_clust, segment_percent, ls_max_neighbors, pbt_inherit, restart_percent):
+    def __init__(self, data, ml_const, cl_const, nb_clust, segment_percent, ls_max_neighbors, pbt_inherit, xi):
 
         self._data = data
         self._ml = ml_const
@@ -15,7 +15,7 @@ class ILSNueva:
         self._segment_size = int(np.ceil(segment_percent * self._dim))
         self._max_neighbors = ls_max_neighbors
         self._pbt_inherit = pbt_inherit
-        self._restart_percent = restart_percent
+        self._xi = xi
 
     def init_ils(self):
 
@@ -179,8 +179,8 @@ class ILSNueva:
 
             worst = np.argmax(self._best_fitness)
             best = (worst + 1) % 2
-            print("Evaluaciones: " + str(self._evals_done) + " best: " + str(self._best_fitness[best])
-                  + " worst: " + str(self._best_fitness[worst]))
+            #print("Evaluaciones: " + str(self._evals_done) + " best: " + str(self._best_fitness[best])
+             #     + " worst: " + str(self._best_fitness[worst]))
 
             new_chromosome = self.uniform_crossover_operator(self._best_solution[best], self._best_solution[worst])
             mutant = self.segment_mutation_operator(new_chromosome)
@@ -191,10 +191,12 @@ class ILSNueva:
                 self._best_solution[worst] = mutant
                 self._best_fitness[worst] = improved_mutant_fitness
 
-            if np.abs(self._best_fitness[0] - self._best_fitness[1]) < self._best_fitness[best] * self._restart_percent:
-
-                self._best_solution[worst, :] = np.random.randint(0, self._result_nb_clust, self._dim)
-                self._best_fitness[worst] = self.get_single_fitness(self._best_solution[worst, :])[0]
+            #if np.abs(self._best_fitness[0] - self._best_fitness[1]) < self._best_fitness[best] * self._xi:
+            if self._best_fitness[best] - self._best_fitness[worst] > self._best_fitness[best] * self._xi:
+                self._best_solution[best, :] = np.random.randint(0, self._result_nb_clust, self._dim)
+                self._best_fitness[best] = self.get_single_fitness(self._best_solution[best, :])[0]
+                #self._best_solution[worst, :] = np.random.randint(0, self._result_nb_clust, self._dim)
+                #self._best_fitness[worst] = self.get_single_fitness(self._best_solution[worst, :])[0]
 
         return self._best_solution
 
