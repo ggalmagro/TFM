@@ -75,7 +75,7 @@ This template helps you to create a properly formatted \LaTeX\ manuscript.
 
 \linenumbers
 
-\textcolor{red}{Revisar que todos los subindices en los que aparecan comas lleven corchetes. Revisar que las asignaciones en los algoritmo sean flechas y no =}
+\textcolor{red}{Revisar que todos los subindices en los que aparecan comas lleven corchetes. Revisar que las asignaciones en los algoritmo sean flechas y no =. Revisar que restrictions nunca aparece, siempre constraints. Revisar que es siempre instance-level y no instance level.}
 
 \section{Introduction}
 
@@ -87,7 +87,7 @@ This template helps you to create a properly formatted \LaTeX\ manuscript.
 
 Clustering is the task of grouping instances of a dataset into subsets. The criterion used to assign an instance to a given cluster is the similarity to the rest of elements in that cluster, and the dissimilarity to the rest of instances of the dataset. In this way, the clustering process obtains subsets of instances of the initial data set that present high intra-similarity and low inter-similarity.
 
-In most clustering applications it is common to have some kind of information about the data set to be analyzed. In constrained clustering this information is given in the form of pairs of instances. A constraint states whether the instances which it refers to must, or must not, be assigned to the same cluster. Using this type of information it is possible to obtain a better result than by using completely unsupervised clustering algorithms.
+In most clustering applications it is common to have some kind of information about the data set to be analyzed. In constrained clustering this information is given in the form of pairs of instances. A constraint states whether the instances which it refers to must, or must not, be assigned to the same cluster. **Using this type of information it is possible to obtain a better result than by using completely unsupervised clustering algorithms**. [It is possible to obtain a better result by using this type of information than by using completely unsupervised clustering algorithms]
 
 Before formalizing the definition of constraints we must give a notation for the data set. We will note our dataset as $X$, which is a set of $N$ instances with $D$ features. We well refer to the instances of $X$ as $x$. Now, given the definition of dataset, we can distinguish between two types of constraints:
 
@@ -107,16 +107,16 @@ On the other hand, Cannot-link constraints---from now on CL---do not constitute 
 
 \subsection{The Feasibility Problem}
 
-Given that constrained clustering adds a new element to the clustering problem, we must consider how this element affects the problem complexity. The feasibility problem for non hierarchical constrained clustering was defined by \cite{davidson2005clustering} as in Definition \ref{def1}.
+Given that constrained clustering adds a new element to the clustering problem, we must consider how this element affects the problem's complexity. The feasibility problem for non-hierarchical constrained clustering was defined by \cite{davidson2005clustering} as in Definition \ref{def1}.
 
 \begin{definition}
 	
-	\textbf{Feasibility Problem}: given a dataset $X$, a set of constraints $R$, and the bounds on the number of clusters $K_l \leq k \leq K_u$. Does there exists a partition $C$ of $X$ with $k$ clusters such that all constraints in $R$ are satisfied? \cite{davidson2007survey}\cite{davidson2005clustering}
+	\textbf{Feasibility Problem}: given a dataset $X$, a set of constraints $R$, and the bounds on the number of clusters $K_l \leq k \leq K_u$, does there exist a partition $C$ of $X$ with $k$ clusters such that all constraints in $R$ are satisfied? \cite{davidson2007survey}\cite{davidson2005clustering}
 	\label{def1}
 	
 \end{definition}
 
-In \cite{davidson2005clustering} it is proven that, when $K_l = 1$ and $K_u \ge 3$, the feasibility problem for constrained clustering is $\mathbf{NP}$-complete, by reducing it from the Graph K-Colorability problem. (It is also proven that it is not harder than it, so both have the same complexity.) Table \ref{tab:feasibility} shows feasibility problem complexity for different types of constraints.
+In \cite{davidson2005clustering} it is proven that, when $K_l = 1$ and $K_u \ge 3$, the feasibility problem for constrained clustering is $\mathbf{NP}$-complete, by reducing it from the Graph K-Colorability problem (it is also proven that it is not harder, so both have the same complexity). Table \ref{tab:feasibility} shows the feasibility problem's complexity for different types of constraints.
 
 \begin{table}[!h]
 	\centering
@@ -138,61 +138,61 @@ In \cite{davidson2005clustering} it is proven that, when $K_l = 1$ and $K_u \ge 
 	\label{tab:feasibility}
 \end{table}
 
-These complexity results show that feasibility problem with CL constraints is intractable and hence constrained clustering is intractable too. For more details on constrained clustering complexity see \cite{davidson2005clustering}.
+These complexity results show that the feasibility problem with CL constraints is intractable and hence constrained clustering is intractable too. For more details on the complexity of constrained clustering see \cite{davidson2005clustering}.
 
 \textcolor{red}{El parrafo de abajo esta bien?}
 
-Intractable problems are hard to solve with deterministic and exact methods. That is the reason why applying heuristics-guided and population-based algorithms constitute a good approach to find quality solutions to the constrained clustering problem.
+Intractable problems are hard to solve with deterministic and exact methods. That is the reason why heuristics-guided and population-based algorithms constitute good approaches to find quality solutions to the constrained clustering problem.
 
 \subsection{Short Introduction to Differential Evolution}
 
 \textcolor{red}{Eliminar toda la notacion matematica de esta seccion?}
 
-To introduce Differential Evolution--from now on DE--we take as basis the review of the state-of-the-art performed by \cite{das2011differential}. You can also find in \cite{das2011differential} a very detailed analysis on DE an its variants.
+To introduce Differential Evolution---from now on DE---we take as a starting point the review of the state-of-the-art carried out by \cite{das2011differential}. A highly detailed analysis of DE and its variants can also be found in \cite{das2011differential}.
 
-The first article written on DE emerged in 1995 as a technical report written by \cite{noman2008differential}. From that moment on, DE's reputation was manifested in congresses and competitions where it was able to obtain competitive results that rivaled the state-of-the-art of that moment. Specifically DE excelled in real optimization problems.
+The first article written on DE emerged in 1995 as a technical report by \cite{noman2008differential}. From that point on, DE's reputation was consolidated in conferences and competitions where it was able to obtain competitive results that rivaled those achieved by the state-of-the-art. In particular, DE excelled in real-coded optimization problems.
 
-DE arises as a variant of population-based evolutionary algorithms, its goal is to perform an intelligent search in the problem's solutions space in the most optimized and effective possible way.
+DE arose as a variant of population-based evolutionary algorithms, its goal being to perform an intelligent search in the problem's solution space in the most optimized and effective way possible.
 
 Like most evolutionary algorithms, DE uses a population of individuals $P$, where each individual $p_i$ is a vector of real values $p_i = \{p_{i,1},\cdots,p_{i,D}\}$ that serve as parameters for the function to be optimized. These individuals are considered solutions to the problem.
 
-To guide the optimization process, we use an objective function. DE's task is to seek the parameter vector $p_i$ that minimizes a function such that $f(p_i)(f: \Omega \subseteq \mathfrak{R}^D \rightarrow \mathfrak{R})$, where $f(p_i^*) < f(p_i)$ for all $p_i \Omega$ with omega a nonempty finite set that is the search domain.
+To guide the optimization process, we use an objective function. DE's task is to seek the parameter vector $p_i$ that minimizes a function such that $f(p_i)(f: \Omega \subseteq \mathfrak{R}^D \rightarrow \mathfrak{R})$, where $f(p_i^*) < f(p_i)$ for all $p_i \Omega$ with $\Omega$ a nonempty finite set that is the search domain.
 
 \begin{figure}[!h]
 	\centering
 	\includegraphics[scale=0.4]{Figures/DEop.png}
-	\caption{DE optimization process \cite{das2011differential}.}\label{img:DE}
+	\caption{DE's optimization process \cite{das2011differential}.}\label{img:DE}
 \end{figure}
 
-DE optimization process works through a simple cycle of stages, presented in Figure \ref{img:DE} that we can summarize stages in as follow:
+DE's optimization process works through a simple cycle of stages, presented in Figure \ref{img:DE}, that we can summarize in as follows:
 
 \begin{itemize}
 	
-	\item \textbf{Initialization of Vectors}: DE begins with a randomly initiated populations of $N$ $D$-dimensionals arrays of parameters. These vectors constitute a candidate solution for the problem to solve.
+	\item \textbf{Initialization of Vectors}: DE begins with a randomly initialized population of $N$ $D$-dimensional arrays of parameters. These vectors constitute candidate solutions for the problem to solve.
 	
-	\item \textbf{Difference-vector based mutation}: DE introduces diversity on the population via mutation operator. This operator is applied to each individual of the population, known ins this context as parent vector. It combines the parent vector with two randomly selected vectors from the population by applying an arithmetic operator to them. The result of this process is a mutant vector.
+	\item \textbf{Difference-vector-based mutation}: DE introduces diversity into the population via mutation operator. This operator is applied to each individual of the population, known in this context as the parent vector. It combines the parent vector with two randomly selected vectors from the population by applying an arithmetic operator to them. The result of this process is a mutant vector.
 	
-	\item \textbf{Crossover/Recombination}: The mutant vector exanges some components with its associated parent to from a trial vector, which will be the candidate to replace the parent vector. There exist several strategies to generate this trial vector, we will not delve into them but they can be found in \cite{das2011differential}.
+	\item \textbf{Crossover/Recombination}: The mutant vector exchanges some components with its associated parent to form a trial vector, which will be the candidate to replace the parent vector. Several strategies exist to generate this trial vector, which we will not delve into; however, they can be found in \cite{das2011differential}.
 	
-	\item \textbf{Selection}: The newly generated trial vector is compared with its associated parent using the objective function. If the trial vector is better than the parent, then it will replace the parent in the next generation. It is worth noting that, following this strategy, the population never degenerates, only get better or remains the same.
+	\item \textbf{Selection}: The newly generated trial vector is compared with its associated parent using the objective function. If the trial vector is better than the parent, then it will replace the parent in the next generation. It is worth noting that, following this strategy, the population never degenerates but only gets better or remains the same.
 	
 \end{itemize}
 
-Even though DE was a major breakthrough in terms of real optimization, many variants have been developed since its invention that provide better results. We will focus on the SHADE variant, which adaptively optimizes some of the DE parameters (see Section \ref{sec:SHADE}).
+Even though DE was a major breakthrough in terms of real optimization, many variants have been developed since its invention that provide better results. We will focus on the SHADE variant, which adaptively optimizes some of DE's parameters (see Section \ref{sec:SHADE}).
 
 \subsection{(Classic) Resolution Methods}
 
 \textcolor{red}{Clasicos clasicos no son}
 
-Constrained clustering has many applications and has been widely studied in the literature. The first adaptation of a classic clustering method for constrained clustering was proposed by \cite{wagstaff2001constrained}. It involved modifying the widely studied K-medias algorithm to take into account instance level constraints, the already known ML and CL. This method was named COP-kmeans.
+Constrained clustering has many applications and has been widely studied in the literature. The first adaptation of a classic clustering method for constrained clustering was proposed by \cite{wagstaff2001constrained}. It involved modifying the widely studied K-means algorithm to take into account instance-level constraints: the already known ML and CL. This method was named COP-kmeans.
 
-In \cite{antoine2012cecm} authors propose an adaptation of the evidential C-means algorithm, within the fuzzy clustering framework, for constrained clustering. The particularity of this resolution method is that the membership of instances to cluster is defined by a probabilistic belief function. This method redefines constraints from the point of view of belief functions and includes them in the cost function.
+The authors of \cite{antoine2012cecm} propose an adaptation of the evidential C-means algorithm, within the fuzzy clustering framework, for constrained clustering. The particularity of this resolution method is that the membership of instances to a cluster is defined by a probabilistic belief function. This method redefines constraints from the point of view of belief functions and includes them in the cost function.
 
-In \cite{pelleg2007k} LCVQE, a modification of CVQE (Constrained Vector Cuantization Error), is proposed. The adaptation of CVQE for constrained clustering was proven to produce high quality results, at the cost of a very high computational complexity. LCVQE (Linear CVQE) introduces a modification on CVQE objective function to make it more intuitive and less computationally complex. The experimentation resulted in a dramatic improvement on clustering quality over both noisy and clean constraints sets.
+A modification of CVQE (Constrained Vector Quantization Error), LCVQE, is proposed in \cite{pelleg2007k}. The adaptation of CVQE for constrained clustering was proven to produce high quality results, at the cost of a very high computational complexity. LCVQE (Linear CVQE) introduces a modification of CVQE's objective function to make it more intuitive and less computationally complex. The experimentation resulted in a dramatic improvement of clustering quality over both noisy and clean constraints sets.
 
-TVClust (Two Views Clustering) and RDP-means (Relation Dirichlet Process - Means) were prosed by \cite{khashabi2015clustering}. TVClust is able to incorporate the constraints to the clustering problem making a relaxed interpretation of them. The authors model the data set and constraints in different ways, perform clustering methods on them and try to find a consensus between both interpretations. Using this model as basis authors derive the deterministic algorithm RDP-means. This method can ve viewed as an extension of K-means that include side information (constraints) and has the property that the number of clusters ($K$) does not need to be specified.
+TVClust (Two Views Clustering) and RDP-means (Relation Dirichlet Process - Means) were proposed by \cite{khashabi2015clustering}. TVClust is able to incorporate the constraints into the clustering problem by making a relaxed interpretation of them. The authors model the data set and constraints in different ways, perform clustering methods on them and try to find a consensus between both interpretations. Using this model as a basis, the authors derive the deterministic algorithm RDP-means. This method can be viewed as an extension of K-means that includes side information (constraints) and has the property that the number of clusters ($K$) does not need to be specified.
 
-\textcolor{red}{Decir que voy a comparar con ellos? Incluir mas métodos ``clasicos``?}
+\textcolor{red}{Decir que voy a comparar con ellos? Incluir mas métodos ``clasicos''?}
 
 \section{Brief Review of the BRKGA Algorithm}
 
@@ -246,7 +246,7 @@ z_i = \sum_{c_j \in C_i} \left[ \frac{\sum_{x_a, x_b \in c_j} d_D^2(x_a,x_b)}{|c
 
 Where $C_i$ is the partition of dataset $X$ defined by solution $p_i$, and $(x_a, x_b)$ are instances in the cluster $c_j$ such that $a \neq b$ and the distance between each pair of instances in $c_i$ is included in the sum only once.
 
-In \cite{de2017comparison} authors also added a new element to BRKGA, a local search procedure. This local optimization method is applied to each decoded individual in each generation, but its results are not transferred to the individual, so that diversity is maintained. Thus, the individuals produced by the local search are only used to update the best solution found so far if needed. For more details on BRKGA see \cite{de2017comparison}.
+In \cite{de2017comparison}, the authors also added a new element to BRKGA, a local search procedure. This local optimization method is applied to each decoded individual in each generation, but its results are not transferred to the individual, so that diversity is maintained. Thus, the individuals produced by the local search are only used to update the best solution found so far if needed. For more details on BRKGA see \cite{de2017comparison}.
 
 \section{The SHADE Optimization Method} \label{sec:SHADE}
 
@@ -354,7 +354,7 @@ M_{[F,h,G+1]} &  otherwise
 \label{eq9}
 \end{equation}
 
-The $h \;\; (0 \le h \le H)$ index specifies the position of the memory $M$ to be updated. This index is initialized to $0$ at the beginning of the optimization process and increased by one after each generation. When $h \ge H$ then $h$ is reset to 1. It is worth noting that, when there is a generation with no trial vectors successfully replacing their parents, no update of $M$ is done.
+The $h \;\; (0 \le h \le H)$ index specifies the position of the memory $M$ to be updated. This index is initialized to $0$ at the beginning of the optimization process and increased by one after every generation. When $h \ge H$ then $h$ is reset to 1. It is worth noting that, when there is a generation with no trial vectors successfully replacing their parents, no update of $M$ is done.
 
 In Equation \ref{eq8}, the term $mean_{WA} (S_{CR})$ is the weighted mean, which is computed following Equations \eqref{eq10} and \eqref{eq11}, proposed by \cite{peng2009multi} to prevent $CR$ from converging to small values.
 
@@ -377,7 +377,7 @@ In Equation \ref{eq9} the term $mean_{WL} (S_{F})$ refers to the weighted Lehmer
 \label{eq12}
 \end{equation}
 
-Unlike parameters $S_{CR}$ and $S_F$, the parameter $pbest$ from Equation \eqref{eq3}, used to set the greediness of the mutation strategy, is not included in the adaptive optimization process. However, it is not static: it is calculated for each individual $p_i$ of the population following Equation \eqref{eq13}.
+Unlike parameters $S_{CR}$ and $S_F$, the parameter $pbest$ from Equation \eqref{eq3}, used to set the greediness of the mutation strategy, is not included in the adaptive optimization process. However, it is not static: it is calculated for every individual $p_i$ of the population following Equation \eqref{eq13}.
 
 \begin{equation}
 pbest_i = \text{randn}[2/N, 0.2]
@@ -403,7 +403,7 @@ We found that with the fitness function defined in \eqref{eq1} there is no compe
 
 With Equation \eqref{eq14} we try to find a trade-off between the within-cluster-sum-of-squares and the penalty term, allowing solutions that violate a certain number of constraints to compete with those who violate a smaller number of them but score a better within-cluster-sum-of-squares.
 
-To put those concepts clear we consider a toy dataset and three partitions over it. Dataset from Figure \ref{img:toydatasets} contains 100 instances and a single ML constraint between two instances from the same class. Partitions $C_0$ and $C_1$ do not violate the constraint ($infeasibility = 0$), while $C_2$ does violate it ($infeasibility = 1$). 
+To make these concepts clear we consider a toy dataset and three partitions over it. Dataset from Figure \ref{img:toydatasets} contains 100 instances and a single ML constraint between two instances from the same class. Partitions $C_0$---displaying the true labels---and $C_1$ do not violate the constraint ($infeasibility = 0$), whereas $C_2$ does violate it ($infeasibility = 1$). However, $C_2$ shows a possibility, for later iterations, of adding both instances to their nearest cluster while also satisfying the ML constraint.
 
 \begin{figure}[bth]
 	\myfloatalign
@@ -418,7 +418,7 @@ To put those concepts clear we consider a toy dataset and three partitions over 
 	\label{img:toydatasets}
 \end{figure}
 
-Table\ref{tab:fitnessfunctions} shows fitness functions values for each partition from Figure \ref{img:toydatasets}. We call $f_1$ to the function presented in Equation \eqref{eq1} and $f_2$ to the function presented in Equation \eqref{eq14}.
+Table \ref{tab:fitnessfunctions} shows fitness values for each partition from Figure \ref{img:toydatasets}. We refer to the function presented in Equation \eqref{eq1} as $f_1$ and to the function presented in Equation \eqref{eq14} as $f_2$.
 
 \begin{table}[!h]
 	\centering
@@ -446,11 +446,15 @@ Table\ref{tab:fitnessfunctions} shows fitness functions values for each partitio
 	\label{tab:fitnessfunctions}
 \end{table}
 
-Results in Table \ref{tab:fitnessfunctions} are a clear example of the above. In the general case, with $f_2$ the penalty for violating constraints is proportional to the within-cluster-sum-of-squares, the lower it is the lower the penalty. This is not the case with $f_1$, whose penalty term is independent of the within-cluster-sum-of-squares, which can result in a difference of several orders of magnitude between partitions satisfying different number of constraints.
+%---------------------------------------------------------------------%
 
-As in \cite{de2017comparison} we apply a local optimization procedure to the individuals of the population, without transferring its results to the individual to maintain diversity. The difference is that we do not apply it to the whole population but only to a number $p_e$ of individuals considered as the elite of the population. The percentage of individuals considered as elite must be determined for each case.
+Results in Table \ref{tab:fitnessfunctions} are a clear example of the above. In the general case, by using $f_2$ the penalty for violating constraints is proportional to the within-cluster-sum-of-squares**,** [---] the lower it is **[,] the lower the penalty. This is not the case with $f_1$, whose penalty term is independent of the within-cluster-sum-of-squares, which can result in a difference of several orders of magnitude between partitions satisfying different amounts of constraints.
 
-Algorithms \ref{alg:SHADE} shows overall SHADE optimization process and is an adaptation of the one that can be found on \cite{tanabe2013success} to include the local search procedure presented in Algorithm \ref{alg:LS}.
+%---------------------------------------------------------------------%
+
+As in \cite{de2017comparison} we apply a local optimization procedure to the individuals of the population, but without transferring its results to the original individual in order to maintain diversity. The difference is that we do not apply it to the whole population but only to a number $p_e$ of individuals considered as the elite of the population. The percentage of individuals considered as elite must be determined for each case.
+
+Algorithm \ref{alg:SHADE} describes the overall SHADE optimization process and is an adaptation of the one that can be found on \cite{tanabe2013success} to include the local search procedure presented in Algorithm \ref{alg:LS}.
 
 \begin{algorithm}
 	\SetNlSty{textbf}{[}{]}
@@ -535,8 +539,8 @@ Algorithms \ref{alg:SHADE} shows overall SHADE optimization process and is an ad
 
 \section{Experimental Setup}
 
-For our experiments we will compare the results obtained by BRKGA and SHADE over XX datasets. Most of the datasets used can be found at the \href{https://sci2s.ugr.es/keel/category.php?cat=clas}{Keel-dataset repository}\cite{triguero2017keel}, though some of them have been obtained via
-\href{https://scikit-learn.org/stable/datasets/index.html}{\texttt{scikit-learn} python package} \cite{scikit-learn}. Table \ref{tab:datasets} present a summary the main features of all datasets used. \textcolor{red}{Esta bien citar tambien al sklearn? Que paper de keel cito, 2017 o 2011?}
+For our experiments we will compare the results obtained by BRKGA and SHADE over XX datasets. Most of these data sets can be found at the \href{https://sci2s.ugr.es/keel/category.php?cat=clas}{Keel-dataset repository}\cite{triguero2017keel}, though some of them have been obtained via
+\href{https://scikit-learn.org/stable/datasets/index.html}{\texttt{scikit-learn} python package} \cite{scikit-learn}. Table \ref{tab:datasets} displays a summary of every data set. \textcolor{red}{Esta bien citar tambien al sklearn? Que paper de keel cito, 2017 o 2011?}
 
 \begin{table}[!h]
 	\centering
@@ -654,29 +658,29 @@ We will generate four different sets of constraints for each data set. The numbe
 	\label{tab:constraints}
 \end{table}
 
-Note that the greater the number of classes present in the data set, the fewer ML restrictions obtained with the method proposed by \cite{wagstaff2001constrained}. This is because the probability of randomly choosing two individuals from the same class decreases as the number of classes present in the data set increases.
+Note that the greater the number of classes present in the data set, the fewer ML constraints obtained with the method proposed by \cite{wagstaff2001constrained}. This is because the probability of randomly choosing two individuals from the same class decreases as the number of classes present in the data set increases.
 
 \clearpage
 
 \subsection{Evaluation Method}
 
-Since we have the true labels associated to each of the datasets, we can use them in post-processing to evaluate the results provided by each method. We will use Adjusted Rand Index to measure the accuracy of the predictions resulting from each method we test \cite{hubert1985comparing}. Basic Rand Index computes de degree of agreement between two partitions $C_1$ and $C_2$ of a given dataset $X$. $C_1$ and $C_2$ are viewed as collections of $N(N - 1)/2$ pairwise decisions \cite{rand1971objective}.
+Since we have the true labels associated to each of the datasets, we can use them in post-processing to evaluate the results provided by each method. We will use the Adjusted Rand Index to measure the accuracy of the predictions resulting from each method we test \cite{hubert1985comparing}. The Basic Rand Index computes the degree of agreement between two partitions $C_1$ and $C_2$ of a given dataset $X$. $C_1$ and $C_2$ are viewed as collections of $N(N - 1)/2$ pairwise decisions \cite{rand1971objective}.
 
-For each pair of $x_i$ and $x_j$ instances in $X$, $C_i$ assigns them to the same cluster or to different clusters. We take $a$ as the number of pairings where $x_i$ is in the same cluster as $x_j$ in $C_1$ and $C_2$ , and $b$ as the opposite event. Then, the degree of similarity between $C_1$ and $C_2$ is calculated as in Equation \eqref{eq15}.
+For each pair of instances $x_i$ and $x_j$ in $X$, $C_i$ assigns them to the same cluster or to different clusters. We take $a$ as the number of pairings where $x_i$ is in the same cluster as $x_j$ in both $C_1$ and $C_2$, and $b$ as the opposite event ($x_i$ and $x_j$ are in different clusters in $C_1$ and $C_2$). Then, the degree of similarity between $C_1$ and $C_2$ is calculated as in Equation \eqref{eq15}.
 
 \begin{equation}
 Rand(C_1, C_2) = \frac{a + b}{N(N - 1)/2}
 \label{eq15}
 \end{equation}
 
-The Adjusted Rand Index is a corrected-for-chance version of Rand Index. This correction uses the expected similarity of all comparisons between clusterings specified by a random model to set up a baseline. The Adjusted Rand Index is computed as in Equation \eqref{eq16}.
+The Adjusted Rand Index is a corrected-for-chance version of the Rand Index. This correction uses the expected similarity of all comparisons between clusterings specified by a random model to set up a baseline. The Adjusted Rand Index is computed as in Equation \eqref{eq16}.
 
 \begin{equation}
 ARI(C_1, C_2) = \frac{Rand(C_1, C_2) - ExpectedIndex}{MaximumIndex - ExpectedIndex}
 \label{eq16}
 \end{equation}
 
-where $MaximumIndex$ is expected to be 1 and $ExpectedIndex$ is the already mentioned expected degree of similarity with a random model. It is easy to see that $ARI(C_1, C_2) \in [-1,1]$, such that a $ARI$ value close to 1 means a high degree of agreement between $C_1$ and $C_2$, a positive value close to 0 means no agreement and a value smaller that 0 means that the $Rand(C_1, C_2)$ is less than expected when comparing the obtained partitions with random partitions. To summarize, the higher the $ARI$, the greater the degree of similarity between $C_1$ and $C_2$. For more details on Adjusted Rand Index see \cite{hubert1985comparing}.
+where $MaximumIndex$ is expected to be 1 and $ExpectedIndex$ is the already mentioned expected degree of similarity with a random model. It is easy to see that $ARI(C_1, C_2) \in [-1,1]$, such that an $ARI$ value close to 1 means a high degree of agreement between $C_1$ and $C_2$, a positive value close to 0 means no agreement and a value smaller that 0 means that the $Rand(C_1, C_2)$ is less than expected when comparing the obtained partitions with random partitions. To summarize, the higher the $ARI$, the greater the degree of similarity between $C_1$ and $C_2$. For more details on Adjusted Rand Index see \cite{hubert1985comparing}.
 
 
 \subsection{Calibration}
