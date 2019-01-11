@@ -50,7 +50,7 @@
 
 \begin{frontmatter}
 
-\title{Enhancing instance-level constrained clustering through differential evolution}
+\title{Improving instance-level constrained clustering through Dual Iterated Local Search}
 
 \author[mymainaddress]{Germ\'an Gonz\'alez Almagro\corref{mycorrespondingauthor}}
 \cortext[mycorrespondingauthor]{Corresponding author}
@@ -78,8 +78,6 @@ This template helps you to create a properly formatted \LaTeX\ manuscript.
 \textcolor{red}{Revisar que todos los subindices en los que aparecan comas lleven corchetes. Revisar que las asignaciones en los algoritmo sean flechas y no =. Revisar que restrictions nunca aparece, siempre constraints. Revisar que es siempre instance-level y no instance level. Comprobar que es siempre dataset y no data set}
 
 \section{Introduction}
-
-\textcolor{red}{Citar a los de las hormigas. Poner un parrafo de aplicaciones del clustering con restricciones}
 
 \section{Background}
 
@@ -144,41 +142,87 @@ These complexity results show that the feasibility problem with CL constraints i
 
 Intractable problems are hard to solve with deterministic and exact methods. That is the reason why heuristics-guided and population-based algorithms constitute good approaches to find quality solutions to the constrained clustering problem.
 
-\subsection{Short Introduction to Differential Evolution}
+\subsection{Short Introduction to Iterated Local Search}
 
-\textcolor{red}{Eliminar toda la notacion matematica de esta seccion?}
+Before defining the iterated local search---from now on ILS---,it is necessary to understand the local search and the motivation that leads to designing methods with greater exploratory capacity.
 
-To introduce Differential Evolution---from now on DE---we take as a starting point the review of the state-of-the-art carried out by \cite{das2011differential}. A highly detailed analysis of DE and its variants can also be found in \cite{das2011differential}.
+A local search is a procedure that consists of performing an heuristics-guided iterative improvement. Taking as initial state a well defined solution to the problem, the local search uses a neighbor generation operator to explore new solutions. When a solution better than the current one is found, it replaces the current one. In order to evaluate the solutions, the local search uses a function that assigns a value to each one of them, this is known as a target function. ***This value will be better the closer the solution that evaluates the optimal solution.*** 
 
-The first article written on DE emerged in 1995 as a technical report by \cite{noman2008differential}. From that point on, DE's reputation was consolidated in conferences and competitions where it was able to obtain competitive results that rivaled those achieved by the state-of-the-art. In particular, DE excelled in real-coded optimization problems.
+Both the neighbor generation operator and the target function used by the local search must be defined for each problem. The target function $f(\cdot)$ determines how good the solution achieved is with respect to the purpose of the problem. The neighbor generation operator takes as base a solution to the problem $s$, and generates a new solution $s^\prime$ by modifying some of its components in a local way.
 
-DE arose as a variant of population-based evolutionary algorithms, its goal being to perform an intelligent search in the problem's solution space in the most optimized and effective way possible.
+The Algorithm \ref{alg:LS} presents a basic scheme for a local search procedure. It is worth noting that the condition of line 4 must be adapted if the problem to be solved is one of maximization or minimization. In addition, the general scheme considers that the optimization process ends when the current solution is not improved, however the stop condition can be adapted to each problem.
 
-Like most evolutionary algorithms, DE uses a population of individuals $P$, where each individual $p_i$ is a vector of real values $p_i = \{p_{i,1},\cdots,p_{i,D}\}$ that serve as parameters for the function to be optimized. These individuals are considered solutions to the problem.
-
-To guide the optimization process, we use an objective function. DE's task is to seek the parameter vector $p_i$ that minimizes a function such that $f(p_i)(f: \Omega \subseteq \mathfrak{R}^D \rightarrow \mathfrak{R})$, where $f(p_i^*) < f(p_i)$ for all $p_i \Omega$ with $\Omega$ a nonempty finite set that is the search domain.
-
-\begin{figure}[!h]
-	\centering
-	\includegraphics[scale=0.4]{Figures/DEop.png}
-	\caption{DE's optimization process \cite{das2011differential}.}\label{img:DE}
-\end{figure}
-
-DE's optimization process works through a simple cycle of stages, presented in Figure \ref{img:DE}, that we can summarize in as follows:
-
-\begin{itemize}
+\begin{algorithm}
+	\SetNlSty{textbf}{[}{]}
+	\SetNlSkip{0.5em}
+	\setstretch{1.2}
+	\SetKwFunction{GenerateNeighbor}{GenerateNeighbor}
+	\SetKwRepeat{Do}{do}{while}
+	\KwIn{Initial solution $s$}
+	\BlankLine
+	\While{$improvement$}{
+		$improvement \leftarrow$ \texttt{false} \\
+		
+		$s^\prime \leftarrow $ \GenerateNeighbor{$s$}
+		
+		\If{$f(s^\prime) < f(s)$}{
+			
+			$s \leftarrow s^\prime$\\
+			$improvement \leftarrow$ \texttt{true} \\
+			
+			}	
+	}
+	\BlankLine
+	\KwRet ($s$)
 	
-	\item \textbf{Initialization of Vectors}: DE begins with a randomly initialized population of $N$ $D$-dimensional arrays of parameters. These vectors constitute candidate solutions for the problem to solve.
-	
-	\item \textbf{Difference-vector-based mutation}: DE introduces diversity into the population via mutation operator. This operator is applied to each individual of the population, known in this context as the parent vector. It combines the parent vector with two randomly selected vectors from the population by applying an arithmetic operator to them. The result of this process is a mutant vector.
-	
-	\item \textbf{Crossover/Recombination}: The mutant vector exchanges some components with its associated parent to form a trial vector, which will be the candidate to replace the parent vector. Several strategies exist to generate this trial vector, which we will not delve into; however, they can be found in \cite{das2011differential}.
-	
-	\item \textbf{Selection}: The newly generated trial vector is compared with its associated parent using the objective function. If the trial vector is better than the parent, then it will replace the parent in the next generation. It is worth noting that, following this strategy, the population never degenerates but only gets better or remains the same.
-	
-\end{itemize}
+	\caption{Local Search}\label{alg:LS}
+\end{algorithm}
 
-Even though DE was a major breakthrough in terms of real optimization, many variants have been developed since its invention that provide better results. We will focus on the SHADE variant, which adaptively optimizes some of DE's parameters (see Section \ref{sec:SHADE}).
+With the local search defined in this way, it is easy to see that the solution achieved will be the optimal local $s^*$ closest to the initial solution $s$. 
+
+\textcolor{red}{Poner un dibujo que lo ejemplifique}
+
+It is therefore necessary to appeal to techniques that introduce diversity in the search to avoid the problem of local optimal. This is exactly what ILS is trying to do.
+
+With ILS, once we have reached a local optimum $s^*$, we apply a perturbation to it that, with a high probability, will result in a new solution $s^prime$ that will not be a local optimum and will be far enough away from $s^*$. After that, we will apply the simple local search method to find a new local optimal $s^{*\prime}$. 
+
+\textcolor{red}{Poner un dibujo que lo ejemplifique, el del handbook of MH pag 368}
+
+It should be noted that, if the disturbance applied to $s*$ is too small, the most likely is that the local optimum closest to $s^prime$ is $s*$ and therefore the solution space will not be explored effectively. On the other hand, if the disturbance is too big, there will be no bias in the generation of new solutions, and therefore the procedure becomes a random reboot-type method.
+
+
+The method for generating the perturbation applied to the local optimum $s^*$ may vary depending on the problem, and may be based on previous solutions. In this way, it is possible to keep a history of the solutions reached so far, so they can be used when applying the perturbation. Algorithm \ref{alg:ILS} summarizes the ILS overall optimization process.
+
+\begin{algorithm}
+	\SetNlSty{textbf}{[}{]}
+	\SetNlSkip{0.5em}
+	\setstretch{1.2}
+	\SetKwFunction{LocalSearch}{LocalSearch}
+	\SetKwFunction{Perturbation}{Perturbation}
+	\SetKwRepeat{Do}{do}{while}
+	\KwIn{Initial solution $s$}
+	\BlankLine
+	$s^* \leftarrow$ \LocalSearch{$s$}\\
+	\While{Termination criteria are not met}{
+		
+		$s^\prime \leftarrow $ \Perturbation{$s^*$, $history$}\\
+		$s^{*\prime} \leftarrow$ \LocalSearch{$s^\prime$}
+		
+		\If{$f(s^{*\prime}) < f(s^*)$}{
+			
+			$s^* \leftarrow s^{*\prime}$
+			
+		}	
+	}
+	\BlankLine
+	\KwRet ($s*$)
+	
+	\caption{Iterated Local Search}\label{alg:ILS}
+\end{algorithm}
+
+In the ILS scheme described in Algorithm \ref{alg:ILS} the acceptance criterion only use the difference in the cost of the solutions to be compared to choose between them. This is the most simple scheme and does not depends on previous solutions recorded in the history. 
+
+\clearpage
 
 \subsection{(Classic) Resolution Methods}
 
@@ -248,288 +292,7 @@ Where $C_i$ is the partition of dataset $X$ defined by solution $p_i$, and $(x_a
 
 In \cite{de2017comparison}, the authors also added a new element to BRKGA, a local search procedure. This local optimization method is applied to each decoded individual in each generation, but its results are not transferred to the individual, so that diversity is maintained. Thus, the individuals produced by the local search are only used to update the best solution found so far if needed. For more details on BRKGA see \cite{de2017comparison}.
 
-\section{The SHADE Optimization Method} \label{sec:SHADE}
-
-Success history based adaptive differential evolution---from now on SHADE---is an optimization method based on differential evolution. Proposed by \cite{tanabe2013success}, it was an improvement for the JADE model, created by \cite{zhang2009jade}.
-
-Unlike JADE, which only considers the parameters used in the previous generation, SHADE uses a historical record of successful parameters as a mechanism for adapting parameters involved in the process of creating new generations.
-
-\subsection{SHADE Operators}
-
-As in differential evolution, SHADE employs mutant generation, crossover and replacement operators to explore the space of solutions and bring in new generations of individuals.
-
-The mutation strategy used by SHADE is known as current-to-$p$best/1, and the expression that generates new individuals is described in Equation \eqref{eq3}.
-
-\begin{equation}
-m_{[i,G]} = p_{[i,G]} + F_i * (p_{[pbest, G]} - p_{[i,G]}) + F_i * (p_{[r1, G]} - p_{[r2,G]})
-\label{eq3}
-\end{equation}
-
-Where $m_{[i,G]}$ is the mutant vector, which is generated with an individual $p_{[i,G]}$ from the population [serving as a starting point]. Indices $r1$ and $r2$ are random values in the range $[0,N]$, different from $i$ and from each other. The individual $p_{[pbest, G]}$ is randomly selected from among the best $N \times pbest\;|\;pbest\in [0,1]$ individuals in the population. This way, the parameter $p$ controls the greediness of the mutation strategy. The parameter $F_i$ defines the magnitude of the operator.
-
-After generating the mutant vector $m_{[i,G]}$, it is combined with the parent $p_{[i,G]}$ vector by means of a crossover operator; the result is the trial vector. SHADE uses the Binomial crossover operator, which is defined by the Equation \eqref{eq4}.
-
-\begin{equation}
-t_{[j,i,G]} = \left\{ \begin{array}{lc}
-m_{[j,i,G]} &   if \;\; \text{rand}[0,1) \le CR_i \;\; or \;\;j = j_{rand} \\
-p_{[j,i,G]} &  \text{otherwise}
-\end{array}
-\right.
-\label{eq4}
-\end{equation}
-
-Where $rand[0,1)$ is a random number selected from a normal distribution in the range $[0,1)$, $j_{rand}$ is a random integer selected from the range $[1,D]$, and $CR \in [0,1]$ is the crossover ratio.
-
-The SHADE replacement operator determines the survivors individuals for the next generation. It compares each parent $x_{[i,G]}$ with the trial vector $_{[j,i,G]}$, generated based on it. The best one of these two individuals will survive for the next generation. Equation \eqref{eq5} shows this concept.
-
-\begin{equation}
-p_{[i,G + 1]} = \left\{ \begin{array}{lc}
-t_{[i,G]} &   if \;\; f(t_{[i,G]}) \le f(p_{[i,G]}) \\
-p_{[i,G]} &  \text{otherwise}
-\end{array}
-\right.
-\label{eq5}
-\end{equation}
-
-To maintain diversity, SHADE can make use of an external archive $A$, in which parents $p_{[i,G]}$ who were replaced by their associated trial vector $t_{[i,G]}$ are saved. To make use of the archive, we will consider that the individual $p_{[r2,G]}$ from Equation \eqref{eq3} is selected from $P \cup A$. The archive size is the same as the population size. When the size of $A$ exceeds the size of $P$, random individuals are selected for removal to make room for new ones.
-
-The parameters $p$, $F_i$ and $CR_i$ are difficult to adjust and their selection is not trivial, as they largely determine the success of the optimization process. These are the parameters that SHADE adaptively optimizes using the mentioned history record.
-
-\subsection{SHADE Parameter Adaptation Method}
-
-The SHADE method stores in memory a structure with $H$ entries for parameters $F_i$ and $CR_i$, as shown in Table \ref{tab:SHADEmemory}. This structure is initialized with the value $0.5$ for all entries.
-
-\begin{table}[!h]
-	\centering
-	%\setlength{\arrayrulewidth}{1mm}
-	\setlength{\tabcolsep}{13pt}
-	%\renewcommand{\arraystretch}{0.9}
-	\resizebox{\textwidth}{!}{
-	\begin{tabular}{|c|c|c|c|c|c|}
-		\hline
-		 Index & 1 & 2 & $\cdots$ & $H - 1$ & $H$ \\
-		 \hline
-		 \hline
-		 $M_{CR}$ & $M_{[CR,1]}$ & $M_{[CR,1]}$ & $\cdots$ & $M_{[CR,H-1]}$ & $M_{[CR,H]}$ \\
-		 \hline
-		 $M_{F}$ & $M_{[F,1]}$ & $M_{[F,1]}$ & $\cdots$ & $M_{[F,H-1]}$ & $M_{[F,H]}$ \\
-		\hline
-
-	\end{tabular}}
-	\caption{Historical memory $M_{CR}$, $M_{F}$ used by SHADE \cite{tanabe2013success}}
-	\label{tab:SHADEmemory}
-\end{table}
-
-In each generation, parameters $CR_i$ and $F_i$ are calculated on the basis of the existing history by applying Equations \eqref{eq6} and \eqref{eq7}:
-
-\begin{equation}
-CR_i = \text{randn}_i(M_{[CR,r_i]}, 0.1)
-\label{eq6}
-\end{equation}
-
-\begin{equation}
-F_i = \text{randc}_i(M_{[F,r_i]}, 0.1)
-\label{eq7}
-\end{equation}
-
-where $randn(\mu, \sigma^2)$ and $randc(\mu, \sigma^2)$ are random values from normal and Cauchy distributions respectively, with mean $\mu$ and variance $\sigma^2$. When a value for $CR_i$ outside of the range $[0,1]$ is generated, it is replaced by the corresponding limit value. If $F_i > 1$, then it is truncated to $1$; conversely, if $F_i < 0$, then Equation \eqref{eq7} is applied as many times as needed to obtain a legal value.
-
-SHADE keeps two auxiliary sets $S_{CR}$ and $S_F$ to store the $CR_i$ and $F_i$ values that were successfully used to generate a trial vector that replaced the parent. At the end of each generation, the content of the memory $M$ is updated following Equations \eqref{eq8} and \eqref{eq9}.
-
-\begin{equation}
-M_{[CR,h,G+1]} = \left\{ \begin{array}{lc}
-\text{mean}_{WA} (S_{CR}) &   if \;\; S_{CR} \neq \emptyset \\
-M_{[CR,h,G+1]} &  otherwise
-\end{array}
-\right.
-\label{eq8}
-\end{equation}
-
-\begin{equation}
-M_{[F,h,G+1]} = \left\{ \begin{array}{lc}
-\text{mean}_{WL} (S_{F}) &   if \;\; S_{F} \neq \emptyset \\
-M_{[F,h,G+1]} &  otherwise
-\end{array}
-\right.
-\label{eq9}
-\end{equation}
-
-The $h \;\; (0 \le h \le H)$ index specifies the position of the memory $M$ to be updated. This index is initialized to $0$ at the beginning of the optimization process and increased by one after every generation. When $h \ge H$ then $h$ is reset to 1. It is worth noting that, when there is a generation with no trial vectors successfully replacing their parents, no update of $M$ is done.
-
-In Equation \ref{eq8}, the term $mean_{WA} (S_{CR})$ is the weighted mean, which is computed following Equations \eqref{eq10} and \eqref{eq11}, proposed by \cite{peng2009multi} to prevent $CR$ from converging to small values.
-
-\begin{equation}
-\text{mean}_{WA} (S_{CR}) = \sum_{i = 1}^{|S_{RC}|} \omega_i * S_{[RC,i]}
-\label{eq10}
-\end{equation}
-
-\begin{equation}
-\omega_i = \frac{\Delta f_i}{\sum_{i = 1}^{|S_{RC}|} \Delta f_i}
-\label{eq11}
-\end{equation}
-
-where $\Delta f_i = |f(t_{[i,G]}) - f(p_{[i, G]})|$, which is the amount of improvement obtained from the trial vector with respect to the parent.
-
-In Equation \ref{eq9} the term $mean_{WL} (S_{F})$ refers to the weighted Lehmer mean, which is computed as in Equation \eqref{eq12} (proposed by \cite{tanabe2013success}).
-
-\begin{equation}
-\text{mean}_{WL} (S_{F}) = \frac{\sum_{i = 1}^{|S_{F}|} \omega_i * S^2_{[F,i]}}{\sum_{i = 1}^{|S_{F}|} \omega_i * S_{[F,i]}}
-\label{eq12}
-\end{equation}
-
-Unlike parameters $S_{CR}$ and $S_F$, the parameter $pbest$ from Equation \eqref{eq3}, used to set the greediness of the mutation strategy, is not included in the adaptive optimization process. However, it is not static: it is calculated for every individual $p_i$ of the population following Equation \eqref{eq13}.
-
-\begin{equation}
-pbest_i = \text{randn}[2/N, 0.2]
-\label{eq13}
-\end{equation}
-
-such that there is always at least two individuals to choose between.
-
-\subsection{Adaptation of SHADE for constrained clustering}
-
-For the adaptation of SHADE to the problem of constrained clustering, we will take some of the elements that allowed us to adapt it to BRKGA. To begin with, we will use random-keys to create the individuals of the population; this way, each individual is defined as a vector of random-keys. Additionally, we will also reuse the same initialization method and the same decoder used in BRKGA (see Section \ref{sec:AdaptationofBRKGA}).
-
-However, we propose a new fitness function to evaluate the quality of the individuals of the population, Equation \eqref{eq14}, whose element $z_i$ is obtained as in Equation \eqref{eq2}.
-
-\begin{equation}
-f_i = z_i * (infeasibility + 1)
-\label{eq14}
-\end{equation}
-
-Note that in Equation \eqref{eq14} no parameter is involved that cannot be calculated from the dataset or constraints, whereas in Equation \eqref{eq1} the $\mu$ parameter must be calculated and optimized for each individual problem.
-
-We found that with the fitness function defined in \eqref{eq1} there is no competition between the penalty term and the within-cluster-sum-of-squares term, because the penalty is always significantly larger than it or zero. This can bias the exploration of the solution space, restricting it in practice to those that satisfy all the constraints, even if the within-cluster-sum-of-squares is still improvable by moving two instances involved in a constraint to different clusters without violating that constraint.
-
-With Equation \eqref{eq14} we try to find a trade-off between the within-cluster-sum-of-squares and the penalty term, allowing solutions that violate a certain number of constraints to compete with those who violate a smaller number of them but score a better within-cluster-sum-of-squares.
-
-To make these concepts clear we consider a toy dataset and three partitions over it. The dataset from Figure \ref{img:toydatasets} contains 100 instances and a single ML constraint between two instances from the same class. Partitions $C_0$---displaying the true labels---and $C_1$ do not violate the constraint ($infeasibility = 0$), whereas $C_2$ does violate it ($infeasibility = 1$). However, $C_2$ shows a possibility, for later iterations, of adding both instances to their nearest cluster while also satisfying the ML constraint.
-
-\begin{figure}[bth]
-	\myfloatalign
-	{\includegraphics[width=.45\linewidth]{Figures/Dataset}} \quad
-	%\subfloat[Imagen original]
-	{\includegraphics[width=.45\linewidth]{Figures/C0}} \quad
-	%\subfloat[Clustering sin restricciones]
-	{\includegraphics[width=.45\linewidth]{Figures/C1}} \quad
-	%\subfloat[Clustering con restricciones]
-	{\includegraphics[width=.45\linewidth]{Figures/C2}} \quad
-	\caption{Three partitions over a toy dataset.}
-	\label{img:toydatasets}
-\end{figure}
-
-Table \ref{tab:fitnessfunctions} shows fitness values for each partition from Figure \ref{img:toydatasets}. We refer to the function presented in Equation \eqref{eq1} as $f_1$ and to the function presented in Equation \eqref{eq14} as $f_2$.
-
-\begin{table}[!h]
-	\centering
-	\setlength{\tabcolsep}{7pt}
-	\renewcommand{\arraystretch}{1.3}
-	%\begin{adjustwidth}{-1in}{-1in}
-	\resizebox{\textwidth}{!}{
-		\begin{tabular}{c c c c c c}
-			\hline
-			\multirow{2}{*}{Partition} &
-			\multicolumn{2}{c}{Expression} &&
-			\multicolumn{2}{c}{Value} \\
-			\cline{2-3} \cline{5-6}
-			& $f_1$ & $f_2$ && $f_1$ & $f_2$ \\
-			\hline
-			$C_0$ & $z_0$ & $z_0$ && $0.457$  & $0.457$  \\
-			$C_1$ & $z_1$ & $z_1$ && $0.540$  & $0.540$  \\
-			$C_2$ & $z_2 + (\mu * N * infs)$ & $z_2 * (infs + 1)$  && $0.503 + 1000 = 1000.503$ &  $0.503 * 2 = 1.005$ \\
-			\hline
-			
-		\end{tabular}}
-		%\end{adjustwidth}
-		
-	\caption{Expression and value of fitness functions over three partitions. ($\mu = 10$)}
-	\label{tab:fitnessfunctions}
-\end{table}
-
-Results in Table \ref{tab:fitnessfunctions} are a clear example of the above. In the general case, by using $f_2$ the penalty for violating constraints is proportional to the within-cluster-sum-of-squares---the lower it is, the lower the penalty. This is not the case with $f_1$, whose penalty term is independent of the within-cluster-sum-of-squares, which can result in a difference of several orders of magnitude between partitions satisfying different amounts of constraints.
-
-As in \cite{de2017comparison} we apply a local optimization procedure to the individuals of the population, but without transferring its results to the original individual in order to maintain diversity. The difference is that we do not apply it to the whole population but only to a number $p_e$ of individuals considered as the elite of the population. The percentage of individuals considered as elite must be determined for each case.
-
-Algorithm \ref{alg:SHADE} describes the overall SHADE optimization process and is an adaptation of the one that can be found on \cite{tanabe2013success} to include the local search procedure presented in Algorithm \ref{alg:LS}.
-
-\begin{algorithm}
-	\SetNlSty{textbf}{[}{]}
-	\SetNlSkip{0.5em}
-	\setstretch{1.2}
-	\SetKwFunction{Sort}{Sort}
-	\SetKwFunction{LocalSearch}{LocalSearch}
-	\KwIn{Dataset $X$, constraints sets $c_=$ and $c_{\neq}$, population size $p_{size}$, elite size $p_e$, number of clusters $K$.}
-	\tcp{Initialization phase}
-	$G \leftarrow 0$\\
-	Initialize population $P_0 \leftarrow \{p_{[1,0]}, \cdots, p_{[p_{size},0]}\}$\\
-	Initialize all values in $M_{CR}$, $M_F$ to 0.5\\
-	$A \leftarrow \emptyset$; $h \leftarrow 1$\\
-	\tcp{Main loop}
-	\While{Termination criteria are not met}{
-		
-		$S_{CR} \leftarrow S_F \leftarrow \emptyset$\\
-		$P_G \leftarrow$ \Sort{$P_G$} \tcp{Sort the population}
-		\tcp{Apply a LS procedure to the elite of the population}
-		\LocalSearch{$\{p_{[1,G]}, \cdots, p_{[p_{e},G]}\}$}\\
-		\For{$i \in [1,p_{size}]$}{
-			$r_i \leftarrow$ randInt$[1,H]$\\
-			$CR_{[i,G]} \leftarrow$ randn$_i(M_{[CR,r_i]}, 0.1)$\\
-			$F_{[i,G]} \leftarrow$ randc$_i(M_{[F,r_i]}, 0.1)$\\
-			$p_{[i,G]} \leftarrow$ rand$[N/2, 0.2]$\\
-			Generate trial vector $t_{[i,G]}$ by current-to-$p$best/1/bin\\
-			
-			\eIf{$f(t_{[i,G]}) \le f(p_{[i,G]})$}{
-				$p_{[i,G + 1]} \leftarrow t_{[i,G]}$
-			}{
-				$p_{[i,G + 1]} \leftarrow p_{[i,G]}$
-			}
-			
-			\If{$f(t_{[i,G]}) < f(p_{[i,G]})$}{
-				$p_{[i,G]} \rightarrow A$;
-				$CR_{[i,G]} \rightarrow S_{CR}$;
-				$F_{[i,G]} \rightarrow S_{F}$
-			}
-			
-		}
-		Whenever $|A| > |P|$, randomly select an individual from $A$ to be deleted so that $|A| \le |P|$\\
-		\If{$S_{CR} \neq \emptyset$ \textbf{and} $S_{F} \neq \emptyset$}{
-			Update $M_{[CR,h]}$ and $M_{[F,h]}$ based on $S_{CR}$ and $S_{F}$\\
-			$h \leftarrow (h + 1) \mod H$
-		}
-		$G++$
-	}
-	\caption{Modified SHADE}\label{alg:SHADE}
-\end{algorithm}
-
-\begin{algorithm}
-	\SetNlSty{textbf}{[}{]}
-	\SetNlSkip{0.5em}
-	\setstretch{1.2}
-	\SetKwFunction{RandomShuffle}{RandomShuffle}
-	\SetKwRepeat{Do}{do}{while}
-	\KwIn{Dataset $X$, constraints sets $c_=$ and $c_{\neq}$, decoded random-key vector (solution) $S$, number of clusters $K$.}
-	\BlankLine
-	\While{$improvement$}{
-		$improvement \leftarrow$ \texttt{false} \\
-
-		$s_i \leftarrow $ Select random object from $S$\\
-		\tcp{Random shuffle labels set}
-		$RSL \leftarrow $ \RandomShuffle{$\{1,\cdots,K\}$}\\
-		\For{$c \in RSL$}{
-			$S^\prime \leftarrow S$\\
-			$S^\prime$\texttt{[}$s_i$\texttt{]} $\leftarrow c$ \tcp{Move object $s_i$ to cluster $c$}
-			
-			\If{$f(S^\prime) < f(S)$}{
-				$S \leftarrow S^\prime$\\
-				$improvement \leftarrow$ \texttt{true} \\
-			}
-		}	
-	}
-	\BlankLine
-	\KwRet ($S$)
-	
-\caption{Local Search}\label{alg:LS}
-\end{algorithm}
+\section{The DILS Optimization Method}
 
 \clearpage
 
