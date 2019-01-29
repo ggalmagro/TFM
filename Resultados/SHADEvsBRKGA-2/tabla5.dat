@@ -1,0 +1,66 @@
+Calculando en porcentaje de restricciones 5%
+Cargando restricciones en porcentaje: 0.05
+Procesando iris dataset
+Procesando wine dataset
+Procesando soybean dataset
+Procesando pima dataset
+Procesando balance dataset
+Procesando boston dataset
+Procesando diabetes dataset
+Procesando breast_cancer dataset
+Procesando bupa dataset
+Procesando ecoli dataset
+Procesando haberman dataset
+Procesando led7digit dataset
+Procesando monk2 dataset
+Procesando newthyroid dataset
+Procesando vehicle dataset
+Procesando zoo dataset
+Procesando sonar dataset
+Procesando heart dataset
+Procesando ionosphere dataset
+Procesando wdbc dataset
+Procesando vowel dataset
+Procesando movement_libras dataset
+Procesando appendicitis dataset
+Procesando saheart dataset
+Procesando spectfheart dataset
+Procesando hayesroth dataset
+Procesando tae dataset
+Procesando glass dataset
+Procesando rand dataset
+Procesando spiral dataset
+Procesando moons dataset
+Procesando circles dataset
+Iris & 0.437 & 0.000 & 420.384 && 0.653 & 0.000 & 397.303 \\
+Wine & 0.214 & 0.000 & 541.935 && 0.242 & 0.000 & 491.099 \\
+Soybean & 0.305 & 0.000 & 149.117 && 0.419 & 0.000 & 132.959 \\
+Pima & 0.019 & 14.980 & 3196.112 && 0.025 & 12.506 & 3116.064 \\
+Balance & 0.006 & 12.634 & 2039.353 && 0.020 & 8.602 & 1996.915 \\
+Boston & -0.002 & 0.000 & 1199.694 && 0.002 & 0.000 & 1204.278 \\
+Diabetes & 0.001 & 0.000 & 992.922 && 0.001 & 0.659 & 1156.654 \\
+Breast_Cancer & 0.045 & 9.688 & 2868.367 && 0.118 & 6.979 & 2888.681 \\
+Bupa & 0.018 & 2.832 & 1138.770 && 0.003 & 2.614 & 1075.413 \\
+Ecoli & 0.003 & 6.863 & 927.938 && -0.000 & 1.961 & 905.043 \\
+Haberman & 0.006 & 2.500 & 922.068 && 0.001 & 1.944 & 898.089 \\
+Led7Digit & 0.006 & 5.000 & 1406.059 && 0.001 & 1.667 & 1392.146 \\
+Monk2 & 0.043 & 3.752 & 1475.329 && 0.020 & 4.185 & 1435.526 \\
+Newthyroid & -0.042 & 0.000 & 619.920 && -0.070 & 0.606 & 612.812 \\
+Vehicle & 0.001 & 19.528 & 3372.910 && 0.004 & 9.339 & 3340.760 \\
+Zoo & 0.022 & 0.000 & 280.959 && 0.133 & 0.000 & 268.318 \\
+Sonar & 0.014 & 0.606 & 912.580 && -0.003 & 0.606 & 879.264 \\
+Heart & 0.013 & 0.000 & 927.278 && 0.009 & 1.099 & 923.135 \\
+Ionosphere & 0.037 & 2.179 & 1525.972 && 0.046 & 3.486 & 1486.033 \\
+Wdbc & 0.056 & 9.852 & 2852.456 && 0.024 & 9.113 & 2852.170 \\
+Vowel & 0.001 & 10.340 & 3232.314 && 0.001 & 7.810 & 3178.456 \\
+Movement_Libras & 0.003 & 0.871 & 1220.520 && 0.002 & 0.218 & 1176.675 \\
+Appendicitis & -0.025 & 0.000 & 320.721 && -0.054 & 0.000 & 304.072 \\
+Saheart & 0.027 & 5.918 & 1696.328 && -0.002 & 6.522 & 1671.519 \\
+Spectfheart & 0.096 & 1.465 & 1162.200 && 0.083 & 0.366 & 1146.651 \\
+Hayesroth & -0.008 & 0.000 & 455.817 && 0.003 & 0.000 & 436.620 \\
+Tae & 0.007 & 0.000 & 435.179 && 0.014 & 0.000 & 404.209 \\
+Glass & -0.013 & 0.000 & 597.062 && -0.002 & 0.000 & 579.973 \\
+Rand & 0.647 & 0.000 & 400.459 && 0.791 & 0.000 & 395.577 \\
+Spiral & 0.028 & 0.952 & 887.381 && 0.008 & 0.635 & 869.244 \\
+Moons & 0.083 & 2.222 & 881.931 && 0.135 & 0.635 & 866.284 \\
+Circles & 0.033 & 1.587 & 883.434 && 0.000 & 0.952 & 847.350 \\
