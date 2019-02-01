@@ -1,6 +1,8 @@
 import numpy as np
 import random
 import copy as cp
+import time
+
 
 class ILSNueva:
 
@@ -174,13 +176,15 @@ class ILSNueva:
     def run(self, max_evals):
 
         self.init_ils()
+        gen_times = []
+        restarts_array = []
+        restarts = 0
 
-        while self._evals_done < max_evals:
-
+        #while self._evals_done < max_evals:
+        while len(gen_times) < max_evals:
+            start_gen = time.time()
             worst = np.argmax(self._best_fitness)
             best = (worst + 1) % 2
-            #print("Evaluaciones: " + str(self._evals_done) + " best: " + str(self._best_fitness[best])
-             #     + " worst: " + str(self._best_fitness[worst]))
 
             new_chromosome = self.uniform_crossover_operator(self._best_solution[best], self._best_solution[worst])
             mutant = self.segment_mutation_operator(new_chromosome)
@@ -193,13 +197,21 @@ class ILSNueva:
 
             #if np.abs(self._best_fitness[0] - self._best_fitness[1]) < self._best_fitness[best] * self._xi:
             if self._best_fitness[best] - self._best_fitness[worst] > self._best_fitness[best] * self._xi:
-                self._best_solution[best, :] = np.random.randint(0, self._result_nb_clust, self._dim)
-                self._best_fitness[best] = self.get_single_fitness(self._best_solution[best, :])[0]
+
+                worst = np.argmax(self._best_fitness)
+
+                self._best_solution[worst, :] = np.random.randint(0, self._result_nb_clust, self._dim)
+                self._best_fitness[worst] = self.get_single_fitness(self._best_solution[worst, :])[0]
+                restarts += 1
                 #self._best_solution[worst, :] = np.random.randint(0, self._result_nb_clust, self._dim)
                 #self._best_fitness[worst] = self.get_single_fitness(self._best_solution[worst, :])[0]
 
-        return self._best_solution
+            gen_times.append(time.time() - start_gen)
+            restarts_array.append(restarts)
+            print(str(len(gen_times)) + " " + str(restarts))
 
+        best = np.argmin(self._best_fitness)
+        return self._best_solution[best, :], np.sum(gen_times), restarts_array
 
 
 

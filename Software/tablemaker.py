@@ -12,9 +12,9 @@ def main():
 
 		n = np.shape(datasets_array[i])[0]
 		nb_class = len(set(labels_array[i]))
+		features = np.shape(datasets_array[i])[1]
 
-		print(names_array[i].title() + " & " + str(n) + " & " + str(nb_class) + " &  \\\\")
-
+		print(names_array[i].title() + " & " + str(n) + " & " + str(nb_class) + " & " + str(features) + " \\\\")
 
 	const_percent_vector = [0.05, 0.1, 0.15, 0.2]
 	const_array = load_constraints(names_array, const_percent_vector)

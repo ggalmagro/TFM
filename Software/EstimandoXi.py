@@ -23,7 +23,7 @@ def main():
 
     #BUCLE DE OBTENCION DE DATOS
 
-    max_eval = 300000
+    max_eval = 100
 
     for p in range(0, 6):
 
@@ -43,7 +43,7 @@ def main():
                 ml_const, cl_const = get_const_list(const)
 
                 ils = ILSNueva(data_set, ml_const, cl_const, nb_clust, 0.3, 300, 0.3, xi)
-                ils_assignment = ils.run(max_eval)[1]
+                ils_assignment = ils.run(max_eval)[0]
                 ars = adjusted_rand_score(labels, ils_assignment)
 
                 results_matrix[i, j] = ars
