@@ -1,5 +1,7 @@
 \documentclass[review]{elsarticle}
 
+%\usepackage{pdfpages}
+\usepackage{graphics, graphicx, float, url}
 \usepackage{lineno,hyperref}
 \usepackage{mathtools}
 \usepackage{multirow}
@@ -11,6 +13,10 @@
 \usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
 \newcommand{\myfloatalign}{\centering}
 \modulolinenumbers[5]
+
+\usepackage{epstopdf}
+\epstopdfDeclareGraphicsRule{.tiff}{png}{.png}{convert #1 \OutputFile}
+\AppendGraphicsExtensions{.tiff}
 
 \journal{Applied Soft Computing}
 
@@ -178,17 +184,25 @@ The Algorithm \ref{alg:LS} presents a basic scheme for a local search procedure.
 	\caption{Local Search}\label{alg:LS}
 \end{algorithm}
 
-With the local search defined in this way, it is easy to see that the solution achieved will be the optimal local $s^*$ closest to the initial solution $s$. 
+With the local search defined in this way, it is easy to see that the solution achieved will be the optimal local $s^*$ closest to the initial solution $s$. Figure \ref{img:LS} shows a pictorical representation of the above.
 
-\textcolor{red}{Poner un dibujo que lo ejemplifique}
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=0.25]{Figures/LS.png}
+	\caption{Local optimum achieved by a local search procedure}\label{img:LS}
+\end{figure}
 
 It is therefore necessary to appeal to techniques that introduce diversity in the search to avoid the problem of local optimal. This is exactly what ILS is trying to do.
 
-With ILS, once we have reached a local optimum $s^*$, we apply a perturbation to it that, with a high probability, will result in a new solution $s^prime$ that will not be a local optimum and will be far enough away from $s^*$. After that, we will apply the simple local search method to find a new local optimal $s^{*\prime}$. 
+With ILS, once we have reached a local optimum $s^*$, we apply a perturbation to it that, with a high probability, will result in a new solution $s^\prime$ that will not be a local optimum and will be far enough away from $s^*$. After that, we will apply a local search procedure to find a new local optimal $s^{*\prime}$. Figure \ref{img:ILS} shows a representation of the above concepts.
 
-\textcolor{red}{Poner un dibujo que lo ejemplifique, el del handbook of MH pag 368}
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=0.25]{Figures/ILS.png}
+	\caption{No se como llamar a esta puta imagen}\label{img:ILS}
+\end{figure}
 
-It should be noted that, if the disturbance applied to $s*$ is too small, the most likely is that the local optimum closest to $s^prime$ is $s*$ and therefore the solution space will not be explored effectively. On the other hand, if the disturbance is too big, there will be no bias in the generation of new solutions, and therefore the procedure becomes a random reboot-type method.
+It should be noted that, if the disturbance applied to $s*$ is too small, the most likely is that the local optimum closest to $s^\prime$ is $s^*$ and therefore the solution space will not be explored effectively. On the other hand, if the disturbance is too big, there will be no bias in the generation of new solutions, and therefore the procedure becomes a random reboot-type method.
 
 
 The method for generating the perturbation applied to the local optimum $s^*$ may vary depending on the problem, and may be based on previous solutions. In this way, it is possible to keep a history of the solutions reached so far, so they can be used when applying the perturbation. Algorithm \ref{alg:ILS} summarizes the ILS overall optimization process.

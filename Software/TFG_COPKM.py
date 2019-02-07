@@ -24,7 +24,7 @@ def main():
 
     #BUCLE DE OBTENCION DE DATOS
 
-    nb_runs = 1
+    nb_runs = 5
 
     for i in range(len(names_array)):
 
@@ -43,7 +43,7 @@ def main():
             copkm_assignment, wine_centroid = COPKM(data_set, nb_clust, const, max_iter = 300)
 
             if copkm_assignment == None:
-            	mean_ars = -1
+            	mean_ars += -1
             else:
             	mean_ars += adjusted_rand_score(labels, copkm_assignment)
 

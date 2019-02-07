@@ -33,7 +33,7 @@ def main():
 
     #BUCLE DE OBTENCION DE DATOS
 
-    nb_runs = 5
+    nb_runs = 1
 
     for i in range(len(names_array)):
 

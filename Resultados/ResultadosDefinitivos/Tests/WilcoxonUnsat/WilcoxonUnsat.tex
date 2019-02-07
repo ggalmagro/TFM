@@ -1,0 +1,103 @@
+\documentclass[a4paper,10pt]{article}
+\title{Wilcoxon Signed Ranks test.}
+\date{\today}
+\author{KEEL non-parametric statistical module}
+\begin{document}
+
+\pagestyle{empty}
+\maketitle
+\thispagestyle{empty}
+
+
+
+\section{Detailed results for "BRKGA"}
+
+
+\subsection{Results}
+
+\begin{table}[!htp]
+\centering\small
+\begin{tabular}{
+|c|c|c|c|c|}
+\hline
+ VS & $R^{+}$ & $R^{-}$ & Exact P-value & Asymptotic P-value \\ \hline 
+"SHADE" & 1120.5 & 3829.5 & - & 1\\ \hline 
+
+\end{tabular}
+\caption{Results obtained by the Wilcoxon test for algorithm "BRKGA"}
+\end{table}
+
+\subsection{Confidence intervals for Median of diferences}
+
+\begin{table}[!htp]
+\centering\small
+\begin{tabular}{
+|c|c|c|}
+\hline
+ $\alpha$=0.90 & Confidence interval & Exact confidence \\ \hline 
+"SHADE" & [0.8025 , 1.9795] & 2\\ \hline 
+
+\end{tabular}
+\caption{Confidence intervals for algorithm "BRKGA" ($\alpha$=0.90)}
+\end{table}
+\begin{table}[!htp]
+\centering\small
+\begin{tabular}{
+|c|c|c|}
+\hline
+ $\alpha$=0.95 & Confidence interval & Exact confidence \\ \hline 
+"SHADE" & [0.697 , 2.091] & 2\\ \hline 
+
+\end{tabular}
+\caption{Confidence intervals for algorithm "BRKGA" ($\alpha$=0.95)}
+\end{table}
+
+ \clearpage 
+
+
+\section{Detailed results for "SHADE"}
+
+
+\subsection{Results}
+
+\begin{table}[!htp]
+\centering\small
+\begin{tabular}{
+|c|c|c|c|c|}
+\hline
+ VS & $R^{+}$ & $R^{-}$ & Exact P-value & Asymptotic P-value \\ \hline 
+"BRKGA" & 3829.5 & 1120.5 & - & 0.000002\\ \hline 
+
+\end{tabular}
+\caption{Results obtained by the Wilcoxon test for algorithm "SHADE"}
+\end{table}
+
+\subsection{Confidence intervals for Median of diferences}
+
+\begin{table}[!htp]
+\centering\small
+\begin{tabular}{
+|c|c|c|}
+\hline
+ $\alpha$=0.90 & Confidence interval & Exact confidence \\ \hline 
+"BRKGA" & [-1.9795 , -0.8025] & 2\\ \hline 
+
+\end{tabular}
+\caption{Confidence intervals for algorithm "SHADE" ($\alpha$=0.90)}
+\end{table}
+\begin{table}[!htp]
+\centering\small
+\begin{tabular}{
+|c|c|c|}
+\hline
+ $\alpha$=0.95 & Confidence interval & Exact confidence \\ \hline 
+"BRKGA" & [-2.091 , -0.697] & 2\\ \hline 
+
+\end{tabular}
+\caption{Confidence intervals for algorithm "SHADE" ($\alpha$=0.95)}
+\end{table}
+
+ \clearpage 
+
+
+\end{document}

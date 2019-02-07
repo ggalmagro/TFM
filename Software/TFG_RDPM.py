@@ -23,7 +23,7 @@ def main():
 
 	#BUCLE DE OBTENCION DE DATOS
 
-	nb_runs = 1
+	nb_runs = 5
 
 	for i in range(len(names_array)):
 
@@ -36,11 +36,11 @@ def main():
 		const = const_array[0][i]
 		T = np.mean(data_set, 0)
 		lamb_arr = np.array(np.sqrt(np.sum((np.matlib.repmat(T, np.shape(data_set)[0], 1) - data_set) ** 2, 1)))
+		lamb_arr[::-1].sort()
 		mean_ars = 0
 
 		for j in range(nb_runs):
-			#Mirar como se hacia la eleccion del lambda
-			rdpm_assignment, rdpm_nbc = RDPM(data_set, lamb_arr[2], const, 20000, 0.1, 1)
+			rdpm_assignment, rdpm_nbc = RDPM(data_set, lamb_arr[nb_clust - 1], const, 20000, 0.1, 1)
 			mean_ars += adjusted_rand_score(labels, rdpm_assignment)
 
 		mean_ars /= nb_runs

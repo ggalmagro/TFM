@@ -99,7 +99,7 @@ Before formalizing the definition of constraints we must give a notation for the
 
 \end{itemize}
 
-The goal of constrained clustering is to find a partition (or clustering) of $K$ clusters $C = {c_1 \cdots c_K}$ of the dataset $X$ that ideally satisfies all constraints in the constraint set. As in the original clustering problem, it must be fulfilled that the sum of instances in each cluster $c_i$ is equal to the number of instances in $X$, which we have defined as $N = |X| = \sum_{i = 1}^{K} |c_i|$.
+The goal of constrained clustering is to find a partition (or clustering) of $K$ clusters $C = {c_1 \cdots c_K}$ of the dataset $X$ that ideally satisfies all constraints in the constraints set. As in the original clustering problem, it must be fulfilled that the sum of instances in each cluster $c_i$ is equal to the number of instances in $X$, which we have defined as $N = |X| = \sum_{i = 1}^{K} |c_i|$.
 
 Knowing how a constraint is defined, Must-link constraints---from now on ML---are an example of an equivalence relation; therefore, ML constraints are reflexive, transitive and symmetric. This way, given constraints $c_=(x_a,x_b)$ and $c_=(x_b,x_c)$ then $c_=(x_a,x_c)$ is verified. In addition, if $x_a \in c_i$ and $x_b \in c_j$ are related by $c_=(x_a,x_b)$, then $c_=(x_c,x_d)$ is verified for any $x_c \in c_i$ and $x_d \in c_j$ \cite{xu2013improving}\cite{davidson2007survey}.
 
@@ -156,11 +156,11 @@ DE arose as a variant of population-based evolutionary algorithms, its goal bein
 
 Like most evolutionary algorithms, DE uses a population of individuals $P$, where each individual $p_i$ is a vector of real values $p_i = \{p_{i,1},\cdots,p_{i,D}\}$ that serve as parameters for the function to be optimized. These individuals are considered solutions to the problem.
 
-To guide the optimization process, we use an objective function. DE's task is to seek the parameter vector $p_i$ that minimizes a function such that $f(p_i)(f: \Omega \subseteq \mathfrak{R}^D \rightarrow \mathfrak{R})$, where $f(p_i^*) < f(p_i)$ for all $p_i \Omega$ with $\Omega$ a nonempty finite set that is the search domain.
+To guide the optimization process, we use an objective function. DE's task is to seek the parameter vector $p_i^*$ that minimizes a function such that $f(p_i)(f: \Omega \subseteq \mathfrak{R}^D \rightarrow \mathfrak{R})$, where $f(p_i^*) < f(p_i)$ for all $p_i \in \Omega$ with $\Omega$ a nonempty finite set that is the search domain.
 
 \begin{figure}[!h]
 	\centering
-	\includegraphics[scale=0.4]{Figures/DEop.png}
+	\includegraphics[scale=0.3]{Figures/DEop.png}
 	\caption{DE's optimization process \cite{das2011differential}.}\label{img:DE}
 \end{figure}
 
@@ -535,8 +535,8 @@ Algorithm \ref{alg:SHADE} describes the overall SHADE optimization process and i
 
 \section{Experimental Setup}
 
-For our experiments we will compare the results obtained by BRKGA and SHADE over XX datasets. Most of these datasets can be found at the \href{https://sci2s.ugr.es/keel/category.php?cat=clas}{Keel-dataset repository}\cite{triguero2017keel}, though some of them have been obtained via
-\href{https://scikit-learn.org/stable/datasets/index.html}{\texttt{scikit-learn} python package} \cite{scikit-learn}. Table \ref{tab:datasets} displays a summary of every dataset. \textcolor{red}{Esta bien citar tambien al sklearn? Que paper de keel cito, 2017 o 2011? Decir que algunos datasets son artifiales si se quedan, igual para los del sklearn}
+For our experiments we will compare the results obtained by BRKGA and SHADE over 25 datasets. Most of these datasets can be found at the \href{https://sci2s.ugr.es/keel/category.php?cat=clas}{Keel-dataset repository}\cite{triguero2017keel}, though some of them have been obtained via
+\href{https://scikit-learn.org/stable/datasets/index.html}{\texttt{scikit-learn} python package} \cite{scikit-learn}. We also include 3 artificial datasets in our analysis, namely: \textit{Circles}, \textit{Moons} and \textit{Spiral}, which can be found at GitHub. Table \ref{tab:datasets} displays a summary of every dataset. 
 
 \begin{table}[!h]
 	\centering
@@ -547,41 +547,33 @@ For our experiments we will compare the results obtained by BRKGA and SHADE over
 	\small
 	\begin{tabular}{l c c c}
 		\hline
-		Name & No. Instances & No. Classes & Features \\
+		Name & No. Instances & No. Classes & No. Features \\
 		\hline
-		Appendicitis & 106 & 2 &  \\
-		Balance & 625 & 3 &  \\
-		Boston & 506 & 229 &  \\
-		Breast Cancer & 569 & 2 &  \\
-		Bupa & 345 & 2 &  \\
-		Circles & 300 & 2 &  \\
-		Contraceptive & 1473 & 3 &  \\
-		Diabetes & 442 & 214 &  \\
-		Ecoli & 336 & 8 &  \\
-		Glass & 214 & 6 &  \\
-		Haberman & 306 & 2 &  \\
-		Hayesroth & 160 & 3 &  \\
-		Heart & 270 & 2 &  \\
-		Ionosphere & 351 & 2 &  \\
-		Iris & 150 & 3 &  \\
-		Led7Digit & 500 & 10 &  \\
-		Monk2 & 432 & 2 &  \\
-		Moons & 300 & 2 &  \\
-		Movement Libras & 360 & 15 &  \\
-		Newthyroid & 215 & 3 &  \\
-		Pima & 768 & 2 &  \\
-		Rand & 150 & 3 &  \\
-		Saheart & 462 & 2 &  \\
-		Sonar & 208 & 2 &  \\
-		Soybean & 47 & 4 &  \\
-		Spectfheart & 267 & 2 &  \\
-		Spiral & 300 & 2 &  \\
-		Tae & 151 & 3 &  \\
-		Vehicle & 846 & 4 &  \\
-		Vowel & 990 & 11 &  \\
-		Wdbc & 569 & 2 &  \\
-		Wine & 178 & 3 &  \\
-		Zoo & 101 & 7 &  \\
+		Appendicitis & 106 & 2 & 7 \\
+		Boston & 506 & 229 & 13 \\
+		Breast Cancer & 569 & 2 & 30 \\
+		Circles & 300 & 2 & 2 \\
+		Diabetes & 442 & 214 & 10 \\
+		Ecoli & 336 & 8 & 7 \\
+		Glass & 214 & 6 & 9 \\
+		Haberman & 306 & 2 & 3 \\
+		Hayesroth & 160 & 3 & 4 \\
+		Ionosphere & 351 & 2 & 33 \\
+		Iris & 150 & 3 & 4 \\
+		Led7Digit & 500 & 10 & 7 \\
+		Monk2 & 432 & 2 & 6 \\
+		Moons & 300 & 2 & 2 \\
+		Pima & 768 & 2 & 8 \\
+		Saheart & 462 & 2 & 9 \\
+		Sonar & 208 & 2 & 60 \\
+		Soybean & 47 & 4 & 35 \\
+		Spectfheart & 267 & 2 & 44 \\
+		Spiral & 300 & 2 & 2 \\
+		Tae & 151 & 3 & 5 \\
+		Vehicle & 846 & 4 & 18 \\
+		Vowel & 990 & 11 & 13 \\
+		Wdbc & 569 & 2 & 30 \\
+		Zoo & 101 & 7 & 16 \\
 		\hline
 
 	\end{tabular}%}
@@ -595,9 +587,9 @@ For our experiments we will compare the results obtained by BRKGA and SHADE over
 
 \textcolor{red}{En esta seccion podria simplemente decir el numero de restricciones que genero como un numero magico sin meterme en nada de grafos, pero igual es un poco burro.}
 
-Since we have the true labels associated with each dataset, we will use the method proposed by \cite{wagstaff2001constrained} to generate artificial constraint sets. This method consists in randomly selecting two instances of a dataset, then comparing its labels, and finally setting an ML or CL constraint depending on whether the labels are the same or different.
+Since we have the true labels associated with each dataset, we will use the method proposed by \cite{wagstaff2001constrained} to generate artificial constraints sets. This method consists in randomly selecting two instances of a dataset, then comparing its labels, and finally setting an ML or CL constraint depending on whether the labels are the same or different.
 
-We will generate four different sets of constraints for each dataset. The number of constraints is given by the number of edges of the complete constraints graph that we can build with a percentage of labeled data. Each constraint set is associated with a different percentage of labeled data, namely: 5\%, 10\%, 15\% and 20\%. It is worth noting that constraints are not the complete constraint graph made up of the labeled instances, this graph only sets the number of constraints to be created, this way there is a lower probability of biasing the set of constraints so that there are classes with poor representation in it. Table \ref{tab:constraints} shows the number of constraints of each type obtained for each dataset.
+We will generate four different sets of constraints for each dataset. The number of constraints is given by the number of edges of the complete constraints graph that we can build with a percentage of labeled data. Each constraints set is associated with a different percentage of labeled data, namely: 5\%, 10\%, 15\% and 20\%. It is worth noting that constraints are not the complete constraint graph made up of the labeled instances, this graph only sets the number of constraints to be created, this way there is a lower probability of biasing the set of constraints so that there are classes with poor representation in it. Table \ref{tab:constraints} shows the number of constraints of each type obtained for each dataset.
 
 \begin{table}[!h]
 	\centering
@@ -613,27 +605,20 @@ We will generate four different sets of constraints for each dataset. The number
 		& ML & CL && ML & CL && ML & CL && ML & CL \\
 		\hline
 		Appendicitis & 13 & 2 && 39 & 16 && 71 & 49 && 164 & 67 \\
-		Balance & 198 & 298 && 838 & 1115 && 1865 & 2506 && 3336 & 4414 \\
 		Boston & 0 & 325 && 3 & 1272 && 13 & 2837 && 26 & 5125 \\
 		Breast Cancer & 216 & 190 && 876 & 720 && 1965 & 1690 && 3487 & 2954 \\
-		Bupa & 79 & 74 && 323 & 272 && 699 & 627 && 1201 & 1145 \\
 		Circles & 50 & 55 && 208 & 227 && 502 & 488 && 853 & 917 \\
-		Contraceptive & 994 & 1707 && 3765 & 7113 && 8501 & 15809 && 15399 & 27966 \\
 		Diabetes & 2 & 251 && 5 & 985 && 7 & 2204 && 23 & 3893 \\
 		Ecoli & 30 & 106 && 163 & 398 && 357 & 918 && 609 & 1669 \\
 		Glass & 11 & 44 && 52 & 179 && 139 & 389 && 259 & 644 \\
 		Haberman & 76 & 44 && 304 & 161 && 634 & 401 && 1135 & 756 \\
 		Hayesroth & 12 & 16 && 39 & 81 && 102 & 174 && 177 & 319 \\
-		Heart & 41 & 50 && 178 & 173 && 396 & 424 && 744 & 687 \\
 		Ionosphere & 92 & 61 && 330 & 300 && 732 & 646 && 1299 & 1186 \\
 		Iris & 9 & 19 && 26 & 79 && 82 & 171 && 136 & 299 \\
 		Led7Digit & 25 & 275 && 126 & 1099 && 267 & 2508 && 460 & 4490 \\
 		Monk2 & 101 & 130 && 473 & 473 && 979 & 1101 && 1917 & 1824 \\
 		Moons & 55 & 50 && 200 & 235 && 494 & 496 && 900 & 870 \\
-		Movement Libras & 6 & 147 && 27 & 603 && 112 & 1319 && 158 & 2398 \\
-		Newthyroid & 25 & 30 && 108 & 123 && 270 & 258 && 449 & 454 \\
 		Pima & 412 & 329 && 1604 & 1322 && 3595 & 3075 && 6452 & 5329 \\
-		Rand & 8 & 20 && 25 & 80 && 76 & 177 && 151 & 284 \\
 		Saheart & 152 & 124 && 595 & 486 && 1292 & 1123 && 2330 & 1948 \\
 		Sonar & 29 & 26 && 100 & 110 && 245 & 251 && 436 & 425 \\
 		Soybean & 0 & 3 && 4 & 6 && 6 & 22 && 12 & 33 \\
@@ -643,7 +628,6 @@ We will generate four different sets of constraints for each dataset. The number
 		Vehicle & 221 & 682 && 874 & 2696 && 1955 & 6046 && 3589 & 10776 \\
 		Vowel & 107 & 1118 && 445 & 4406 && 1026 & 10000 && 1705 & 17798 \\
 		Wdbc & 209 & 197 && 840 & 756 && 1925 & 1730 && 3472 & 2969 \\
-		Wine & 14 & 22 && 49 & 104 && 121 & 230 && 217 & 413 \\
 		Zoo & 7 & 8 && 21 & 34 && 29 & 91 && 41 & 169 \\
 		\hline
 
@@ -681,11 +665,7 @@ where $MaximumIndex$ is expected to be 1 and $ExpectedIndex$ is the already ment
 
 \subsection{Calibration}
 
-\clearpage
-
-\section{Experimental Results}
-
-\textcolor{red}{Poner tabla con parametros para los dos algoritmos. Decir que comparamos rendimiento medio y no rendimiento pico, porque el proceso de optimización de parámetros neceseario para cada algoritmo y dataset cae fuera de este estudio. Comentar que el curterio de finalización es número de evaluaciones de la funcion objetivo}
+Table \ref{tab:params} shows a summary of the parameters setup used for both BRKGA+LS and SHADE+LS algorithms.
 
 \begin{table}[!h]
 	\centering
@@ -700,17 +680,28 @@ where $MaximumIndex$ is expected to be 1 and $ExpectedIndex$ is the already ment
 			$p_{size}$ & Population size & 100 & 100 \\
 			$Evals$ & Fitness function evaluations & 300000 & 300000 \\
 			$p_e$ & Size of the elite set in population & $0.2 * p_{size}$ & $0.25 * p_{size}$ \\
-			$p_m$ & Number of mutants to be introduced in the population in each generation & $0.2 * p_{size}$ & $\times$ \\
-			$p_{inherit}$ & Probability that a feature is inherit from an elite parent & $50\%$ & $\times$ \\
-			$K$ & Output partition number of clusters & \multicolumn{2}{m{4cm}}{Depends on the dataset and it has the same value for both methods} \\
+			$p_m$ & Number of mutants to be introduced in the population in each generation & $0.2 * p_{size}$ & - \\
+			$p_{inherit}$ & Probability that a feature is inherit from an elite parent & $50\%$ & - \\
+			$K$ & Output partition number of clusters & \multicolumn{2}{m{4cm}}{Known for each dataset, it has the same value for both methods} \\
 			\hline
 			
 		\end{tabular}}
 		%\end{adjustwidth}
 		
 		\caption{Parameters setup used for BRKGA and SHADE.}
-		\label{undefined}
+		\label{tab:params}
 	\end{table}
+	
+It should be noted that the study presented in this document aims to compare average performance, not peak performance. The parameter optimization process required for each algorithm and data set falls outside of this study.
+
+In both cases---BRKGA+LS and SHADE+LS---the population size used will be 100 individuals, and the stop criterion is given by the number of evaluations of the fitness function, which at most will be 300000.
+
+\section{Experimental Results}
+
+In this section we present the Tables \ref{tab:results5} to \ref{tab:results20}, which record the results obtained by the methods to be compared for each dataset and constraints set.
+
+The ARI column shows the Adjusted Rand Index for each case, the Unsat column displays the percentage of violated constraints and the Time columns shows the time---measured in seconds---taken for each algorithm to deliver results.
+
 
 \begin{table}[!h]
 	\centering
@@ -721,23 +712,235 @@ where $MaximumIndex$ is expected to be 1 and $ExpectedIndex$ is the already ment
 		\begin{tabular}{l ccc c ccc}
 			\hline
 			\multirow{2}{*}{Dataset} &
-			\multicolumn{3}{c}{BRKGA} &&  \multicolumn{3}{c}{SHADE} \\
+			\multicolumn{3}{c}{BRKGA + LS} &&  \multicolumn{3}{c}{SHADE + LS} \\
 			\cline{2-4} \cline{6-8}
-			& RandIndex & Unsat(\%) & Time(s) && RandIndex & Unsat(\%) & Time(s) \\
+			& ARI & Unsat(\%) & Time(s) && ARI & Unsat(\%) & Time(s) \\
 			\hline
-			&  &  &  &&  &  &  \\
-			&  &  &  &&  &  &  \\
-			&  &  &  &&  &  &  \\
-			\hline
-			Means &  &  &  &&  &  &  \\
+			Appendicitis & 0.001 & 0.000 & 374.388 && -0.047 & 0.000 & 360.150 \\
+			Boston & -0.002 & 0.000 & 1405.381 && 0.001 & 0.000 & 1425.668 \\
+			Breast Cancer & 0.052 & 9.704 & 3427.396 && 0.099 & 7.685 & 3453.035 \\
+			Circles & 0.020 & 1.333 & 1042.597 && 0.027 & 1.143 & 1004.287 \\
+			Diabetes & 0.001 & 0.000 & 1173.404 && 0.000 & 0.633 & 1374.711 \\
+			Ecoli & 0.005 & 6.912 & 1098.664 && 0.004 & 1.618 & 1045.699 \\
+			Glass & -0.009 & 0.000 & 703.172 && -0.007 & 0.000 & 686.843 \\
+			Haberman & 0.010 & 2.000 & 1098.043 && -0.003 & 2.000 & 1065.608 \\
+			Hayesroth & -0.009 & 0.000 & 534.294 && 0.002 & 0.000 & 507.300 \\
+			Ionosphere & 0.025 & 3.399 & 1821.049 && 0.044 & 3.530 & 1780.769 \\
+			Iris & 0.433 & 0.000 & 494.135 && 0.670 & 0.000 & 451.290 \\
+			Led7Digit & 0.006 & 4.867 & 1668.206 && 0.002 & 1.933 & 1648.570 \\
+			Monk2 & 0.043 & 3.810 & 1743.874 && 0.035 & 3.637 & 1702.858 \\
+			Moons & 0.081 & 1.905 & 1040.926 && 0.157 & 0.571 & 1021.028 \\
+			Pima & 0.011 & 15.169 & 3803.816 && 0.014 & 12.605 & 3723.091 \\
+			Saheart & 0.029 & 6.160 & 2013.580 && 0.006 & 6.739 & 1977.839 \\
+			Sonar & 0.010 & 0.364 & 1076.248 && 0.001 & 0.727 & 1061.966 \\
+			Soybean & 0.371 & 0.000 & 175.224 && 0.483 & 0.000 & 159.017 \\
+			Spectfheart & 0.104 & 1.099 & 1395.389 && 0.084 & 0.659 & 1365.181 \\
+			Spiral & 0.016 & 0.952 & 1044.697 && 0.004 & 0.953 & 1021.158 \\
+			Tae & 0.004 & 0.000 & 506.495 && 0.010 & 0.000 & 476.786 \\
+			Vehicle & 0.002 & 19.557 & 4008.912 && 0.003 & 10.255 & 4024.292 \\
+			Vowel & 0.001 & 10.465 & 3796.154 && 0.001 & 8.000 & 3763.485 \\
+			Wdbc & 0.038 & 10.246 & 3424.397 && 0.025 & 9.212 & 3400.415 \\
+			Zoo & 0.016 & 0.000 & 332.475 && 0.129 & 0.000 & 318.684 \\
 			\hline
 
 		\end{tabular}}
 		%\end{adjustwidth}
 
-	\caption{Experimental results obtained with X\% of labeled data}
-	\label{undefined}
+	\caption{Experimental results obtained with 5\% of labeled data}
+	\label{tab:results5}
 \end{table}
+
+Table \ref{tab:results5} shows the results for the constraints set obtained with 5\% of the labeled data. We can note that SHADE+LS represents a consistent improvement over BRKGA + LS in both Unsat and Time, while in ARI both methods seems similar. This is because, operating with a small set of restrictions, the penalty applied to the fitness function of both methods has little presence, and since they are population-based and heurist-guided methods, they have similar exploration and exploitation capabilities.
+
+\begin{table}[!h]
+	\centering
+	\setlength{\tabcolsep}{7pt}
+	\renewcommand{\arraystretch}{1.4}
+	%\begin{adjustwidth}{-1in}{-1in}
+	\resizebox{\textwidth}{!}{
+		\begin{tabular}{l ccc c ccc}
+			\hline
+			\multirow{2}{*}{Dataset} &
+			\multicolumn{3}{c}{BRKGA + LS} &&  \multicolumn{3}{c}{SHADE + LS} \\
+			\cline{2-4} \cline{6-8}
+			& ARI & Unsat(\%) & Time(s) && ARI & Unsat(\%) & Time(s) \\
+			\hline
+			Appendicitis & 0.022 & 5.454 & 383.642 && 0.086 & 5.091 & 366.491 \\
+			Boston & -0.000 & 0.173 & 1502.452 && -0.001 & 0.235 & 1570.547 \\
+			Breast\_Cancer & 0.395 & 17.444 & 3651.263 && 0.159 & 22.256 & 3602.665 \\
+			Circles & 0.166 & 12.598 & 1077.238 && 0.063 & 14.207 & 1060.787 \\
+			Diabetes & 0.000 & 0.364 & 1277.982 && 0.003 & 0.465 & 1284.486 \\
+			Ecoli & 0.009 & 20.321 & 1169.798 && 0.020 & 12.763 & 1112.981 \\
+			Glass & 0.016 & 8.658 & 735.507 && 0.013 & 4.848 & 694.962 \\
+			Haberman & 0.047 & 15.699 & 1155.985 && 0.084 & 15.441 & 1146.023 \\
+			Hayesroth & 0.027 & 1.500 & 550.117 && 0.025 & 2.000 & 529.424 \\
+			Ionosphere & 0.125 & 17.587 & 1894.390 && 0.332 & 12.603 & 1872.308 \\
+			Iris & 0.238 & 0.190 & 505.112 && 0.342 & 0.000 & 483.584 \\
+			Led7Digit & 0.009 & 11.347 & 1786.943 && 0.004 & 8.866 & 1784.708 \\
+			Monk2 & 0.421 & 14.926 & 1848.543 && 0.270 & 16.385 & 1821.208 \\
+			Moons & 0.277 & 11.816 & 1098.089 && 0.272 & 11.356 & 1075.089 \\
+			Pima & 0.236 & 25.195 & 4072.087 && 0.275 & 22.468 & 3990.383 \\
+			Saheart & 0.147 & 20.555 & 2135.624 && 0.265 & 16.725 & 2095.554 \\
+			Sonar & 0.124 & 7.619 & 1106.039 && 0.116 & 8.952 & 1081.994 \\
+			Soybean & 0.496 & 0.000 & 176.333 && 0.515 & 0.000 & 151.163 \\
+			Spectfheart & 0.334 & 9.573 & 1451.235 && 0.343 & 8.604 & 1405.243 \\
+			Spiral & 0.058 & 15.402 & 1098.622 && 0.114 & 13.793 & 1099.747 \\
+			Tae & 0.018 & 0.833 & 520.855 && 0.024 & 1.333 & 508.988 \\
+			Vehicle & 0.005 & 28.515 & 4366.104 && 0.006 & 22.151 & 4352.663 \\
+			Vowel & 0.003 & 13.330 & 4245.672 && 0.002 & 11.523 & 4290.154 \\
+			Wdbc & 0.478 & 16.316 & 3596.517 && 0.357 & 17.093 & 3528.029 \\
+			Zoo & 0.105 & 1.091 & 336.345 && 0.098 & 2.182 & 317.674 \\
+			\hline
+			
+		\end{tabular}}
+		%\end{adjustwidth}
+		
+	\caption{Experimental results obtained with 10\% of labeled data}
+	\label{tab:results:10}
+\end{table}
+
+The Table \ref{tab:results:10} presents the results obtained for the constraints set based on 10\% labeled data. On the results for Unsat and Time, we can draw similar conclusions to those obtained with Table \ref{tab:results5}, that is, the advantage remains for SHADE + LS, even with the general increase of these values derived from a larger set of constraints. It is at ARI where we begin to see the difference between the two methods.
+	
+\begin{table}[!h]
+	\centering
+	\setlength{\tabcolsep}{7pt}
+	\renewcommand{\arraystretch}{1.4}
+	%\begin{adjustwidth}{-1in}{-1in}
+	\resizebox{\textwidth}{!}{
+		\begin{tabular}{l ccc c ccc}
+			\hline
+			\multirow{2}{*}{Dataset} &
+			\multicolumn{3}{c}{BRKGA + LS} &&  \multicolumn{3}{c}{SHADE + LS} \\
+			\cline{2-4} \cline{6-8}
+			& ARI & Unsat(\%) & Time(s) && ARI & Unsat(\%) & Time(s) \\
+			\hline
+			Appendicitis & 0.296 & 6.167 & 381.625 && 0.332 & 5.833 & 362.106 \\
+			Boston & 0.000 & 0.526 & 1648.008 && 0.001 & 0.547 & 1688.985 \\
+			Breast\_Cancer & 0.772 & 10.172 & 3854.911 && 0.911 & 3.310 & 3766.402 \\
+			Circles & 0.828 & 6.101 & 1136.484 && 0.982 & 0.404 & 1108.928 \\
+			Diabetes & 0.004 & 0.317 & 1364.941 && -0.000 & 0.371 & 1424.047 \\
+			Ecoli & 0.015 & 24.314 & 1200.463 && 0.025 & 19.090 & 1127.568 \\
+			Glass & 0.017 & 17.500 & 745.987 && 0.031 & 11.743 & 722.009 \\
+			Haberman & 0.866 & 4.677 & 1209.471 && 0.796 & 5.314 & 1147.479 \\
+			Hayesroth & 0.107 & 7.536 & 545.861 && 0.099 & 8.261 & 520.702 \\
+			Ionosphere & 0.803 & 7.722 & 1986.543 && 0.591 & 11.974 & 1944.085 \\
+			Iris & 0.412 & 3.873 & 506.548 && 0.260 & 6.087 & 486.723 \\
+			Led7Digit & 0.004 & 12.836 & 1902.272 && 0.007 & 10.919 & 1897.511 \\
+			Monk2 & 0.751 & 10.827 & 1949.305 && 0.945 & 2.067 & 1920.361 \\
+			Moons & 0.958 & 1.334 & 1133.858 && 0.995 & 0.020 & 1113.687 \\
+			Pima & 0.481 & 22.051 & 4451.193 && 0.762 & 9.928 & 4402.693 \\
+			Saheart & 0.749 & 10.940 & 2281.992 && 0.945 & 1.839 & 2225.210 \\
+			Sonar & 0.800 & 5.040 & 1124.700 && 0.890 & 2.177 & 1069.862 \\
+			Soybean & 0.428 & 0.000 & 170.674 && 0.422 & 0.000 & 155.948 \\
+			Spectfheart & 0.924 & 2.854 & 1561.040 && 0.778 & 5.732 & 1485.260 \\
+			Spiral & 0.847 & 5.677 & 1133.962 && 0.949 & 1.495 & 1102.920 \\
+			Tae & 0.119 & 7.115 & 522.088 && 0.066 & 8.380 & 513.289 \\
+			Vehicle & 0.089 & 28.044 & 4806.559 && 0.018 & 26.856 & 4749.812 \\
+			Vowel & 0.002 & 14.486 & 4807.165 && 0.001 & 13.341 & 4867.849 \\
+			Wdbc & 0.805 & 8.985 & 3829.407 && 0.930 & 2.801 & 3750.711 \\
+			Zoo & 0.157 & 3.500 & 333.984 && 0.128 & 2.834 & 315.131 \\
+			\hline
+			
+		\end{tabular}}
+		%\end{adjustwidth}
+		
+	\caption{Experimental results obtained with 15\% of labeled data}
+	\label{tab:results15}
+\end{table}
+
+Table \ref{tab:results15} presents the results obtained with 15\% of labeled data. While conclusions for Unsat and Time remain unchanged, we see a clear difference as far as ARI is concerned. We observe that, for constraint sets obtained with 15\% labeled data, both methods already report ARI results above 0.7, which in an ARI ranking is considered to be a good result. We can even observe that the SHADE + LS method provides an ARI higher than 0.9 for 7 datasets, compared to BRKGA + LS that only obtains similar results in 2 datasets.
+	
+\begin{table}[!h]
+	\centering
+	\setlength{\tabcolsep}{7pt}
+	\renewcommand{\arraystretch}{1.4}
+	%\begin{adjustwidth}{-1in}{-1in}
+	\resizebox{\textwidth}{!}{
+		\begin{tabular}{l ccc c ccc}
+			\hline
+			\multirow{2}{*}{Dataset} &
+			\multicolumn{3}{c}{BRKGA + LS} &&  \multicolumn{3}{c}{SHADE + LS} \\
+			\cline{2-4} \cline{6-8}
+			& ARI & Unsat(\%) & Time(s) && ARI & Unsat(\%) & Time(s) \\
+			\hline
+			Appendicitis & 1.000 & 0.000 & 389.905 && 1.000 & 0.000 & 371.579 \\
+			Boston & 0.001 & 0.636 & 1820.313 && 0.001 & 0.660 & 1878.863 \\
+			Breast\_Cancer & 0.807 & 9.086 & 4061.162 && 0.977 & 0.891 & 3984.370 \\
+			Circles & 0.935 & 2.814 & 1180.268 && 1.000 & 0.000 & 1170.452 \\
+			Diabetes & 0.003 & 0.695 & 1480.035 && 0.001 & 0.710 & 1589.821 \\
+			Ecoli & 0.028 & 25.716 & 1267.419 && 0.047 & 21.466 & 1277.903 \\
+			Glass & 0.038 & 23.610 & 766.861 && 0.082 & 16.412 & 796.162 \\
+			Haberman & 0.943 & 2.073 & 1266.131 && 0.997 & 0.138 & 1235.441 \\
+			Hayesroth & 0.548 & 6.331 & 554.339 && 0.531 & 7.056 & 540.585 \\
+			Ionosphere & 0.902 & 4.314 & 2051.251 && 0.993 & 0.258 & 2019.558 \\
+			Iris & 0.691 & 5.241 & 513.675 && 0.553 & 6.528 & 488.262 \\
+			Led7Digit & 0.007 & 13.653 & 2053.264 && 0.005 & 12.170 & 2066.223 \\
+			Monk2 & 0.855 & 6.025 & 2055.425 && 0.991 & 0.379 & 2013.468 \\
+			Moons & 0.937 & 2.689 & 1177.848 && 0.995 & 0.158 & 1157.222 \\
+			Pima & 0.753 & 11.544 & 4855.446 && 0.899 & 4.419 & 4820.684 \\
+			Saheart & 0.881 & 5.250 & 2402.513 && 0.981 & 0.706 & 2353.931 \\
+			Sonar & 0.992 & 0.186 & 1138.769 && 1.000 & 0.000 & 1127.020 \\
+			Soybean & 0.416 & 0.000 & 171.281 && 0.563 & 0.000 & 153.406 \\
+			Spectfheart & 0.953 & 1.677 & 1602.229 && 1.000 & 0.000 & 1526.925 \\
+			Spiral & 0.921 & 3.604 & 1178.580 && 0.998 & 0.091 & 1155.194 \\
+			Tae & 0.351 & 9.807 & 527.292 && 0.392 & 9.419 & 508.610 \\
+			Vehicle & 0.144 & 28.781 & 5189.066 && 0.044 & 29.008 & 5284.288 \\
+			Vowel & 0.002 & 14.682 & 5450.331 && 0.003 & 13.766 & 5514.052 \\
+			Wdbc & 0.823 & 8.281 & 4019.683 && 0.972 & 1.068 & 3983.564 \\
+			Zoo & 0.176 & 5.429 & 335.715 && 0.153 & 4.191 & 320.186 \\
+			\hline
+			
+		\end{tabular}}
+		%\end{adjustwidth}
+		
+	\caption{Experimental results obtained with 20\% of labeled data}
+	\label{tab:results20}
+\end{table}
+
+It is in Table \ref{tab:results20}, which gathers results obtained with constraint sets generated from 20\% of labeled data for each dataset, that we observe the major differences between the two methods. We found that SHADE + LS is capable of producing clusters identical to the original ones for 4 datasets, against the single dataset for which BRKGA + LS obtains a similar result. Let's recall that an ARI of 1 represents a total matching between the two partitions given as arguments for ARI's calculation. This improvement in ARI is clearly reflected in the percentage of violated constraints--Unsat column---, value for which, once again, SHADE + LS gets the advantage. Conclusions on execution time remain the same.
+
+\section{Results Analysis}
+
+With the results obtained by both methods for a total of 100 different datasets---the 25 datasets in combination with the 4 constraint sets for each one of them--we can perform an empirical analysis of them. This way we can statistically determine which of the two methods offers the best results.
+
+In order to carry out this task we will make use the widely known frequentist non parametric two-tailed Wilcoxon test, as well as the lesser-known Bayesian sign test.
+
+\subsection{Applying Wilcoxon test to our results}
+
+\textcolor{red}{Buscar a alguien que sepa explicarme que cojones es lo que hace el Keel. Las hipótesis no pueden ser las que he planteado y problemente el alpha no se use para calcular el estadístico T}
+
+We will apply the Wilcoxon test for each of the measures obtained as a result, namely: ARI, Unsat and Time. Remember that the Wilcoxon test is a hypothesis test, whose hypotheses are established as:
+
+\begin{itemize}
+	
+	\item $H_0$: differences between pairs of results follow a symmetric distribution around zero.
+	
+	\item $H_1$: differences between pairs of results do not follow a symmetric distribution around zero.
+	
+\end{itemize}
+
+It is also necessary to establish a confidence level to obtain the statistical values that will allow us to make a decision about $H_0$. In this case we consider a confidence level of 95\%, which means that the value of $\alpha$ for the calculation of the statistic $T$ will be $\alpha = 1 - 0.95 = 0.05$. Table \ref{tab:freqTest} shows the statistical values obtained using Wilcoxon test for each comparison.
+	
+\begin{table}[!htp]
+	\centering
+	\setlength{\tabcolsep}{7pt}
+	\renewcommand{\arraystretch}{1.4}
+	\begin{tabular}{cccc}
+		\hline
+		VS & $R^{+}$ & $R^{-}$ & P-value \\ \hline 
+		ARI & 3203.5 & 1746.5 & 0.006936\\
+		Time & 4008.0 & 1042.0 & 0\\  
+		Unsat & 3829.5 & 1120.5 & 0.000002\\ \hline 
+	\end{tabular}
+	\caption{Results obtained by the Wilcoxon test for algorithm SHADE (vs BRKGA)}
+	\label{tab:freqTest}
+\end{table}
+
+It is worth noting that, in the case of ARI, this is a maximization problem, while in the remaining two measures we try to minimize.
+
+The results are clear, in all cases $p-value < \alpha$, which means that we can reject the null hypothesis. We conclude that there are significant differences between the two methods in favour of SHADE+LS.
+
+\clearpage
 
 \section{Conclusions and Future Work}
 
