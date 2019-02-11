@@ -6,9 +6,9 @@ Time <- read.csv("Time.csv", dec = ".", row.names = 1)
 
 #n.samples = paramatero para el numero de puntitos
 
-ari.test = rNPBST::bayesianSign.test(ARI$BRKGA, ARI$SHADE)
-unsat.test = rNPBST::bayesianSign.test(Unsat$BRKGA, Unsat$SHADE)
-time.test = rNPBST::bayesianSign.test(Unsat$BRKGA, Unsat$SHADE)
+ari.test = rNPBST::bayesianSign.test(ARI$BRKGA, ARI$SHADE, n.samples = 2000)
+unsat.test = rNPBST::bayesianSign.test(Unsat$BRKGA, Unsat$SHAD, n.samples = 2000)
+time.test = rNPBST::bayesianSign.test(Unsat$BRKGA, Unsat$SHADE, n.samples = 2000)
 
 ari.test$probabilities
 unsat.test$probabilities
