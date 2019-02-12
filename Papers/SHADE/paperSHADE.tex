@@ -84,7 +84,7 @@ This template helps you to create a properly formatted \LaTeX\ manuscript.
 
 \linenumbers
 
-\textcolor{red}{Revisar que todos los subindices en los que aparecan comas lleven corchetes. Revisar que las asignaciones en los algoritmo sean flechas y no =. Revisar que restrictions nunca aparece, siempre constraints. Revisar que es siempre instance-level y no instance level. Comprobar que es siempre dataset y no data set}
+\textcolor{red}{Revisar que todos los subindices en los que aparecan comas lleven corchetes. Revisar que las asignaciones en los algoritmo sean flechas y no =. Revisar que restrictions nunca aparece, siempre constraints. Revisar que es siempre instance-level y no instance level. Comprobar que es siempre dataset y no data set. Puedo decir en alguna parte que se hace una iterpretación relajada de las restricciones}
 
 \section{Introduction}
 
@@ -669,7 +669,7 @@ ARI(C_1, C_2) = \frac{Rand(C_1, C_2) - ExpectedIndex}{MaximumIndex - ExpectedInd
 \label{eq16}
 \end{equation}
 
-where $MaximumIndex$ is expected to be 1 and $ExpectedIndex$ is the already mentioned expected degree of similarity with a random model. It is easy to see that $ARI(C_1, C_2) \in [-1,1]$, such that an $ARI$ value close to 1 means a high degree of agreement between $C_1$ and $C_2$, a positive value close to 0 means no agreement and a value smaller that 0 means that the $Rand(C_1, C_2)$ is less than expected when comparing the obtained partitions with random partitions. To summarize, the higher the $ARI$, the greater the degree of similarity between $C_1$ and $C_2$. For more details on Adjusted Rand Index see \cite{hubert1985comparing}.
+where $MaximumIndex$ is expected to be 1 and $ExpectedIndex$ is the already mentioned expected degree of similarity with a random model. It is easy to see that $ARI(C_1, C_2) \in [-1,1]$, such that an $ARI$ value close to 1 means a high degree of agreement between $C_1$ and $C_2$, a positive value close to 0 means no agreement and a value smaller that 0 means that the $Rand(C_1, C_2)$ is less than expected when comparing with random partitions. To summarize, the higher the $ARI$, the greater the degree of similarity between $C_1$ and $C_2$. For more details on Adjusted Rand Index see \cite{hubert1985comparing}.
 
 
 \subsection{Calibration}
@@ -691,7 +691,7 @@ Table \ref{tab:params} shows a summary of the parameters setup used for both BRK
 			$p_e$ & Size of the elite set in population & $0.2 * p_{size}$ & $0.25 * p_{size}$ \\
 			$p_m$ & Number of mutants to be introduced in the population in each generation & $0.2 * p_{size}$ & - \\
 			$p_{inherit}$ & Probability that a feature is inherit from an elite parent & $50\%$ & - \\
-			$K$ & Output partition number of clusters & \multicolumn{2}{m{4cm}}{Known for each dataset, it has the same value for both methods} \\
+			$K$ & Output partition number of clusters & \multicolumn{2}{m{4cm}}{Known for each dataset (Table \ref{tab:datasets}. It has the same value for both methods} \\
 			\hline
 			
 		\end{tabular}}
@@ -709,7 +709,9 @@ In both cases---BRKGA+LS and SHADE+LS---the population size used will be 100 ind
 
 In this section we present the Tables \ref{tab:results5} to \ref{tab:results20}, which record the results obtained by the methods to be compared for each dataset and constraints set.
 
-The ARI column shows the Adjusted Rand Index for each case, the Unsat column displays the percentage of violated constraints and the Time columns shows the time---measured in seconds---taken for each algorithm to deliver results.
+Since the methods we are comparing involve non-deterministic procedures, the results may vary from one run to another. To lessen the effect this may have on the results, we will apply each method 5 times to each dataset and set of constraints, so that the measures shown in the previously mentioned tables correspond to the average of the 5 runs.
+
+The ARI column shows the Adjusted Rand Index for each case, the Unsat column displays the percentage of violated constraints and the Time columns shows the time taken for each algorithm to deliver results, measured in seconds.
 
 
 \begin{table}[!h]
@@ -857,7 +859,7 @@ The Table \ref{tab:results:10} presents the results obtained for the constraints
 	\label{tab:results15}
 \end{table}
 
-Table \ref{tab:results15} presents the results obtained with 15\% of labeled data. While conclusions for Unsat and Time remain unchanged, we see a clear difference as far as ARI is concerned. We observe that, for constraint sets obtained with 15\% labeled data, both methods already report ARI results above 0.7, which in an ARI ranking is considered to be a good result. We can even observe that the SHADE + LS method provides an ARI higher than 0.9 for 7 datasets, compared to BRKGA + LS that only obtains similar results in 2 datasets.
+Table \ref{tab:results15} presents the results obtained with 15\% of labeled data. While conclusions for Unsat and Time remain unchanged, we see a clear difference as far as ARI is concerned. We observe that, for constraints sets obtained with 15\% labeled data, both methods already report ARI results above 0.7, which in an ARI ranking is considered to be a good result. We can even observe that the SHADE + LS method provides an ARI higher than 0.9 for 7 datasets, compared to BRKGA + LS that only obtains similar results in 2 datasets.
 	
 \begin{table}[!h]
 	\centering
@@ -906,25 +908,19 @@ Table \ref{tab:results15} presents the results obtained with 15\% of labeled dat
 	\label{tab:results20}
 \end{table}
 
-It is in Table \ref{tab:results20}, which gathers results obtained with constraint sets generated from 20\% of labeled data for each dataset, that we observe the major differences between the two methods. We found that SHADE + LS is capable of producing clusters identical to the original ones for 4 datasets, against the single dataset for which BRKGA + LS obtains a similar result. Let's recall that an ARI of 1 represents a total matching between the two partitions given as arguments for ARI's calculation. This improvement in ARI is clearly reflected in the percentage of violated constraints--Unsat column---, value for which, once again, SHADE + LS gets the advantage. Conclusions on execution time remain the same.
+It is in Table \ref{tab:results20}, which gathers results obtained with constraints sets generated from 20\% of labeled data for each dataset, that we observe the major differences between the two methods. We found that SHADE + LS is capable of producing clusters identical to the original ones for 4 datasets, against the single dataset for which BRKGA + LS obtains a similar result. Let's recall that an ARI of 1 represents a total matching between the two partitions given as arguments for ARI's calculation. This improvement in ARI is clearly reflected in the percentage of violated constraints--Unsat column---, value for which, once again, SHADE + LS gets the advantage. Conclusions on execution time remain the same.
 
 \section{Results Analysis}
 
-With the results obtained by both methods for a total of 100 different datasets---the 25 datasets in combination with the 4 constraint sets for each one of them--we can perform an empirical analysis of them. This way we can statistically determine which of the two methods offers the best results.
+With the results obtained by both methods for a total of 100 different datasets---the 25 datasets in combination with the 4 constraints sets for each one of them--we can perform an empirical analysis of them. This way we can statistically determine which of the two methods offers the best results.
 
-In order to carry out this task we will make use the widely known frequentist non-parametric Wilcoxon's test, as well as the lesser-known Bayesian sign test.
+In order to carry out this task we will make use the widely known frequentist non-parametric Wilcoxon's signed rank test, as well as the lesser-known Bayesian sign test.
 
-\subsection{Applying Wilcoxon's test to our results}
+From now on, and as far as this section is concerned, we will refer to the results obtained by BRKGA - LS as sample $A$, and to the results obtained with SHADE + LS as sample $B$.
 
-We will apply the Wilcoxon's test for each of the measures obtained, namely: ARI, Unsat and Time. Remember that the Wilcoxon's test is a hypothesis test, whose hypotheses are established as:
+\subsection{Applying Wilcoxon's signed rank test to our results}
 
-\begin{itemize}
-	
-	\item $H_0$: differences between pairs of results follow a symmetric distribution around $\mu$.
-	
-	\item $H_1$: differences between pairs of results do not follow a symmetric distribution around $\mu$.
-	
-\end{itemize}
+We will apply the Wilcoxon's signed rank test for each of the measures obtained, namely: ARI, Unsat and Time. We set as null hypothesis $H_0 = $ the distribution of $A - B$ is symmetric about $\mu$. However, given that in the case of ARI it is a problem of maximisation, and in the case of Time and Unsat it is a problem of minimisation, we will consider a different alternative hypothesis for each case. In the case of maximization we propose $H_{max} =$ the distribution of $A - B$ is shifted to the left with respect to $\mu$. On the other hand, in the case of minimization we propose $H_{min} =$ the distribution of $A - B$ is shifted to the right with respect to $\mu$. In this way we assume that SHADE + LS is better than BRKGA + LS and we try to prove it.
 
 In this case we set $\mu = 0$, and work with a confidence level of 95\%, which means that the significance level is 0.05 ($\alpha = 0.05$). Table \ref{tab:freqTest} shows the statistical values obtained using Wilcoxon's test for each comparison.
 	
@@ -932,52 +928,52 @@ In this case we set $\mu = 0$, and work with a confidence level of 95\%, which m
 	\centering
 	\setlength{\tabcolsep}{7pt}
 	\renewcommand{\arraystretch}{1.4}
-	\begin{tabular}{cccccc}
+	\begin{tabular}{ccccc}
 		\hline
-		\multirow{2}{*}{Measure} & \multirow{2}{*}{$R^{+}$} & \multirow{2}{*}{$R^{-}$} & \multirow{2}{*}{P-value}
-		&  \multicolumn{2}{c}{Median} \\
-		\cline{5-6}
-		& & & & BRKGA + LS & SHADE + LS \\
+		Measure & $R^{+}$ & $R^{-}$ & P-value & Alternative hypothesis  \\
 		\hline
-		ARI & 3088 & 1665 & 0.01051 & 0.30356 & 0.32573\\
-		Time & 4008 & 1042 & 0.000000344 & 1204.967 & 1202.947 \\  
-		Unsat & 3082.5 & 745.5 & 0.000000767 & 5.851 & 3.072 \\ 
+		ARI & 3088 & 1665 & 0.005254 & $H_{max}$ \\
+		Time & 4008 & 1042 & 0.0000001723 & $H_{min}$ \\  
+		Unsat & 3082.5 & 745.5 & 0.0000003838 & $H_{min}$ \\ 
 		\hline 
 	\end{tabular}
-	\caption{Results obtained by the Wilcoxon's test for algorithm SHADE (vs BRKGA)}
+	\caption{Results obtained by the Wilcoxon's signed rank test for the comparison SHADE vs BRKGA}
 	\label{tab:freqTest}
 \end{table}
 
-For all three considered measures, $\alpha < P-value$, therefore in all cases we can reject $H_0$ and find that there are significant differences between the two methods. To choose the method that gets the lead we observe the medians, we choose the one with greater or lesser median depending on whether it is a matter of maximization or minimization. In conclusion, we can safely admit that Wilcoxon's test provides empirical evidence in favour of SHADE + LS.
+For all three considered measures, $P-value < \alpha$, therefore in all cases we can reject $H_0$ and find that there are significant differences between the two methods, giving the adavantage to SHADE + LS with basis to the proposed alternative hypothesis. In conclusion, we can safely admit that Wilcoxon's signed rank test provides empirical evidence in favour of SHADE + LS.
 
 \subsection{Applying Bayesian sign test to our results}
 
-Te Bayesian sign test is the Bayesian version of the frequentist non-parametric tests. It allows us to conclude whether there are significant differences between two sets of results.\cite{carrasco2017rnpbst}
+Te Bayesian sign test is the Bayesian version of the frequentist non-parametric sign test. It allows us to conclude whether there are significant differences between two sets of results.\cite{carrasco2017rnpbst}
 
-It is based on deriving the distribution of a parameter $\rho$ according to the difference between the sets of results. We will refer to the set of results obtained by BRKGA - LS as $A$, and to the set of results obtained with SHADE + LS as $B$. It is also necessary to define the region of practical equivalence (rope) $[r_{min}, r_{max}]$, for those cases in which the difference between $A$ and $B$ is not significant.
+It is based on obtaining the $\rho$ parameter of a statistical distribution according to the difference between the results. To get the distribution of $\rho$ we count the number of times that $A - B<0$, the number of times where there are no significant differences, and the number of times that $A - B > 0$. In order to identify cases where there are no significant differences we define the region of practical equivalence (rope) $[r_{min}, r_{max}]$, so that $P(A = B) = P(\rho \in rope)$. Based on these results we calculate the weights of a Dirichlet distribution and sample it. The result of this sampling will be a set of triplets in the form of $[(\rho < r_{min}), (\rho \in rope), (\rho > r_{max}]$.
 
-To get the distribution of $\rho$ we count the number of times the advantage is for $A$, the number of times where there are no significant differences, and the number of times the advantage is for $B$. We then calculate the weights of a Dirichlet distribution and sample it. The result of this sampling will be a set of triplets in the form of $[(\rho < r_{min}), (\rho \in rope), (\rho > r_{max}]$.
-
-\textcolor{red}{Traducir el párrafo de abajo al inglés}
-
-Podemos obtener una representación del conjunto de tripletas en forma de un diagrama de calor. Para ello, hacemos corresponder los vértices de un triángulo equilátero con los tres valores de una tripleta. Para representar un valor, trazamos una linea paralela al lado opuesto del vértice asociado al valor que queremos representar, a una distancia relativa de el calculada en base al valor cuestión. El punto en el que intersecan las líneas asociadas a los tres valores es el punto asociado a la tripleta que los contiene. Cabe destacar que, dado que los valores de cada tripleta representan una distribución de probabilidad, su suma siempre vale 1, y por tanto siempre existe un punto de intersección entre las líneas que los representan.
+We can produce a representation of the triplet set in the form of a heatmap where each triplet constitutes one point. With this in mind, we will associate each of the triplet values with each of the three vertices of an equilateral triangle. In order to find out where a certain triplet will be placed within the triangle, we will take each of its three values and draw a parallel line to the opposing side of the corresponding vertex; the separation between a triangle side and its parallel line will be proportional to the associated triplet value, so that the higher the value, the closer the line will be to the vertex. The location where the three lines intersect is where we draw a point. Since the values of every triplet describe a probability distribution and therefore they must add up to one, we can be sure that all triplets will lie in some point within the triangle. The color indicates the density of points in a given region, with yellow representing a high density and red a low density.
 
 \begin{figure}[ht!]
 	\centering
 	\begin{subfigure}{.45\textwidth}
 		\includegraphics[width=1\linewidth]{Figures/BayesSignoARI.pdf}
 		\caption{ARI}
+		\label{fig:bayesARI}
 	\end{subfigure}
 	\begin{subfigure}{.45\textwidth}
 		\includegraphics[width=1\linewidth]{Figures/BayesSignoTime.pdf}
 		\caption{Time}
+		\label{fig:bayesTime}
 	\end{subfigure}
 	\begin{subfigure}{.45\textwidth}
 		\includegraphics[width=1\linewidth]{Figures/BayesSignoUnsat.pdf}
-		\caption{Usat}
+		\caption{Unsat}
+		\label{fig:bayesUnsat}
 	\end{subfigure}
 	\caption{Heat diagrams for each measure}
 \end{figure}
+
+Figure \ref{fig:bayesARI} shows the heatmap associated with the ARI measurement. The diagram suggest that the Bayesian sign test assigns a high probability to $A - B < 0$, since most triplets are represented in the lower left third of the triangle. It also indicates that in some cases there are no significant differences between $A$ and $B$, since we also find triplets in the rope area. Bearing this in mind, and considering that ARI is a measure to maximize, we can say that, for cases where there are significant differences, SHADE + LS performs better than BRKGA + LS.
+
+On the other hand, Figures \ref{fig:bayesTime} and \ref{fig:bayesUnsat} are very similar, they show the heatmaps obtained for Time and Unsat measurements. In both, all triplets are represented in the lower right third of the triangle, indicating that the Bayesian sign test assigns a high probability to $A - B > 0$. With this, and bearing in mind that both measures must be minimized, we conclude that SHADE + LS represents a solid improvement over BRKGA + LS as far a this measures are concerned.
 
 \clearpage
 
