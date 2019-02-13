@@ -8,9 +8,10 @@ colnames(ARI) <- c("BRKGA", "SHADE")
 colnames(Unsat) <- c("BRKGA", "SHADE")
 colnames(Time) <- c("BRKGA", "SHADE")
 
-test.ari = wilcox.test(ARI$SHADE, ARI$BRKGA, paired = T)
-test.unsat = wilcox.test(Unsat$SHADE, Unsat$BRKGA, paired = T)
-test.time = wilcox.test(Time$SHADE, Time$BRKGA, paired = T)
+#https://www.rdocumentation.org/packages/stats/versions/3.5.2/topics/wilcox.test
+test.ari = wilcox.test(x = ARI$BRKGA, y = ARI$SHADE, paired = T, alternative = "l")
+test.unsat = wilcox.test(Unsat$BRKGA, Unsat$SHADE, paired = T, alternative = "g")
+test.time = wilcox.test(Time$BRKGA, Time$SHADE, paired = T, alternative = "g")
 
 median(ARI$BRKGA)
 
