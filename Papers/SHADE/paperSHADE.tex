@@ -84,19 +84,32 @@ This template helps you to create a properly formatted \LaTeX\ manuscript.
 
 \linenumbers
 
-\textcolor{red}{Revisar que todos los subindices en los que aparecan comas lleven corchetes. Revisar que las asignaciones en los algoritmo sean flechas y no =. Revisar que restrictions nunca aparece, siempre constraints. Revisar que es siempre instance-level y no instance level. Comprobar que es siempre dataset y no data set. Puedo decir en alguna parte que se hace una iterpretación relajada de las restricciones}
+\textcolor{red}{Revisar que todos los subindices en los que aparecan comas lleven corchetes. Revisar que las asignaciones en los algoritmo sean flechas y no =. Revisar que restrictions nunca aparece, siempre constraints. Revisar que es siempre instance-level y no instance level. Comprobar que es siempre dataset y no data set. Puedo decir en alguna parte que se hace una iterpretación relajada de las restricciones. Tengo que decidir como llamar a la funcion de coste, "cost", "fitness" o "heuristic"}
 
 \section{Introduction}
 
-\textcolor{red}{Citar a los de las hormigas. Poner un parrafo de aplicaciones del clustering con restricciones}
+One of the most widely known and studied data analysis tools is clustering. It is one of the most successful methods that has been able to provide solutions in a large number of knowledge fields, such as medicine, marketing, banking or psychology, among others.
 
-\section{Background}
+Clustering is the task of grouping instances of a dataset into subsets, so that new information can be extracted from them. The criterion used to assign an instance to a given cluster is the similarity to the rest of elements in that cluster, and the dissimilarity to the rest of instances of the dataset. In this way, the clustering process obtains subsets of instances of the initial dataset that present high intra-similarity and low inter-similarity.
+
+It is well known that the clustering problem is $\mathbf{NP}$-hard, therefore finding the optimal solution is not feasible with the technology we have today. However, there are many approximated resolution methods, including constrained clustering.
+
+Clustering with constraints is a semi-supervised learning method. Its goal is to find a partition of the dataset that meets the proper characteristics of a clustering method result, in addition to satisfying a certain constraints set. In \cite{davidson2007survey} we find two constraint models, as well as an extensive review of some resolution methods. This study focuses specifically on instance-based constraints, which will be defined in Section \ref{sec:background}.
+
+Some of the constrained clustering applications mentioned in \cite{davidson2007survey} include the application of this technique to data obtained from image, video, audio, text, etc.
+
+It should be noted that, as we will study in more depth in Section \ref{sec:ugly}, the incorporation of constraints to clustering modifies its complexity, making it harder. The SHADE algorithm has proven to be one of the most successful methods to solve real-domain problems in an approximate way. The aim of this paper is to propose an adaptation of it to solve clustering with restrictions. 
+
+There have been previous attempts to adapt population-based methods to constrained clustering, in particular in \cite{de2017comparison} an adaptation of the BRKGA algorithm is proposed.
+There are also some adaptations of swarm intelligence based methods, such as the one presented in \cite{xu2013improving}. As far as this paper is concerned, we will use some of the techniques presented in \cite{de2017comparison} to adapt SHADE to constrained clustering, as well as we propose a new cost function to improve the results. We will properly compare the results obtained by both methods. On the other hand we will check whether the population-based methods represent an improvement over some of the non ehuristic-based methods, presented in \cite{davidson2007survey} and briefly discussed in this paper in Section \ref{sec:NHres}.
+
+\textcolor{red}{Incluir un párrafo en el que se comete la organización del paper?}
+
+\section{Background} \label{sec:background}
 
 %\subsection{Constrained Clustering}
 
-Clustering is the task of grouping instances of a dataset into subsets. The criterion used to assign an instance to a given cluster is the similarity to the rest of elements in that cluster, and the dissimilarity to the rest of instances of the dataset. In this way, the clustering process obtains subsets of instances of the initial dataset that present high intra-similarity and low inter-similarity.
-
-In most clustering applications it is common to have some kind of information about the dataset to be analyzed. In constrained clustering this information is given in the form of pairs of instances. A constraint states whether the instances which it refers to must, or must not, be assigned to the same cluster. **Using this type of information it is possible to obtain a better result than by using completely unsupervised clustering algorithms**. [It is possible to obtain a better result by using this type of information than by using completely unsupervised clustering algorithms]
+In most clustering applications it is common to have some kind of information about the dataset to be analyzed. In constrained clustering this information is given in the form of pairs of instances. A constraint states whether the instances which it refers to must, or must not, be assigned to the same cluster. It is possible to obtain a better result by using this type of information than by using completely unsupervised clustering algorithms
 
 Before formalizing the definition of constraints we must give a notation for the dataset. We will note our dataset as $X$, which is a set of $N$ instances with $D$ features. We well refer to the instances of $X$ as $x$. Now, given the definition of dataset, we can distinguish between two types of constraints:
 
@@ -114,7 +127,7 @@ Knowing how a constraint is defined, Must-link constraints---from now on ML---ar
 
 On the other hand, Cannot-link constraints---from now on CL---do not constitute an equivalence relation. However, analogously, given $x_a \in c_i$ and $x_b \in c_j$, and the constraint $c_{\neq}(x_a,x_b)$, then it is also true that $c_{\neq}(x_c,x_d)$ for any $x_c \in c_i$ and $x_d \in c_j$ \cite{davidson2007survey}.
 
-\subsection{The Feasibility Problem}
+\subsection{The Feasibility Problem} \label{sec:feas}
 
 Given that constrained clustering adds a new element to the clustering problem, we must consider how this element affects the problem's complexity. The feasibility problem for non-hierarchical constrained clustering was defined by \cite{davidson2005clustering} as in Definition \ref{def1}.
 
@@ -189,9 +202,9 @@ DE's optimization process works through a simple cycle of stages, presented in F
 
 Even though DE was a major breakthrough in terms of real optimization, many variants have been developed since its invention that provide better results. We will focus on the SHADE variant, which adaptively optimizes some of DE's parameters (see Section \ref{sec:SHADE}).
 
-\subsection{(Classic) Resolution Methods}
+\subsection{(Classic) Resolution Methods} \label{sec:NHres}
 
-\textcolor{red}{Clasicos clasicos no son}
+\textcolor{red}{Clasicos clasicos no son, puedo cambiar classic por non-heuristic?}
 
 Constrained clustering has many applications and has been widely studied in the literature. The first adaptation of a classic clustering method for constrained clustering was proposed by \cite{wagstaff2001constrained}. It involved modifying the widely studied K-means algorithm to take into account instance-level constraints: the already known ML and CL. This method was named COP-kmeans.
 
@@ -253,7 +266,7 @@ z_i = \sum_{c_j \in C_i} \left[ \frac{\sum_{x_a, x_b \in c_j} d_D^2(x_a,x_b)}{|c
 \label{eq2}
 \end{equation}
 
-Where $C_i$ is the partition of dataset $X$ defined by solution $p_i$, and $(x_a, x_b)$ are instances in the cluster $c_j$ such that $a \neq b$ and the distance between each pair of instances in $c_i$ is included in the sum only once.
+Where $C_i$ is the partition of dataset $X$ defined by solution $p_i$, and $(x_a, x_b)$ are instances in the cluster $c_j$ such that $a \neq b$ and the Euclidean distance ($d_D^2(\cdot, \cdot)$) between each pair of instances in $c_i$ is included in the sum only once.
 
 In \cite{de2017comparison}, the authors also added a new element to BRKGA, a local search procedure. This local optimization method is applied to each decoded individual in each generation, but its results are not transferred to the individual, so that diversity is maintained. Thus, the individuals produced by the local search are only used to update the best solution found so far if needed. For more details on BRKGA see \cite{de2017comparison}.
 
