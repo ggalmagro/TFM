@@ -1,9 +1,8 @@
 import numpy as np
 from numpy import matlib
-import skfuzzy as fuzz
-from set_centers_ecm import set_centers_ecm
-from set_distances import set_distances
-from solqp import solqp
+from CEKM.set_centers import set_centers_ecm
+from CEKM.set_distances import set_distances
+from CEKM.solqp import solqp
 
 
 def get_bit(numb, K, ind):
@@ -45,10 +44,8 @@ def CEKM(X, K, constraints, max_iter=300, rho=100, xi=0.5, stop_thr=1e-3, init='
     beq = np.ones((rows, 1))
 
     # centroids inicialization
-    if (init == 'rand'):
-        g = np.random.rand(K, cols) * np.matlib.repmat(np.max(X) - np.min(X), K, 1) + np.matlib.repmat(np.min(X), K, 1)
-    else:
-        g = fuzz.cluster.cmeans(X.T, K, 2, 1e-5, 100)[0]
+    g = np.random.rand(K, cols) * np.matlib.repmat(np.max(X) - np.min(X), K, 1) + np.matlib.repmat(np.min(X), K, 1)
+
 
     # centers calculus for all the subsets
     gplus = np.zeros((nb_foc-1,cols))

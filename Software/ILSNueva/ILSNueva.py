@@ -180,8 +180,8 @@ class ILSNueva:
         restarts_array = []
         restarts = 0
 
-        #while self._evals_done < max_evals:
-        while len(gen_times) < max_evals:
+        while self._evals_done < max_evals:
+        #while len(gen_times) < max_evals:
             start_gen = time.time()
             worst = np.argmax(self._best_fitness)
             best = (worst + 1) % 2
@@ -208,7 +208,7 @@ class ILSNueva:
 
             gen_times.append(time.time() - start_gen)
             restarts_array.append(restarts)
-            print(str(len(gen_times)) + " " + str(restarts))
+            #print(str(len(gen_times)) + " " + str(restarts))
 
         best = np.argmin(self._best_fitness)
         return self._best_solution[best, :], np.sum(gen_times), restarts_array

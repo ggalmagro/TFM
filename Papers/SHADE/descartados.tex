@@ -1,0 +1,26 @@
+%%%%%%%%%%%%%%%%% Test frecuentiastas %%%%%%%%%%%%%%%%%%%
+
+\subsection{Applying the Wilcoxon's signed-rank test to our results}
+
+We will apply the Wilcoxon's signed-rank test for each of the measures obtained, namely: ARI, Unsat and Time. We set as null hypothesis $H_0: $ the distribution of $A - B$ is symmetric about $\mu$. However, given that in the case of ARI it is a problem of maximisation, and in the case of Time and Unsat it is a problem of minimisation, we will consider two different alternative hypotheses. In the case of maximization we propose $H_{max}:$ the distribution of $A - B$ is shifted to the left with respect to $\mu$. On the other hand, in the case of minimization we propose $H_{min}:$ the distribution of $A - B$ is shifted to the right with respect to $\mu$. In this way we assume that SHADE+LS is better than BRKGA+LS and we try to prove it.
+
+In this case we set $\mu = 0$, and work with a confidence level of 95\%, which means that the significance level is 0.05 ($\alpha = 0.05$). Table \ref{tab:freqTest} shows the statistical values obtained using Wilcoxon's signed-rank test for each comparison.
+
+\begin{table}[!htp]
+	\centering
+	\setlength{\tabcolsep}{7pt}
+	\renewcommand{\arraystretch}{1.4}
+	\begin{tabular}{ccccc}
+		\hline
+		Measure & $R^{+}$ & $R^{-}$ & P-value & Alternative hypothesis  \\
+		\hline
+		ARI & 3088 & 1665 & 0.005254 & $H_{max}$ \\
+		Time & 4008 & 1042 & 0.0000001723 & $H_{min}$ \\
+		Unsat & 3082.5 & 745.5 & 0.0000003838 & $H_{min}$ \\
+		\hline
+	\end{tabular}
+	\caption{Results obtained by the Wilcoxon's signed-rank test for the comparison SHADE vs BRKGA}
+	\label{tab:freqTest}
+\end{table}
+
+For all three considered measures, $P-value < \alpha$, therefore in all cases we can reject $H_0$ and infer that there are significant differences between the two methods, giving the advantage to SHADE+LS with basis to the proposed alternative hypothesis. In conclusion, we can safely admit that [the] Wilcoxon's signed-rank test provides empirical evidence in favour of SHADE+LS.
