@@ -76,11 +76,11 @@
 \address[mysecondaddress]{Dept. of Computer Science, EPS of Linares, University of Ja\'en, Campus Cient\'ifico Tecnol\'ogico de Linares, Cintur\'on Sur S/N, Linares 23700, Ja\'en, Spain}
 
 \begin{abstract}
-This paper proposes an adaptation of the successful SHADE method to solve the constrained clustering problem. This problem consists of a modification of the traditional clustering to consider a new type of information, which is given in the form of must-link and cannot-link constraints. We will compare the results obtained on 25 datasets by this new SHADE adaptation with a previous heuristic-based approach---BRKGA---as well as with some of the state-of-the-art-methods, supporting our conclusions with the aid of Bayesian tests.
+Clustering has always been a powerful tool in knowledge discovery. Traditionally unsupervised, it has received attention when adding new types of information to it has proven to provide better results than completely unsupervised procedures, leading to a new kind of semi-supervised learning. This paper proposes a variant of the successful SHADE method to solve the constrained clustering problem. This problem consists of a generalization of the traditional clustering to consider a new type of information, which is given in the form of constraints. This paper focuses on instance-level must-link and cannot-link constraints. We will compare the results obtained on 25 datasets, in conjunction with various constraint sets, by this new proposal with a previous nature-inspired approach---BRKGA---as well as with some of the state-of-the-art algorithms, supporting our conclusions with the aid of Bayesian statistical tests.
 \end{abstract}
 
 \begin{keyword}
-constrained clustering, must-link, cannot-link, genetic algorithm, differential evolution.
+constrained clustering, instance-level, must-link, cannot-link, genetic algorithm, differential evolution, Bayesian statistical tests.
 \end{keyword}
 
 \end{frontmatter}
@@ -89,19 +89,19 @@ constrained clustering, must-link, cannot-link, genetic algorithm, differential 
 
 \section{Introduction} \label{sec:Intro}
 
-One of the most widely known and studied data analysis problems is clustering. It is one of the most successful methods in the field of unsupervised learning, where there is no supervision on how the information should be handled. Clustering has been able to provide solutions in a large number of knowledge fields, such as, marketing, banking, psychology, psychiatry, astronomy, archaeology and genetics among others \cite{ClusterAnalysis}.
+One of the most widely known and studied data analysis problems is clustering. It is one of the most successful methods in the field of unsupervised learning, where there is no supervision on how the information should be handled. Clustering has been able to provide solutions in a large number of knowledge fields, such as, marketing, banking, psychology, psychiatry, astronomy, archaeology and genetics among others \cite{Everitt:2009:CA:1538772}.
 
-In the literature, clustering methods are often divided into two subsets: partitional clustering and hierarchical clustering. The main difference is that in hierarchical clustering the result is not a partition of the data with a certain number of clusters---as in partitional clustering---, but instead a dendrogram in which there are partitions that include from the whole dataset to particular individuals \cite{ClusterAnalysis}. In this paper we will focus on partitional clustering. \textcolor{red}{Poner ejemplos de cada uno (con referencias)?}
+In the literature, clustering methods are often divided into two subsets: partitional clustering and hierarchical clustering. The main difference is that in hierarchical clustering the result is not a partition of the data with a certain number of clusters---as in partitional clustering---, but instead a dendrogram in which there are partitions that include from the whole dataset to particular individuals \cite{Everitt:2009:CA:1538772}. A representative example of partitional clustering is the widely studied and well-known algorithm K-means, while for hierarchical clustering the CURE method should be highlighted \cite{wu2009top, guha1998cure}. In this paper we will focus on partitional clustering.
 
 We can define partitional clustering as the task of grouping the instances of a dataset into $k$ clusters, so that new information can be extracted from them. A dataset $X$ is composed of $n$ instances, each one of them described by $d$ features. More formally, $X = \{x_1, \cdots, x_n\}$, with the $i$th instance noted as $x_i = (x_{[i,1]}, \cdots, x_{[i,d]})$. A typical clustering algorithm assigns a class label $l_i$ to each instance $x_i \in X$. As a result, we obtain the set of labels $L = \{l_1, \cdots, l_n\}$, with $l_i \in \{1, \cdots, k\}$, that effectively splits $X$ into $k$ non-overlapping clusters $c_i$ to form a partition called $C$. The criterion used to assign an instance to a given cluster is the similarity to the rest of elements in that cluster, and the dissimilarity to the rest of instances of the dataset, which can be obtained with some kind of distance measurement $d(\cdot, \cdot)$. An important detail is that each instance must belong to a single cluster. \cite{jain1999data}
 
-\textcolor{red}{Bucar una referencia fiable de ssl}
+Semi-supervised learning (SSL) is a machine learning paradigm that arises from adding incomplete information to unsupervised learning. We can divide SSL methods into two broad categories according to their objective: semi-supervised classification and semi-supervised clustering. The first method has partial information about the labels, so it tries to minimize the error based on them while taking into account the distribution of unlabeled instances. The second tries to obtain better defined clusters incorporating background information to the clustering process, this is known as constrained clustering and is the main subject of the study presented in this paper. \cite{triguero2015self}
 
 Constrained clustering is a semi-supervised learning method. Its goal is to find a partition of the dataset that meets the proper characteristics of a clustering method result, in addition to satisfying a certain constraint set. It has been succesfully applied in many knowledge fields. It has been used to guide the movement of walking robots, as well as in other advanced robotics applications \cite{davidson2005clustering, semnani2016constrained}. In \cite{seret2014new} constrained clustering is presented as a useful tool in the context of applied marketing. Biology has also made use of constrained clustering, being able to detect simultaneous appearances of genes and proteins in biological data bases \cite{segal2003discovering}. In \cite{levy2008structural} a method of segmenting musical audio into separated sections using constrained clustering is described. Constrained clustering has also been useful to classify Internet traffic, which is considered to be one of the most fundamental functionalities in the network management field \cite{wang2014internet}. Electoral district design problems can also be approached using constrained clustering, as shown in \cite{brieden2017constrained}. Lastly, it is mandatory to name the widely known application to GPS data of constrained clustering, presented in \cite{wagstaff2001constrained}.
 
 Constraints can be understood in different ways, resulting in three main types of constrained clustering: cluster-level, instance-level and feature-level constrained clustering \cite{bradley2000constrained,davidson2007survey,schmidt2011clustering}. Moreover, hybrid approaches which try to integrate different types of constraints have also been proposed \cite{wang2010clustering}. 
 
-In particular, we can find in the literature two types of instance-level constraints: pairwise constraints and distance-based constraints. Pairwise constraints tell us if two specific instances of a dataset must be placed in the same or in different clusters, resulting in Must-link (ML) and Cannot-link (CL) constraints respectively. On the other hand, distance-based constraints do not involve specific instances, but tell us if instances must be placed in the same or in different clusters based on a given distance measure.\cite{davidson2007survey} This paper focuses on pairwise instance-level constraints (ML and CL), which will be discussed later in Section \textcolor{red}{X}.
+In particular, we can find in the literature two types of instance-level constraints: pairwise constraints and distance-based constraints. Pairwise constraints tell us if two specific instances of a dataset must be placed in the same or in different clusters, resulting in Must-link (ML) and Cannot-link (CL) constraints respectively. On the other hand, distance-based constraints do not involve specific instances, but tell us if instances must be placed in the same or in different clusters based on a given distance measure.\cite{davidson2007survey} This paper focuses on pairwise instance-level constraints (ML and CL), which will be discussed later in Section \ref{sec:BackCC}.
 
 Regarding the degree to which the constraints have to be satisfied, we can make a distinction between the concepts of hard and soft constraints. Hard constraints must necessarily be satisfied in the output partition of any algorithm that makes use of them, while soft constraints are taken as a strong guide for the algorithm that uses them but can be partially satisfied in the output partition \cite{seret2014new, wagstaff2001constrained, law2004clustering}. For the purposes of this paper, we will employ the latter.
 
@@ -111,13 +111,11 @@ The constrained clustering problem can be formulated in terms of optimization, s
 
 Differential Evolution (DE) is an evolution-based algorithm that has proven to be excellent in real-domain problem solving \cite{das2011differential}; in this paper we propose a new DE variant to find quality solutions for the constrained clustering problem (see Section \ref{sec:SHADE}). We will make use of the Random-key concept from BRKGA, along with proposing a new fitness function, to build the already mentioned DE variant. We will properly compare the results obtained by our new method with previous nature-inspired algorithms, as well as with the constrained clustering state-of-the-art.
 
-\textcolor{red}{Cambiar el parrafo de abajo en funcion de como quede la organizacion de secciones final}
-
-Regarding the organization of this paper, Section \ref{sec:background} reviews the existing knowledge concerning constrained clustering and DE. In Section \ref{sec:brkga} we will briefly review the BRKGA algorithm and its adaptation for constrained clustering. Afterward, a variant of DE algorithm will be presented in Section \ref{sec:SHADE}, followed by its adaptation for constrained clustering and a new fitness function. Sections \ref{sec:expSetup} to \ref{sec:analisis} present the experimental setup, results and their analysis. Finally, in Section \ref{sec:conclusiones} we discuss conclusions.
+Regarding the organization of this paper, Section \ref{sec:background} reviews the existing knowledge concerning constrained clustering and DE. In Section \ref{sec:brkga} we will briefly review the BRKGA algorithm and its adaptation for constrained clustering. Afterward, a variant of DE algorithm will be presented in Section \ref{sec:SHADE}. In Section \ref{sec:SHADEadapt} we present the scheme that allow us to apply SHADE to constrained clustering, including the proposal of a new fitness function. Sections \ref{sec:expSetup} to \ref{sec:analisis} present the experimental setup, results and their analysis. Finally, in Section \ref{sec:conclusiones} we discuss conclusions.
 
 \section{Background} \label{sec:background}
 
-In this section we present the background knowledge concerning constrained clustering (Section \ref{sec:BackCC}), its computational complexity (Section \ref{sec:BackFeas}) and a brief description of some of the state-of-the-art methods for constrained clustering \ref{sec:BackSOTA}. We will also present the basis of the DE optimization method (Section \ref{sec:BackDE}).
+In this section we present the background knowledge concerning constrained clustering (Section \ref{sec:BackCC}), its computational complexity (Section \ref{sec:BackFeas}) and a brief description of some of the state-of-the-art methods for constrained clustering (Section \ref{sec:BackSOTA}). We will also present the basis of the DE optimization method (Section \ref{sec:BackDE}).
 
 \subsection{Constrained Clustering} \label{sec:BackCC}
 
@@ -135,11 +133,9 @@ Given the notation for the clustering problem introduced in Section \ref{sec:Int
 
 The goal of constrained clustering is to find a partition (or clustering) of $k$ clusters $C = \{c_1, \cdots, c_k\}$ of the dataset $X$ that ideally satisfies all constraints in the constraint set. As in the original clustering problem, it must be fulfilled that the sum of instances in each cluster $c_i$ is equal to the number of instances in $X$, which we have defined as $n = |X| = \sum_{i = 1}^{k} |c_i|$.
 
-Knowing how a constraint is defined, ML constraints are an example of an equivalence relation; therefore, ML constraints are reflexive, transitive and symmetric. This way, given constraints $C_=(x_a,x_b)$ and $C_=(x_b,x_c)$ then $C_=(x_a,x_c)$ is verified. In addition, if $x_a \in c_i$ and $x_b \in c_j$ are related by $C_=(x_a,x_b)$, then $C_=(x_c,x_d)$ is verified for any $x_c \in c_i$ and $x_d \in c_j$ \cite{xu2013improving}\cite{davidson2007survey}.
+Knowing how a constraint is defined, ML constraints are an example of an equivalence relation; therefore, ML constraints are reflexive, transitive and symmetric. This way, given constraints $C_=(x_a,x_b)$ and $C_=(x_b,x_c)$ then $C_=(x_a,x_c)$ is verified. In addition, if $x_a \in c_i$ and $x_b \in c_j$ are related by $C_=(x_a,x_b)$, then $C_=(x_c,x_d)$ is verified for any $x_c \in c_i$ and $x_d \in c_j$. \cite{davidson2007survey}
 
 On the other hand, CL constraints do not constitute an equivalence relation. However, analogously, given $x_a \in c_i$ and $x_b \in c_j$, and the constraint $C_{\neq}(x_a,x_b)$, then it is also true that $C_{\neq}(x_c,x_d)$ for any $x_c \in c_i$ and $x_d \in c_j$ \cite{davidson2007survey}.
-
-\textcolor{red}{Opciones para cambiar el nombre de los conjuntos de restricciones: $CS_=$ y $CS_{\neq}$, con $CS$ para referirse a las restricciones en general. O simplemente $ML$ y $CL$, con $CS$ para referirse a las restricciones en general}
 
 \subsection{The Feasibility Problem} \label{sec:BackFeas}
 
@@ -147,7 +143,7 @@ Given that constrained clustering adds a new element to the clustering problem, 
 
 \begin{definition}
 
-	\textbf{Feasibility Problem}: given a dataset $X$, a constraint set $CS$, and the bounds on the number of clusters $k_l \leq k \leq k_u$, does there exist a partition $C$ of $X$ with $k$ clusters such that all constraints in $CS$ are satisfied? \cite{davidson2007survey}\cite{davidson2005clustering}
+	\textbf{Feasibility Problem}: given a dataset $X$, a constraint set $CS$, and the bounds on the number of clusters $k_l \leq k \leq k_u$, does there exist a partition $C$ of $X$ with $k$ clusters such that all constraints in $CS$ are satisfied? \cite{davidson2005clustering}
 	\label{def1}
 
 \end{definition}
@@ -196,9 +192,9 @@ DE, which emerged in 1995 as a technical report presented in \cite{storn1997diff
 
 DE arose as a variant of population-based evolutionary algorithms, its goal being to perform an intelligent search in the solution space of the problem in the most optimized and effective way possible.
 
-Like most evolutionary algorithms, DE uses a population of individuals $P$, where each individual $p_i$ is a vector of real values $p_i = \{p_{[i,1]},\cdots,p_{[i,D]}\}$ that serve as parameters for the function to be optimized. These individuals are considered solutions to the problem.
+Like most evolutionary algorithms, DE uses a population of individuals $P$, where each individual $p_i$ is a vector of real values $p_i = \{p_{[i,1]},\cdots,p_{[i,v]}\}$ that serve as parameters for the function to be optimized. These individuals are considered solutions to the problem.
 
-To guide the optimization process, we use a fitness function. The task of DE is to seek the parameter vector $p_i^*$ that minimizes a function such that $f(p_i)(f: \Omega \subseteq \mathfrak{R}^D \rightarrow \mathfrak{R})$, where $f(p_i^*) < f(p_i)$ for all $p_i \in \Omega$ with $\Omega$ a nonempty finite set that is the search domain.
+To guide the optimization process, we use a fitness function. The task of DE is to seek the parameter vector $p_i^*$ that minimizes a function such that $f(p_i)(f: \Omega \subseteq \mathfrak{R}^{v} \rightarrow \mathfrak{R})$, where $f(p_i^*) < f(p_i)$ for all $p_i \in \Omega$ with $\Omega$ a nonempty finite set that is the search domain.
 
 \begin{figure}[!h]
 	\centering
@@ -210,7 +206,7 @@ The optimization process of DE the works through a simple cycle of stages, prese
 
 \begin{itemize}
 	
-	\item \textbf{Initialization of Vectors}: DE begins with a randomly initialized population of a given number of $D$-dimensional arrays of parameters. These vectors constitute candidate solutions for the problem to be solved.
+	\item \textbf{Initialization of Vectors}: DE begins with a randomly initialized population of a given number of $v$-dimensional arrays of parameters. These vectors constitute candidate solutions for the problem to be solved.
 	
 	\item \textbf{Difference-vector-based mutation}: DE introduces diversity into the population via the mutation operator. This operator is applied to each individual of the population, known in this context as the parent vector. It combines the parent vector with two randomly selected vectors from the population by applying an arithmetic operator to them. The result of this process is a mutant vector.
 	
@@ -224,19 +220,21 @@ Even though DE was a major breakthrough in terms of real optimization, many vari
 
 \section{Brief Review of the BRKGA Algorithm} \label{sec:brkga}
 
-The biased random-key genetic algorithm---from now on BRKGA---was first proposed in \cite{gonccalves2011biased} as a generalization of the random-key genetic algorithm \cite{bean1994genetic}.
+Genetic Algorithms (GA) emerged as one of the first metaheuristics inspired by the concept of natural selection and evolution. It is one of the most studied and successful evolutionary algorithms thanks in part to its simplicity and easy implementation. \cite{fausto2019ants}
 
-In BRKGA, each solution---also called individual---is represented as a vector of values within the interval $[0,1]$. However, this vector is not a solution to the problem but a representation of it. This allows us to abstract the details of the problem in order to apply a genetic algorithm that operates with real coding. Therefore, a deterministic decoder is necessary to obtain the actual solution to the problem from the vector that encodes it.
+In GA a Population $P$ of a given number of solutions $p_i = \{p_{[i,1]}, \cdots, p_{[i,v]}\}$ is initialized, these solutions are also called chromosomes or individuals. Each element of a chromosome is called gene and the value it takes is known as allele. To simulate the natural processes of evolution and natural selections the GA uses a set of evolutionary operator similar to the one used by DE, this is: crossover, mutation and selection. The crossover operator consist of combining two different chromosomes (parents) from the population and obtaining a new chromosome (offspring) which inherit alleles for its genes from both parents. The mutation operator is used by GA to avoid local optimum, it consist of introducing random changes in the population to favor diversity. The selection operator is uses to determine if a chromosome is suitable to survive for the next generation, to accomplish this task it uses a fitness function, which assign a value to each chromosome in order to determine if it is a good solution to the problem or not. GA applies these operator through a series of generations to hopefully obtain a solution for the problem to solve close to the optimal. \cite{fausto2019ants}
 
-BRKGA also requires a fitness function to evaluate each individual. This function takes the decoded solution as input and provides its fitness value as output. It is designed specifically for each problem.
+GAs have been applied to all kinds of problems, including problems whose solutions are subject to strong restrictions such as machine scheduling, resource location and the quadratic assignment problem. These problems present the peculiarity that, by applying generalized crossover operators to two individuals that represent a feasible solution to the problem, we can obtain one that is not feasible. The Random-Key Genetic Algorithm (RKGA) emerged in \cite{bean1994genetic} as a solid approach to this kind of problems, it uses random numbers to represent solutions to the problem (individuals), which are used as keys to obtain an actual solutions. Random-key vectors are sampled from the space $[0,1]^{v}$, which is used as a surrogate space for the literal solutions space. Points in the random-key space are transfered to the literal solutions space via a decoder for fitness evaluation. A decoder is a deterministic procedure that allow us to map random-key vectors to the literal solutions space. We can build a decoder that always provides as a result a feasible solution to the problem we want to solve, thus avoiding the feasibility problem that we found in the classic GA.
 
-The BRKGA optimization process is completely independent of the problem to solve. First, a population $P$ of $p_{size}$ vectors of random-keys is initialized, and this will be the initial generation. Each random-key vector $p_i$ has $N$ random-keys in it. The population is sorted by the fitness value $f_i$ of each $p_i$ to select the first $p_e$ individuals, this is, the elite of the population. The elite will be preserved in the next generation without modification. To introduce diversity, a number $p_m$ of new random-keys vectors are also included in the next generation. The remaining individuals of the new generation ($p_{size} - p_e - p_m$) are obtained through crossovers between elite and non-elite parents \cite{de2017comparison}.
+The Biased Random-key Genetic Algorithm (BRKGA) was first proposed in \cite{gonccalves2011biased} as a variant of the RKGA. In the BRKGA optimization process, first, the population $P$ of $p_{size}$ vectors of random-keys is initialized, this will be the initial generation. Each random-key vector $p_i$ has $v$ random-keys in it. The population is sorted by the fitness value $f_i$ of each $p_i$ to select the first $p_e$ individuals, this is, the elite of the population. The elite will be preserved in the next generation without modification. To introduce diversity, a number $p_m$ of new random-keys vectors are also included in the next generation. The remaining individuals of the new generation ($p_{size} - p_e - p_m$) are obtained through crossovers between elite and non-elite parents.
 
-\subsection{Adaptation of BRKGA for Constrained Clustering} \label{sec:AdaptationofBRKGA}
+It should be noted that in BRKGA there is a clear differentiation between problem-dependent and problem-independent elements. The independent part of the algorithm has no knowledge of the problem it solves, it is limited to performing the operations related to the population optimization process. The dependent part of the problem is the decoder and the fitness function, which allow us to obtain real solutions for the problem and its evaluation. Therefore, to specify a BRKGA optimization scheme it is only necessary to define the decoder and the fitness function. \cite{gonccalves2011biased}
+
+\subsection{BRKGA optimization scheme for Constrained Clustering} \label{sec:AdaptationofBRKGA}
 
 An adaptation of BRKGA for constrained clustering was proposed in \cite{de2017comparison}.
 
-This method randomly initializes a population of random-key vectors, each one with $n$ random-keys. The decoder divides the interval $[0,1]$ in $k$ intervals, so there exists a correspondence between each random-key (instance $x_i$) and the integer (label $l_i$) corresponding to the interval which it lies in. Table \ref{tab:decodingrk} shows an example of random-key decoding for a dataset with 10 instances ($n$ = 10) and $k = 3$. Note that extreme values 0 and 1 can also appear in a random-key vector.
+In this scheme each random-key vector has $n$ random-keys in it. The decoder divides the interval $[0,1]$ in $k$ intervals, so there exists a correspondence between each random-key (instance $x_i$) and the integer (label $l_i$) corresponding to the interval which it lies in. Table \ref{tab:decodingrk} shows an example of random-key decoding for a dataset with 10 instances ($n$ = 10) and $k = 3$. Note that extreme values 0 and 1 can also appear in a random-key vector.
 
 \begin{table}[!h]
 	\centering
@@ -282,9 +280,11 @@ Success History Based Adaptive Differential Evolution (SHADE) is an optimization
 
 Unlike JADE, which only considers the parameters used in the previous generation, SHADE uses a historical record of successful parameters as a mechanism for adapting parameters involved in the process of creating new generations.
 
+Since SHADE is an evolution-based algorithm, it shares elements with BRKGA (Section \ref{sec:brkga}), so we will use a similar notation to define its elements. We will note the population as $P$, formed by $p_{size}$ individuals with the form $p_{[i,G]} = \{p_{[i,G,1]}, \cdots, p_{[i,G,v]}\}$, with $G$ indicating the generation to which $p_i$ belongs.
+
 \subsection{SHADE Operators}
 
-As in differential evolution, SHADE employs mutant generation, crossover and replacement operators to explore the space of solutions and bring in new generations of individuals.
+As in differential evolution, SHADE employs mutant generation, crossover and selection operators to explore the space of solutions and bring in new generations of individuals.
 
 The mutation strategy used by SHADE is known as current-to-$p$best/1, and the expression that generates new individuals is described in Equation \eqref{eq3}.
 
@@ -293,7 +293,7 @@ m_{[i,G]} = p_{[i,G]} + F_i * (p_{[pbest, G]} - p_{[i,G]}) + F_i * (p_{[r1, G]} 
 \label{eq3}
 \end{equation}
 
-\noindent where $m_{[i,G]}$ is the mutant vector, which is generated with an individual $p_{[i,G]}$ from the population serving as a starting point. Indices $r1$ and $r2$ are random values in the range $[0,p_{size}]$, different from $i$ and from each other. The individual $p_{[pbest, G]}$ is randomly selected from among the best $N \times pbest\;|\;pbest\in [0,1]$ individuals in the population. This way, the parameter $pbest$ controls the greediness of the mutation strategy. The parameter $F_i$ defines the magnitude of the operator.
+\noindent where $m_{[i,G]}$ is the mutant vector, which is generated with an individual $p_{[i,G]}$ from the population serving as a starting point. Indices $r1$ and $r2$ are random values in the range $[0,p_{size}]$, different from $i$ and from each other. The individual $p_{[pbest, G]}$ is randomly selected from among the best $p_{size} \times pbest\;|\;pbest\in [0,1]$ individuals in the population. This way, the parameter $pbest$ controls the greediness of the mutation strategy. The parameter $F_i$ defines the magnitude of the operator.
 
 After generating the mutant vector $m_{[i,G]}$, it is combined with the parent $p_{[i,G]}$ vector by means of a crossover operator; the result is the trial vector. SHADE uses the Binomial crossover operator, which is defined by the Equation \eqref{eq4}.
 
@@ -306,9 +306,9 @@ p_{[j,i,G]} &  \text{otherwise}
 \label{eq4}
 \end{equation}
 
-\noindent where $rand[0,1)$ is a random number selected from a normal distribution in the range $[0,1)$, $j_{rand}$ is a random integer selected from the range $[1,D]$, and $CR \in [0,1]$ is the crossover ratio.
+\noindent where $rand[0,1)$ is a random number selected from a normal distribution in the range $[0,1)$, $j_{rand}$ is a random integer selected from the range $[1,v]$, and $CR \in [0,1]$ is the crossover ratio.
 
-The SHADE replacement operator determines the survivors individuals for the next generation. It compares each parent $x_{[i,G]}$ with the trial vector $_{[j,i,G]}$, generated based on it. The best one of these two individuals will survive for the next generation. Equation \eqref{eq5} shows this concept.
+The SHADE selection operator determines the survivors individuals for the next generation. It compares each parent $x_{[i,G]}$ with the trial vector $_{[j,i,G]}$, generated based on it. The best one of these two individuals will survive for the next generation. Equation \eqref{eq5} shows this concept.
 
 \begin{equation}
 p_{[i,G + 1]} = \left\{ \begin{array}{lc}
@@ -414,7 +414,7 @@ pbest_i = \text{randn}[2/N, 0.2],
 
 \noindent such that there is always at least two individuals to choose between.
 
-\subsection{Adaptation of SHADE for constrained clustering} \label{sec:SHADEadapt}
+\section{Adaptation of SHADE for constrained clustering} \label{sec:SHADEadapt}
 
 For the adaptation of SHADE to the problem of constrained clustering, we will take some of the elements that allowed us to adapt it to BRKGA. To begin with, we will use random-keys to create the individuals of the population; this way, each individual is defined as a vector of $n$ random-keys. Additionally, we will also reuse the same initialization method and the same decoder used in BRKGA (see Section \ref{sec:AdaptationofBRKGA}).
 
@@ -497,14 +497,14 @@ Algorithm \ref{alg:SHADE} describes the overall SHADE optimization process and i
 
 		$S_{CR} \leftarrow S_F \leftarrow \emptyset$\\
 		$P_G \leftarrow$ \Sort{$P_G$} \tcp{Sort the population}
-		\tcp{Apply a LS procedure to the elite of the population}
+		\tcp{Apply an LS procedure to the elite of the population}
 		\LocalSearch{$\{p_{[1,G]}, \cdots, p_{[p_{e},G]}\}$}\\
 		\For{$i \in [1,p_{size}]$}{
 			$r_i \leftarrow$ randInt$[1,H]$\\
 			$CR_{[i,G]} \leftarrow$ randn$_i(M_{[CR,r_i]}, 0.1)$\\
 			$F_{[i,G]} \leftarrow$ randc$_i(M_{[F,r_i]}, 0.1)$\\
 			$p_{[i,G]} \leftarrow$ rand$[N/2, 0.2]$\\
-			Generate trial vector $t_{[i,G]}$ by current-to-$p$best/1/bin\\
+			\tcp{Generate trial vector $t_{[i,G]}$ by current-to-$p$best/1/bin}
 
 			\eIf{$f(t_{[i,G]}) \le f(p_{[i,G]})$}{
 				$p_{[i,G + 1]} \leftarrow t_{[i,G]}$
@@ -519,7 +519,7 @@ Algorithm \ref{alg:SHADE} describes the overall SHADE optimization process and i
 			}
 
 		}
-		Whenever $|A| > |P|$, randomly select an individual from $A$ to be deleted so that $|A| \le |P|$\\
+		\tcp{Whenever $|A| > |P|$, randomly select an individual from $A$ to be deleted so that $|A| \le |P|$}
 		\If{$S_{CR} \neq \emptyset$ \textbf{and} $S_{F} \neq \emptyset$}{
 			Update $M_{[CR,h]}$ and $M_{[F,h]}$ based on $S_{CR}$ and $S_{F}$\\
 			$h \leftarrow (h + 1) \mod H$
@@ -578,10 +578,9 @@ For our experiments we will compare the results obtained by BRKGA and SHADE over
 		Name & No. Instances & No. Classes & No. Features \\
 		\hline
 		Appendicitis & 106 & 2 & 7 \\
-		Boston & 506 & 229 & 13 \\
 		Breast Cancer & 569 & 2 & 30 \\
+		Bupa & 345 & 2 & 6 \\
 		Circles & 300 & 2 & 2 \\
-		Diabetes & 442 & 214 & 10 \\
 		Ecoli & 336 & 8 & 7 \\
 		Glass & 214 & 6 & 9 \\
 		Haberman & 306 & 2 & 3 \\
@@ -591,6 +590,7 @@ For our experiments we will compare the results obtained by BRKGA and SHADE over
 		Led7Digit & 500 & 10 & 7 \\
 		Monk2 & 432 & 2 & 6 \\
 		Moons & 300 & 2 & 2 \\
+		Movement Libras & 360 & 15 & 90 \\
 		Pima & 768 & 2 & 8 \\
 		Saheart & 462 & 2 & 9 \\
 		Sonar & 208 & 2 & 60 \\
@@ -633,10 +633,9 @@ The random allocation of constraints has a potential advantage over simply using
 		& ML & CL && ML & CL && ML & CL \\
 		\hline
 		Appendicitis & 39 & 16 && 71 & 49 && 164 & 67 \\
-		Boston & 3 & 1272 && 13 & 2837 && 26 & 5125 \\
 		Breast Cancer & 876 & 720 && 1965 & 1690 && 3487 & 2954 \\
+		Bupa & 323 & 272 && 699 & 627 && 1201 & 1145 \\
 		Circles & 208 & 227 && 502 & 488 && 853 & 917 \\
-		Diabetes & 5 & 985 && 7 & 2204 && 23 & 3893 \\
 		Ecoli & 163 & 398 && 357 & 918 && 609 & 1669 \\
 		Glass & 52 & 179 && 139 & 389 && 259 & 644 \\
 		Haberman & 304 & 161 && 634 & 401 && 1135 & 756 \\
@@ -646,6 +645,7 @@ The random allocation of constraints has a potential advantage over simply using
 		Led7Digit & 126 & 1099 && 267 & 2508 && 460 & 4490 \\
 		Monk2 & 473 & 473 && 979 & 1101 && 1917 & 1824 \\
 		Moons & 200 & 235 && 494 & 496 && 900 & 870 \\
+		Movement Libras & 27 & 603 && 112 & 1319 && 158 & 2398 \\
 		Pima & 1604 & 1322 && 3595 & 3075 && 6452 & 5329 \\
 		Saheart & 595 & 486 && 1292 & 1123 && 2330 & 1948 \\
 		Sonar & 100 & 110 && 245 & 251 && 436 & 425 \\
@@ -751,10 +751,9 @@ In Tables \ref{tab:results10} to \ref{tab:results20} the ARI columns shows the A
 			& ARI & Unsat(\%) & Time(s) && ARI & Unsat(\%) & Time(s) \\
 			\hline
 			Appendicitis & 0.022 & 5.454 & 383.642 && 0.086 & 5.091 & 366.491 \\
-			Boston & -0.000 & 0.173 & 1502.452 && -0.001 & 0.235 & 1570.547 \\
-			Breast\_Cancer & 0.395 & 17.444 & 3651.263 && 0.159 & 22.256 & 3602.665 \\
+			Breast Cancer & 0.395 & 17.444 & 3651.263 && 0.159 & 22.256 & 3602.665 \\
+			Bupa & 0.281 & 14.151 & 1420.117 && 0.104 & 16.672 & 1409.487 \\
 			Circles & 0.166 & 12.598 & 1077.238 && 0.063 & 14.207 & 1060.787 \\
-			Diabetes & 0.000 & 0.364 & 1277.982 && 0.003 & 0.465 & 1284.486 \\
 			Ecoli & 0.009 & 20.321 & 1169.798 && 0.020 & 12.763 & 1112.981 \\
 			Glass & 0.016 & 8.658 & 735.507 && 0.013 & 4.848 & 694.962 \\
 			Haberman & 0.047 & 15.699 & 1155.985 && 0.084 & 15.441 & 1146.023 \\
@@ -764,6 +763,7 @@ In Tables \ref{tab:results10} to \ref{tab:results20} the ARI columns shows the A
 			Led7Digit & 0.009 & 11.347 & 1786.943 && 0.004 & 8.866 & 1784.708 \\
 			Monk2 & 0.421 & 14.926 & 1848.543 && 0.270 & 16.385 & 1821.208 \\
 			Moons & 0.277 & 11.816 & 1098.089 && 0.272 & 11.356 & 1075.089 \\
+			Movement Libras & 0.004 & 4.159 & 1508.279 && 0.003 & 3.396 & 1519.185 \\
 			Pima & 0.236 & 25.195 & 4072.087 && 0.275 & 22.468 & 3990.383 \\
 			Saheart & 0.147 & 20.555 & 2135.624 && 0.265 & 16.725 & 2095.554 \\
 			Sonar & 0.124 & 7.619 & 1106.039 && 0.116 & 8.952 & 1081.994 \\
@@ -802,10 +802,9 @@ Table \ref{tab:results10} shows the results for the $SC_{10}$ constraint set. We
 			& ARI & Unsat(\%) & Time(s) && ARI & Unsat(\%) & Time(s) \\
 			\hline
 			Appendicitis & 0.296 & 6.167 & 381.625 && 0.332 & 5.833 & 362.106 \\
-			Boston & 0.000 & 0.526 & 1648.008 && 0.001 & 0.547 & 1688.985 \\
-			Breast\_Cancer & 0.772 & 10.172 & 3854.911 && 0.911 & 3.310 & 3766.402 \\
+			Breast Cancer & 0.772 & 10.172 & 3854.911 && 0.911 & 3.310 & 3766.402 \\
+			Bupa & 0.840 & 5.973 & 1463.152 && 0.801 & 5.641 & 1437.639 \\
 			Circles & 0.828 & 6.101 & 1136.484 && 0.982 & 0.404 & 1108.928 \\
-			Diabetes & 0.004 & 0.317 & 1364.941 && -0.000 & 0.371 & 1424.047 \\
 			Ecoli & 0.015 & 24.314 & 1200.463 && 0.025 & 19.090 & 1127.568 \\
 			Glass & 0.017 & 17.500 & 745.987 && 0.031 & 11.743 & 722.009 \\
 			Haberman & 0.866 & 4.677 & 1209.471 && 0.796 & 5.314 & 1147.479 \\
@@ -815,6 +814,7 @@ Table \ref{tab:results10} shows the results for the $SC_{10}$ constraint set. We
 			Led7Digit & 0.004 & 12.836 & 1902.272 && 0.007 & 10.919 & 1897.511 \\
 			Monk2 & 0.751 & 10.827 & 1949.305 && 0.945 & 2.067 & 1920.361 \\
 			Moons & 0.958 & 1.334 & 1133.858 && 0.995 & 0.020 & 1113.687 \\
+			Movement Libras & 0.006 & 8.679 & 1584.028 && 0.001 & 8.889 & 1590.321 \\
 			Pima & 0.481 & 22.051 & 4451.193 && 0.762 & 9.928 & 4402.693 \\
 			Saheart & 0.749 & 10.940 & 2281.992 && 0.945 & 1.839 & 2225.210 \\
 			Sonar & 0.800 & 5.040 & 1124.700 && 0.890 & 2.177 & 1069.862 \\
@@ -850,11 +850,9 @@ Table \ref{tab:results15} presents the results obtained with the $CS_{15}$ const
 			\cline{2-4} \cline{6-8}
 			& ARI & Unsat(\%) & Time(s) && ARI & Unsat(\%) & Time(s) \\
 			\hline
-			Appendicitis & 1.000 & 0.000 & 389.905 && 1.000 & 0.000 & 371.579 \\
-			Boston & 0.001 & 0.636 & 1820.313 && 0.001 & 0.660 & 1878.863 \\
-			Breast\_Cancer & 0.807 & 9.086 & 4061.162 && 0.977 & 0.891 & 3984.370 \\
+			Breast Cancer & 0.807 & 9.086 & 4061.162 && 0.977 & 0.891 & 3984.370 \\
+			Bupa & 0.936 & 2.975 & 1529.151 && 0.993 & 0.281 & 1508.772 \\
 			Circles & 0.935 & 2.814 & 1180.268 && 1.000 & 0.000 & 1170.452 \\
-			Diabetes & 0.003 & 0.695 & 1480.035 && 0.001 & 0.710 & 1589.821 \\
 			Ecoli & 0.028 & 25.716 & 1267.419 && 0.047 & 21.466 & 1277.903 \\
 			Glass & 0.038 & 23.610 & 766.861 && 0.082 & 16.412 & 796.162 \\
 			Haberman & 0.943 & 2.073 & 1266.131 && 0.997 & 0.138 & 1235.441 \\
@@ -864,6 +862,7 @@ Table \ref{tab:results15} presents the results obtained with the $CS_{15}$ const
 			Led7Digit & 0.007 & 13.653 & 2053.264 && 0.005 & 12.170 & 2066.223 \\
 			Monk2 & 0.855 & 6.025 & 2055.425 && 0.991 & 0.379 & 2013.468 \\
 			Moons & 0.937 & 2.689 & 1177.848 && 0.995 & 0.158 & 1157.222 \\
+			Movement Libras & 0.006 & 8.381 & 1654.159 && 0.004 & 7.676 & 1645.174 \\
 			Pima & 0.753 & 11.544 & 4855.446 && 0.899 & 4.419 & 4820.684 \\
 			Saheart & 0.881 & 5.250 & 2402.513 && 0.981 & 0.706 & 2353.931 \\
 			Sonar & 0.992 & 0.186 & 1138.769 && 1.000 & 0.000 & 1127.020 \\
@@ -905,10 +904,9 @@ It should be noted that there are some missing results in these tables. In the c
 			Dataset & SHADE+LS & COPKM & LCVQE & RDPM & TVClust & CECM \\
 			\hline
 			Appendicitis & 0.086 & - & 0.335 & 0.316 & 0.025 & -0.005 \\
-			Boston & -0.001 & 0.010 & 0.010 & 0.003 & 0.007 & - \\
 			Breast Cancer & 0.159 & -0.604 & 0.486 & 0.502 & 0.000 & 0.000 \\
+			Bupa & 0.104 & - & -0.005 & -0.005 & -0.004 & -0.011 \\
 			Circles & 0.063 & - & -0.003 & 0.162 & 0.137 & 0.133 \\
-			Diabetes & 0.003 & 0.022 & 0.005 & 0.001 & 0.002 & - \\
 			Ecoli & 0.020 & - & 0.387 & 0.417 & 0.265 & - \\
 			Glass & 0.013 & 0.184 & 0.268 & 0.197 & 0.211 & - \\
 			Haberman & 0.084 & - & -0.002 & 0.127 & 0.218 & -0.004 \\
@@ -918,6 +916,7 @@ It should be noted that there are some missing results in these tables. In the c
 			Led7Digit & 0.004 & 0.497 & 0.425 & 0.369 & 0.316 & - \\
 			Monk2 & 0.270 & 0.982 & 0.072 & 0.094 & -0.002 & 0.007 \\
 			Moons & 0.272 & - & 0.241 & 0.319 & 0.785 & 0.092 \\
+			Movement Libras & 0.003 & 0.285 & 0.293 & 0.256 & 0.000 & - \\
 			Pima & 0.275 & - & 0.076 & 0.075 & 0.145 & -0.008 \\
 			Saheart & 0.265 & 0.974 & 0.018 & 0.020 & 0.068 & 0.000 \\
 			Sonar & 0.116 & - & 0.004 & 0.013 & 0.000 & 0.000 \\
@@ -950,10 +949,9 @@ Table \ref{tab:results10SOTA} presents the results obtained for the $CS_{10}$ co
 			Dataset & SHADE+LS & COPKM & LCVQE & RDPM & TVClust & CECM \\
 			\hline
 			Appendicitis & 0.332 & - & 0.305 & 0.284 & 0.025 & -0.006 \\
-			Boston & 0.001 & 0.033 & 0.010 & 0.004 & 0.007 & - \\
 			Breast Cancer & 0.911 & 1.000 & 0.486 & 0.502 & 0.000 & 0.037 \\
+			Bupa & 0.801 & 1.000 & -0.005 & -0.007 & -0.007 & 0.001 \\
 			Circles & 0.982 & 1.000 & -0.003 & 0.375 & 0.973 & 0.105 \\
-			Diabetes & -0.000 & 0.026 & 0.005 & 0.003 & 0.001 & - \\
 			Ecoli & 0.025 & - & 0.387 & 0.372 & 0.719 & - \\
 			Glass & 0.031 & - & 0.280 & 0.253 & 0.229 & - \\
 			Haberman & 0.796 & 1.000 & -0.002 & 0.075 & 0.219 & -0.050 \\
@@ -963,6 +961,7 @@ Table \ref{tab:results10SOTA} presents the results obtained for the $CS_{10}$ co
 			Led7Digit & 0.007 & - & 0.425 & 0.490 & 0.324 & - \\
 			Monk2 & 0.945 & 1.000 & 0.072 & 0.170 & -0.002 & 0.007 \\
 			Moons & 0.995 & 1.000 & 0.241 & 0.436 & 0.987 & 0.095 \\
+			Movement Libras & 0.001 & -0.742 & 0.293 & 0.255 & 0.000 & - \\
 			Pima & 0.762 & - & 0.076 & 0.075 & 1.000 & 0.000 \\
 			Saheart & 0.945 & 1.000 & 0.020 & 0.037 & 0.221 & 0.000 \\
 			Sonar & 0.890 & - & 0.004 & 0.019 & 0.000 & 0.000 \\
@@ -995,10 +994,9 @@ In Table \ref{tab:results15SOTA}, which shows the results for the $CS_{15}$ cons
 			Dataset & SHADE+LS & COPKM & LCVQE & RDPM & TVClust & CECM \\
 			\hline
 			Appendicitis & 1.000 & - & 0.305 & 0.331 & 0.012 & -0.006 \\
-			Boston & 0.001 & 0.052 & 0.010 & 0.003 & 0.008 & - \\
 			Breast Cancer & 0.977 & 1.000 & 0.486 & 0.502 & 0.000 & 0.000 \\
+			Bupa & 0.993 & 1.000 & -0.005 & -0.007 & -0.006 & 0.000 \\
 			Circles & 1.000 & 1.000 & -0.003 & 0.629 & 1.000 & 0.138 \\
-			Diabetes & 0.001 & 0.065 & 0.005 & 0.007 & 0.002 & - \\
 			Ecoli & 0.047 & - & 0.387 & 0.459 & 0.763 & - \\
 			Glass & 0.082 & - & 0.271 & 0.287 & 0.218 & - \\
 			Haberman & 0.997 & 1.000 & -0.002 & 0.106 & 0.737 & 0.000 \\
@@ -1008,6 +1006,7 @@ In Table \ref{tab:results15SOTA}, which shows the results for the $CS_{15}$ cons
 			Led7Digit & 0.005 & - & 0.425 & 0.571 & 0.327 & - \\
 			Monk2 & 0.991 & 1.000 & 0.072 & 0.253 & -0.002 & 0.160 \\
 			Moons & 0.995 & 1.000 & 0.241 & 0.831 & 1.000 & 0.180 \\
+			Movement Libras & 0.004 & - & 0.293 & 0.293 & 0.000 & - \\
 			Pima & 0.899 & 1.000 & 0.076 & 0.076 & 1.000 & -0.005 \\
 			Saheart & 0.981 & 1.000 & 0.018 & 0.026 & 1.000 & -0.006 \\
 			Sonar & 1.000 & 1.000 & 0.004 & 0.127 & 0.000 & 0.003 \\
