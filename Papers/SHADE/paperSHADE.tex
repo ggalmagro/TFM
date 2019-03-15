@@ -220,21 +220,21 @@ Even though DE was a major breakthrough in terms of real optimization, many vari
 
 \section{Brief Review of the BRKGA Algorithm} \label{sec:brkga}
 
-Genetic Algorithms (GA) emerged as one of the first metaheuristics inspired by the concept of natural selection and evolution. It is one of the most studied and successful evolutionary algorithms thanks in part to its simplicity and easy implementation. \cite{fausto2019ants}
+Genetic Algorithms (GAs) emerged as one of the first metaheuristics inspired by the concept of natural selection and evolution. It is one of the most studied and successful evolutionary algorithms, thanks in part to its simplicity and ease of implementation. \cite{fausto2019ants}
 
-In GA a Population $P$ of a given number of solutions $p_i = \{p_{[i,1]}, \cdots, p_{[i,v]}\}$ is initialized, these solutions are also called chromosomes or individuals. Each element of a chromosome is called gene and the value it takes is known as allele. To simulate the natural processes of evolution and natural selections the GA uses a set of evolutionary operator similar to the one used by DE, this is: crossover, mutation and selection. The crossover operator consist of combining two different chromosomes (parents) from the population and obtaining a new chromosome (offspring) which inherit alleles for its genes from both parents. The mutation operator is used by GA to avoid local optimum, it consist of introducing random changes in the population to favor diversity. The selection operator is uses to determine if a chromosome is suitable to survive for the next generation, to accomplish this task it uses a fitness function, which assign a value to each chromosome in order to determine if it is a good solution to the problem or not. GA applies these operator through a series of generations to hopefully obtain a solution for the problem to solve close to the optimal. \cite{fausto2019ants}
+In a GA, a population $P$ of a given number of solutions $p_i = \{p_{[i,1]}, \cdots, p_{[i,v]}\}$ is first initialized; these solutions are also called chromosomes or individuals. Each element of a chromosome is called gene and the value it takes is known as allele. To simulate the natural processes of evolution and natural selection, the set of evolutionary operators that GAs make use of is similar to that used by DE: crossover, mutation and selection. The crossover operator consists in combining two different chromosomes (parents) from the population and obtaining a new chromosome (offspring) which inherits alleles for its genes from both parents. The mutation operator is used by GAs to avoid local optima, and it consists in introducing random changes into the population to favor diversity. The selection operator is used to determine whether a chromosome is suitable to survive for the next generation, and to accomplish this task it employs a fitness function whose task is to assign a value to each chromosome to assess its quality as a solution for the problem. GAs apply these operators through a series of generations to hopefully obtain a solution for the problem to solve that is close to the optimal. \cite{fausto2019ants}
 
-GAs have been applied to all kinds of problems, including problems whose solutions are subject to strong restrictions such as machine scheduling, resource location and the quadratic assignment problem. These problems present the peculiarity that, by applying generalized crossover operators to two individuals that represent a feasible solution to the problem, we can obtain one that is not feasible. The Random-Key Genetic Algorithm (RKGA) emerged in \cite{bean1994genetic} as a solid approach to this kind of problems, it uses random numbers to represent solutions to the problem (individuals), which are used as keys to obtain an actual solutions. Random-key vectors are sampled from the space $[0,1]^{v}$, which is used as a surrogate space for the literal solutions space. Points in the random-key space are transfered to the literal solutions space via a decoder for fitness evaluation. A decoder is a deterministic procedure that allow us to map random-key vectors to the literal solutions space. We can build a decoder that always provides as a result a feasible solution to the problem we want to solve, thus avoiding the feasibility problem that we found in the classic GA.
+GAs have been applied to all kinds of problems, including problems whose solutions are subject to strong restrictions such as machine scheduling, resource location and the quadratic assignment problem. These problems present the peculiarity that, by applying generalized crossover operators to two individuals that represent a feasible solution to the problem, we can obtain non-feasible ones. The Random-Key Genetic Algorithm (RKGA) emerged in \cite{bean1994genetic} as a solid approach to this kind of problems. It uses random numbers to represent solutions to the problem (individuals), which are used as keys to obtain the actual solutions. Random-key vectors are sampled from the space $[0,1]^{v}$, which is used as a surrogate space for the literal solution space. Points in the random-key space are transferred to the literal solution space via a decoder for fitness evaluation. A decoder is a deterministic procedure that allows us to map random-key vectors to the literal solution space. We can build a decoder that always provides as a result a feasible solution to the problem we want to solve, thus avoiding the feasibility problem that we found in classic GAs.
 
-The Biased Random-key Genetic Algorithm (BRKGA) was first proposed in \cite{gonccalves2011biased} as a variant of the RKGA. In the BRKGA optimization process, first, the population $P$ of $p_{size}$ vectors of random-keys is initialized, this will be the initial generation. Each random-key vector $p_i$ has $v$ random-keys in it. The population is sorted by the fitness value $f_i$ of each $p_i$ to select the first $p_e$ individuals, this is, the elite of the population. The elite will be preserved in the next generation without modification. To introduce diversity, a number $p_m$ of new random-keys vectors are also included in the next generation. The remaining individuals of the new generation ($p_{size} - p_e - p_m$) are obtained through crossovers between elite and non-elite parents.
+The Biased Random-key Genetic Algorithm (BRKGA) was first proposed in \cite{gonccalves2011biased} as a variant of the RKGA. In the BRKGA optimization process, first, the population $P$ of $p_{size}$ vectors of random-keys is initialized; this will be the initial generation. Each random-key vector $p_i$ has $v$ random-keys in it. The population is sorted by the fitness value $f_i$ of each $p_i$ to select the first $p_e$ individuals, this is, the elite of the population. The elite will be preserved in the next generation without modification. To introduce diversity, a number $p_m$ of new random-keys vectors are also included in the next generation. The remaining individuals of the new generation ($p_{size} - p_e - p_m$) are obtained through crossovers between elite and non-elite parents.
 
-It should be noted that in BRKGA there is a clear differentiation between problem-dependent and problem-independent elements. The independent part of the algorithm has no knowledge of the problem it solves, it is limited to performing the operations related to the population optimization process. The dependent part of the problem is the decoder and the fitness function, which allow us to obtain real solutions for the problem and its evaluation. Therefore, to specify a BRKGA optimization scheme it is only necessary to define the decoder and the fitness function. \cite{gonccalves2011biased}
+It should be noted that in BRKGA there is a clear differentiation between problem-dependent and problem-independent elements. The independent part of the algorithm has no knowledge of the problem it solves, it is limited to performing the operations related to the population optimization process. The dependent part of the problem is composed of the decoder and the fitness function, which allow us to obtain actual solutions for the problem and its evaluation. Therefore, to specify a BRKGA optimization scheme it is only necessary to define the decoder and the fitness function. \cite{gonccalves2011biased}
 
 \subsection{BRKGA optimization scheme for Constrained Clustering} \label{sec:AdaptationofBRKGA}
 
-An adaptation of BRKGA for constrained clustering was proposed in \cite{de2017comparison}.
+An adaptation of BRKGA for constrained clustering was proposed in \cite{de2017comparison}, we will refer to it as BRKGA$_{CC}$.
 
-In this scheme each random-key vector has $n$ random-keys in it. The decoder divides the interval $[0,1]$ in $k$ intervals, so there exists a correspondence between each random-key (instance $x_i$) and the integer (label $l_i$) corresponding to the interval which it lies in. Table \ref{tab:decodingrk} shows an example of random-key decoding for a dataset with 10 instances ($n$ = 10) and $k = 3$. Note that extreme values 0 and 1 can also appear in a random-key vector.
+In this scheme each random-key vector has $n$ random-keys in it ($v = n$). The decoder divides the interval $[0,1]$ in $k$ intervals, so there exists a correspondence between each random-key (instance $x_i$) and the integer (label $l_i$) corresponding to the interval which it lies in. Table \ref{tab:decodingrk} shows an example of random-key decoding for a dataset with 10 instances ($n$ = 10) and $k = 3$. Note that extreme values 0 and 1 can also appear in a random-key vector.
 
 \begin{table}[!h]
 	\centering
@@ -325,7 +325,7 @@ The parameters $pbest$, $F_i$ and $CR_i$ are difficult to adjust and their selec
 
 \subsection{SHADE Parameter Adaptation Method}
 
-The SHADE method stores in memory a structure with $H$ entries for parameters $F_i$ and $CR_i$, as shown in Table \ref{tab:SHADEmemory}. This structure is initialized with the value $0.5$ for all entries.
+The SHADE method stores in memory a structure $M$ with $|M|$ entries for parameters $F_i$ and $CR_i$, as shown in Table \ref{tab:SHADEmemory}. This structure is initialized with the value $0.5$ for all entries.
 
 \begin{table}[!h]
 	\centering
@@ -335,12 +335,12 @@ The SHADE method stores in memory a structure with $H$ entries for parameters $F
 	\resizebox{\textwidth}{!}{
 	\begin{tabular}{|c|c|c|c|c|c|}
 		\hline
-		 Index & 1 & 2 & $\cdots$ & $H - 1$ & $H$ \\
+		 Index & 1 & 2 & $\cdots$ & $|M| - 1$ & $|M|$ \\
 		 \hline
 		 \hline
-		 $M_{CR}$ & $M_{[CR,1]}$ & $M_{[CR,1]}$ & $\cdots$ & $M_{[CR,H-1]}$ & $M_{[CR,H]}$ \\
+		 $M_{CR}$ & $M_{[CR,1]}$ & $M_{[CR,1]}$ & $\cdots$ & $M_{[CR,|M|-1]}$ & $M_{[CR,|M|]}$ \\
 		 \hline
-		 $M_{F}$ & $M_{[F,1]}$ & $M_{[F,1]}$ & $\cdots$ & $M_{[F,H-1]}$ & $M_{[F,H]}$ \\
+		 $M_{F}$ & $M_{[F,1]}$ & $M_{[F,1]}$ & $\cdots$ & $M_{[F,|M|-1]}$ & $M_{[F,|M|]}$ \\
 		\hline
 
 	\end{tabular}}
@@ -367,7 +367,7 @@ SHADE keeps two auxiliary sets $S_{CR}$ and $S_F$ to store the $CR_i$ and $F_i$ 
 \begin{equation}
 M_{[CR,h,G+1]} = \left\{ \begin{array}{lc}
 \text{mean}_{WA} (S_{CR}) &   if \;\; S_{CR} \neq \emptyset \\
-M_{[CR,h,G+1]} &  otherwise
+M_{[CR,h,G]} &  otherwise
 \end{array}
 \right.
 \label{eq8}
@@ -376,13 +376,13 @@ M_{[CR,h,G+1]} &  otherwise
 \begin{equation}
 M_{[F,h,G+1]} = \left\{ \begin{array}{lc}
 \text{mean}_{WL} (S_{F}) &   if \;\; S_{F} \neq \emptyset \\
-M_{[F,h,G+1]} &  otherwise
+M_{[F,h,G]} &  otherwise
 \end{array}
 \right.
 \label{eq9}
 \end{equation}
 
-The $h \;\; (0 \le h \le H)$ index specifies the position of the memory $M$ to be updated. This index is initialized to $0$ at the beginning of the optimization process and increased by one after every generation. When $h \ge H$ then $h$ is reset to 1. It is worth noting that, when there is a generation with no trial vectors successfully replacing their parents, no update of $M$ is done.
+The $h \;\; (0 \le h \le |M|)$ index specifies the position of the memory $M$ to be updated. This index is initialized to $0$ at the beginning of the optimization process and increased by one after every generation. When $h \ge |M|$ then $h$ is reset to 1. It is worth noting that, when there is a generation with no trial vectors successfully replacing their parents, no update of $M$ is done.
 
 In Equation \ref{eq8}, the term $mean_{WA} (S_{CR})$ is the weighted mean, which is computed following Equations \eqref{eq10} and \eqref{eq11}, proposed in \cite{peng2009multi} to prevent $CR$ from converging to small values.
 
@@ -414,9 +414,9 @@ pbest_i = \text{randn}[2/N, 0.2],
 
 \noindent such that there is always at least two individuals to choose between.
 
-\section{Adaptation of SHADE for constrained clustering} \label{sec:SHADEadapt}
+\section{SHADE optimization scheme for constrained clustering} \label{sec:SHADEadapt}
 
-For the adaptation of SHADE to the problem of constrained clustering, we will take some of the elements that allowed us to adapt it to BRKGA. To begin with, we will use random-keys to create the individuals of the population; this way, each individual is defined as a vector of $n$ random-keys. Additionally, we will also reuse the same initialization method and the same decoder used in BRKGA (see Section \ref{sec:AdaptationofBRKGA}).
+In this section, we present an optimization scheme for the SHADE algorithm when applied to constrained clustering. We will call this new approach $SHADE_{CC}$. To begin with, we will use random-keys to create the individuals of the population; this way, each individual is defined as a vector of $n$ random-keys. Additionally, we will also make use of the initialization method and the decoder found in Section \ref{sec:AdaptationofBRKGA}. However, we propose a new fitness function to evaluate the quality of the individuals of the population, Equation \eqref{eq14}, whose element $z_i$ is obtained as in Equation \eqref{eq2}.
 
 However, we propose a new fitness function to evaluate the quality of the individuals of the population, Equation \eqref{eq14}, whose element $z_i$ is obtained as in Equation \eqref{eq2}.
 
@@ -486,7 +486,7 @@ Algorithm \ref{alg:SHADE} describes the overall SHADE optimization process and i
 	\setstretch{1.2}
 	\SetKwFunction{Sort}{Sort}
 	\SetKwFunction{LocalSearch}{LocalSearch}
-	\KwIn{Dataset $X$, constraint sets $C_=$ and $C_{\neq}$, population size $p_{size}$, elite size $p_e$, number of clusters $K$.}
+	\KwIn{Dataset $X$, constraint sets $C_=$ and $C_{\neq}$, population size $p_{size}$, elite size $p_e$, number of clusters $k$.}
 	\tcp{Initialization phase}
 	$G \leftarrow 0$\\
 	Initialize population $P_0 \leftarrow \{p_{[1,0]}, \cdots, p_{[p_{size},0]}\}$\\
@@ -500,7 +500,7 @@ Algorithm \ref{alg:SHADE} describes the overall SHADE optimization process and i
 		\tcp{Apply an LS procedure to the elite of the population}
 		\LocalSearch{$\{p_{[1,G]}, \cdots, p_{[p_{e},G]}\}$}\\
 		\For{$i \in [1,p_{size}]$}{
-			$r_i \leftarrow$ randInt$[1,H]$\\
+			$r_i \leftarrow$ randInt$[1,|M|]$\\
 			$CR_{[i,G]} \leftarrow$ randn$_i(M_{[CR,r_i]}, 0.1)$\\
 			$F_{[i,G]} \leftarrow$ randc$_i(M_{[F,r_i]}, 0.1)$\\
 			$p_{[i,G]} \leftarrow$ rand$[N/2, 0.2]$\\
@@ -519,10 +519,10 @@ Algorithm \ref{alg:SHADE} describes the overall SHADE optimization process and i
 			}
 
 		}
-		\tcp{Whenever $|A| > |P|$, randomly select an individual from $A$ to be deleted so that $|A| \le |P|$}
+		\tcc{Whenever $|A| > |P|$, randomly select an individual from $A$ to be deleted so that $|A| \le |P|$}
 		\If{$S_{CR} \neq \emptyset$ \textbf{and} $S_{F} \neq \emptyset$}{
 			Update $M_{[CR,h]}$ and $M_{[F,h]}$ based on $S_{CR}$ and $S_{F}$\\
-			$h \leftarrow (h + 1) \mod H$
+			$h \leftarrow (h + 1) \mod |M|$
 		}
 		$G++$
 	}
@@ -535,7 +535,7 @@ Algorithm \ref{alg:SHADE} describes the overall SHADE optimization process and i
 	\setstretch{1.2}
 	\SetKwFunction{RandomShuffle}{RandomShuffle}
 	\SetKwRepeat{Do}{do}{while}
-	\KwIn{Dataset $X$, constraint sets $C_=$ and $C_{\neq}$, decoded random-key vector (solution) $S$, number of clusters $K$.}
+	\KwIn{Dataset $X$, constraint sets $C_=$ and $C_{\neq}$, decoded random-key vector (solution) $S$, number of clusters $k$.}
 	\BlankLine
 	\While{$improvement$}{
 		$improvement \leftarrow$ \texttt{false} \\
@@ -543,10 +543,10 @@ Algorithm \ref{alg:SHADE} describes the overall SHADE optimization process and i
 		$s_i \leftarrow $ Select random object from $S$\\
 		\tcp{Random shuffle labels set}
 		$RSL \leftarrow $ \RandomShuffle{$\{1,\cdots,K\}$}\\
-		\For{$c \in RSL$}{
+		\For{$l \in RSL$}{
 			$S^\prime \leftarrow S$\\
-			$S^\prime$\texttt{[}$s_i$\texttt{]} $\leftarrow c$ \tcp{Move object $s_i$ to cluster $c$}
-
+			\tcp{Move object $s_i$ to the cluster associated with label $l$}
+			$S^\prime$\texttt{[}$s_i$\texttt{]} $\leftarrow l$\\
 			\If{$f(S^\prime) < f(S)$}{
 				$S \leftarrow S^\prime$\\
 				$improvement \leftarrow$ \texttt{true} \\
@@ -563,7 +563,7 @@ Algorithm \ref{alg:SHADE} describes the overall SHADE optimization process and i
 
 \section{Experimental Setup} \label{sec:expSetup}
 
-For our experiments we will compare the results obtained by BRKGA and SHADE over 25 datasets. Most of these datasets can be found at the \href{https://sci2s.ugr.es/keel/category.php?cat=clas}{Keel-dataset repository}\cite{triguero2017keel}, though some of them have been obtained via
+For our experiments we will compare the results obtained by BRKGA and SHADE over 25 datasets and 3 constraints set for each one of them. Most of these datasets can be found at the \href{https://sci2s.ugr.es/keel/category.php?cat=clas}{Keel-dataset repository}\cite{triguero2017keel}, though some of them have been obtained via
 \href{https://scikit-learn.org/stable/datasets/index.html}{\texttt{scikit-learn} python package} \cite{scikit-learn}. We also include 3 artificial datasets in our analysis, namely: \textit{Circles}, \textit{Moons} and \textit{Spiral}, which can be found at GitHub. Table \ref{tab:datasets} displays a summary of every dataset.
 
 \begin{table}[!h]
@@ -605,17 +605,19 @@ For our experiments we will compare the results obtained by BRKGA and SHADE over
 		\hline
 
 	\end{tabular}%}
-	\caption{Summary of datasets used for the experiments \cite{triguero2017keel}\cite{scikit-learn}}
+	\caption{Summary of datasets used for the experiments}
 	\label{tab:datasets}
 \end{table}
 
+Classification datasets are commonly used in the literature to test constrained clustering algorithms; the reason behind this is that they enable us to generate constraints with respect to the true labels (see Section \ref{sec:ConstGent}). They also facilitate an easy evaluation of the quality of the algorithm by means of measures like the Rand Index (see Section \ref{sec:EvalMet}).
+
 \clearpage
 
-\subsection{Constraint Generation}
+\subsection{Constraint Generation} \label{sec:ConstGent}
 
-Since we have the true labels associated with each dataset, we will use the method proposed in \cite{wagstaff2001constrained} to generate artificial constraint sets. This method consists in randomly selecting two instances of a dataset, then comparing its labels, and finally setting an ML or CL constraint depending on whether the labels are the same or different.
+Since we have the true labels associated with each dataset, we will use the method proposed in \cite{wagstaff2001constrained} to generate artificial constraint sets. This method consists of randomly selecting two instances of a dataset, then comparing its labels, and finally setting an ML or CL constraint depending on whether the labels are the same or different.
 
-We will generate, for each dataset, three different sets of constraints---$CS_{10}$, $CS_{15}$ and $CS_{20}$---that will be associated with four small percentages of the size of the dataset: 10\%, 15\% and 20\%. With $n$ being the fraction of the size of the dataset associated to each of these percentages, the formula $\frac{n(n-1)}{2}$ tells us how many artificial constraints will be created for each constraint set; this number is equivalent to how many edges a complete graph with $n$ vertices would have.
+We will generate, for each dataset, three different sets of constraints---$CS_{10}$, $CS_{15}$ and $CS_{20}$---that will be associated with four small percentages of the size of the dataset: 10\%, 15\% and 20\%. With $n_f$ being the fraction of the size of the dataset associated to each of these percentages, the formula $\frac{n_f(n_f-1)}{2}$ tells us how many artificial constraints will be created for each constraint set; this number is equivalent to how many edges a complete graph with $n_f$ vertices would have.
 
 The random allocation of constraints has a potential advantage over simply using the constraints contained in an $n$-vertex complete graph: there is a lower probability of biasing the constraint set towards having classes with poor representation in it. Table \ref{tab:constraints} shows the number of constraints of each type obtained for each dataset.
 
@@ -670,14 +672,14 @@ Note that the greater the number of classes present in the dataset, the fewer ML
 
 \clearpage
 
-\subsection{Evaluation Method}
+\subsection{Evaluation Method} \label{sec:EvalMet}
 
-Since we have the true labels associated to each of the datasets, we can use them in post-processing to evaluate the results provided by each method. We will use the Adjusted Rand Index to measure the accuracy of the predictions resulting from each method we test \cite{hubert1985comparing}. The Basic Rand Index computes the degree of agreement between two partitions $C_1$ and $C_2$ of a given dataset $X$. $C_1$ and $C_2$ are viewed as collections of $N(N - 1)/2$ pairwise decisions \cite{rand1971objective}.
+Since we have the true labels associated to each of the datasets, we can use them in post-processing to evaluate the results provided by each method. We will use the Adjusted Rand Index (ARI) to measure the accuracy of the predictions resulting from each method we test \cite{hubert1985comparing}. The basic Rand Index computes the degree of agreement between two partitions $C_1$ and $C_2$ of a given dataset $X$. $C_1$ and $C_2$ are viewed as collections of $n(n - 1)/2$ pairwise decisions \cite{rand1971objective}.
 
-For each pair of instances $x_i$ and $x_j$ in $X$, $C_i$ assigns them to the same cluster or to different clusters. We take $a$ as the number of pairings where $x_i$ is in the same cluster as $x_j$ in both $C_1$ and $C_2$, and $b$ as the opposite event ($x_i$ and $x_j$ are in different clusters in $C_1$ and $C_2$). Then, the degree of similarity between $C_1$ and $C_2$ is calculated as in Equation \eqref{eq15}.
+For each pair of instances $x_i$ and $x_j$ in $X$, a partition assigns them to the same cluster or to different clusters. We take $a$ as the number of pairings where $x_i$ is in the same cluster as $x_j$ in both $C_1$ and $C_2$, and $b$ as the opposite event ($x_i$ and $x_j$ are in different clusters in $C_1$ and $C_2$). Then, the degree of similarity between $C_1$ and $C_2$ is calculated as in Equation \eqref{eq15}.
 
 \begin{equation}
-Rand(C_1, C_2) = \frac{a + b}{N(N - 1)/2}
+Rand(C_1, C_2) = \frac{a + b}{n(n - 1)/2}
 \label{eq15}
 \end{equation}
 
@@ -690,11 +692,13 @@ ARI(C_1, C_2) = \frac{Rand(C_1, C_2) - ExpectedIndex}{MaximumIndex - ExpectedInd
 
 \noindent where $MaximumIndex$ is expected to be 1 and $ExpectedIndex$ is the already mentioned expected degree of similarity with a random model. It is easy to see that $ARI(C_1, C_2) \in [-1,1]$, such that an $ARI$ value close to 1 means a high degree of agreement between $C_1$ and $C_2$, a positive value close to 0 means no agreement and a value smaller that 0 means that the $Rand(C_1, C_2)$ is less than expected when comparing with random partitions. To summarize, the higher the $ARI$, the greater the degree of similarity between $C_1$ and $C_2$. For more details on Adjusted Rand Index see \cite{hubert1985comparing}.
 
+Our objective is to quantify the quality of the solutions obtained as a result of the methods presented in this paper. To accomplish this task we just set one of the two partitions given to compute ARI as the ground truth.
+
 %% CORREGIR DESDE AQUI HASTA EL FINAL
 
 \subsection{Calibration}
 
-Table \ref{tab:params} shows a summary of the parameter setup used for both BRKGA+LS and SHADE+LS algorithms.
+Table \ref{tab:params} shows a summary of the parameter setup used for both BRKGA$_{CC}$ and SHADE$_{CC}$ algorithms.
 
 \begin{table}[!h]
 	\centering
@@ -721,7 +725,7 @@ Table \ref{tab:params} shows a summary of the parameter setup used for both BRKG
 		\label{tab:params}
 	\end{table}
 	
-In both cases---BRKGA+LS and SHADE+LS---the population size will be 100 individuals, and the stop criterion is given by the number of evaluations of the fitness function, which at most will be 300000.
+In both cases---BRKGA$_{CC}$ and SHADE$_{CC}$---the population size will be 100 individuals, and the stop criterion is given by the number of evaluations of the fitness function, which at most will be 300000.
 	
 To compare with the state-of-the-art methods mentioned in section \ref{sec:BackSOTA} we will use the parameters recommended by the authors, setting the maximum limit of iterations as 300 in all cases.
 
@@ -729,13 +733,13 @@ It should be noted that the study presented in this document aims to compare ave
 
 \section{Experimental Results} \label{sec:results}
 
-In this section we present Tables \ref{tab:results10} to \ref{tab:results20SOTA}, which display the results obtained by the methods to be compared for each dataset and constraint set.
+In this section we present Tables from \ref{tab:results10} to \ref{tab:results20SOTA}, which display the results obtained by the methods to be compared for each dataset and constraint set.
 
 Since the methods we are comparing involve non-deterministic procedures, the results may vary from one run to another. To lessen the effect this may have on the results, we will apply each method 5 times to every dataset and constraint set, so that the measures shown in the previously mentioned tables correspond to the average of the 5 runs.
 
-\subsection{Comparing BRKGA+LS with SHADE+LS}
+\subsection{Comparing BRKGA$_{CC}$ with SHADE$_{CC}$}
 
-In Tables \ref{tab:results10} to \ref{tab:results20} the ARI columns shows the Adjusted Rand Index for each case, the Unsat columns displays the percentage of violated constraints and the Time columns shows the time taken for each algorithm to deliver results, measured in seconds.
+In Tables from \ref{tab:results10} to \ref{tab:results20} the ARI columns shows the Adjusted Rand Index for each case, the Unsat columns displays the percentage of violated constraints and the Time columns shows the time taken for each algorithm to deliver results, measured in seconds.
 
 \begin{table}[!h]
 	\centering
@@ -746,7 +750,7 @@ In Tables \ref{tab:results10} to \ref{tab:results20} the ARI columns shows the A
 		\begin{tabular}{l ccc c ccc}
 			\hline
 			\multirow{2}{*}{Dataset} &
-			\multicolumn{3}{c}{BRKGA+LS} &&  \multicolumn{3}{c}{SHADE+LS} \\
+			\multicolumn{3}{c}{BRKGA$_{CC}$} &&  \multicolumn{3}{c}{SHADE$_{CC}$} \\
 			\cline{2-4} \cline{6-8}
 			& ARI & Unsat(\%) & Time(s) && ARI & Unsat(\%) & Time(s) \\
 			\hline
@@ -776,17 +780,17 @@ In Tables \ref{tab:results10} to \ref{tab:results20} the ARI columns shows the A
 			Wdbc & 0.478 & 16.316 & 3596.517 && 0.357 & 17.093 & 3528.029 \\
 			Zoo & 0.105 & 1.091 & 336.345 && 0.098 & 2.182 & 317.674 \\
 			\hline
+			Mean & 0.161 & 11.771 & 1675.618 && 0.156 & 10.828 & 1652.02 \\
+			\hline
 
 		\end{tabular}}
 		%\end{adjustwidth}
 
-	\caption{Experimental results obtained for $CS_{10}$ comparing SHADE+LS and BRKGA+LS}
+	\caption{Experimental results obtained for $CS_{10}$ comparing SHADE$_{CC}$ and BRKGA$_{CC}$}
 	\label{tab:results10}
 \end{table}
 
-Table \ref{tab:results10} shows the results for the $SC_{10}$ constraint set. We can note that SHADE+LS represents a consistent improvement over BRKGA+LS in both Unsat and Time, while in terms of ARI both methods seem similar. This is because the penalty applied to the fitness function of both methods has little presence when operating with a small constraint set, and since they are population-based and heuristic-guided methods, they have similar exploration and exploitation capabilities.
-
- it is at ARI where we begin to see a meaningful difference between the two methods.
+Table \ref{tab:results10} shows the results for the $SC_{10}$ constraint set. We can note that SHADE$_{CC}$ represents a consistent improvement over BRKGA$_{CC}$ in both Unsat and Time, while in terms of ARI both methods are similar. This is because the penalty applied to the fitness function of both methods has little presence when operating with a small constraint set, and since they are population-based and heuristic-guided methods, they have similar exploration and exploitation capabilities.
 
 \begin{table}[!h]
 	\centering
@@ -797,7 +801,7 @@ Table \ref{tab:results10} shows the results for the $SC_{10}$ constraint set. We
 		\begin{tabular}{l ccc c ccc}
 			\hline
 			\multirow{2}{*}{Dataset} &
-			\multicolumn{3}{c}{BRKGA+LS} &&  \multicolumn{3}{c}{SHADE+LS} \\
+			\multicolumn{3}{c}{BRKGA$_{CC}$} &&  \multicolumn{3}{c}{SHADE$_{CC}$} \\
 			\cline{2-4} \cline{6-8}
 			& ARI & Unsat(\%) & Time(s) && ARI & Unsat(\%) & Time(s) \\
 			\hline
@@ -827,15 +831,17 @@ Table \ref{tab:results10} shows the results for the $SC_{10}$ constraint set. We
 			Wdbc & 0.805 & 8.985 & 3829.407 && 0.930 & 2.801 & 3750.711 \\
 			Zoo & 0.157 & 3.500 & 333.984 && 0.128 & 2.834 & 315.131 \\
 			\hline
+			Mean & 0.483 & 9.456 & 1784.931 && 0.507 & 6.997 & 1751.368 \\
+			\hline
 
 		\end{tabular}}
 		%\end{adjustwidth}
 
-	\caption{Experimental results obtained for $CS_{15}$ comparing SHADE+LS and BRKGA+LS}
+	\caption{Experimental results obtained for $CS_{15}$ comparing SHADE$_{CC}$ and BRKGA$_{CC}$}
 	\label{tab:results15}
 \end{table}
 
-Table \ref{tab:results15} presents the results obtained with the $CS_{15}$ constraint set. While conclusions for Unsat and Time remain unchanged, we see a clear difference as far as ARI is concerned. We observe that both methods already report ARI results above 0.7, which in an ARI ranking is considered to be an acceptable result. We can even observe that the SHADE+LS method provides an ARI higher than 0.9 for 7 datasets, compared to BRKGA+LS that only obtains similar results in 2 datasets.
+Table \ref{tab:results15} presents the results obtained with the $CS_{15}$ constraint set. While conclusions for Unsat and Time remain unchanged, we see a clear difference as far as ARI is concerned. We observe that both methods already report ARI results above 0.7, which in an ARI ranking is considered to be an acceptable result. We can even observe that the SHADE$_{CC}$ method provides an ARI higher than 0.9 for 7 datasets, compared to BRKGA$_{CC}$ that only obtains similar results in 2 datasets.
 
 \begin{table}[!h]
 	\centering
@@ -846,7 +852,7 @@ Table \ref{tab:results15} presents the results obtained with the $CS_{15}$ const
 		\begin{tabular}{l ccc c ccc}
 			\hline
 			\multirow{2}{*}{Dataset} &
-			\multicolumn{3}{c}{BRKGA+LS} &&  \multicolumn{3}{c}{SHADE+LS} \\
+			\multicolumn{3}{c}{BRKGA$_{CC}$} &&  \multicolumn{3}{c}{SHADE$_{CC}$} \\
 			\cline{2-4} \cline{6-8}
 			& ARI & Unsat(\%) & Time(s) && ARI & Unsat(\%) & Time(s) \\
 			\hline
@@ -875,21 +881,23 @@ Table \ref{tab:results15} presents the results obtained with the $CS_{15}$ const
 			Wdbc & 0.823 & 8.281 & 4019.683 && 0.972 & 1.068 & 3983.564 \\
 			Zoo & 0.176 & 5.429 & 335.715 && 0.153 & 4.191 & 320.186 \\
 			\hline
+			Mean & 0.602 & 8.086 & 1895.671 && 0.647 & 5.443 & 1880.921 \\
+			\hline
 
 		\end{tabular}}
 		%\end{adjustwidth}
 
-	\caption{Experimental results obtained for $CS_{20}$ comparing SHADE+LS and BRKGA+LS}
+	\caption{Experimental results obtained for $CS_{20}$ comparing SHADE$_{CC}$ and BRKGA$_{CC}$}
 	\label{tab:results20}
 \end{table}
 
-It is in Table \ref{tab:results20}, which gathers results obtained for the constraint set $CS_{20}$, that we observe major differences between the two methods. We find that SHADE+LS is capable of producing clusters identical to the original ones for 4 datasets, against the single dataset for which BRKGA+LS achieves it. Let us remember that an ARI of 1 represents a perfect match between the two partitions given as arguments. This improvement in ARI is clearly reflected in the percentage of violated constraints---Unsat column---, value for which, once again, SHADE+LS gets the advantage. Conclusions on execution time remain the same.
+It is in Table \ref{tab:results20}, which gathers results obtained for the constraint set $CS_{20}$, that we observe major differences between the two methods. We find that SHADE$_{CC}$ is capable of producing clusters identical to the original ones for 4 datasets, regardless the single dataset for which BRKGA$_{CC}$ achieves it. Let us remember that an ARI of 1 represents a perfect match between the two partitions given as arguments. This improvement in ARI is clearly reflected in the percentage of violated constraints---Unsat column---, value for which, once again, SHADE$_{CC}$ outperforms BRKGA$_{CC}$. Conclusions on execution time remain the same.
 
 \clearpage
 
-\subsection{Comparing SHADE+LS with the state-of-the-art} \label{sec:SHADEvsSOTA}
+\subsection{Comparing SHADE$_{CC}$ with the state-of-the-art} \label{sec:SHADEvsSOTA}
 
-In this section we present a brief comparison between the proposed SHADE+LS method and some of the non-heuristic state-of-the-art methods. Tables \ref{tab:results10SOTA} to \ref{tab:results20SOTA} show the results obtained by these methods. This time we will only compare the results obtained for ARI.
+In this section we present a brief comparison between the proposed SHADE$_{CC}$ method and some of the state-of-the-art methods. Tables from \ref{tab:results10SOTA} to \ref{tab:results20SOTA} show the results obtained by these methods. To shorten the presented results this time we will only compare the ARI
 
 It should be noted that there are some missing results in these tables. In the case of the COPKM algorithm, this is due to the fact that it is highly dependent on the order in which constraints are analyzed. It is possible that COPKM cannot find a solution, even though it is always feasible, since the constraints have been generated based on the true labels. In the case of CECM, some of the results are not available because the memory structures that hold the algorithm grow non-linearly with the number of classes and the number of features of the dataset to be analyzed.
 	
@@ -901,7 +909,7 @@ It should be noted that there are some missing results in these tables. In the c
 	\resizebox{\textwidth}{!}{
 		\begin{tabular}{lcccccc}
 			\hline
-			Dataset & SHADE+LS & COPKM & LCVQE & RDPM & TVClust & CECM \\
+			Dataset & SHADE$_{CC}$ & COPKM & LCVQE & RDPM & TVClust & CECM \\
 			\hline
 			Appendicitis & 0.086 & - & 0.335 & 0.316 & 0.025 & -0.005 \\
 			Breast Cancer & 0.159 & -0.604 & 0.486 & 0.502 & 0.000 & 0.000 \\
@@ -929,14 +937,16 @@ It should be noted that there are some missing results in these tables. In the c
 			Wdbc & 0.357 & - & 0.486 & 0.502 & 0.000 & 0.000 \\
 			Zoo & 0.098 & 0.715 & 0.666 & 0.412 & 0.335 & - \\
 			\hline
+			Mean  & 0.156 & -0.51 & 0.215 & 0.211 & 0.13 & -0.226 \\
+			\hline
 		\end{tabular}}
 		%\end{adjustwidth}
 		
-	\caption{Experimental results obtained for $CS_{10}$ comparing SHADE+LS and the state-of-the-art}
+	\caption{Experimental results obtained for $CS_{10}$ comparing SHADE$_{CC}$ and the state-of-the-art}
 	\label{tab:results10SOTA}
 \end{table}
 
-Table \ref{tab:results10SOTA} presents the results obtained for the $CS_{10}$ constraint set. LCVQE, RDPM and TVClust methods stand out, achieving results similar or better than SHADE+LS with a low number of constraints.
+Table \ref{tab:results10SOTA} presents the results obtained for the $CS_{10}$ constraint set. LCVQE, RDPM and TVClust methods stand out, achieving results as competitive as SHADE$_{CC}$ with a low number of constraints.
 
 \begin{table}[!h]
 	\centering
@@ -946,7 +956,7 @@ Table \ref{tab:results10SOTA} presents the results obtained for the $CS_{10}$ co
 	\resizebox{\textwidth}{!}{
 		\begin{tabular}{lcccccc}
 			\hline
-			Dataset & SHADE+LS & COPKM & LCVQE & RDPM & TVClust & CECM \\
+			Dataset & SHADE$_{CC}$ & COPKM & LCVQE & RDPM & TVClust & CECM \\
 			\hline
 			Appendicitis & 0.332 & - & 0.305 & 0.284 & 0.025 & -0.006 \\
 			Breast Cancer & 0.911 & 1.000 & 0.486 & 0.502 & 0.000 & 0.037 \\
@@ -974,14 +984,16 @@ Table \ref{tab:results10SOTA} presents the results obtained for the $CS_{10}$ co
 			Wdbc & 0.930 & 1.000 & 0.486 & 0.502 & 0.000 & 0.000 \\
 			Zoo & 0.128 & 0.435 & 0.642 & 0.450 & 0.353 & - \\
 			\hline
+			Mean  & 0.507 & 0.01 & 0.213 & 0.229 & 0.253 & -0.238 \\
+			\hline
 		\end{tabular}}
 		%\end{adjustwidth}
 		
-	\caption{Experimental results obtained for $CS_{15}$ comparing SHADE+LS and the state-of-the-art}
+	\caption{Experimental results obtained for $CS_{15}$ comparing SHADE$_{CC}$ and the state-of-the-art}
 	\label{tab:results15SOTA}
 \end{table}
 
-In Table \ref{tab:results15SOTA}, which shows the results for the $CS_{15}$ constraint set, we observe that there is a significant improvement in precision in the results obtained by SHADE+LS. On the other hand, methods that obtained better results for smaller constraint sets do not present an improvement comparable to that presented by SHADE+LS, with the exception of COPKM, which is able to reach the optimum for some of the cases in which it finds a solution.
+In Table \ref{tab:results15SOTA}, which shows the results for the $CS_{15}$ constraint set, we observe that there is a significant improvement in precision in the results obtained by SHADE$_{CC}$. On the other hand, methods that obtained better results for smaller constraint sets do not present an improvement comparable to that presented by SHADE$_{CC}$, with the exception of COPKM, which is able to reach the optimum for some of the cases in which it finds a solution.
 
 \begin{table}[!h]
 	\centering
@@ -991,7 +1003,7 @@ In Table \ref{tab:results15SOTA}, which shows the results for the $CS_{15}$ cons
 	\resizebox{\textwidth}{!}{
 		\begin{tabular}{lcccccc}
 			\hline
-			Dataset & SHADE+LS & COPKM & LCVQE & RDPM & TVClust & CECM \\
+			Dataset & SHADE$_{CC}$ & COPKM & LCVQE & RDPM & TVClust & CECM \\
 			\hline
 			Appendicitis & 1.000 & - & 0.305 & 0.331 & 0.012 & -0.006 \\
 			Breast Cancer & 0.977 & 1.000 & 0.486 & 0.502 & 0.000 & 0.000 \\
@@ -1019,36 +1031,36 @@ In Table \ref{tab:results15SOTA}, which shows the results for the $CS_{15}$ cons
 			Wdbc & 0.972 & 1.000 & 0.486 & 0.522 & 0.000 & 0.000 \\
 			Zoo & 0.153 & 0.821 & 0.642 & 0.439 & 0.335 & - \\
 			\hline
+			Mean  & 0.647 & 0.224 & 0.212 & 0.28 & 0.319 & -0.228 \\
+			\hline
 		\end{tabular}}
 		%\end{adjustwidth}
 		
-	\caption{Experimental results obtained for $CS_{20}$ comparing SHADE+LS and the state-of-the-art}
+	\caption{Experimental results obtained for $CS_{20}$ comparing SHADE$_{CC}$ and the state-of-the-art}
 	\label{tab:results20SOTA}
 \end{table}
 
-Table \ref{tab:results20SOTA} presents the results obtained for $CS_{20}$. For SHADE+LS we continue to observe its progression in accuracy. As far as the state-of-the-art methods are concerned, we find a general improvement in ARI, except for CECM. Even with this, it is SHADE+LS and COPKM that seem to obtain the highest quality results, with the difference that SHADE+LS is able to produce results in all cases.
+Table \ref{tab:results20SOTA} presents the results obtained for $CS_{20}$. For SHADE$_{CC}$ we continue to observe its progression in accuracy. As far as the state-of-the-art methods are concerned, we find a general improvement in ARI, except for CECM. Even with this, it is SHADE$_{CC}$ and COPKM that seem to obtain the highest quality results, with the difference that SHADE$_{CC}$ is able to produce results in all cases.
 
 \clearpage
 
-\section{Analysis of Results} \label{sec:analisis}
+\section{Statistical Analysis of Results} \label{sec:analisis}
 
-With the results obtained by all methods for a total of 75 different datasets---the 25 datasets in combination with the 3 constraint sets for each one of them---we can perform an empirical analysis of them. This way we can statistically determine whether SHADE+LS represents a significant improvement over previous proposals.
+With the results obtained by all methods for a total of 75 different datasets---the 25 datasets in combination with the 3 constraint sets for each one of them---we can perform an empirical analysis of them. This way we can statistically determine whether SHADE$_{CC}$ represents a significant improvement over previous proposals.
 
-In order to carry out this study we will use Bayesian statistical tests, instead of the classic null hypothesis statistical tests (NHST). In \cite{benavoli2017time} we find an in-depth analysis of the disadvantages of NHST, and a new model is proposed for carrying out comparisons researchers are interested in. \textit{"In a nutshell: NHST do not answer the question we ask"}. To put it clear, the disadvantages of the NHST that the authors highlight in \cite{benavoli2017time} are based on the trap of black-and-white thinking, this is: to reject, or not to reject?
+In order to carry out this study we will use Bayesian statistical tests, instead of the classic Hull Hypothesis Statistical Tests (NHST). In \cite{benavoli2017time} we find an in-depth analysis of the disadvantages of NHST, and a new model is proposed for carrying out comparisons researchers are interested in. \textit{"In a nutshell: NHST do not answer the question we ask"}. To put it clear, the disadvantages of the NHST that the authors highlight in \cite{benavoli2017time} are based on the trap of black-and-white thinking, this is: to reject, or not to reject?
 
-To start with, NHST do not provide us with the probabilities associated to the analyzed hypotheses, and therefore it is not possible to answer the question: what is the probability that two methods are different? On the other hand, the hypothesis that the differences between results obtained with different methods are exactly zero is almost always false! In the cases where NHST allows us to reject the null hypothesis we conclude that the occurrence of this is unlikely, but this is known even before carrying out experiments. 
+To start with, NHST do not provide us with the probabilities associated to the analyzed hypotheses, and therefore it is not possible to answer the question: what is the probability that two methods are different? Another pitfall of NHST is that, with a sufficiently large number of observations, it is possible to reject almost any hypothesis. This is because the p-value does not allow us to separate between the effective size and the sample size, which is established by the researcher.
 
-Another pitfall of NHST is that, with a sufficiently large number of observations, it is possible to reject almost any hypothesis. This is because the p-value does not allow us to separate between the effective size and the sample size, which is established by the researcher.
+Also, NHST do not provide information about the magnitude of the effects and the uncertainty of its estimate. As a consequence, NHST may reject hypotheses despite very small effects, or even if there is significant uncertainty in the magnitude of the effects.
 
-In most cases the researcher would also like to have information about the magnitude of the effects and the uncertainty of its estimate, but NHST do not provide them. As a consequence, NHST may reject hypotheses despite very small effects, or even if there is significant uncertainty in the magnitude of the effects.
+Furthermore, and this is a situation that all researchers have faced, NHST do not provide any information about the null hypothesis! That is: What can we conclude when NHST do not reject $H_0$? We can not infer anything since NHST can not provide evidence in its favor.
 
-Furthermore, and this is a situation that all the researchers have faced, NHST do not provide any information about the null hypothesis! That is: What can we conclude when NHST do not reject $H_0$? We cannot infer anything since NHST cannot provide evidence in its favor.
-
-Finally, there are two other problems that researchers face when performing NHST. The choice of the significance level $\alpha$ is critical to the test results, and there is no principle to establish it objectively. Additionally, it is worth remembering that, in order to carry out a NHST, there is a previous need to fix and formalize the intentions of the sampling of the results; however, these intentions are commonly fixed a posteriori, which can lead to a misreading of the results.
+Finally, there are two other problems that researchers face when performing NHST. The first one is the choice of the significance level $\alpha$, for which there are no objective guidelines despite being critical to the test results. The second one is the need to previously formalize the intentions of the sampling of the results, which are usually fixed a posteriori; this could lead to a misreading of said results.
 
 As shown in \cite{benavoli2017time}, most of these problems can be avoided by using Bayesian tests instead of NHST. In particular we will use the Bayesian sign test, which is the Bayesian version of the frequentist non-parametric sign test. To make use of it we will employ the R package \texttt{rNPBST}, whose documentation and guide can be found in \cite{carrasco2017rnpbst}.
 
-From now on, and as far as the comparison of population-based methods is concerned, we will refer to the results obtained by BRKGA+LS as sample $A$, and to the results obtained with SHADE+LS as sample $B$.
+From now on, and as far as the comparison of population-based methods is concerned, we will refer to the results obtained by BRKGA$_{CC}$ as sample $A$, and to the results obtained with SHADE$_{CC}$ as sample $B$.
 
 The Bayesian sign test is based on obtaining the statistical distribution of a certain parameter $\rho$ according to the difference between the results, under the assumption that said distribution is a Dirichlet distribution. To get the distribution of $\rho$ we count the number of times that $A - B < 0$, the number of times where there are no significant differences, and the number of times that $A - B > 0$. In order to identify cases where there are no significant differences, we define the region of practical equivalence (rope) $[r_{min}, r_{max}]$, so that $P(A \approx B) = P(\rho \in rope)$. Using these results we calculate the weights of the Dirichlet distribution and sample it to get a set of triplets with the following form: 
 $$[P(\rho < r_{min}) = P(A - B < 0),\;\; P(\rho \in rope),\;\; P(\rho > r_{max}) = P(A - B > 0)]$$
@@ -1072,54 +1084,54 @@ One of the major advantages of the Bayesian sign test over the null hypothesis t
 		\caption{Unsat}
 		\label{fig:bayesUnsat}
 	\end{subfigure}
-	\caption{Heat diagrams for the comparison with BRKGA+LS}
+	\caption{Heat diagrams for the comparison with BRKGA$_{CC}$}
 \end{figure}
 
-Figure \ref{fig:bayesARI} shows the heatmap associated with the ARI measurement. The diagram suggests that the Bayesian sign test assigns a high probability to $A - B < 0$, since most triplets are represented in the lower left third of the triangle. It also indicates that in some cases there are no significant differences between $A$ and $B$, since we also find triplets in the rope area. Bearing this in mind, and considering that ARI is a measure to maximize, we can say that, for cases where there are significant differences, SHADE+LS performs better than BRKGA+LS.
+Figure \ref{fig:bayesARI} shows the heatmap associated with the ARI measurement. The diagram suggests that the Bayesian sign test assigns a high probability to $A - B < 0$, since most triplets are represented in the lower left third of the triangle. It also indicates that in some cases there are no significant differences between $A$ and $B$, since we also find triplets in the rope area. Bearing this in mind, and considering that ARI is a measure to maximize, we can say that, for cases where there are significant differences, SHADE$_{CC}$ performs better than BRKGA$_{CC}$.
 
-On the other hand, Figures \ref{fig:bayesTime} and \ref{fig:bayesUnsat} which show the heatmaps obtained for Time and Unsat measurements, are very similar. In both, all triplets are represented in the lower right third of the triangle, indicating that the Bayesian sign test assigns a high probability to $A - B > 0$. With this, and bearing in mind that both measures must be minimized, we conclude that SHADE+LS represents a solid improvement over BRKGA+LS as far as this measures are concerned.
+On the other hand, Figures \ref{fig:bayesTime} and \ref{fig:bayesUnsat} which show the heatmaps obtained for Time and Unsat measurements, are very similar. In both, all triplets are represented in the lower right third of the triangle, indicating that the Bayesian sign test assigns a high probability to $A - B > 0$. With this, and bearing in mind that both measures must be minimized, we conclude that SHADE$_{CC}$ represents a solid improvement over BRKGA$_{CC}$ as far as this measures are concerned.
 
-Regarding the comparison of SHADE+LS with the state-of-the-art, we will keep the results obtained by SHADE+LS as $B$, and note the results obtained by the state-of-the-art methods as $A$.
+Regarding the comparison of SHADE$_{CC}$ with the state-of-the-art, we will keep the results obtained by SHADE$_{CC}$ as $B$, and note the results obtained by the state-of-the-art methods as $A$.
 
-This way, we apply the process described earlier in this section to obtain the heatmaps corresponding to the comparison of SHADE+LS with each of the 5 state-of-the-art methods. This time the only measure we compare is ARI. Figures \ref{fig:bayesCOPKM} to \ref{fig:bayesCECM} show said comparison.
+This way, we apply the process described earlier in this section to obtain the heatmaps corresponding to the comparison of SHADE$_{CC}$ with each of the 5 state-of-the-art methods. This time the only measure we compare is ARI. Figures \ref{fig:bayesCOPKM} to \ref{fig:bayesCECM} show said comparison.
 
 \begin{figure}[ht!]
 	\centering
 	\begin{subfigure}{.45\textwidth}
 		\includegraphics[width=1\linewidth]{Figures/AriCOPKM.pdf}
-		\caption{SHADE+LS vs COPKM}
+		\caption{SHADE$_{CC}$ vs COPKM}
 		\label{fig:bayesCOPKM}
 	\end{subfigure}
 	\begin{subfigure}{.45\textwidth}
 		\includegraphics[width=1\linewidth]{Figures/AriLCVQE.pdf}
-		\caption{SHADE+LS vs LCVQE}
+		\caption{SHADE$_{CC}$ vs LCVQE}
 		\label{fig:bayesLCVQE}
 	\end{subfigure}
 	\begin{subfigure}{.45\textwidth}
 		\includegraphics[width=1\linewidth]{Figures/AriRDPM.pdf}
-		\caption{SHADE+LS vs RDPM}
+		\caption{SHADE$_{CC}$ vs RDPM}
 		\label{fig:bayesRDPM}
 	\end{subfigure}
 	\begin{subfigure}{.45\textwidth}
 		\includegraphics[width=1\linewidth]{Figures/AriTVClust.pdf}
-		\caption{SHADE+LS vs TVClust}
+		\caption{SHADE$_{CC}$ vs TVClust}
 		\label{fig:bayesTVClust}
 	\end{subfigure}
 	\begin{subfigure}{.45\textwidth}
 		\includegraphics[width=1\linewidth]{Figures/AriCECM.pdf}
-		\caption{SHADE+LS vs CECM}
+		\caption{SHADE$_{CC}$ vs CECM}
 		\label{fig:bayesCECM}
 	\end{subfigure}
 	\caption{Heat diagrams for the comparison with the state-of-the-art}
 \end{figure}
 
-We see very similar diagrams for COPKM (\ref{fig:bayesCOPKM}), LVCQE (\ref{fig:bayesLCVQE}), RDPM (\ref{fig:bayesRDPM}) and TVClust (\ref{fig:bayesTVClust}). In all of them most of the triplets are represented in the lower middle region of the diagram, with a slight shift of the point cloud to the left. That is indicative that there are indeed significant differences between the two methods---since there are no triplets with representation in the rope area---, but the advantage is for one or the other depending on the case, being SHADE+LS the one that gets it in most of them. However, this does not apply in the case of CECM (\ref{fig:bayesCECM}), where the advantage is indisputably for SHADE+LS.
+We see very similar diagrams for COPKM (\ref{fig:bayesCOPKM}), LVCQE (\ref{fig:bayesLCVQE}), RDPM (\ref{fig:bayesRDPM}) and TVClust (\ref{fig:bayesTVClust}). In all of them most of the triplets are represented in the lower middle region of the diagram, with a slight shift of the point cloud to the left. That is indicative that there are indeed significant differences between the two methods---since there are no triplets with representation in the rope area---, but the advantage is for one or the other depending on the case, being SHADE$_{CC}$ the one that gets it in most of them. However, this does not apply in the case of CECM (\ref{fig:bayesCECM}), where the advantage is indisputably for SHADE$_{CC}$.
 
 \section{Conclusions} \label{sec:conclusiones}
 
 In this paper we proposed an adaptation of SHADE to solve the constrained clustering problem. We took concepts such as the random-key and the encoder/decoder from BRKGA to transform constrained clustering into a real-domain optimization problem. We also proposed a new fitness function that has proven to be more adaptable and less restrictive.
 
-The SHADE algorithm is one of the most successful methods to approximately solve difficult problems, and constrained clustering does not appear to be an exception. We obtained results on 25 different datasets and 3 different constraint sets for each one, applying all the resolution methods named in this paper. Thanks to the Bayesian statistical tests, which offer us the advantageous option of producing a visualization of differences between results obtained by different methods, we were able to objectively prove that the SHADE+LS approach is significantly better than previous population-based proposals. As far as the state-of-the-art is concerned, the SHADE+LS approach has proven to be better or equivalent when considering the quality of the solutions, especially in cases where large sets of constraints are analyzed.
+The SHADE algorithm is one of the most successful methods to approximately solve difficult problems, and constrained clustering does not appear to be an exception. We obtained results on 25 different datasets and 3 different constraint sets for each one, applying all the resolution methods named in this paper. Thanks to the Bayesian statistical tests, which offer us the advantageous option of producing a visualization of differences between results obtained by different methods, we were able to objectively prove that the SHADE$_{CC}$ approach is significantly better than previous population-based proposals. As far as the state-of-the-art is concerned, the SHADE$_{CC}$ approach has proven to be better or equivalent when considering the quality of the solutions, especially in cases where large sets of constraints are analyzed.
 
 \section{Acknowledgements}
 
