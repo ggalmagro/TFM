@@ -76,7 +76,7 @@
 \address[mysecondaddress]{Dept. of Computer Science, EPS of Linares, University of Ja\'en, Campus Cient\'ifico Tecnol\'ogico de Linares, Cintur\'on Sur S/N, Linares 23700, Ja\'en, Spain}
 
 \begin{abstract}
-Clustering has always been a powerful tool in knowledge discovery. Traditionally unsupervised, it has received attention when adding new types of information to it has proven to provide better results than completely unsupervised procedures, leading to a new kind of semi-supervised learning. This paper proposes a variant of the successful SHADE method to solve the constrained clustering problem. This problem consists of a generalization of the traditional clustering to consider a new type of information, which is given in the form of constraints. This paper focuses on instance-level must-link and cannot-link constraints. We will compare the results obtained on 25 datasets, in conjunction with various constraint sets, by this new proposal with a previous nature-inspired approach---BRKGA---as well as with some of the state-of-the-art algorithms, supporting our conclusions with the aid of Bayesian statistical tests.
+Clustering has always been a powerful tool in knowledge discovery. Traditionally unsupervised, it received renewed attention when it was shown to produce better results when provided with new types of information, thus leading to a new kind of semi-supervised learning. This paper proposes a variant of SHADE, a successful approach to the constrained clustering problem, which is a generalization of traditional clustering that considers additional information in the form of constraints. In particular, this work focuses on instance-level must-link and cannot-link constraints. We will compare the results obtained by this proposal to those obtained by a previous nature-inspired technique---BRKGA---and by some of the state-of-the-art algorithms on 25 datasets with incremental levels of constraint-based information, supporting our conclusions with the aid of Bayesian statistical tests.
 \end{abstract}
 
 \begin{keyword}
@@ -97,7 +97,7 @@ We can define partitional clustering as the task of grouping the instances of a 
 
 Semi-supervised learning (SSL) is a machine learning paradigm that arises from adding incomplete information to unsupervised learning. We can divide SSL methods into two broad categories according to their objective: semi-supervised classification and semi-supervised clustering. The first method has partial information about the labels, so it tries to minimize the error based on them while taking into account the distribution of unlabeled instances. The second tries to obtain better defined clusters incorporating background information to the clustering process, this is known as constrained clustering and is the main subject of the study presented in this paper. \cite{triguero2015self}
 
-Constrained clustering is a semi-supervised learning method. Its goal is to find a partition of the dataset that meets the proper characteristics of a clustering method result, in addition to satisfying a certain constraint set. It has been succesfully applied in many knowledge fields. It has been used to guide the movement of walking robots, as well as in other advanced robotics applications \cite{davidson2005clustering, semnani2016constrained}. In \cite{seret2014new} constrained clustering is presented as a useful tool in the context of applied marketing. Biology has also made use of constrained clustering, being able to detect simultaneous appearances of genes and proteins in biological data bases \cite{segal2003discovering}. In \cite{levy2008structural} a method of segmenting musical audio into separated sections using constrained clustering is described. Constrained clustering has also been useful to classify Internet traffic, which is considered to be one of the most fundamental functionalities in the network management field \cite{wang2014internet}. Electoral district design problems can also be approached using constrained clustering, as shown in \cite{brieden2017constrained}. Lastly, it is mandatory to name the widely known application to GPS data of constrained clustering, presented in \cite{wagstaff2001constrained}.
+Constrained clustering is an SSL learning method. Its goal is to find a partition of the dataset that meets the proper characteristics of a clustering method result, in addition to satisfying a certain constraint set. It has been succesfully applied in many knowledge fields. It has been used to guide the movement of walking robots, as well as in other advanced robotics applications \cite{davidson2005clustering, semnani2016constrained}. In \cite{seret2014new} constrained clustering is presented as a useful tool in the context of applied marketing. Biology has also made use of constrained clustering, being able to detect simultaneous appearances of genes and proteins in biological data bases \cite{segal2003discovering}. In \cite{levy2008structural} a method of segmenting musical audio into separated sections using constrained clustering is described. Constrained clustering has also been useful to classify Internet traffic, which is considered to be one of the most fundamental functionalities in the network management field \cite{wang2014internet}. Electoral district design problems can also be approached using constrained clustering, as shown in \cite{brieden2017constrained}. Lastly, it is mandatory to name the widely known application to GPS data of constrained clustering, presented in \cite{wagstaff2001constrained}.
 
 Constraints can be understood in different ways, resulting in three main types of constrained clustering: cluster-level, instance-level and feature-level constrained clustering \cite{bradley2000constrained,davidson2007survey,schmidt2011clustering}. Moreover, hybrid approaches which try to integrate different types of constraints have also been proposed \cite{wang2010clustering}. 
 
@@ -111,7 +111,7 @@ The constrained clustering problem can be formulated in terms of optimization, s
 
 Differential Evolution (DE) is an evolution-based algorithm that has proven to be excellent in real-domain problem solving \cite{das2011differential}; in this paper we propose a new DE variant to find quality solutions for the constrained clustering problem (see Section \ref{sec:SHADE}). We will make use of the Random-key concept from BRKGA, along with proposing a new fitness function, to build the already mentioned DE variant. We will properly compare the results obtained by our new method with previous nature-inspired algorithms, as well as with the constrained clustering state-of-the-art.
 
-Regarding the organization of this paper, Section \ref{sec:background} reviews the existing knowledge concerning constrained clustering and DE. In Section \ref{sec:brkga} we will briefly review the BRKGA algorithm and its adaptation for constrained clustering. Afterward, a variant of DE algorithm will be presented in Section \ref{sec:SHADE}. In Section \ref{sec:SHADEadapt} we present the scheme that allow us to apply SHADE to constrained clustering, including the proposal of a new fitness function. Sections \ref{sec:expSetup} to \ref{sec:analisis} present the experimental setup, results and their analysis. Finally, in Section \ref{sec:conclusiones} we discuss conclusions.
+Regarding the organization of this paper, Section \ref{sec:background} reviews the existing knowledge concerning constrained clustering and DE. In Section \ref{sec:brkga} we will briefly review the BRKGA algorithm and its adaptation for constrained clustering. Afterward, a variant of DE algorithm will be presented in Section \ref{sec:SHADE}. In Section \ref{sec:SHADEadapt} we present the scheme that allow us to apply SHADE to constrained clustering, including the proposal of a new fitness function. Sections from \ref{sec:expSetup} to \ref{sec:analisis} present the experimental setup, results and their analysis. Finally, in Section \ref{sec:conclusiones} we discuss conclusions.
 
 \section{Background} \label{sec:background}
 
@@ -125,7 +125,7 @@ Given the notation for the clustering problem introduced in Section \ref{sec:Int
 
 \begin{itemize}
 
-	\item Must-link constraints $C_=(x_j,x_i)$: instances $x_i$ and $x_j$ from $X$ must be placed in the same cluster.
+	\item Must-link constraints $C_=(x_i,x_j)$: instances $x_i$ and $x_j$ from $X$ must be placed in the same cluster.
 
 	\item Cannot-link constraints $C_{\neq}(x_i,x_j)$: instances $x_i$ and $x_j$ from $X$ cannot be assigned to the same cluster.
 
@@ -139,7 +139,7 @@ On the other hand, CL constraints do not constitute an equivalence relation. How
 
 \subsection{The Feasibility Problem} \label{sec:BackFeas}
 
-Given that constrained clustering adds a new element to the clustering problem, we must consider how this element affects the complexity of the problem. The feasibility problem for non-hierarchical constrained clustering was defined in \cite{davidson2005clustering} as in Definition \ref{def1}.
+Given that constrained clustering adds a new element to the clustering problem, we must consider how this element affects the complexity of the problem. The feasibility problem for non-hierarchical instance-level constrained clustering was defined in \cite{davidson2005clustering} as in Definition \ref{def1}.
 
 \begin{definition}
 
@@ -166,23 +166,23 @@ In \cite{davidson2005clustering} it is proven that, when $k_l = 1$ and $k_u \ge 
 			\hline
 
 		\end{tabular}%}
-	\caption{Feasibility problem complexity \cite{davidson2005clustering}}
+	\caption{Feasibility problem complexity \cite{davidson2005clustering}.}
 	\label{tab:feasibility}
 \end{table}
 
 These complexity results show that the feasibility problem with CL constraints is intractable and hence constrained clustering is intractable too. For more details on the complexity of constrained clustering see \cite{davidson2005clustering}.
 
-Intractable problems are hard to solve with deterministic and exact methods. That is the reason why heuristics-guided and population-based algorithms constitute good approaches to find quality solutions to the constrained clustering problem.
+Intractable problems are hard to solve with deterministic and exact methods. That is the reason why nature-inspired algorithms constitute good approaches to find quality solutions to the constrained clustering problem.
 
 \subsection{State-of-the-art Methods} \label{sec:BackSOTA}
 
 Constrained clustering has many applications and has been widely studied in the literature. The first adaptation of a classic clustering method for constrained clustering was proposed in \cite{wagstaff2001constrained}. It involved modifying the widely studied K-means algorithm to take into account instance-level constraints: the already known ML and CL. This method was named COP-kmeans, it introduces a modification to the assignation rule of instances to clusters of the K-means algorithm so that an instance can be assigned to a cluster only if the assignment does not violate any constraint.
 
-In \cite{antoine2012cecm} Constrained Evidential c-means (CECM), an \textcolor{red}{adaptation} of the Evidential c-means (ECM \cite{masson2008ecm}) algorithm is proposed, within the fuzzy clustering family of methods, for constrained clustering. The particularity of this algorithm is that the membership of instances to a cluster is defined by a probabilistic belief function. This method redefines constraints from the point of view of belief functions and includes them in the fitness function.
+In \cite{antoine2012cecm} Constrained Evidential c-means (CECM), a variant of the Evidential c-means (ECM \cite{masson2008ecm}) algorithm is proposed, within the fuzzy clustering family of methods, for constrained clustering. The particularity of this algorithm is that the membership of instances to a cluster is defined by a probabilistic belief function. This method redefines constraints from the point of view of belief functions and includes them in the fitness function.
 
 A modification of the Constrained Vector Quantization Error algorithm (CVQE \cite{davidson2005clustering}) is proposed in \cite{pelleg2007k}. The CVQE algorithm proved to produce high quality results, at the cost of a very high computational complexity. Linear CVQE (LCVQE) introduces a modification of the cost function of CVQE to make it more intuitive and less computationally complex. The experimentation resulted in a dramatic improvement of clustering quality over both noisy and clean constraint sets.
 
-Two Views Clustering (TVClust) and Relation Dirichlet Process - Means (RDPM) were proposed in \cite{khashabi2015clustering}. TVClust is able to incorporate the constraints into the clustering problem by making a relaxed interpretation of them. The authors model the dataset and constraints in different ways, perform clustering methods on them and try to find a consensus between both interpretations. Using this model as a basis, the authors derive the deterministic algorithm RDP-means. This method can be viewed as an extension of K-means that includes side information (constraints) and has the property that the number of clusters ($K$) does not need to be specified.
+Two Views Clustering (TVClust) and Relation Dirichlet Process - Means (RDPM) were proposed in \cite{khashabi2015clustering}. TVClust is able to incorporate the constraints into the clustering problem by making a soft interpretation of them. The authors model the dataset and constraints in different ways, perform clustering methods on them and try to find a consensus between both interpretations. Using this model as a basis, the authors derive the deterministic algorithm RDP-means. This method can be viewed as an extension of K-means that includes side information (constraints) and has the property that the number of clusters ($k$) does not need to be specified.
 
 \subsection{Short Introduction to Differential Evolution} \label{sec:BackDE}
 
@@ -224,7 +224,7 @@ Genetic Algorithms (GAs) emerged as one of the first metaheuristics inspired by 
 
 In a GA, a population $P$ of a given number of solutions $p_i = \{p_{[i,1]}, \cdots, p_{[i,v]}\}$ is first initialized; these solutions are also called chromosomes or individuals. Each element of a chromosome is called gene and the value it takes is known as allele. To simulate the natural processes of evolution and natural selection, the set of evolutionary operators that GAs make use of is similar to that used by DE: crossover, mutation and selection. The crossover operator consists in combining two different chromosomes (parents) from the population and obtaining a new chromosome (offspring) which inherits alleles for its genes from both parents. The mutation operator is used by GAs to avoid local optima, and it consists in introducing random changes into the population to favor diversity. The selection operator is used to determine whether a chromosome is suitable to survive for the next generation, and to accomplish this task it employs a fitness function whose task is to assign a value to each chromosome to assess its quality as a solution for the problem. GAs apply these operators through a series of generations to hopefully obtain a solution for the problem to solve that is close to the optimal. \cite{fausto2019ants}
 
-GAs have been applied to all kinds of problems, including problems whose solutions are subject to strong restrictions such as machine scheduling, resource location and the quadratic assignment problem. These problems present the peculiarity that, by applying generalized crossover operators to two individuals that represent a feasible solution to the problem, we can obtain non-feasible ones. The Random-Key Genetic Algorithm (RKGA) emerged in \cite{bean1994genetic} as a solid approach to this kind of problems. It uses random numbers to represent solutions to the problem (individuals), which are used as keys to obtain the actual solutions. Random-key vectors are sampled from the space $[0,1]^{v}$, which is used as a surrogate space for the literal solution space. Points in the random-key space are transferred to the literal solution space via a decoder for fitness evaluation. A decoder is a deterministic procedure that allows us to map random-key vectors to the literal solution space. We can build a decoder that always provides as a result a feasible solution to the problem we want to solve, thus avoiding the feasibility problem that we found in classic GAs.
+GAs have been applied to all kinds of problems, including problems whose solutions are subject to strong restrictions such as machine scheduling, resource location and the quadratic assignment problem. These problems present the peculiarity that, by applying generalized crossover operators to two individuals that represent a feasible solution to the problem, we can obtain non-feasible ones. The Random-Key Genetic Algorithm (RKGA) emerged in \cite{bean1994genetic} as a solid approach to this kind of problems. It uses vectors of random numbers to represent solutions to the problem (individuals), which are used as keys to obtain the actual solutions. Random-key vectors are sampled from the space $[0,1]^{v}$, which is used as a surrogate space for the literal solution space. Points in the random-key space are transferred to the literal solution space via a decoder for fitness evaluation. A decoder is a deterministic procedure that allows us to map random-key vectors to the literal solution space. We can build a decoder that always provides as a result a feasible solution to the problem we want to solve, thus avoiding the feasibility problem that we found in classic GAs.
 
 The Biased Random-key Genetic Algorithm (BRKGA) was first proposed in \cite{gonccalves2011biased} as a variant of the RKGA. In the BRKGA optimization process, first, the population $P$ of $p_{size}$ vectors of random-keys is initialized; this will be the initial generation. Each random-key vector $p_i$ has $v$ random-keys in it. The population is sorted by the fitness value $f_i$ of each $p_i$ to select the first $p_e$ individuals, this is, the elite of the population. The elite will be preserved in the next generation without modification. To introduce diversity, a number $p_m$ of new random-keys vectors are also included in the next generation. The remaining individuals of the new generation ($p_{size} - p_e - p_m$) are obtained through crossovers between elite and non-elite parents.
 
@@ -252,7 +252,7 @@ In this scheme each random-key vector has $n$ random-keys in it ($v = n$). The d
 		\hline
 
 	\end{tabular}}
-	\caption{Random-key decodification example \cite{de2017comparison}}
+	\caption{Random-key decodification example \cite{de2017comparison}.}
 	\label{tab:decodingrk}
 \end{table}
 
@@ -280,7 +280,7 @@ Success History Based Adaptive Differential Evolution (SHADE) is an optimization
 
 Unlike JADE, which only considers the parameters used in the previous generation, SHADE uses a historical record of successful parameters as a mechanism for adapting parameters involved in the process of creating new generations.
 
-Since SHADE is an evolution-based algorithm, it shares elements with BRKGA (Section \ref{sec:brkga}), so we will use a similar notation to define its elements. We will note the population as $P$, formed by $p_{size}$ individuals with the form $p_{[i,G]} = \{p_{[i,G,1]}, \cdots, p_{[i,G,v]}\}$, with $G$ indicating the generation to which $p_i$ belongs.
+Since SHADE is an evolution-based algorithm, it shares elements with BRKGA (Section \ref{sec:brkga}), so we will use a similar notation to define its elements. We will note the population as $P_G$, formed by $p_{size}$ individuals with the form $p_{[i,G]} = \{p_{[i,G,1]}, \cdots, p_{[i,G,v]}\}$, with $G$ indicating the generation to which $p_i$ belongs.
 
 \subsection{SHADE Operators}
 
@@ -295,12 +295,12 @@ m_{[i,G]} = p_{[i,G]} + F_i * (p_{[pbest, G]} - p_{[i,G]}) + F_i * (p_{[r1, G]} 
 
 \noindent where $m_{[i,G]}$ is the mutant vector, which is generated with an individual $p_{[i,G]}$ from the population serving as a starting point. Indices $r1$ and $r2$ are random values in the range $[0,p_{size}]$, different from $i$ and from each other. The individual $p_{[pbest, G]}$ is randomly selected from among the best $p_{size} \times pbest\;|\;pbest\in [0,1]$ individuals in the population. This way, the parameter $pbest$ controls the greediness of the mutation strategy. The parameter $F_i$ defines the magnitude of the operator.
 
-After generating the mutant vector $m_{[i,G]}$, it is combined with the parent $p_{[i,G]}$ vector by means of a crossover operator; the result is the trial vector. SHADE uses the Binomial crossover operator, which is defined by the Equation \eqref{eq4}.
+After generating the mutant vector $m_{[i,G]}$, it is combined with the parent $p_{[i,G]}$ vector by means of a crossover operator; the result is the trial vector $t_{[i,G]} = \{t_{[i,G,1]}, \cdots, t_{[i,G,v]}\}$. SHADE uses the Binomial crossover operator, which is defined by the Equation \eqref{eq4}.
 
 \begin{equation}
-t_{[j,i,G]} = \left\{ \begin{array}{lc}
-m_{[j,i,G]} &   if \;\; \text{rand}[0,1) \le CR_i \;\; or \;\;j = j_{rand} \\
-p_{[j,i,G]} &  \text{otherwise}
+t_{[i,G,j]} = \left\{ \begin{array}{lc}
+m_{[i,G,j]} &   if \;\; \text{rand}[0,1) \le CR_i \;\; or \;\;j = j_{rand} \\
+p_{[i,G,j]} &  \text{otherwise}
 \end{array}
 \right.,
 \label{eq4}
@@ -308,7 +308,7 @@ p_{[j,i,G]} &  \text{otherwise}
 
 \noindent where $rand[0,1)$ is a random number selected from a normal distribution in the range $[0,1)$, $j_{rand}$ is a random integer selected from the range $[1,v]$, and $CR \in [0,1]$ is the crossover ratio.
 
-The SHADE selection operator determines the survivors individuals for the next generation. It compares each parent $x_{[i,G]}$ with the trial vector $_{[j,i,G]}$, generated based on it. The best one of these two individuals will survive for the next generation. Equation \eqref{eq5} shows this concept.
+The SHADE selection operator determines the survivors individuals for the next generation. It compares each parent $x_{[i,G]}$ with the trial vector $_{[i,G,j]}$, generated based on it. The best one of these two individuals will survive for the next generation. Equation \eqref{eq5} shows this concept.
 
 \begin{equation}
 p_{[i,G + 1]} = \left\{ \begin{array}{lc}
@@ -344,7 +344,7 @@ The SHADE method stores in memory a structure $M$ with $|M|$ entries for paramet
 		\hline
 
 	\end{tabular}}
-	\caption{Historical memory $M_{CR}$, $M_{F}$ used by SHADE \cite{tanabe2013success}}
+	\caption{Historical memory $M_{CR}$, $M_{F}$ used by SHADE \cite{tanabe2013success}.}
 	\label{tab:SHADEmemory}
 \end{table}
 
@@ -416,9 +416,7 @@ pbest_i = \text{randn}[2/N, 0.2],
 
 \section{SHADE optimization scheme for constrained clustering} \label{sec:SHADEadapt}
 
-In this section, we present an optimization scheme for the SHADE algorithm when applied to constrained clustering. We will call this new approach $SHADE_{CC}$. To begin with, we will use random-keys to create the individuals of the population; this way, each individual is defined as a vector of $n$ random-keys. Additionally, we will also make use of the initialization method and the decoder found in Section \ref{sec:AdaptationofBRKGA}. However, we propose a new fitness function to evaluate the quality of the individuals of the population, Equation \eqref{eq14}, whose element $z_i$ is obtained as in Equation \eqref{eq2}.
-
-However, we propose a new fitness function to evaluate the quality of the individuals of the population, Equation \eqref{eq14}, whose element $z_i$ is obtained as in Equation \eqref{eq2}.
+In this section, we present an optimization scheme for the SHADE algorithm when applied to constrained clustering. We will call this new approach $SHADE_{CC}$. To begin with, we will use random-keys to create the individuals of the population; this way, each individual is defined as a vector of $n$ random-keys ($v = n$). Additionally, we will also make use of the initialization method and the decoder found in Section \ref{sec:AdaptationofBRKGA}. However, we propose a new fitness function to evaluate the quality of the individuals of the population, Equation \eqref{eq14}, whose element $z_i$ is obtained as in Equation \eqref{eq2}.
 
 \begin{equation}
 f_i = z_i * (infeasibility + 1)
@@ -470,7 +468,7 @@ Table \ref{tab:fitnessfunctions} shows fitness values for each partition from Fi
 		\end{tabular}}
 		%\end{adjustwidth}
 
-	\caption{Expression and value of fitness functions over three partitions. ($\mu = 10$)}
+	\caption{Expression and value of fitness functions over three partitions ($\mu = 10$).}
 	\label{tab:fitnessfunctions}
 \end{table}
 
@@ -526,7 +524,7 @@ Algorithm \ref{alg:SHADE} describes the overall SHADE optimization process and i
 		}
 		$G++$
 	}
-	\caption{Modified SHADE}\label{alg:SHADE}
+	\caption{SHADE$_{CC}$}\label{alg:SHADE}
 \end{algorithm}
 
 \begin{algorithm}
@@ -605,11 +603,11 @@ For our experiments we will compare the results obtained by BRKGA and SHADE over
 		\hline
 
 	\end{tabular}%}
-	\caption{Summary of datasets used for the experiments}
+	\caption{Summary of datasets used for the experiments.}
 	\label{tab:datasets}
 \end{table}
 
-Classification datasets are commonly used in the literature to test constrained clustering algorithms; the reason behind this is that they enable us to generate constraints with respect to the true labels (see Section \ref{sec:ConstGent}). They also facilitate an easy evaluation of the quality of the algorithm by means of measures like the Rand Index (see Section \ref{sec:EvalMet}).
+Classification datasets are commonly used in the literature to test constrained clustering algorithms; the reason behind this is that they enable us to generate constraints with respect to the true labels (see Section \ref{sec:ConstGent}). They also facilitate an easy evaluation of the quality of the algorithm by means of measures like the Adjusted Rand Index (see Section \ref{sec:EvalMet}).
 
 \clearpage
 
@@ -619,7 +617,7 @@ Since we have the true labels associated with each dataset, we will use the meth
 
 We will generate, for each dataset, three different sets of constraints---$CS_{10}$, $CS_{15}$ and $CS_{20}$---that will be associated with four small percentages of the size of the dataset: 10\%, 15\% and 20\%. With $n_f$ being the fraction of the size of the dataset associated to each of these percentages, the formula $\frac{n_f(n_f-1)}{2}$ tells us how many artificial constraints will be created for each constraint set; this number is equivalent to how many edges a complete graph with $n_f$ vertices would have.
 
-The random allocation of constraints has a potential advantage over simply using the constraints contained in an $n$-vertex complete graph: there is a lower probability of biasing the constraint set towards having classes with poor representation in it. Table \ref{tab:constraints} shows the number of constraints of each type obtained for each dataset.
+The random allocation of constraints has a potential advantage over simply using the constraints contained in an $n_f$-vertex complete graph: there is a lower probability of biasing the constraint set towards having classes with poor representation in it. Table \ref{tab:constraints} shows the number of constraints of each type obtained for each dataset.
 
 \begin{table}[!h]
 	\centering
@@ -664,7 +662,7 @@ The random allocation of constraints has a potential advantage over simply using
 	\end{tabular}}
 	%\end{adjustwidth}
 
-	\caption{Number of constraints used in experiments}
+	\caption{Number of constraints used in experiments.}
 	\label{tab:constraints}
 \end{table}
 
@@ -683,16 +681,16 @@ Rand(C_1, C_2) = \frac{a + b}{n(n - 1)/2}
 \label{eq15}
 \end{equation}
 
-The Adjusted Rand Index is a corrected-for-chance version of the Rand Index. This correction uses the expected similarity of all comparisons between clusterings specified by a random model to set up a baseline. The Adjusted Rand Index is computed as in Equation \eqref{eq16}.
+The ARI is a corrected-for-chance version of the Rand Index. This correction uses the expected similarity of all comparisons between clusterings specified by a random model to set up a baseline. The ARI is computed as in Equation \eqref{eq16}.
 
 \begin{equation}
 ARI(C_1, C_2) = \frac{Rand(C_1, C_2) - ExpectedIndex}{MaximumIndex - ExpectedIndex},
 \label{eq16}
 \end{equation}
 
-\noindent where $MaximumIndex$ is expected to be 1 and $ExpectedIndex$ is the already mentioned expected degree of similarity with a random model. It is easy to see that $ARI(C_1, C_2) \in [-1,1]$, such that an $ARI$ value close to 1 means a high degree of agreement between $C_1$ and $C_2$, a positive value close to 0 means no agreement and a value smaller that 0 means that the $Rand(C_1, C_2)$ is less than expected when comparing with random partitions. To summarize, the higher the $ARI$, the greater the degree of similarity between $C_1$ and $C_2$. For more details on Adjusted Rand Index see \cite{hubert1985comparing}.
+\noindent where $MaximumIndex$ is expected to be 1 and $ExpectedIndex$ is the already mentioned expected degree of similarity with a random model. It is easy to see that $ARI(C_1, C_2) \in [-1,1]$, such that an $ARI$ value close to 1 means a high degree of agreement between $C_1$ and $C_2$, a positive value close to 0 means no agreement and a value smaller that 0 means that the $Rand(C_1, C_2)$ is less than expected when comparing with random partitions. To summarize, the higher the $ARI$, the greater the degree of similarity between $C_1$ and $C_2$. For more details on ARI see \cite{hubert1985comparing}.
 
-Our objective is to quantify the quality of the solutions obtained as a result of the methods presented in this paper. To accomplish this task we just set one of the two partitions given to compute ARI as the ground truth.
+Our objective is to quantify the quality of the solutions obtained as a result of the methods presented in this paper. To accomplish this task we just set one of the two partitions given to compute ARI as the ground truth labels.
 
 %% CORREGIR DESDE AQUI HASTA EL FINAL
 
@@ -715,19 +713,49 @@ Table \ref{tab:params} shows a summary of the parameter setup used for both BRKG
 			$p_e$ & Size of the elite set in population & $0.2 * p_{size}$ & $0.25 * p_{size}$ \\
 			$p_m$ & Number of mutants to be introduced in the population in each generation & $0.2 * p_{size}$ & - \\
 			$p_{inherit}$ & Probability that a feature is inherited from an elite parent & $50\%$ & - \\
-			$K$ & Output partition number of clusters & \multicolumn{2}{m{4cm}}{Known for each dataset (Table \ref{tab:datasets}). It has the same value for both methods} \\
+			$k$ & Output partition number of clusters & \multicolumn{2}{m{4cm}}{No. Classes (Table \ref{tab:datasets}).} \\
 			\hline
 
 		\end{tabular}}
 		%\end{adjustwidth}
 
-		\caption{Parameters setup used for BRKGA and SHADE.}
-		\label{tab:params}
-	\end{table}
-	
+	\caption{Parameters setup used for BRKGA and SHADE.}
+	\label{tab:params}
+\end{table}
+
 In both cases---BRKGA$_{CC}$ and SHADE$_{CC}$---the population size will be 100 individuals, and the stop criterion is given by the number of evaluations of the fitness function, which at most will be 300000.
-	
-To compare with the state-of-the-art methods mentioned in section \ref{sec:BackSOTA} we will use the parameters recommended by the authors, setting the maximum limit of iterations as 300 in all cases.
+
+To compare with the state-of-the-art methods mentioned in section \ref{sec:BackSOTA} we will use the parameters setup shown in Table \ref{tab:paramsSOTA} for the implementation that can be found at \href{https://github.com/GermangUgr/TFG/tree/master/Software}{GitHub}
+
+\begin{table}[!h]
+	\centering
+	\setlength{\tabcolsep}{7pt}
+	\renewcommand{\arraystretch}{1.4}
+	%\begin{adjustwidth}{-1in}{-1in}
+	\resizebox{\textwidth}{!}{
+		\begin{tabular}{>{\centering\arraybackslash}c m{5cm} c}
+			\hline
+			Common Parameters & Meaning & Value \\
+			\hline
+			\texttt{max\_iter} & Maximum number of iterations & 300 \\
+			$k$ & Output partition number of clusters & No. Classes (Table \ref{tab:datasets}). \\
+			\hline
+			\hline
+			Specific Parameters & \multicolumn{2}{l}{Name and Value} \\
+			\hline
+			COPKM & \multicolumn{2}{l}{\texttt{tolerance} = $1 * 10^{-4}$; \texttt{init\_mode} = \texttt{``rand''}} \\
+			CECM & \multicolumn{2}{l}{$\alpha = 1$, $\rho = 100$, $\xi = 0.5$, \texttt{stop\_threshold} = $1 * 10^{-3}$, \texttt{init\_mode} = \texttt{``rand''}} \\
+			LCVQE & \multicolumn{2}{l}{\texttt{initial\_centroids} = $\emptyset$} \\
+			RDPM & \multicolumn{2}{l}{$\xi_0 = 0.1$, $\xi_{rate} = 1$, $\lambda$ is calculated on the basis of the mean distances in the dataset.} \\
+			TVClust & \multicolumn{2}{l}{$\alpha_0 = 1.2$, \texttt{stop\_threshold} = $5*10^{-4}$} \\
+			\hline
+			
+		\end{tabular}}
+		%\end{adjustwidth}
+		
+	\caption{Parameters setup used for the state-of-the-art algorithms.}
+	\label{tab:paramsSOTA}
+\end{table}
 
 It should be noted that the study presented in this document aims to compare average performance, not peak performance. The parameter optimization process required for each algorithm and dataset falls outside the scope of this study.
 
@@ -786,7 +814,7 @@ In Tables from \ref{tab:results10} to \ref{tab:results20} the ARI columns shows 
 		\end{tabular}}
 		%\end{adjustwidth}
 
-	\caption{Experimental results obtained for $CS_{10}$ comparing SHADE$_{CC}$ and BRKGA$_{CC}$}
+	\caption{Experimental results obtained for $CS_{10}$ comparing SHADE$_{CC}$ and BRKGA$_{CC}$.}
 	\label{tab:results10}
 \end{table}
 
@@ -837,7 +865,7 @@ Table \ref{tab:results10} shows the results for the $SC_{10}$ constraint set. We
 		\end{tabular}}
 		%\end{adjustwidth}
 
-	\caption{Experimental results obtained for $CS_{15}$ comparing SHADE$_{CC}$ and BRKGA$_{CC}$}
+	\caption{Experimental results obtained for $CS_{15}$ comparing SHADE$_{CC}$ and BRKGA$_{CC}$.}
 	\label{tab:results15}
 \end{table}
 
@@ -887,11 +915,11 @@ Table \ref{tab:results15} presents the results obtained with the $CS_{15}$ const
 		\end{tabular}}
 		%\end{adjustwidth}
 
-	\caption{Experimental results obtained for $CS_{20}$ comparing SHADE$_{CC}$ and BRKGA$_{CC}$}
+	\caption{Experimental results obtained for $CS_{20}$ comparing SHADE$_{CC}$ and BRKGA$_{CC}$.}
 	\label{tab:results20}
 \end{table}
 
-It is in Table \ref{tab:results20}, which gathers results obtained for the constraint set $CS_{20}$, that we observe major differences between the two methods. We find that SHADE$_{CC}$ is capable of producing clusters identical to the original ones for 4 datasets, regardless the single dataset for which BRKGA$_{CC}$ achieves it. Let us remember that an ARI of 1 represents a perfect match between the two partitions given as arguments. This improvement in ARI is clearly reflected in the percentage of violated constraints---Unsat column---, value for which, once again, SHADE$_{CC}$ outperforms BRKGA$_{CC}$. Conclusions on execution time remain the same.
+It is in Table \ref{tab:results20}, which gathers results obtained for the constraint set $CS_{20}$, that we observe major differences between the two methods. We find that SHADE$_{CC}$ is capable of producing clusters identical to the original ones for 4 datasets, regardless the single dataset for which BRKGA$_{CC}$ achieves it. Let us remember that an ARI of 1 represents a perfect match between the two partitions given to compute it. This improvement in ARI is clearly reflected in the percentage of violated constraints---Unsat column---, value for which, once again, SHADE$_{CC}$ outperforms BRKGA$_{CC}$. Conclusions on execution time remain the same.
 
 \clearpage
 
@@ -942,7 +970,7 @@ It should be noted that there are some missing results in these tables. In the c
 		\end{tabular}}
 		%\end{adjustwidth}
 		
-	\caption{Experimental results obtained for $CS_{10}$ comparing SHADE$_{CC}$ and the state-of-the-art}
+	\caption{Experimental results obtained for $CS_{10}$ comparing SHADE$_{CC}$ and the state-of-the-art.}
 	\label{tab:results10SOTA}
 \end{table}
 
@@ -989,7 +1017,7 @@ Table \ref{tab:results10SOTA} presents the results obtained for the $CS_{10}$ co
 		\end{tabular}}
 		%\end{adjustwidth}
 		
-	\caption{Experimental results obtained for $CS_{15}$ comparing SHADE$_{CC}$ and the state-of-the-art}
+	\caption{Experimental results obtained for $CS_{15}$ comparing SHADE$_{CC}$ and the state-of-the-art.}
 	\label{tab:results15SOTA}
 \end{table}
 
@@ -1036,7 +1064,7 @@ In Table \ref{tab:results15SOTA}, which shows the results for the $CS_{15}$ cons
 		\end{tabular}}
 		%\end{adjustwidth}
 		
-	\caption{Experimental results obtained for $CS_{20}$ comparing SHADE$_{CC}$ and the state-of-the-art}
+	\caption{Experimental results obtained for $CS_{20}$ comparing SHADE$_{CC}$ and the state-of-the-art.}
 	\label{tab:results20SOTA}
 \end{table}
 
@@ -1084,7 +1112,7 @@ One of the major advantages of the Bayesian sign test over the null hypothesis t
 		\caption{Unsat}
 		\label{fig:bayesUnsat}
 	\end{subfigure}
-	\caption{Heat diagrams for the comparison with BRKGA$_{CC}$}
+	\caption{Heat diagrams for the comparison with BRKGA$_{CC}$.}
 \end{figure}
 
 Figure \ref{fig:bayesARI} shows the heatmap associated with the ARI measurement. The diagram suggests that the Bayesian sign test assigns a high probability to $A - B < 0$, since most triplets are represented in the lower left third of the triangle. It also indicates that in some cases there are no significant differences between $A$ and $B$, since we also find triplets in the rope area. Bearing this in mind, and considering that ARI is a measure to maximize, we can say that, for cases where there are significant differences, SHADE$_{CC}$ performs better than BRKGA$_{CC}$.
@@ -1122,16 +1150,18 @@ This way, we apply the process described earlier in this section to obtain the h
 		\caption{SHADE$_{CC}$ vs CECM}
 		\label{fig:bayesCECM}
 	\end{subfigure}
-	\caption{Heat diagrams for the comparison with the state-of-the-art}
+	\caption{Heat diagrams for the comparison with the state-of-the-art.}
 \end{figure}
 
 We see very similar diagrams for COPKM (\ref{fig:bayesCOPKM}), LVCQE (\ref{fig:bayesLCVQE}), RDPM (\ref{fig:bayesRDPM}) and TVClust (\ref{fig:bayesTVClust}). In all of them most of the triplets are represented in the lower middle region of the diagram, with a slight shift of the point cloud to the left. That is indicative that there are indeed significant differences between the two methods---since there are no triplets with representation in the rope area---, but the advantage is for one or the other depending on the case, being SHADE$_{CC}$ the one that gets it in most of them. However, this does not apply in the case of CECM (\ref{fig:bayesCECM}), where the advantage is indisputably for SHADE$_{CC}$.
 
+\clearpage
+
 \section{Conclusions} \label{sec:conclusiones}
 
-In this paper we proposed an adaptation of SHADE to solve the constrained clustering problem. We took concepts such as the random-key and the encoder/decoder from BRKGA to transform constrained clustering into a real-domain optimization problem. We also proposed a new fitness function that has proven to be more adaptable and less restrictive.
+In this paper we proposed SHADE$_{CC}$, a new variant of the SHADE algorithm to solve the constrained clustering problem. We took concepts such as the random-key and the encoder/decoder from RKGA to transform constrained clustering into a real-domain optimization problem. We also proposed a new fitness function that has proven to be more adaptable and less restrictive.
 
-The SHADE algorithm is one of the most successful methods to approximately solve difficult problems, and constrained clustering does not appear to be an exception. We obtained results on 25 different datasets and 3 different constraint sets for each one, applying all the resolution methods named in this paper. Thanks to the Bayesian statistical tests, which offer us the advantageous option of producing a visualization of differences between results obtained by different methods, we were able to objectively prove that the SHADE$_{CC}$ approach is significantly better than previous population-based proposals. As far as the state-of-the-art is concerned, the SHADE$_{CC}$ approach has proven to be better or equivalent when considering the quality of the solutions, especially in cases where large sets of constraints are analyzed.
+The SHADE algorithm is one of the most successful methods to approximately solve difficult problems, and constrained clustering is not an exception. We obtained results on 25 different datasets and 3 different constraint sets for each one, applying all the algorithms named in this paper. Thanks to the Bayesian statistical tests, which offer us the advantageous option of producing a visualization of differences between results obtained by different methods, we were able to objectively prove that the SHADE$_{CC}$ approach is significantly better than previous evolution-based proposals. As far as the state-of-the-art is concerned, the SHADE$_{CC}$ approach has proven to be equivalent or better when considering the quality of the solutions, especially in cases where large sets of constraints are analyzed.
 
 \section{Acknowledgements}
 
