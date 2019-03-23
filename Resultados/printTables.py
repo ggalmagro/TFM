@@ -3,11 +3,11 @@ import csv
 
 
 def main():
-
-	names_array = ['iris', 'soybean', 'pima', 'boston', 'diabetes', 
-	'breast_cancer', 'ecoli', 'haberman', 'led7digit', 'monk2', 
-	'vehicle', 'zoo', 'sonar', 'ionosphere', 'wdbc', 'vowel', 
-	'appendicitis', 'saheart', 'spectfheart', 'hayesroth', 'tae', 'glass', 'spiral', 'moons', 'circles']
+	#"wine ", "balance ", "boston ", "diabetes ", "newthyroid ", "heart ", "rand "
+	names_array = ['iris', 'soybean', 'pima', 
+	'breast_cancer', 'bupa', 'ecoli', 'haberman', 'led7digit', 'monk2',
+	'vehicle', 'zoo', 'sonar', 'ionosphere', 'wdbc', 'vowel', 'movement_libras', 
+	'appendicitis', 'saheart', 'spectfheart', 'hayesroth', 'tae', 'glass', 'spiral', 'moons', 'circles', "means"]
 
 	tabla5 = np.loadtxt("tabla5.dat")
 	tabla10 = np.loadtxt("tabla10.dat")

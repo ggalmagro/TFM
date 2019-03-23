@@ -25,7 +25,7 @@ def main():
 
 	max_eval = 300000
 
-	for p in range(4, 6):
+	for p in range(5, 6):
 
 		xi = -p/10.0
 

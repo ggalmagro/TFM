@@ -9,10 +9,10 @@ def main():
 	'vehicle', 'zoo', 'sonar', 'heart', 'ionosphere', 'wdbc', 'vowel', 'movement_libras', 
 	'appendicitis', 'saheart', 'spectfheart', 'hayesroth', 'tae', 'glass', 'rand', 'spiral', 'moons', 'circles', "means"]
 
-	tabla5 = np.loadtxt("tabla5.dat")
-	tabla10 = np.loadtxt("tabla10.dat")
-	tabla15 = np.loadtxt("tabla15.dat")
-	tabla20 = np.loadtxt("tabla20.dat")
+	tabla5 = np.loadtxt("ResultadosCompletos/tabla5.dat")
+	tabla10 = np.loadtxt("ResultadosCompletos/tabla10.dat")
+	tabla15 = np.loadtxt("ResultadosCompletos/tabla15.dat")
+	tabla20 = np.loadtxt("ResultadosCompletos/tabla20.dat")
 
 	comp = np.empty((33,4), dtype = np.bool)
 	comp2 = np.empty((33,4), dtype = np.float)
@@ -26,6 +26,8 @@ def main():
 	comp2[:, 1] = tabla10[:, 0] - tabla10[:, 3]
 	comp2[:, 2] = tabla15[:, 0] - tabla15[:, 3]
 	comp2[:, 3] = tabla20[:, 0] - tabla20[:, 3]
+
+	#"Wine ", "Balance ", "Bupa ", "Newthyroid ", "Movement_Libras ", "Heart ", "Rand "
 
 	for i in range(comp.shape[0]):
 

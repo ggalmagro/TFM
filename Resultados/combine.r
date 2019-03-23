@@ -17,16 +17,16 @@ tabla15 = tabla15.1 * 0.4 + tabla15.2 * 0.6
 tabla20 = tabla20.1 * 0.4 + tabla20.2 * 0.6
 
 tabla5 = tabla5[!(row.names(tabla5) %in% 
-                    c("Wine ", "Balance ", "Bupa ", "Newthyroid ", "Movement_Libras ", "Heart ", "Rand ")), ]
+                     c("Wine ", "Balance ", "Boston ", "Diabetes ", "Newthyroid ", "Heart ", "Rand ")), ]
 
 tabla10 = tabla10[!(row.names(tabla10) %in% 
-                    c("Wine ", "Balance ", "Bupa ", "Newthyroid ", "Movement_Libras ", "Heart ", "Rand ")), ]
+                      c("Wine ", "Balance ", "Boston ", "Diabetes ", "Newthyroid ", "Heart ", "Rand ")), ]
 
 tabla15 = tabla15[!(row.names(tabla15) %in% 
-                    c("Wine ", "Balance ", "Bupa ", "Newthyroid ", "Movement_Libras ", "Heart ", "Rand ")), ]
+                      c("Wine ", "Balance ", "Boston ", "Diabetes ", "Newthyroid ", "Heart ", "Rand ")), ]
 
 tabla20 = tabla20[!(row.names(tabla20) %in% 
-                    c("Wine ", "Balance ", "Bupa ", "Newthyroid ", "Movement_Libras ", "Heart ", "Rand ")), ]
+                      c("Wine ", "Balance ", "Boston ", "Diabetes ", "Newthyroid ", "Heart ", "Rand ")), ]
 
 write.table(tabla5, "tabla5.dat", row.names = F, col.names = F)
 write.table(tabla10, "tabla10.dat", row.names = F, col.names = F)

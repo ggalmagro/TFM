@@ -226,7 +226,7 @@ In a GA, a population $P$ of a given number of solutions $p_i = \{p_{[i,1]}, \cd
 
 GAs have been applied to all kinds of problems, including problems whose solutions are subject to strong restrictions such as machine scheduling, resource location and the quadratic assignment problem. These problems present the peculiarity that, by applying generalized crossover operators to two individuals that represent a feasible solution to the problem, we can obtain non-feasible ones. The Random-Key Genetic Algorithm (RKGA) emerged in \cite{bean1994genetic} as a solid approach to this kind of problems. It uses vectors of random numbers to represent solutions to the problem (individuals), which are used as keys to obtain the actual solutions. Random-key vectors are sampled from the space $[0,1]^{v}$, which is used as a surrogate space for the literal solution space. Points in the random-key space are transferred to the literal solution space via a decoder for fitness evaluation. A decoder is a deterministic procedure that allows us to map random-key vectors to the literal solution space. We can build a decoder that always provides as a result a feasible solution to the problem we want to solve, thus avoiding the feasibility problem that we found in classic GAs.
 
-The Biased Random-key Genetic Algorithm (BRKGA) was first proposed in \cite{gonccalves2011biased} as a variant of the RKGA. In the BRKGA optimization process, first, the population $P$ of $p_{size}$ vectors of random-keys is initialized; this will be the initial generation. Each random-key vector $p_i$ has $v$ random-keys in it. The population is sorted by the fitness value $f_i$ of each $p_i$ to select the first $p_e$ individuals, this is, the elite of the population. The elite will be preserved in the next generation without modification. To introduce diversity, a number $p_m$ of new random-keys vectors are also included in the next generation. The remaining individuals of the new generation ($p_{size} - p_e - p_m$) are obtained through crossovers between elite and non-elite parents.
+The Biased Random-key Genetic Algorithm (BRKGA) was first proposed in \cite{gonccalves2011biased} as a variant of the RKGA. In the BRKGA optimization process, first, the population $P$ of $p_\text{size}$ vectors of random-keys is initialized; this will be the initial generation. Each random-key vector $p_i$ has $v$ random-keys in it. The population is sorted by the fitness value $f_i$ of each $p_i$ to select the first $p_e$ individuals, this is, the elite of the population. The elite will be preserved in the next generation without modification. To introduce diversity, a number $p_m$ of new random-keys vectors are also included in the next generation. The remaining individuals of the new generation ($p_\text{size} - p_e - p_m$) are obtained through crossovers between elite and non-elite parents.
 
 It should be noted that in BRKGA there is a clear differentiation between problem-dependent and problem-independent elements. The independent part of the algorithm has no knowledge of the problem it solves, it is limited to performing the operations related to the population optimization process. The dependent part of the problem is composed of the decoder and the fitness function, which allow us to obtain actual solutions for the problem and its evaluation. Therefore, to specify a BRKGA optimization scheme it is only necessary to define the decoder and the fitness function. \cite{gonccalves2011biased}
 
@@ -259,11 +259,11 @@ In this scheme each random-key vector has $n$ random-keys in it ($v = n$). The d
 Once the decoded solution has been obtained, the fitness value of the solution is computed as in Equation \eqref{eq1}.
 
 \begin{equation}
-f_i = z_i + \overbrace{(\mu * n * {infeasibility}_i)}^{penalty},
+f_i = z_i + \overbrace{(\mu * n * \text{infeasibility}_i)}^\text{penalty},
 \label{eq1}
 \end{equation}
 
-\noindent where $\mu$ is a high value, $infeasibility_i$ is the number of non-satisfied constraints and $z_i$ is the within-cluster-sum-of-squares which can be computed as in Equation \eqref{eq2}.
+\noindent where $\mu$ is a high value, $\text{infeasibility}_i$ is the number of non-satisfied constraints and $z_i$ is the within-cluster-sum-of-squares which can be computed as in Equation \eqref{eq2}.
 
 \begin{equation}
 z_i = \sum_{c_j \in C_i} \left[ \frac{\sum_{x_a, x_b \in c_j} d^2(x_a,x_b)}{|c_j|}\right],
@@ -280,7 +280,7 @@ Success History Based Adaptive Differential Evolution (SHADE) is an optimization
 
 Unlike JADE, which only considers the parameters used in the previous generation, SHADE uses a historical record of successful parameters as a mechanism for adapting parameters involved in the process of creating new generations.
 
-Since SHADE is an evolution-based algorithm, it shares elements with BRKGA (Section \ref{sec:brkga}), so we will use a similar notation to define its elements. We will note the population as $P_G$, formed by $p_{size}$ individuals with the form $p_{[i,G]} = \{p_{[i,G,1]}, \cdots, p_{[i,G,v]}\}$, with $G$ indicating the generation to which $p_i$ belongs.
+Since SHADE is an evolution-based algorithm, it shares elements with BRKGA (Section \ref{sec:brkga}), so we will use a similar notation to define its elements. We will note the population as $P_G$, formed by $p_\text{size}$ individuals with the form $p_{[i,G]} = \{p_{[i,G,1]}, \cdots, p_{[i,G,v]}\}$, with $G$ indicating the generation to which $p_i$ belongs.
 
 \subsection{SHADE Operators}
 
@@ -289,30 +289,30 @@ As in differential evolution, SHADE employs mutant generation, crossover and sel
 The mutation strategy used by SHADE is known as current-to-$p$best/1, and the expression that generates new individuals is described in Equation \eqref{eq3}.
 
 \begin{equation}
-m_{[i,G]} = p_{[i,G]} + F_i * (p_{[pbest, G]} - p_{[i,G]}) + F_i * (p_{[r1, G]} - p_{[r2,G]}),
+m_{[i,G]} = p_{[i,G]} + F_i * (p_{[p\text{best}, G]} - p_{[i,G]}) + F_i * (p_{[r1, G]} - p_{[r2,G]}),
 \label{eq3}
 \end{equation}
 
-\noindent where $m_{[i,G]}$ is the mutant vector, which is generated with an individual $p_{[i,G]}$ from the population serving as a starting point. Indices $r1$ and $r2$ are random values in the range $[0,p_{size}]$, different from $i$ and from each other. The individual $p_{[pbest, G]}$ is randomly selected from among the best $p_{size} \times pbest\;|\;pbest\in [0,1]$ individuals in the population. This way, the parameter $pbest$ controls the greediness of the mutation strategy. The parameter $F_i$ defines the magnitude of the operator.
+\noindent where $m_{[i,G]}$ is the mutant vector, which is generated with an individual $p_{[i,G]}$ from the population serving as a starting point. Indices $r1$ and $r2$ are random values in the range $[0,p_\text{size}]$, different from $i$ and from each other. The individual $p_{[p\text{best}, G]}$ is randomly selected from among the best $p_\text{size} \times p\text{best}\;|\;p\text{best}\in [0,1]$ individuals in the population. This way, the parameter $p\text{best}$ controls the greediness of the mutation strategy. The parameter $F_i$ defines the magnitude of the operator.
 
 After generating the mutant vector $m_{[i,G]}$, it is combined with the parent $p_{[i,G]}$ vector by means of a crossover operator; the result is the trial vector $t_{[i,G]} = \{t_{[i,G,1]}, \cdots, t_{[i,G,v]}\}$. SHADE uses the Binomial crossover operator, which is defined by the Equation \eqref{eq4}.
 
 \begin{equation}
 t_{[i,G,j]} = \left\{ \begin{array}{lc}
-m_{[i,G,j]} &   if \;\; \text{rand}[0,1) \le CR_i \;\; or \;\;j = j_{rand} \\
+m_{[i,G,j]} &   \text{if} \;\; \text{rand}[0,1) \le CR_i \;\; \text{or} \;\;j = j_{rand} \\
 p_{[i,G,j]} &  \text{otherwise}
 \end{array}
 \right.,
 \label{eq4}
 \end{equation}
 
-\noindent where $rand[0,1)$ is a random number selected from a normal distribution in the range $[0,1)$, $j_{rand}$ is a random integer selected from the range $[1,v]$, and $CR \in [0,1]$ is the crossover ratio.
+\noindent where $\text{rand}[0,1)$ is a random number selected from a normal distribution in the range $[0,1)$, $j_\text{rand}$ is a random integer selected from the range $[1,v]$, and $CR \in [0,1]$ is the crossover ratio.
 
-The SHADE selection operator determines the survivors individuals for the next generation. It compares each parent $x_{[i,G]}$ with the trial vector $_{[i,G,j]}$, generated based on it. The best one of these two individuals will survive for the next generation. Equation \eqref{eq5} shows this concept.
+The SHADE selection operator determines the survivors individuals for the next generation. It compares each parent $x_{[i,G]}$ with the trial vector $t_{[i,G,j]}$, generated based on it. The best one of these two individuals will survive for the next generation. Equation \eqref{eq5} shows this concept.
 
 \begin{equation}
 p_{[i,G + 1]} = \left\{ \begin{array}{lc}
-t_{[i,G]} &   if \;\; f(t_{[i,G]}) \le f(p_{[i,G]}) \\
+t_{[i,G]} &   \text{if} \;\; f(t_{[i,G]}) \le f(p_{[i,G]}) \\
 p_{[i,G]} &  \text{otherwise}
 \end{array}
 \right.
@@ -321,7 +321,7 @@ p_{[i,G]} &  \text{otherwise}
 
 To maintain diversity, SHADE can make use of an external archive $A$, in which parents $p_{[i,G]}$ who were replaced by their associated trial vector $t_{[i,G]}$ are saved. To make use of the archive, we will consider that the individual $p_{[r2,G]}$ from Equation \eqref{eq3} is selected from $P \cup A$. The archive size is the same as the population size. When the size of $A$ exceeds the size of $P$, random individuals are selected for removal to make room for new ones.
 
-The parameters $pbest$, $F_i$ and $CR_i$ are difficult to adjust and their selection is not trivial, as they largely determine the success of the optimization process. These are the parameters that SHADE adaptively optimizes using the mentioned history record.
+The parameters $p\text{best}$, $F_i$ and $CR_i$ are difficult to adjust and their selection is not trivial, as they largely determine the success of the optimization process. These are the parameters that SHADE adaptively optimizes using the mentioned history record.
 
 \subsection{SHADE Parameter Adaptation Method}
 
@@ -360,14 +360,14 @@ F_i = \text{randc}_i(M_{[F,r_i]}, 0.1),
 \label{eq7}
 \end{equation}
 
-\noindent where $randn(\mu, \sigma^2)$ and $randc(\mu, \sigma^2)$ are random values from normal and Cauchy distributions respectively, with mean $\mu$ and variance $\sigma^2$. When a value for $CR_i$ outside of the range $[0,1]$ is generated, it is replaced by the corresponding limit value. If $F_i > 1$, then it is truncated to $1$; conversely, if $F_i < 0$, then Equation \eqref{eq7} is applied as many times as needed to obtain a legal value.
+\noindent where $\text{randn}(\mu, \sigma^2)$ and $\text{randc}(\mu, \sigma^2)$ are random values from normal and Cauchy distributions respectively, with mean $\mu$ and variance $\sigma^2$. When a value for $CR_i$ outside of the range $[0,1]$ is generated, it is replaced by the corresponding limit value. If $F_i > 1$, then it is truncated to $1$; conversely, if $F_i < 0$, then Equation \eqref{eq7} is applied as many times as needed to obtain a legal value.
 
 SHADE keeps two auxiliary sets $S_{CR}$ and $S_F$ to store the $CR_i$ and $F_i$ values that were successfully used to generate a trial vector that replaced the parent. At the end of each generation, the content of the memory $M$ is updated following Equations \eqref{eq8} and \eqref{eq9}.
 
 \begin{equation}
 M_{[CR,h,G+1]} = \left\{ \begin{array}{lc}
-\text{mean}_{WA} (S_{CR}) &   if \;\; S_{CR} \neq \emptyset \\
-M_{[CR,h,G]} &  otherwise
+\text{mean}_{WA} (S_{CR}) & \text{if} \;\; S_{CR} \neq \emptyset \\
+M_{[CR,h,G]} &  \text{otherwise}
 \end{array}
 \right.
 \label{eq8}
@@ -375,8 +375,8 @@ M_{[CR,h,G]} &  otherwise
 
 \begin{equation}
 M_{[F,h,G+1]} = \left\{ \begin{array}{lc}
-\text{mean}_{WL} (S_{F}) &   if \;\; S_{F} \neq \emptyset \\
-M_{[F,h,G]} &  otherwise
+\text{mean}_{WL} (S_{F}) & \text{if} \;\; S_{F} \neq \emptyset \\
+M_{[F,h,G]} &  \text{otherwise}
 \end{array}
 \right.
 \label{eq9}
@@ -384,7 +384,7 @@ M_{[F,h,G]} &  otherwise
 
 The $h \;\; (0 \le h \le |M|)$ index specifies the position of the memory $M$ to be updated. This index is initialized to $0$ at the beginning of the optimization process and increased by one after every generation. When $h \ge |M|$ then $h$ is reset to 1. It is worth noting that, when there is a generation with no trial vectors successfully replacing their parents, no update of $M$ is done.
 
-In Equation \ref{eq8}, the term $mean_{WA} (S_{CR})$ is the weighted mean, which is computed following Equations \eqref{eq10} and \eqref{eq11}, proposed in \cite{peng2009multi} to prevent $CR$ from converging to small values.
+In Equation \ref{eq8}, the term $\text{mean}_{WA} (S_{CR})$ is the weighted mean, which is computed following Equations \eqref{eq10} and \eqref{eq11}, proposed in \cite{peng2009multi} to prevent $CR$ from converging to small values.
 
 \begin{equation}
 \text{mean}_{WA} (S_{CR}) = \sum_{i = 1}^{|S_{RC}|} \omega_i * S_{[RC,i]}
@@ -398,17 +398,17 @@ In Equation \ref{eq8}, the term $mean_{WA} (S_{CR})$ is the weighted mean, which
 
 \noindent where $\Delta f_i = |f(t_{[i,G]}) - f(p_{[i, G]})|$, which is the amount of improvement obtained from the trial vector with respect to the parent.
 
-In Equation \ref{eq9} the term $mean_{WL} (S_{F})$ refers to the weighted Lehmer mean, which is computed as in Equation \eqref{eq12} (proposed in \cite{tanabe2013success}).
+In Equation \ref{eq9} the term $\text{mean}_{WL} (S_{F})$ refers to the weighted Lehmer mean, which is computed as in Equation \eqref{eq12} (proposed in \cite{tanabe2013success}).
 
 \begin{equation}
 \text{mean}_{WL} (S_{F}) = \frac{\sum_{i = 1}^{|S_{F}|} \omega_i * S^2_{[F,i]}}{\sum_{i = 1}^{|S_{F}|} \omega_i * S_{[F,i]}}
 \label{eq12}
 \end{equation}
 
-Unlike parameters $S_{CR}$ and $S_F$, the parameter $pbest$ from Equation \eqref{eq3}, used to set the greediness of the mutation strategy, is not included in the adaptive optimization process. However, it is not static: it is calculated for every individual $p_i$ of the population following Equation \eqref{eq13}.
+Unlike parameters $S_{CR}$ and $S_F$, the parameter $p\text{best}$ from Equation \eqref{eq3}, used to set the greediness of the mutation strategy, is not included in the adaptive optimization process. However, it is not static: it is calculated for every individual $p_i$ of the population following Equation \eqref{eq13}.
 
 \begin{equation}
-pbest_i = \text{randn}[2/N, 0.2],
+p\text{best}_i = \text{randn}[2/N, 0.2],
 \label{eq13}
 \end{equation}
 
@@ -419,7 +419,7 @@ pbest_i = \text{randn}[2/N, 0.2],
 In this section, we present an optimization scheme for the SHADE algorithm when applied to constrained clustering. We will call this new approach $SHADE_{CC}$. To begin with, we will use random-keys to create the individuals of the population; this way, each individual is defined as a vector of $n$ random-keys ($v = n$). Additionally, we will also make use of the initialization method and the decoder found in Section \ref{sec:AdaptationofBRKGA}. However, we propose a new fitness function to evaluate the quality of the individuals of the population, Equation \eqref{eq14}, whose element $z_i$ is obtained as in Equation \eqref{eq2}.
 
 \begin{equation}
-f_i = z_i * (infeasibility + 1)
+f_i = z_i * (\text{infeasibility}_i + 1)
 \label{eq14}
 \end{equation}
 
@@ -429,7 +429,7 @@ We found that with the fitness function defined in \eqref{eq1} there is no compe
 
 With Equation \eqref{eq14} we try to find a trade-off between the within-cluster-sum-of-squares and the penalty term, allowing solutions that violate a certain number of constraints to compete with those who violate a smaller number of them but score a better within-cluster-sum-of-squares.
 
-To make these concepts clear we consider a toy dataset and three partitions over it. The dataset from Figure \ref{img:toydatasets} contains 100 instances and a single ML constraint between two instances from the same class. Partitions $C_0$---displaying the true labels---and $C_1$ do not violate the constraint ($infeasibility = 0$), whereas $C_2$ does violate it ($infeasibility = 1$). However, $C_2$ shows a possibility, for later iterations, of adding both instances to their nearest cluster while also satisfying the ML constraint.
+To make these concepts clear we consider a toy dataset and three partitions over it. The dataset from Figure \ref{img:toydatasets} contains 100 instances and a single ML constraint between two instances from the same class. Partitions $C_0$---displaying the true labels---and $C_1$ do not violate the constraint ($\text{infeasibility} = 0$), whereas $C_2$ does violate it ($\text{infeasibility} = 1$). However, $C_2$ shows a possibility, for later iterations, of adding both instances to their nearest cluster while also satisfying the ML constraint.
 
 \begin{figure}[bth]
 	\myfloatalign
@@ -462,7 +462,7 @@ Table \ref{tab:fitnessfunctions} shows fitness values for each partition from Fi
 			\hline
 			$C_0$ & $z_0$ & $z_0$ && $0.457$  & $0.457$  \\
 			$C_1$ & $z_1$ & $z_1$ && $0.540$  & $0.540$  \\
-			$C_2$ & $z_2 + (\mu * N * infs)$ & $z_2 * (infs + 1)$  && $0.503 + 1000 = 1000.503$ &  $0.503 * 2 = 1.005$ \\
+			$C_2$ & $z_2 + (\mu * N * \text{infsblt})$ & $z_2 * (\text{infsblt} + 1)$  && $0.503 + 1000 = 1000.503$ &  $0.503 * 2 = 1.005$ \\
 			\hline
 
 		\end{tabular}}
@@ -677,18 +677,18 @@ Since we have the true labels associated to each of the datasets, we can use the
 For each pair of instances $x_i$ and $x_j$ in $X$, a partition assigns them to the same cluster or to different clusters. We take $a$ as the number of pairings where $x_i$ is in the same cluster as $x_j$ in both $C_1$ and $C_2$, and $b$ as the opposite event ($x_i$ and $x_j$ are in different clusters in $C_1$ and $C_2$). Then, the degree of similarity between $C_1$ and $C_2$ is calculated as in Equation \eqref{eq15}.
 
 \begin{equation}
-Rand(C_1, C_2) = \frac{a + b}{n(n - 1)/2}
+\text{Rand}(C_1, C_2) = \frac{a + b}{n(n - 1)/2}
 \label{eq15}
 \end{equation}
 
 The ARI is a corrected-for-chance version of the Rand Index. This correction uses the expected similarity of all comparisons between clusterings specified by a random model to set up a baseline. The ARI is computed as in Equation \eqref{eq16}.
 
 \begin{equation}
-ARI(C_1, C_2) = \frac{Rand(C_1, C_2) - ExpectedIndex}{MaximumIndex - ExpectedIndex},
+\text{ARI}(C_1, C_2) = \frac{\text{Rand}(C_1, C_2) - \text{Expected Index}}{\text{Maximum Index} - \text{Expected Index}},
 \label{eq16}
 \end{equation}
 
-\noindent where $MaximumIndex$ is expected to be 1 and $ExpectedIndex$ is the already mentioned expected degree of similarity with a random model. It is easy to see that $ARI(C_1, C_2) \in [-1,1]$, such that an $ARI$ value close to 1 means a high degree of agreement between $C_1$ and $C_2$, a positive value close to 0 means no agreement and a value smaller that 0 means that the $Rand(C_1, C_2)$ is less than expected when comparing with random partitions. To summarize, the higher the $ARI$, the greater the degree of similarity between $C_1$ and $C_2$. For more details on ARI see \cite{hubert1985comparing}.
+\noindent where Maximum Index is expected to be 1 and Expected Index is the already mentioned expected degree of similarity with a random model. It is easy to see that $\text{ARI}(C_1, C_2) \in [-1,1]$, such that an ARI value close to 1 means a high degree of agreement between $C_1$ and $C_2$, a positive value close to 0 means no agreement and a value smaller that 0 means that the $\text{Rand}(C_1, C_2)$ is less than expected when comparing with random partitions. To summarize, the higher the ARI, the greater the degree of similarity between $C_1$ and $C_2$. For more details on ARI see \cite{hubert1985comparing}.
 
 Our objective is to quantify the quality of the solutions obtained as a result of the methods presented in this paper. To accomplish this task we just set one of the two partitions given to compute ARI as the ground truth labels.
 
@@ -708,11 +708,11 @@ Table \ref{tab:params} shows a summary of the parameter setup used for both BRKG
 			\hline
 			Parameter & Meaning & BRKGA & SHADE \\
 			\hline
-			$p_{size}$ & Population size & 100 & 100 \\
-			$Evals$ & Fitness function evaluations & 300000 & 300000 \\
-			$p_e$ & Size of the elite set in population & $0.2 * p_{size}$ & $0.25 * p_{size}$ \\
-			$p_m$ & Number of mutants to be introduced in the population in each generation & $0.2 * p_{size}$ & - \\
-			$p_{inherit}$ & Probability that a feature is inherited from an elite parent & $50\%$ & - \\
+			$p_\text{size}$ & Population size & 100 & 100 \\
+			Evals & Fitness function evaluations & 300000 & 300000 \\
+			$p_e$ & Size of the elite set in population & $0.2 * p_\text{size}$ & $0.25 * p_\text{size}$ \\
+			$p_m$ & Number of mutants to be introduced in the population in each generation & $0.2 * p_\text{size}$ & - \\
+			$p_\text{inherit}$ & Probability that a feature is inherited from an elite parent & $50\%$ & - \\
 			$k$ & Output partition number of clusters & \multicolumn{2}{m{4cm}}{No. Classes (Table \ref{tab:datasets}).} \\
 			\hline
 
@@ -746,7 +746,7 @@ To compare with the state-of-the-art methods mentioned in section \ref{sec:BackS
 			COPKM & \multicolumn{2}{l}{\texttt{tolerance} = $1 * 10^{-4}$; \texttt{init\_mode} = \texttt{``rand''}} \\
 			CECM & \multicolumn{2}{l}{$\alpha = 1$, $\rho = 100$, $\xi = 0.5$, \texttt{stop\_threshold} = $1 * 10^{-3}$, \texttt{init\_mode} = \texttt{``rand''}} \\
 			LCVQE & \multicolumn{2}{l}{\texttt{initial\_centroids} = $\emptyset$} \\
-			RDPM & \multicolumn{2}{l}{$\xi_0 = 0.1$, $\xi_{rate} = 1$, $\lambda$ is calculated on the basis of the mean distances in the dataset.} \\
+			RDPM & \multicolumn{2}{l}{$\xi_0 = 0.1$, $\xi_\text{rate} = 1$, $\lambda$ is calculated on the basis of the mean distances in the dataset.} \\
 			TVClust & \multicolumn{2}{l}{$\alpha_0 = 1.2$, \texttt{stop\_threshold} = $5*10^{-4}$} \\
 			\hline
 			
@@ -757,7 +757,7 @@ To compare with the state-of-the-art methods mentioned in section \ref{sec:BackS
 	\label{tab:paramsSOTA}
 \end{table}
 
-It should be noted that the study presented in this document aims to compare average performance, not peak performance. The parameter optimization process required for each algorithm and dataset falls outside the scope of this study.
+Parameter values have been assigned following the guidelines of the original creators of the different proposals. Since the evaluation in the experimental stage makes use of a high number of datasets, tuning each parameter specifically for each dataset is not feasible. Indeed, our goal is not optimization in a case-by-case basis but instead a comparison in the most general scenario possible. Therefore, given that the purpose of this work is to draw a fair comparison between the algorithms and assess their robustness in a common environment with multiple datasets, we have not included a tuning step to maximize any particular performance metric.
 
 \section{Experimental Results} \label{sec:results}
 
@@ -1082,7 +1082,7 @@ To start with, NHST do not provide us with the probabilities associated to the a
 
 Also, NHST do not provide information about the magnitude of the effects and the uncertainty of its estimate. As a consequence, NHST may reject hypotheses despite very small effects, or even if there is significant uncertainty in the magnitude of the effects.
 
-Furthermore, and this is a situation that all researchers have faced, NHST do not provide any information about the null hypothesis! That is: What can we conclude when NHST do not reject $H_0$? We can not infer anything since NHST can not provide evidence in its favor.
+Furthermore, and this is a situation that all researchers have faced, NHST do not provide any information about the null hypothesis! That is: What can we conclude when NHST do not reject the null hypothesis? We can not infer anything since NHST can not provide evidence in its favor.
 
 Finally, there are two other problems that researchers face when performing NHST. The first one is the choice of the significance level $\alpha$, for which there are no objective guidelines despite being critical to the test results. The second one is the need to previously formalize the intentions of the sampling of the results, which are usually fixed a posteriori; this could lead to a misreading of said results.
 
@@ -1090,8 +1090,8 @@ As shown in \cite{benavoli2017time}, most of these problems can be avoided by us
 
 From now on, and as far as the comparison of population-based methods is concerned, we will refer to the results obtained by BRKGA$_{CC}$ as sample $A$, and to the results obtained with SHADE$_{CC}$ as sample $B$.
 
-The Bayesian sign test is based on obtaining the statistical distribution of a certain parameter $\rho$ according to the difference between the results, under the assumption that said distribution is a Dirichlet distribution. To get the distribution of $\rho$ we count the number of times that $A - B < 0$, the number of times where there are no significant differences, and the number of times that $A - B > 0$. In order to identify cases where there are no significant differences, we define the region of practical equivalence (rope) $[r_{min}, r_{max}]$, so that $P(A \approx B) = P(\rho \in rope)$. Using these results we calculate the weights of the Dirichlet distribution and sample it to get a set of triplets with the following form: 
-$$[P(\rho < r_{min}) = P(A - B < 0),\;\; P(\rho \in rope),\;\; P(\rho > r_{max}) = P(A - B > 0)]$$
+The Bayesian sign test is based on obtaining the statistical distribution of a certain parameter $\rho$ according to the difference between the results, under the assumption that said distribution is a Dirichlet distribution. To get the distribution of $\rho$ we count the number of times that $A - B < 0$, the number of times where there are no significant differences, and the number of times that $A - B > 0$. In order to identify cases where there are no significant differences, we define the region of practical equivalence (rope) $[r_\text{min}, r_\text{max}]$, so that $P(A \approx B) = P(\rho \in \text{rope})$. Using these results we calculate the weights of the Dirichlet distribution and sample it to get a set of triplets with the following form: 
+$$[P(\rho < r_\text{min}) = P(A - B < 0),\;\; P(\rho \in \text{rope}),\;\; P(\rho > r_\text{max}) = P(A - B > 0)]$$
 
 One of the major advantages of the Bayesian sign test over the null hypothesis tests such as the (Wilcoxon's signed-rank test) is that we can obtain a visual representation of its results. We can produce a representation of the triplet set in the form of a heatmap where each triplet constitutes one point whose location is given by barycentric coordinates. With this in mind, we will associate each of the triplet values with each of the three vertices of an equilateral triangle. In order to find out where a certain triplet will be placed within the triangle, we will take each of its three values and draw a parallel line to the opposing side of the corresponding vertex; the separation between a triangle side and its parallel line will be proportional to the associated triplet value, so that the higher the value, the closer the line will be to the vertex. The location where the three lines intersect is where we draw a point. Since the values of every triplet describe a probability distribution and therefore they must add up to one, we can be sure that all triplets will lie in some point within the triangle. The color indicates the density of points in a given region, with yellow representing a high density and red a low density.
 

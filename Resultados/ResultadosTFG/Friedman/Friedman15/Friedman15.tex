@@ -1,0 +1,76 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage{graphicx}
+\usepackage{lscape}
+\title{Output tables for 1xN statistical comparisons.}
+\author{}
+\date{\today}
+\begin{document}
+\pagestyle{empty}
+\maketitle
+\thispagestyle{empty}
+
+\section{Average rankings of Friedman test}
+
+
+Average ranks obtained by each method in the Friedman test.
+
+\begin{table}[!htp]
+\centering
+\begin{tabular}{|c|c|}\hline
+Algorithm&Ranking\\\hline
+"SHADE"&2.92\\"COPKM"&3.24\\"LCVQE"&3.24\\"RDPM"&3.24\\"TVClust"&3.42\\"CEKM"&4.94\\\hline\end{tabular}
+\caption{Average Rankings of the algorithms (Friedman)}
+\end{table}
+
+Friedman statistic (distributed according to chi-square with 5 degrees of freedom): 18.708571. \newline P-value computed by Friedman Test: 0.002178.\newline
+
+
+\newpage
+
+\section{Post hoc comparison (Friedman)}
+
+
+P-values obtained in by applying post hoc methods over the results of Friedman procedure.
+
+\begin{table}[!htp]
+\centering\footnotesize
+\begin{tabular}{cccccccc}
+$i$&algorithm&$z=(R_0 - R_i)/SE$&$p$&Holm &Holland&Finner&Li\\
+\hline5&"CEKM"&3.817441&0.000135&0.01&0.010206&0.010206&0.023929\\4&"TVClust"&0.944911&0.344704&0.0125&0.012741&0.020308&0.023929\\3&"LCVQE"&0.604743&0.54535&0.016667&0.016952&0.030307&0.023929\\2&"RDPM"&0.604743&0.54535&0.025&0.025321&0.040204&0.023929\\1&"COPKM"&0.604743&0.54535&0.05&0.05&0.05&0.05\\\hline
+\end{tabular}
+\caption{Post Hoc comparison Table for $\alpha=0.05$ (FRIEDMAN)}
+\end{table}Holm's procedure rejects those hypotheses that have an unadjusted p-value $\le0.0125$.
+
+Holland's procedure rejects those hypotheses that have an unadjusted p-value $\le0.012741$.
+
+Finner's procedure rejects those hypotheses that have an unadjusted p-value $\le0.020308$.
+
+Li's procedure rejects those hypotheses that have an unadjusted p-value $\le0.023929$.
+
+
+\newpage
+
+\section{Adjusted P-Values (Friedman)}
+
+
+Adjusted P-values obtained through the application of the post hoc methods (Friedman).
+
+\begin{table}[!htp]
+\centering\small
+\begin{tabular}{cccc}
+i&algorithm&unadjusted $p$&$p_{Holm}$\\
+\hline1&"CEKM"&0.000135&0.000674\\2&"TVClust"&0.344704&1.378817\\3&"LCVQE"&0.54535&1.636049\\4&"RDPM"&0.54535&1.636049\\5&"COPKM"&0.54535&1.636049\\\hline
+\end{tabular}
+\caption{Adjusted $p$-values (FRIEDMAN) (I)}
+\end{table}
+\begin{table}[!htp]
+\centering\small
+\begin{tabular}{cccccc}
+i&algorithm&unadjusted $p$&$p_{Holland}$&$p_{Finner}$&$p_{Li}$\\
+\hline1&"CEKM"&0.000135&0.000674&0.000674&0.000296\\2&"TVClust"&0.344704&0.815605&0.652389&0.431228\\3&"LCVQE"&0.54535&0.906021&0.731179&0.54535\\4&"RDPM"&0.54535&0.906021&0.731179&0.54535\\5&"COPKM"&0.54535&0.906021&0.731179&0.54535\\\hline
+\end{tabular}
+\caption{Adjusted $p$-values (FRIEDMAN) (II)}
+\end{table}
+
+\newpage
+\end{document}
