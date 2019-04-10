@@ -111,7 +111,7 @@ The constrained clustering problem can be formulated in terms of optimization, s
 
 Differential Evolution (DE) is an evolution-based algorithm that has proven to be excellent in real-domain problem solving \cite{das2011differential}; in this paper we propose the first DE application to find quality solutions for the constrained clustering problem (see Section \ref{sec:SHADE}). In particular, we will take as basis for our proposal one of the DE variants which showed excellent behavior in worldwide competitions, known as SHADE \cite{molina2018insight}. We will make use of the Random-key concept from BRKGA, along with proposing a new fitness function, to build the already mentioned DE variant. We will properly compare the results obtained by our new method with previous nature-inspired algorithms, as well as with the constrained clustering state-of-the-art.
 
-Regarding the organization of this paper, Section \ref{sec:background} reviews the existing knowledge concerning constrained clustering and DE. In Section \ref{sec:brkga} we will briefly review the BRKGA algorithm and its adaptation for constrained clustering. Afterward, a variant of DE algorithm will be presented in Section \ref{sec:SHADE}. In Section \ref{sec:SHADEadapt} we present the scheme that allow us to apply SHADE to constrained clustering, including the proposal of a new fitness function. Sections from \ref{sec:expSetup} to \ref{sec:analisis} present the experimental setup, results and their analysis respectively. Finally, in Section \ref{sec:conclusiones} we discuss conclusions.
+Regarding the organization of this paper, Section \ref{sec:background} reviews the existing knowledge concerning constrained clustering and DE. In Section \ref{sec:brkga} we will briefly review the BRKGA algorithm and its adaptation for constrained clustering. Afterward, the SHADE variant of DE algorithm will be presented in Section \ref{sec:SHADE}. In Section \ref{sec:SHADEadapt} we present the scheme that allow us to apply SHADE to constrained clustering, including the proposal of a new fitness function. Sections from \ref{sec:expSetup} to \ref{sec:analisis} present the experimental setup, results and their analysis respectively. Finally, in Section \ref{sec:conclusiones} we discuss conclusions.
 
 \section{Background} \label{sec:background}
 
@@ -214,7 +214,7 @@ The optimization process of DE the works through a simple cycle of stages, prese
 	
 \end{itemize}
 
-Even though DE was a major breakthrough in terms of real optimization, many variants have been developed since its invention that provide better results. We will focus on the SHADE variant, which adaptively optimizes some of the parameters of DE. To carry out this task SHADE uses a historic record of values for these parameters that allows it to set them in favor of the optimization process, based on how good the algorithm behaved with these parameter values in the past (see Section \ref{sec:SHADE}).
+Even though DE was a major breakthrough in terms of real optimization, many variants have been developed since its invention that provide better results. We will focus on the SHADE variant, which adaptively optimizes some of the parameters of DE. To carry out this task SHADE uses a historic record of values for these parameters that allows it to set them in favor of the optimization process, based on how good the algorithm behaved with certain parameter values in the past (see Section \ref{sec:SHADE}).
 
 
 
@@ -1157,9 +1157,9 @@ We see very similar diagrams for COPKM (\ref{fig:bayesCOPKM}), LVCQE (\ref{fig:b
 
 \section{Conclusions} \label{sec:conclusiones}
 
-In this paper we proposed SHADE$_{CC}$, a new variant of the SHADE algorithm to solve the constrained clustering problem. We took concepts such as the random-key and the encoder/decoder from RKGA to transform constrained clustering into a real-domain optimization problem. We also proposed a new fitness function that has proven to be more adaptable and less restrictive.
-
-The SHADE algorithm is one of the most successful methods to approximately solve difficult problems, and constrained clustering is not an exception. We obtained results on 25 different datasets and 3 different constraint sets for each one, applying all the algorithms named in this paper. Thanks to the Bayesian statistical tests, which offer us the advantageous option of producing a visualization of differences between results obtained by different methods, we were able to objectively prove that the SHADE$_{CC}$ approach is significantly better than previous evolution-based proposals. As far as the state-of-the-art is concerned, the SHADE$_{CC}$ approach has proven to be equivalent or better when considering the quality of the solutions, especially in cases where large sets of constraints are analyzed.
+In this paper we proposed SHADE$_{CC}$, the first application of a DE-based algorithm to the SSL constrained clustering problem. Focusing on the instance-level ML and CL constraints, SHADE$_{CC}$ has proven that nature-inspired evolution-based techniques constitute a good approach to constrained clustering, being able to scale the quality of the results in a way directly proportional to the number of constraints.
+ 
+Supported by the Bayesian statistical tests, we were able to objectively prove that the SHADE$_{CC}$ approach is significantly better than previous evolution-based proposals. As far as the state-of-the-art is concerned, the SHADE$_{CC}$ approach has proven to be equivalent or better when considering the quality of the solutions, especially in cases where large sets of constraints are analyzed.
 
 \section{Acknowledgements}
 
