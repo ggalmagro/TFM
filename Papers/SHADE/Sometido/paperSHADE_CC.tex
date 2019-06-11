@@ -80,7 +80,7 @@ Clustering has always been a powerful tool in knowledge discovery. Traditionally
 \end{abstract}
 
 \begin{keyword}
-constrained clustering, instance-level, must-link, cannot-link, differential evolution.
+constrained clustering, instance-level, must-link, cannot-link, genetic algorithm, differential evolution, Bayesian statistical tests.
 \end{keyword}
 
 \end{frontmatter}
@@ -196,7 +196,7 @@ To guide the optimization process, we use a fitness function. The task of DE is 
 
 \begin{figure}[!h]
 	\centering
-	\includegraphics[scale=0.3]{Figures/DEop.png}
+	\includegraphics[scale=0.3]{DEop.png}
 	\caption{The optimization process of DE \cite{das2011differential}.}\label{img:DE}
 \end{figure}
 
@@ -416,7 +416,7 @@ p\text{best}_i = \text{randn}[2/N, 0.2],
 
 \section{SHADE optimization scheme for constrained clustering} \label{sec:SHADEadapt}
 
-In this section, we present an optimization scheme for the SHADE algorithm when applied to constrained clustering. We will call this new approach SHADE$_{CC}$. To begin with, we will use random-keys to create the individuals of the population; this way, each individual is defined as a vector of $n$ random-keys ($v = n$). Additionally, we will also make use of the initialization method and the decoder found in Section \ref{sec:AdaptationofBRKGA}. However, we propose a new fitness function to evaluate the quality of the individuals of the population, Equation \eqref{eq14}, whose element $z_i$ is obtained as in Equation \eqref{eq2}.
+In this section, we present an optimization scheme for the SHADE algorithm when applied to constrained clustering. We will call this new approach $SHADE_{CC}$. To begin with, we will use random-keys to create the individuals of the population; this way, each individual is defined as a vector of $n$ random-keys ($v = n$). Additionally, we will also make use of the initialization method and the decoder found in Section \ref{sec:AdaptationofBRKGA}. However, we propose a new fitness function to evaluate the quality of the individuals of the population, Equation \eqref{eq14}, whose element $z_i$ is obtained as in Equation \eqref{eq2}.
 
 \begin{equation}
 f_i = z_i * (\text{infeasibility}_i + 1).
@@ -433,13 +433,13 @@ To make these concepts clear we consider a toy dataset and three partitions over
 
 \begin{figure}[bth]
 	\myfloatalign
-	{\includegraphics[width=.45\linewidth]{Figures/Dataset}} \quad
+	{\includegraphics[width=.45\linewidth]{Dataset}} \quad
 	%\subfloat[Imagen original]
-	{\includegraphics[width=.45\linewidth]{Figures/C0}} \quad
+	{\includegraphics[width=.45\linewidth]{C0}} \quad
 	%\subfloat[Clustering sin restricciones]
-	{\includegraphics[width=.45\linewidth]{Figures/C1}} \quad
+	{\includegraphics[width=.45\linewidth]{C1}} \quad
 	%\subfloat[Clustering con restricciones]
-	{\includegraphics[width=.45\linewidth]{Figures/C2}} \quad
+	{\includegraphics[width=.45\linewidth]{C2}} \quad
 	\caption{Three partitions over a toy dataset.}
 	\label{img:toydatasets}
 \end{figure}
@@ -719,7 +719,7 @@ Table \ref{tab:params} shows a summary of the parameter setup used for both BRKG
 	\resizebox{\textwidth}{!}{
 		\begin{tabular}{>{\centering\arraybackslash}c m{5cm} cc}
 			\hline
-			Parameter & Meaning & BRKGA$_{CC}$ & SHADE$_{CC}$ \\
+			Parameter & Meaning & BRKGA & SHADE \\
 			\hline
 			$|P|$ & Population size & 100 & 100 \\
 			Evals & Fitness function evaluations & 300000 & 300000 \\
@@ -732,13 +732,13 @@ Table \ref{tab:params} shows a summary of the parameter setup used for both BRKG
 		\end{tabular}}
 		%\end{adjustwidth}
 
-	\caption{Parameters setup used for BRKGA$_{CC}$ and SHADE$_{CC}$.}
+	\caption{Parameters setup used for BRKGA and SHADE.}
 	\label{tab:params}
 \end{table}
 
 In both cases---BRKGA$_{CC}$ and SHADE$_{CC}$---the population size will be 100 individuals, and the stop criterion is given by the number of evaluations of the fitness function, which at most will be 300000. A Python implementation for both algorithms can be found at \href{https://github.com/GermangUgr/SHADE\_CC}{GitHub}
 
-To compare with the state-of-the-art methods mentioned in Section \ref{sec:BackSOTA} we will use the parameters setup shown in Table \ref{tab:paramsSOTA} for the implementation that can be found at \href{https://github.com/GermangUgr/TFG/tree/master/Software}{GitHub}.
+To compare with the state-of-the-art methods mentioned in Section \ref{sec:BackSOTA} we will use the parameters setup shown in Table \ref{tab:paramsSOTA} for the implementation that can be found at \href{https://github.com/GermangUgr/TFG/tree/master/Software}{GitHub}
 
 \begin{table}[!h]
 	\centering
@@ -1094,17 +1094,17 @@ One of the major advantages of the Bayesian sign test is that we can obtain a ve
 \begin{figure}[ht!]
 	\centering
 	\begin{subfigure}{.45\textwidth}
-		\includegraphics[width=1\linewidth]{Figures/BayesSignoARI.pdf}
+		\includegraphics[width=1\linewidth]{BayesSignoARI.pdf}
 		\caption{ARI}
 		\label{fig:bayesARI}
 	\end{subfigure}
 	\begin{subfigure}{.45\textwidth}
-		\includegraphics[width=1\linewidth]{Figures/BayesSignoTime.pdf}
+		\includegraphics[width=1\linewidth]{BayesSignoTime.pdf}
 		\caption{Time}
 		\label{fig:bayesTime}
 	\end{subfigure}
 	\begin{subfigure}{.45\textwidth}
-		\includegraphics[width=1\linewidth]{Figures/BayesSignoUnsat.pdf}
+		\includegraphics[width=1\linewidth]{BayesSignoUnsat.pdf}
 		\caption{Unsat}
 		\label{fig:bayesUnsat}
 	\end{subfigure}
@@ -1120,27 +1120,27 @@ This way, we apply the process described earlier in this section to obtain the h
 \begin{figure}[ht!]
 	\centering
 	\begin{subfigure}{.45\textwidth}
-		\includegraphics[width=1\linewidth]{Figures/AriCOPKM.pdf}
+		\includegraphics[width=1\linewidth]{AriCOPKM.pdf}
 		\caption{SHADE$_{CC}$ vs COPKM}
 		\label{fig:bayesCOPKM}
 	\end{subfigure}
 	\begin{subfigure}{.45\textwidth}
-		\includegraphics[width=1\linewidth]{Figures/AriLCVQE.pdf}
+		\includegraphics[width=1\linewidth]{AriLCVQE.pdf}
 		\caption{SHADE$_{CC}$ vs LCVQE}
 		\label{fig:bayesLCVQE}
 	\end{subfigure}
 	\begin{subfigure}{.45\textwidth}
-		\includegraphics[width=1\linewidth]{Figures/AriRDPM.pdf}
+		\includegraphics[width=1\linewidth]{AriRDPM.pdf}
 		\caption{SHADE$_{CC}$ vs RDPM}
 		\label{fig:bayesRDPM}
 	\end{subfigure}
 	\begin{subfigure}{.45\textwidth}
-		\includegraphics[width=1\linewidth]{Figures/AriTVClust.pdf}
+		\includegraphics[width=1\linewidth]{AriTVClust.pdf}
 		\caption{SHADE$_{CC}$ vs TVClust}
 		\label{fig:bayesTVClust}
 	\end{subfigure}
 	\begin{subfigure}{.45\textwidth}
-		\includegraphics[width=1\linewidth]{Figures/AriCECM.pdf}
+		\includegraphics[width=1\linewidth]{AriCECM.pdf}
 		\caption{SHADE$_{CC}$ vs CECM}
 		\label{fig:bayesCECM}
 	\end{subfigure}

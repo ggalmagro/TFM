@@ -89,29 +89,31 @@ constrained clustering, instance-level, must-link, cannot-link, genetic algorith
 
 \section{Introduction} \label{sec:Intro}
 
-One of the most widely known and studied data analysis problems is clustering. It is one of the most successful methods in the field of unsupervised learning, where there is no supervision on how the information should be handled. Clustering has been able to provide solutions in a large number of knowledge fields, such as, marketing, banking, psychology, psychiatry, astronomy, archaeology, genetics, cartographic labeling and image segmentation among others \cite{Everitt:2009:CA:1538772, araujo2019improving, verma2016improved, aparajeeta2016modified, wang2018non}.
+One of the most widely known and studied data analysis problems is clustering. It is one of the most successful methods in the field of unsupervised learning, where there is no supervision on how the information should be handled. Clustering has been able to provide solutions in a large number of knowledge fields, such as, marketing, banking, psychology, psychiatry, astronomy, archaeology, genetics,\cite{Everitt:2009:CA:1538772} cartographic labeling \cite{araujo2019improving} and image segmentation in various fields, ranging from general applications \cite{wang2018non} to very specific ones such as in medicine \cite{verma2016improved, aparajeeta2016modified}.
 
-In the literature, clustering methods are often divided into two subsets: partitional clustering and hierarchical clustering. The main difference is that in hierarchical clustering the result is not a partition of the data with a certain number of clusters---as in partitional clustering---, but instead a dendrogram in which there are partitions that include from the whole dataset to particular individuals \cite{Everitt:2009:CA:1538772}. A representative example of partitional clustering is the widely studied and well-known algorithm K-means, while for hierarchical clustering the CURE method should be highlighted \cite{wu2009top, guha1998cure}. In this paper we will focus on partitional clustering.
+In the literature, clustering methods are often divided into two subsets: partitional clustering and hierarchical clustering. In hierarchical clustering the result is not a partition of the data with a certain number of clusters---as in partitional clustering---, but instead a dendrogram in which there are partitions that include from the whole dataset to particular individuals \cite{Everitt:2009:CA:1538772}. A representative example of partitional clustering is the widely studied and well-known algorithm K-means \cite{wu2009top}, while for hierarchical clustering the CURE method should be highlighted \cite{guha1998cure}. In this paper we will focus on partitional clustering.
 
-We can define partitional clustering as the task of grouping the instances of a dataset into $k$ clusters, so that new information can be extracted from them. A dataset $X$ is composed of $n$ instances, each one of them described by $d$ features. More formally, $X = \{x_1, \cdots, x_n\}$, with the $i$th instance noted as $x_i = (x_{[i,1]}, \cdots, x_{[i,d]})$. A typical clustering algorithm assigns a class label $l_i$ to each instance $x_i \in X$. As a result, we obtain the set of labels $L = \{l_1, \cdots, l_n\}$, with $l_i \in \{1, \cdots, k\}$, that effectively splits $X$ into $k$ non-overlapping clusters $c_i$ to form a partition called $C$. The criterion used to assign an instance to a given cluster is the similarity to the rest of elements in that cluster, and the dissimilarity to the rest of instances of the dataset, which can be obtained with some kind of distance measurement $d(\cdot, \cdot)$. An important detail is that each instance must belong to a single cluster \cite{jain1999data}. 
+We can define partitional clustering as the task of grouping the instances of a dataset into $k$ clusters, so that new information can be extracted from them. A dataset $X$ is composed of $n$ instances, each one of them described by $d$ features. More formally, $X = \{x_1, \cdots, x_n\}$, with the $i$th instance noted as $x_i = (x_{[i,1]}, \cdots, x_{[i,u]})$. A typical clustering algorithm assigns a class label $l_i$ to each instance $x_i \in X$. As a result, we obtain the set of labels $L = \{l_1, \cdots, l_n\}$, with $l_i \in \{1, \cdots, k\}$, that effectively splits $X$ into $k$ non-overlapping clusters $c_i$ to form a partition called $C$. The criterion used to assign an instance to a given cluster is the similarity to the rest of elements in that cluster, and the dissimilarity to the rest of instances of the dataset, which can be obtained with some kind of distance measurement $d(\cdot, \cdot)$ \cite{jain1999data}.
 
-Semi-supervised learning (SSL) is a machine learning paradigm that arises from adding incomplete information to unsupervised learning. We can divide SSL methods into two broad categories according to their objective: semi-supervised classification and semi-supervised clustering. The first method has partial information about the labels, so it tries to minimize the error based on them while taking into account the distribution of unlabeled instances. The second tries to obtain better defined clusters incorporating background information to the clustering process, this is known as constrained clustering and is the main subject of the study presented in this paper \cite{chapelle2009semi, triguero2015self}. 
+Semi-supervised learning (SSL) is a machine learning paradigm that arises from adding incomplete information to unsupervised learning. We can divide SSL methods into two broad categories according to their objective: semi-supervised classification and semi-supervised clustering \cite{chapelle2009semi}. The first method has partial information about the labels, so it tries to minimize the error based on them while taking into account the distribution of unlabeled instances. The second tries to obtain better defined clusters incorporating background information to the clustering process, this is known as constrained clustering and is the main subject of the study presented in this paper \cite{triguero2015self}. 
 
 Constrained clustering is an SSL learning method whose goal is to find a partition of the dataset that meets the proper characteristics of a clustering method result, in addition to satisfying a certain constraint set. It has been successfully applied in many knowledge fields, among which it is worth mentioning: advanced robotics applications \cite{davidson2005clustering, semnani2016constrained}, applied marketing \cite{seret2014new}, obstructive sleep apnea analysis \cite{mai2018evolutionary}, handwritten digits classification \cite{li2015scalable}, Internet traffic classification \cite{wang2014internet}, electoral district designing, \cite{brieden2017constrained}, and lane finding in GPS data \cite{wagstaff2001constrained} among others.
 
-Constraints can be understood in different ways, resulting in three main types of constrained clustering: cluster-level, instance-level and feature-level constrained clustering \cite{bradley2000constrained,davidson2007survey,schmidt2011clustering}. Moreover, hybrid approaches which try to integrate different types of constraints have also been proposed \cite{wang2010clustering}. 
+Constraints can be understood in different ways, resulting in three main types of constrained clustering: cluster-level \cite{bradley2000constrained}, instance-level \cite{davidson2007survey} and feature-level constrained clustering \cite{schmidt2011clustering}. Moreover, hybrid approaches which try to integrate different types of constraints have also been proposed \cite{wang2010clustering}. 
 
 In particular, we can find in the literature two types of instance-level constraints: pairwise constraints and distance-based constraints. In one hand, pairwise constraints tell us if two specific instances of a dataset must be placed in the same or in different clusters, resulting in Must-link (ML) and Cannot-link (CL) constraints respectively. On the other hand, distance-based constraints do not involve specific instances, but tell us if instances must be placed in the same or in different clusters based on a given distance measure \cite{davidson2007survey}. This paper focuses on pairwise instance-level constraints (ML and CL), which will be discussed later in Section \ref{sec:BackCC}.
 
-Regarding the degree to which the constraints have to be satisfied, we can make a distinction between the concepts of hard and soft constraints. Hard constraints must necessarily be satisfied in the output partition of any algorithm that makes use of them, while soft constraints are taken as a strong guide for the algorithm that uses them but can be partially satisfied in the output partition \cite{seret2014new, wagstaff2001constrained, law2004clustering}. For the purposes of this paper, we will employ the latter.
+Regarding the degree to which the constraints have to be satisfied, we can make a distinction between the concepts of hard \cite{wagstaff2001constrained} and soft \cite{law2004clustering} constraints. Hard constraints must necessarily be satisfied in the output partition of any algorithm that makes use of them, while soft constraints are taken as a strong guide for the algorithm that uses them but can be partially satisfied in the output partition \cite{seret2014new}. For the purposes of this paper, we will employ the latter.
 
 Finding the optimal partition in a dataset, with respect to any kind of reasonable criteria, is known to be a $\mathbf{NP}$-hard problem. Therefore, the incorporation of constraints may modify the complexity of the clustering problem, depending on the type of constraints used. As we will study in more depth in Section \ref{sec:BackFeas}, the use of ML and CL constraints makes the constrained clustering problem $\mathbf{NP}$-complete \cite{davidson2005clustering}.
 
 The constrained clustering problem can be formulated in terms of optimization, so that we can apply various optimization techniques to solve it. As mentioned earlier, it is a difficult problem to solve, so nature-inspired techniques are presented as a promising option to find quality approximate solutions. Nature is the best example of adaptive problem solving since it can apply an optimal strategy suited for each natural phenomenon \cite{fausto2019ants}. Nature-inspired algorithms are designed to emulate natural optimization phenomena, such as evolution, collective behavior of animals, physics laws or even human being-related processes. There have been attempts to solve the constrained clustering problem with nature-inspired algorithms, such as the adaptation of the Biased Random-key Genetic Algorithm (BRKGA) presented in \cite{de2017comparison}. Swarm-based methods have also been applied to constrained clustering, such as the one presented in \cite{xu2013improving}.
 
-Differential Evolution (DE) is an evolution-based algorithm that has proven to be excellent in real-domain problem solving \cite{das2011differential}; in this paper we propose the first DE application to find quality solutions for the constrained clustering problem (see Section \ref{sec:SHADE}). In particular, we will take as basis for our proposal one of the DE variants which showed excellent behavior in worldwide competitions, known as SHADE \cite{molina2018insight}. We will make use of the Random-key concept from BRKGA, along with proposing a new fitness function, to build the already mentioned DE variant. We will properly compare the results obtained by our new method with previous nature-inspired algorithms, as well as with the constrained clustering state-of-the-art.
+Differential Evolution (DE) is an evolution-based algorithm that has proven to be excellent in real-domain problem solving \cite{das2011differential}. In this paper we propose the first DE application to find quality solutions for the constrained clustering problem. In particular, we will take as basis for our proposal one of the DE variants which showed excellent behavior in worldwide competitions, known as SHADE \cite{molina2018insight}. We will make use of the Random-key concept from BRKGA, along with proposing a new fitness function, to build the already mentioned DE variant. We will properly compare the results obtained by our new method with previous nature-inspired algorithms, as well as with the constrained clustering state-of-the-art.
 
-Regarding the organization of this paper, Section \ref{sec:background} reviews the existing knowledge concerning constrained clustering and DE. In Section \ref{sec:brkga} we will briefly review the BRKGA algorithm and its adaptation for constrained clustering. Afterward, the SHADE variant of DE algorithm will be presented in Section \ref{sec:SHADE}. In Section \ref{sec:SHADEadapt} we present the scheme that allow us to apply SHADE to constrained clustering, including the proposal of a new fitness function. Sections from \ref{sec:expSetup} to \ref{sec:analisis} present the experimental setup, results and their analysis respectively. Finally, in Section \ref{sec:conclusiones} we discuss conclusions.
+Regarding the organization of this paper, Section \ref{sec:background} reviews the existing knowledge concerning constrained clustering and DE. In Section \ref{sec:brkga} the BRKGA algorithm and its adaptation for constrained clustering will be briefly reviewed. Afterward, the SHADE variant of DE algorithm will be presented in Section \ref{sec:SHADE}. In Section \ref{sec:SHADEadapt} the scheme that allow us to apply SHADE to constrained clustering, including the proposal of a new fitness function, will be presented. Sections from \ref{sec:expSetup} to \ref{sec:analisis} present the experimental setup, results and their analysis respectively. Finally, in Section \ref{sec:conclusiones} conclusions are discussed.
+
+\textcolor{red}{Decir que mientras que en los algoritmos memeticos el host es el GA en DILS el host es ILS, conservando todas sus caracteristicas y añadiendo algunas tecnicas de los GA}
 
 \section{Background} \label{sec:background}
 
@@ -182,97 +184,151 @@ A modification of the Constrained Vector Quantization Error algorithm (CVQE \cit
 
 Two Views Clustering (TVClust) and Relation Dirichlet Process - Means (RDPM) were proposed in \cite{khashabi2015clustering}. TVClust is able to incorporate the constraints into the clustering problem by making a soft interpretation of them. The authors model the dataset and constraints in different ways, perform clustering methods on them and try to find a consensus between both interpretations. Using this model as a basis, the authors derive the deterministic algorithm RDP-means. This method can be viewed as an extension of K-means that includes side information (constraints) and has the property that the number of clusters ($k$) does not need to be specified.
 
-\subsection{Short Introduction to Iterated Local Search}
-
-Before defining the iterated local search---from now on ILS---,it is necessary to understand the local search and the motivation that leads to designing methods with greater exploratory capacity.
-
-A local search is a procedure that consists of performing an heuristics-guided iterative improvement. Taking as initial state a well defined solution to the problem, the local search uses a neighbor generation operator to explore new solutions. When a solution better than the current one is found, it replaces the current one. In order to evaluate the solutions, the local search uses a function that assigns a value to each one of them, this is known as a target function. ***This value will be better the closer the solution that evaluates the optimal solution.*** 
-
-Both the neighbor generation operator and the target function used by the local search must be defined for each problem. The target function $f(\cdot)$ determines how good the solution achieved is with respect to the purpose of the problem. The neighbor generation operator takes as base a solution to the problem $s$, and generates a new solution $s^\prime$ by modifying some of its components in a local way.
-
-The Algorithm \ref{alg:LS} presents a basic scheme for a local search procedure. It is worth noting that the condition of line 4 must be adapted if the problem to be solved is one of maximization or minimization. In addition, the general scheme considers that the optimization process ends when the current solution is not improved, however the stop condition can be adapted to each problem.
-
-\begin{algorithm}
-	\SetNlSty{textbf}{[}{]}
-	\SetNlSkip{0.5em}
-	\setstretch{1.2}
-	\SetKwFunction{GenerateNeighbor}{GenerateNeighbor}
-	\SetKwRepeat{Do}{do}{while}
-	\KwIn{Initial solution $s$}
-	\BlankLine
-	\While{$improvement$}{
-		$improvement \leftarrow$ \texttt{false} \\
-		
-		$s^\prime \leftarrow $ \GenerateNeighbor{$s$}
-		
-		\If{$f(s^\prime) < f(s)$}{
-			
-			$s \leftarrow s^\prime$\\
-			$improvement \leftarrow$ \texttt{true} \\
-			
-		}	
-	}
-	\BlankLine
-	\KwRet ($s$)
-	
-	\caption{Local Search}\label{alg:LS}
-\end{algorithm}
-
-With the local search defined in this way, it is easy to see that the solution achieved will be the optimal local $s^*$ closest to the initial solution $s$. Figure \ref{img:LS} shows a pictorical representation of the above.
-
-\begin{figure}[!h]
-	\centering
-	\includegraphics[scale=0.25]{Figures/LS.png}
-	\caption{Local optimum achieved by a local search procedure}\label{img:LS}
-\end{figure}
-
-It is therefore necessary to appeal to techniques that introduce diversity in the search to avoid the problem of local optimal. This is exactly what ILS is trying to do.
-
-With ILS, once we have reached a local optimum $s^*$, we apply a perturbation to it that, with a high probability, will result in a new solution $s^\prime$ that will not be a local optimum and will be far enough away from $s^*$. After that, we will apply a local search procedure to find a new local optimal $s^{*\prime}$. Figure \ref{img:ILS} shows a representation of the above concepts.
-
-\begin{figure}[!h]
-	\centering
-	\includegraphics[scale=0.25]{Figures/ILS.png}
-	\caption{No se como llamar a esta puta imagen}\label{img:ILS}
-\end{figure}
-
-It should be noted that, if the disturbance applied to $s*$ is too small, the most likely is that the local optimum closest to $s^\prime$ is $s^*$ and therefore the solution space will not be explored effectively. On the other hand, if the disturbance is too big, there will be no bias in the generation of new solutions, and therefore the procedure becomes a random reboot-type method.
-
-
-The method for generating the perturbation applied to the local optimum $s^*$ may vary depending on the problem, and may be based on previous solutions. In this way, it is possible to keep a history of the solutions reached so far, so they can be used when applying the perturbation. Algorithm \ref{alg:ILS} summarizes the ILS overall optimization process.
-
-\begin{algorithm}
-	\SetNlSty{textbf}{[}{]}
-	\SetNlSkip{0.5em}
-	\setstretch{1.2}
-	\SetKwFunction{LocalSearch}{LocalSearch}
-	\SetKwFunction{Perturbation}{Perturbation}
-	\SetKwRepeat{Do}{do}{while}
-	\KwIn{Initial solution $s$}
-	\BlankLine
-	$s^* \leftarrow$ \LocalSearch{$s$}\\
-	\While{Termination criteria are not met}{
-		
-		$s^\prime \leftarrow $ \Perturbation{$s^*$, $history$}\\
-		$s^{*\prime} \leftarrow$ \LocalSearch{$s^\prime$}
-		
-		\If{$f(s^{*\prime}) < f(s^*)$}{
-			
-			$s^* \leftarrow s^{*\prime}$
-			
-		}	
-	}
-	\BlankLine
-	\KwRet ($s*$)
-	
-	\caption{Iterated Local Search}\label{alg:ILS}
-\end{algorithm}
-
-In the ILS scheme described in Algorithm \ref{alg:ILS} the acceptance criterion only use the difference in the cost of the solutions to be compared to choose between them. This is the most simple scheme and does not depends on previous solutions recorded in the history.
+\textcolor{red}{Poner aqui una descripción del BRKGA?}
 
 \clearpage 
 
 \section{The Dual Iterative Local Search Method}
+
+The Dual Iterative Local Search (DILS) is a new variant of the classic Iterated Local Search (ILS) method. Its goal is to perform a search in the solutions space to find the solution with the best fitness function $f$ value by introducing diversity in a guided way. While ILS works with a single individual, DILS keeps two of them $\{m_b, m_w\}$ in memory at all times, which allows it to guide diversity-introducing methods and to avoid local optima. The individual $m_b$ is the one providing the best fitness value, so $m_w$ provides the worst fitness value.
+
+DILS mimics some of the genetic algorithms techniques to introduce diversity into the optimization process, while also manteining the esentials of ILS. In each generation $G$ of the optimization process DILS builds a new individual by applying a crossover operator to $m_b$ and $m_w$. After that, it applies a strong mutation operator to the newly generated individual. This is the invidual DILS applies the local search procedure to in order to improve its fitness value, resulting in the trail individual $m_t$. The trial individual $m_t$ replace the worst of its parents $m_w$ if it provides a better fitness value, this operation makes the replacement operator for DILS. Equation \ref{eq1} displays the expression for this operator in the case of a minimization problem.
+
+\begin{equation}
+m_{w,G} = \left\{ \begin{array}{lc}
+m_t &   \text{if} \;\; f(m_t) < f(m_w)\\
+m_{w,G} &  \text{otherwise}
+\end{array}
+\right..
+\label{eq1}
+\end{equation}
+
+Now, the process described so far will most likely fall into a local optimum, effectively stopping the exploration of the solutions space. To avoid it DILS implements a reinitialization method for $m_w$ based on the difference between the two individuals it keeps in memory $\{m_b, m_w\}$, Equation \ref{eq2} shows the reinitialization criterion for a minimization problem.
+
+\begin{equation}
+m_{w,G+1} = \left\{ \begin{array}{lc}
+\text{RandInit}() &   \text{if} \;\; f(m_b) - f(m_w) > f(m_b) * \xi \;\;\\
+m_{w,G} &  \text{otherwise}
+\end{array}
+\right.,
+\label{eq2}
+\end{equation}
+
+\noindent where RandInit$()$ is a function that returns a randomly initialized individual and $\xi \in [-1,1]$ is the parameter that controls the tolerance of the reinitialization method. This way the best individual is always preserved and therefore always takes part in the process of generating new individuals (via crossover operator) as the best parent. Figure \ref{img:DILS_diag} summarizes the DILS optimization process.
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=0.25]{Figures/DILSDiagram.png}
+	\caption{Diagram summarizing DILS optimization process. \textcolor{red}{La figura es horrible (llamar a javi)}}\label{img:DILS_diag}
+\end{figure}
+
+It is crucial to note that in Figure \ref{img:DILS_diag} arrows in red indicate stages of the algorithm where $m_b$ and $m_w$ are reasigned to the true best and worst individual respectively. This way, at the point where the reinitialization criterion is tested, it is possible that $f(m_w)$ provides a better value than $f(m_b)$, so that $f(m_b) - f(m_w)$ can be either positive or negative. 
+
+This leads us to note the influence of the parameter $\xi$. In one hand, if we are dealing with a minimization problem and we set $\xi > 0$, then the true worst individual is only reinitializatized when the trial individual $m_t$ replaced $m_w$ and is also better than $m_b$ by a margin. On the other hand and also for the minimization case but this time with $\xi < 0$ we allow DILS to reinitialize the true worst individual even $m_t$ is not better than $m_b$ but they are close. It comes clear that when $\xi = 0$ the worst individual is restarted if $f(m_b) = f(m_w)$. Note that $\xi$ could take any real value, but it is not realistic to set it outside of the range $[-1,1]$. To summarize, the closer $\xi$ is to 1 the more restrictive the reinitialization criterion is---in the minimization case. It is also worth noting that in early stages of the optimization process the reinitialization criterion tends to be met more often than in later stages, resembling some fatures of the simmulated annealing algorithm \cite{van1987simulated}. Algorithm \ref{alg:DILS} summarizes the overall DILS optimization process.
+
+\begin{algorithm}
+	\SetNlSty{textbf}{[}{]}
+	\SetNlSkip{0.5em}
+	\setstretch{1.2}
+	\SetKwFunction{RandInit}{RandInit}
+	\SetKwFunction{Best}{Best}
+	\SetKwFunction{Worst}{Worst}
+	\SetKwFunction{Crossover}{Crossover}
+	\SetKwFunction{Mutation}{Mutation}
+	\SetKwFunction{LocalSearch}{LocalSearch}
+	\KwIn{}
+	\tcp{Initialization phase}
+	$G \leftarrow 0$\\
+	$m_b \leftarrow$ \RandInit{};
+	$m_w \leftarrow$ \RandInit{}\\
+	\tcp{Main loop}
+	\While{Termination criteria are not met}{
+		\tcp{Find best and worst individual}
+		$m_b \leftarrow $ \Best{$ \{m_b, m_w\} $};
+		$m_w \leftarrow $ \Worst{$ \{m_b, m_w\} $}\\
+		\tcp{Generate new individual}
+		$m_t \leftarrow $ \Crossover{$m_b, \; m_w$}\\
+		$m_t \leftarrow $ \Mutation{$m_t$}\\
+		\tcp{Improve new individual}
+		$m_t \leftarrow $ \LocalSearch{$m_t$}\\
+		\tcp{Apply replacement operator}
+		\If{$f(m_t) < f(m_w)$}{
+			
+			$m_w \leftarrow m_t$\\
+			
+		}
+		\tcp{Check restart criterion}
+		\If{$f(m_b) - f(m_w) > f(m_b) \times \xi$}{
+			
+			$m_b \leftarrow $ \Best{$ \{m_b, m_w\} $}\\
+			$m_w \leftarrow$ \RandInit{}\\
+			
+		}
+		
+	$G \leftarrow G + 1$
+}
+\caption{DILS}\label{alg:DILS}
+\end{algorithm}
+
+For the mutation and crossover operators that appear in the Algorithm \ref{alg:DILS}, we use the uniform crossover operator \cite{spears1995virtues} and the segment mutation operator \textcolor{red}{REFERENCIA?} respectively. This type of mutation consists of selecting a fixed size segment from the features of the individual and replacing it with a random segment of the same size. The size of the segment must be fixed at the beginning of the optimization process.
+
+Cabe destacar que el proceso de optimización descrito hasta el momento es aplicable a cualquier problema de minimización, aunque es claro que axiste una adaptación directa de DILS para problemas de maximización. Además el proceso de búsqueda local empleado para obtener el individuo trial debe ser especificado para cada problema, así como cuestiones de representación numérica y las criterios de parada.
+
+It should be noted that the optimization process described so far is applicable to any minimization problem, although it is clear that there is a direct adaptation of DILS for maximization problems. In addition, the local search procedure used to obtain the trial individual $m_t$ must be specified for each problem, as well as numerical representation matters and termination criteria.
+
+\section{DILS optimization scheme for constrained clustering}
+
+In this section, we present an optimization scheme for the DILS algorithm when applied to constrained clustering. We will call this new approach DILS$_{CC}$. To begin with, we will use an integer-based representation for all the individuals DILS$_{CC}$ work with; this way, each individual $m$ is defined as a vector of $n$ integers---being $n$ the number of instances of the dataset. Each integer $m_i \in [0,k)$ in $m$ represent the label of the cluster that instance $x_i$ belongs to, si each individual $m$ is a solution to the clustering problem. Additionally, in order to not bias the exploration of the solution space, we will use a random initialization to intially set $m_b$ and $m_w$, this procedure will also be used when $m_w$ must be reinitialized.
+
+Regarding the fitness function $f$, for each individual $m$ its fitness value $f_m$ can be calculated as in Equation \ref{eq3}.
+
+\begin{equation}
+f_m = z_m * (\text{infeasibility}_m + 1),
+\label{eq3}
+\end{equation}
+
+\noindent where $\text{infeasibility}_m$ is the number of non-satisfied constraints and $z_m$ is the within-cluster-sum-of-squares which can be computed as in Equation \eqref{eq4}.
+
+\begin{equation}
+z_m = \sum_{c_i \in C_m} \left[ \frac{\sum_{x_a, x_b \in c_i} d^2(x_a,x_b)}{|c_i|}\right].
+\label{eq4}
+\end{equation}
+
+We also need to specify a local search procedure for DILS to be able to improve the mutant individual to obtain the trial vector $m_t$. Algorithm \ref{alg:LS} shows the local search precedure used in DILS$_{CC}$. Note that, in order to not to bias the search, indices from vector $m$ and labels from the set of labels are randomly chosen to generate a random subset of the neighborhood of $m$. We also stablish a maximum number of neighbors $max\_neighbors$ that can be generated, this is done to find a better exploration-exploitation balance.
+
+\begin{algorithm}
+	\SetNlSty{textbf}{[}{]}
+	\SetNlSkip{0.5em}
+	\setstretch{1.2}
+	\SetKwFunction{RandomShuffle}{RandomShuffle}
+	\SetKwFunction{Rand}{Rand}
+	\SetKwRepeat{Do}{do}{while}
+	\KwIn{Dataset $X$, constraint sets $C_=$ and $C_{\neq}$, individual (solution) $m$, number of clusters $k$, maximum number of neighbors that can be generated $max\_neighbors$.}
+	\BlankLine
+	\While{$improvement$ {\bf and} $generated < max\_neighbors$}{
+		$improvement \leftarrow$ \texttt{false} \\
+		\tcp{Select random index (object) from $m$}
+		$i \leftarrow $ \Rand{$1$,$n$} \\
+		\tcp{Random shuffle labels set}
+		$RSL \leftarrow $ \RandomShuffle{$\{1,\cdots,K\}$}\\
+		\For{$l \in RSL$}{
+			$m^\prime \leftarrow m$\\
+			\tcc{Move object $i$ from $m$ to the cluster associated with label $l$}
+			$m^\prime_i \leftarrow l$\\
+			\If{$f(m^\prime) < f(m)$}{
+				$m \leftarrow m^\prime$\\
+				$improvement \leftarrow$ \texttt{true} \\
+			}
+			$generated \leftarrow generated + 1$\\
+		}
+	}
+	\BlankLine
+	\KwRet ($m$)
+	
+	\caption{Local Search}\label{alg:LS}
+\end{algorithm}
+
+
 
 \clearpage
 
@@ -409,11 +465,26 @@ The ARI is a corrected-for-chance version of the Rand Index. This correction use
 
 Our objective is to quantify the quality of the solutions obtained as a result of the methods presented in this paper. To accomplish this task we just set one of the two partitions given to compute ARI as the ground truth labels.
 
-%% CORREGIR DESDE AQUI HASTA EL FINAL
+\subsection{Validation of results} \label{sec:ValidtnMethod}
+
+In order to validate the results which will be presented in Section \ref{sec:results} we will use Bayesian statistical tests, instead of the classic Null Hypothesis Statistical Tests (NHST). In \cite{benavoli2017time} we find an in-depth analysis of the disadvantages of NHST, and a new model is proposed for carrying out comparisons researchers are interested in. \textit{"In a nutshell: NHST do not answer the question we ask"}. To put it clear, the disadvantages of the NHST that the authors highlight in \cite{benavoli2017time} are based on the trap of black-and-white thinking, this is: to reject, or not to reject?
+
+To start with, NHST do not provide us with the probabilities associated to the analyzed hypotheses, and therefore it is not possible to answer the question: what is the probability that two methods are different? Another pitfall of NHST is that, with a sufficiently large number of observations, it is possible to reject almost any hypothesis. This is because the p-value does not allow us to separate between the effective size and the sample size, which is established by the researcher.
+
+Also, NHST do not provide information about the magnitude of the effects and the uncertainty of its estimate. As a consequence, NHST may reject hypotheses despite very small effects, or even if there is significant uncertainty in the magnitude of the effects.
+
+Furthermore, and this is a situation that all researchers have faced, NHST do not provide any information about the null hypothesis! That is: What can we conclude when NHST do not reject the null hypothesis? We can not infer anything since NHST can not provide evidence in its favor.
+
+Finally, there are two other problems that researchers face when performing NHST. The first one is the choice of the significance level $\alpha$, for which there are no objective guidelines despite being critical to the test results. The second one is the need to previously formalize the intentions of the sampling of the results, which are usually fixed a posteriori; this could lead to a misreading of said results.
+
+As shown in \cite{benavoli2017time}, most of these problems can be avoided by using Bayesian tests instead of NHST. In particular we will use the Bayesian sign test, which is the Bayesian version of the frequentist non-parametric sign test. To make use of it we will employ the R package \texttt{rNPBST}, whose documentation and guide can be found in \cite{carrasco2017rnpbst}.
+
+We will use the Bayesian sign test to validate our results, which is based on obtaining the statistical distribution of a certain parameter $\rho$ according to the difference between the results, under the assumption that said distribution is a Dirichlet distribution. To get the distribution of $\rho$ we count the number of times that $A - B < 0$, the number of times where there are no significant differences, and the number of times that $A - B > 0$. In order to identify cases where there are no significant differences, we define the region of practical equivalence (rope) $[r_\text{min}, r_\text{max}]$, so that $P(A \approx B) = P(\rho \in \text{rope})$. Using these results we calculate the weights of the Dirichlet distribution and sample it to get a set of triplets with the following form: 
+$$[P(\rho < r_\text{min}) = P(A - B < 0),\;\; P(\rho \in \text{rope}),\;\; P(\rho > r_\text{max}) = P(A - B > 0)]$$
 
 \subsection{Calibration}
 
-Table \ref{tab:params} shows a summary of the parameter setup used for both BRKGA$_{CC}$ and SHADE$_{CC}$ algorithms.
+Table \ref{tab:params} shows a summary of the parameter setup used for DILS$_{CC}$.
 
 \begin{table}[!h]
 	\centering
@@ -421,28 +492,28 @@ Table \ref{tab:params} shows a summary of the parameter setup used for both BRKG
 	\renewcommand{\arraystretch}{1.4}
 	%\begin{adjustwidth}{-1in}{-1in}
 	\resizebox{\textwidth}{!}{
-		\begin{tabular}{>{\centering\arraybackslash}c m{5cm} cc}
+		\begin{tabular}{>{\centering\arraybackslash}c m{6cm} c}
 			\hline
-			Parameter & Meaning & BRKGA & SHADE \\
+			Parameter & Meaning & Value \\
 			\hline
-			$|P|$ & Population size & 100 & 100 \\
-			Evals & Fitness function evaluations & 300000 & 300000 \\
-			$P_e$ & Size of the elite set in population & $0.2 * |P|$ & $0.25 * |P|$ \\
-			$P_m$ & Number of mutants to be introduced in the population in each generation & $0.2 * |P|$ & - \\
-			$p_\text{inherit}$ & Probability that a feature is inherited from an elite parent & $50\%$ & - \\
-			$k$ & Output partition number of clusters & \multicolumn{2}{m{4cm}}{No. Classes (Table \ref{tab:datasets}).} \\
+			Evals & Fitness function evaluations & 300000 \\
+			$segment\_size$ & Segment size for the mutation operator & $0.3 \times n$ \\
+			$max\_neighbors$ & Maximum number of neighbors generated in the local search procedure & Evals $\times 0.01$ \\
+			$p_\text{inherit}$ & Probability that a feature is inherited from $m_b$ & $0.3$ \\
+			$\xi$ & Reinitialization method tolerance & $0.2$ \\
+			$k$ & Output partition number of clusters & No. Classes (Table \ref{tab:datasets}) \\
 			\hline
 
 		\end{tabular}}
 		%\end{adjustwidth}
 
-	\caption{Parameters setup used for BRKGA and SHADE.}
+	\caption{Parameters setup used for DILS$_{CC}$.}
 	\label{tab:params}
 \end{table}
 
-In both cases---BRKGA$_{CC}$ and SHADE$_{CC}$---the population size will be 100 individuals, and the stop criterion is given by the number of evaluations of the fitness function, which at most will be 300000.
+The stop criterion is given by the number of evaluations of the fitness function $f$, which at most will be 300000.
 
-To compare with the state-of-the-art methods mentioned in Section \ref{sec:BackSOTA} we will use the parameters setup shown in Table \ref{tab:paramsSOTA} for the implementation that can be found at \href{https://github.com/GermangUgr/TFG/tree/master/Software}{GitHub}
+To compare with the state-of-the-art methods mentioned in Section \ref{sec:BackSOTA} we will use the parameters setup shown in Table \ref{tab:paramsSOTA} for the implementation that can be found at \href{https://github.com/GermangUgr/TFG/tree/master/Software}{GitHub}. In all cases the value for $k$ is equal to the number of classes displayed in Table \ref{tab:datasets}.
 
 \begin{table}[!h]
 	\centering
@@ -450,21 +521,16 @@ To compare with the state-of-the-art methods mentioned in Section \ref{sec:BackS
 	\renewcommand{\arraystretch}{1.4}
 	%\begin{adjustwidth}{-1in}{-1in}
 	\resizebox{\textwidth}{!}{
-		\begin{tabular}{>{\centering\arraybackslash}c m{5cm} c}
+		\begin{tabular}{cl}
 			\hline
-			Common Parameters & Meaning & Value \\
+			Method name & Parameters name and values \\
 			\hline
-			\texttt{max\_iter} & Maximum number of iterations & 300 \\
-			$k$ & Output partition number of clusters & No. Classes (Table \ref{tab:datasets}). \\
-			\hline
-			\hline
-			Specific Parameters & \multicolumn{2}{l}{Name and Value} \\
-			\hline
-			COPKM & \multicolumn{2}{l}{\texttt{tolerance} = $1 * 10^{-4}$; \texttt{init\_mode} = \texttt{``rand''}} \\
-			CECM & \multicolumn{2}{l}{$\alpha = 1$, $\rho = 100$, $\xi = 0.5$, \texttt{stop\_threshold} = $1 * 10^{-3}$, \texttt{init\_mode} = \texttt{``rand''}} \\
-			LCVQE & \multicolumn{2}{l}{\texttt{initial\_centroids} = $\emptyset$} \\
-			RDPM & \multicolumn{2}{l}{$\xi_0 = 0.1$, $\xi_\text{rate} = 1$, $\lambda$ is calculated on the basis of the mean distances in the dataset.} \\
-			TVClust & \multicolumn{2}{l}{$\alpha_0 = 1.2$, \texttt{stop\_threshold} = $5*10^{-4}$} \\
+			BRKGA & Evals = $300000$; $|P| = 100$; $P_e = P_m = 0.2 * |P|$; $p_{\text{inherit}} = 50\%$ \\
+			COPKM & \texttt{max\_iter} = $300$; \texttt{tolerance} = $1 * 10^{-4}$; \texttt{init\_mode} = \texttt{``rand''} \\
+			CECM & \texttt{max\_iter} = $300$; $\alpha = 1$, $\rho = 100$, $\xi = 0.5$, \texttt{stop\_threshold} = $1 * 10^{-3}$, \texttt{init\_mode} = \texttt{``rand''} \\
+			LCVQE & \texttt{max\_iter} = $300$; \texttt{initial\_centroids} = $\emptyset$ \\
+			RDPM & \texttt{max\_iter} = $300$; $\xi_0 = 0.1$, $\xi_\text{rate} = 1$, $\lambda$ is calculated on the basis of the mean distances in the dataset. \\
+			TVClust & \texttt{max\_iter} = $300$; $\alpha_0 = 1.2$, \texttt{stop\_threshold} = $5*10^{-4}$ \\
 			\hline
 			
 		\end{tabular}}
@@ -478,13 +544,13 @@ Parameter values have been assigned following the guidelines of the original cre
 
 \section{Experimental Results} \label{sec:results}
 
-In this section we present Tables from \ref{tab:results10} to \ref{tab:results20SOTA}, which display the results obtained by the methods to be compared for each dataset and constraint set.
+In this section we present Tables from \ref{tab:results10} to \ref{tab:results20}, which display the results obtained by DILS$_{CC}$ and six state-of-the-art methods to be compared for each dataset and constraint set.
 
-Since the methods we are comparing involve non-deterministic procedures, the results may vary from one run to another. To lessen the effect this may have on the results, we will apply each method 5 times to every dataset and constraint set, so that the measures shown in the previously mentioned tables correspond to the average of the 5 runs.
-
-In this section we present a brief comparison between the proposed SHADE$_{CC}$ method and some of the state-of-the-art methods. Tables from \ref{tab:results10SOTA} to \ref{tab:results20SOTA} show the results obtained by these methods. To shorten the presented results this time we will only compare the ARI.
+Since some of the methods we are comparing involve non-deterministic procedures, the results may vary from one run to another. To lessen the effect this may have on the results, we will apply each method 5 times to every dataset and constraint set, so that the measures shown in the previously mentioned tables correspond to the average of the 5 runs.
 
 It should be noted that there are some missing results in these tables. In the case of the COPKM algorithm, this is due to the fact that it is highly dependent on the order in which constraints are analyzed. It is possible that COPKM cannot find a solution, even though it is always feasible, since the constraints have been generated based on the true labels. In the case of CECM, some of the results are not available because the memory structures that hold the algorithm grow non-linearly with the number of classes and the number of features of the dataset to be analyzed.
+
+Table \ref{tab:results10} shows the results for the $SC_{10}$ constraint set. We can note that DILS$_{CC}$ represents a consistent improvement over BRKGA$_{CC}$ in both Unsat and Time, while in terms of ARI both methods are similar. This is because the penalty applied to the fitness function of both methods has little presence when operating with a small constraint set, and since they are population-based and heuristic-guided methods, they have similar exploration and exploitation capabilities.
 	
 \begin{table}[!h]
 	\centering
@@ -496,38 +562,40 @@ It should be noted that there are some missing results in these tables. In the c
 			\hline
 			Dataset & DILS & BRKGA & COPKM & LCVQE & RDPM & TVClust & CEKM \\
 			\hline
-			Appendicitis & 0.611 & 0.022 & -1.000 & 0.335 & 0.316 & 0.025 & -0.005 \\
-			Breast Cancer & 0.755 & 0.395 & -0.604 & 0.486 & 0.502 & 0.000 & 0.000 \\
-			Bupa & 0.870 & 0.281 & -1.000 & -0.005 & -0.005 & -0.004 & -0.011 \\
-			Circles & 0.798 & 0.166 & -1.000 & -0.003 & 0.162 & 0.137 & 0.133 \\
-			Ecoli & 0.069 & 0.009 & -1.000 & 0.387 & 0.417 & 0.265 & -1.000 \\
-			Glass & 0.009 & 0.016 & 0.184 & 0.268 & 0.197 & 0.211 & -1.000 \\
-			Haberman & 0.638 & 0.047 & -1.000 & -0.002 & 0.127 & 0.218 & -0.004 \\
-			Hayesroth & 0.031 & 0.027 & -1.000 & 0.106 & 0.097 & 0.054 & 0.139 \\
-			Heart & 0.793 & 0.483 & -1.000 & 0.027 & 0.036 & 0.423 & -0.003 \\
-			Ionosphere & 0.792 & 0.125 & -1.000 & 0.168 & 0.197 & 0.000 & 0.030 \\
-			Iris & 0.621 & 0.238 & -0.285 & 0.730 & 0.607 & 0.244 & 0.684 \\
-			Led7Digit & 0.016 & 0.009 & 0.497 & 0.425 & 0.369 & 0.316 & -1.000 \\
-			Monk2 & 0.815 & 0.421 & 0.982 & 0.072 & 0.094 & -0.002 & 0.007 \\
-			Moons & 0.968 & 0.277 & -1.000 & 0.241 & 0.319 & 0.785 & 0.092 \\
-			Movement Libras & 0.022 & 0.004 & 0.285 & 0.293 & 0.256 & 0.000 & -1.000 \\
-			Newthyroid & 0.028 & 0.017 & -1.000 & 0.579 & 0.289 & 0.846 & 0.002 \\
-			Saheart & 0.800 & 0.147 & 0.974 & 0.018 & 0.020 & 0.068 & 0.000 \\
-			Sonar & 0.649 & 0.124 & -1.000 & 0.004 & 0.013 & 0.000 & 0.000 \\
-			Soybean & 0.304 & 0.496 & 0.503 & 0.545 & 0.621 & 0.000 & 0.244 \\
-			Spectfheart & 0.896 & 0.334 & -1.000 & -0.107 & -0.114 & 0.000 & 0.050 \\
-			Spiral & 0.856 & 0.058 & -1.000 & -0.003 & 0.012 & 0.034 & -0.002 \\
-			Tae & 0.031 & 0.018 & -1.000 & 0.009 & -0.000 & 0.067 & 0.000 \\
-			Vowel & 0.002 & 0.003 & -1.000 & 0.063 & -0.003 & 0.067 & -1.000 \\
-			Wine & 0.334 & 0.120 & -1.000 & 0.360 & 0.368 & 0.281 & 0.004 \\
-			Zoo & 0.151 & 0.105 & 0.715 & 0.666 & 0.412 & 0.335 & -1.000 \\
+			Appendicitis & \textbf{0.611} & 0.022 & - & 0.335 & 0.316 & 0.025 & -0.005 \\
+			Breast Cancer & \textbf{0.755} & 0.395 & -0.604 & 0.486 & 0.502 & 0.000 & 0.000 \\
+			Bupa & \textbf{0.870} & 0.281 & - & -0.005 & -0.005 & -0.004 & -0.011 \\
+			Circles & \textbf{0.798} & 0.166 & - & -0.003 & 0.162 & 0.137 & 0.133 \\
+			Ecoli & 0.069 & 0.009 & - & 0.387 & \textbf{0.417} & 0.265 & - \\
+			Glass & 0.009 & 0.016 & 0.184 & \textbf{0.268} & 0.197 & 0.211 & - \\
+			Haberman & \textbf{0.638} & 0.047 & - & -0.002 & 0.127 & 0.218 & -0.004 \\
+			Hayesroth & 0.031 & 0.027 & - & \textbf{0.106} & 0.097 & 0.054 & 0.139 \\
+			Heart & \textbf{0.793} & 0.483 & - & 0.027 & 0.036 & 0.423 & -0.003 \\
+			Ionosphere & \textbf{0.792} & 0.125 & - & 0.168 & 0.197 & 0.000 & 0.030 \\
+			Iris & 0.621 & 0.238 & -0.285 & \textbf{0.730} & 0.607 & 0.244 & 0.684 \\
+			Led7Digit & 0.016 & 0.009 & \textbf{0.497} & 0.425 & 0.369 & 0.316 & - \\
+			Monk2 & 0.815 & 0.421 & \textbf{0.982} & 0.072 & 0.094 & -0.002 & 0.007 \\
+			Moons & \textbf{0.968} & 0.277 & - & 0.241 & 0.319 & 0.785 & 0.092 \\
+			Movement Libras & 0.022 & 0.004 & 0.285 & \textbf{0.293} & 0.256 & 0.000 & - \\
+			Newthyroid & 0.028 & 0.017 & - & 0.579 & 0.289 & \textbf{0.846} & 0.002 \\
+			Saheart & 0.800 & 0.147 & \textbf{0.974} & 0.018 & 0.020 & 0.068 & 0.000 \\
+			Sonar & \textbf{0.649} & 0.124 & - & 0.004 & 0.013 & 0.000 & 0.000 \\
+			Soybean & 0.304 & 0.496 & 0.503 & 0.545 & \textbf{0.621} & 0.000 & 0.244 \\
+			Spectfheart & \textbf{0.896} & 0.334 & - & -0.107 & -0.114 & 0.000 & 0.050 \\
+			Spiral & \textbf{0.856} & 0.058 & - & -0.003 & 0.012 & 0.034 & -0.002 \\
+			Tae & \textbf{0.031} & 0.018 & - & 0.009 & -0.000 & 0.067 & 0.000 \\
+			Vowel & 0.002 & 0.003 & - & 0.063 & -0.003 & \textbf{0.067} & - \\
+			Wine & 0.334 & 0.120 & - & 0.360 & \textbf{0.368} & 0.281 & 0.004 \\
+			Zoo & 0.151 & 0.105 & \textbf{0.715} & 0.666 & 0.412 & 0.335 & - \\
+			\hline
+			Mean & \textbf{0.474} & 0.158 & -0.510 & 0.226 & 0.212 & 0.175 & -0.186 \\
 			\hline
 			
 		\end{tabular}}
 		%\end{adjustwidth}
 		
-	\caption{Experimental results obtained for $CS_{10}$ comparing SHADE$_{CC}$ and the state-of-the-art.}
-	\label{tab:results10SOTA}
+	\caption{Experimental results obtained for $CS_{10}$ comparing DILS$_{CC}$ and the state-of-the-art.}
+	\label{tab:results10}
 \end{table}
 
 \begin{table}[!h]
@@ -540,38 +608,40 @@ It should be noted that there are some missing results in these tables. In the c
 			\hline
 			Dataset & DILS & BRKGA & COPKM & LCVQE & RDPM & TVClust & CEKM \\
 			\hline
-			Appendicitis & 0.957 & 0.296 & -1.000 & 0.305 & 0.284 & 0.025 & -0.006 \\
-			Breast Cancer & 0.788 & 0.772 & 1.000 & 0.486 & 0.502 & 0.000 & 0.037 \\
-			Bupa & 0.984 & 0.840 & 1.000 & -0.005 & -0.007 & -0.007 & 0.001 \\
-			Circles & 1.000 & 0.828 & 1.000 & -0.003 & 0.375 & 0.973 & 0.105 \\
-			Ecoli & 0.134 & 0.015 & -1.000 & 0.387 & 0.372 & 0.719 & -1.000 \\
-			Glass & 0.057 & 0.017 & -1.000 & 0.280 & 0.253 & 0.229 & -1.000 \\
-			Haberman & 1.000 & 0.866 & 1.000 & -0.002 & 0.075 & 0.219 & -0.050 \\
-			Hayesroth & 0.386 & 0.107 & -1.000 & 0.106 & 0.107 & 0.150 & 0.135 \\
-			Heart & 1.000 & 0.692 & 1.000 & 0.025 & 0.033 & 0.442 & 0.000 \\
-			Ionosphere & 0.970 & 0.803 & 1.000 & 0.178 & 0.212 & 0.000 & 0.057 \\
-			Iris & 0.850 & 0.412 & -1.000 & 0.730 & 0.547 & 0.421 & 0.684 \\
-			Led7Digit & 0.020 & 0.004 & -1.000 & 0.425 & 0.490 & 0.324 & -1.000 \\
-			Monk2 & 0.902 & 0.751 & 1.000 & 0.072 & 0.170 & -0.002 & 0.007 \\
-			Moons & 1.000 & 0.958 & 1.000 & 0.241 & 0.436 & 0.987 & 0.095 \\
-			Movement Libras & 0.025 & 0.006 & -0.742 & 0.293 & 0.255 & 0.000 & -1.000 \\
-			Newthyroid & 0.440 & 0.320 & -1.000 & 0.568 & 0.356 & 0.923 & 0.052 \\
-			Saheart & 0.862 & 0.749 & 1.000 & 0.020 & 0.037 & 0.221 & 0.000 \\
-			Sonar & 0.981 & 0.800 & -1.000 & 0.004 & 0.019 & 0.000 & 0.000 \\
-			Soybean & 0.469 & 0.428 & 0.584 & 0.545 & 0.605 & 0.000 & 0.000 \\
-			Spectfheart & 1.000 & 0.924 & 0.983 & -0.107 & -0.117 & 0.000 & -0.070 \\
-			Spiral & 1.000 & 0.847 & -1.000 & -0.003 & 0.014 & 0.006 & 0.051 \\
-			Tae & 0.299 & 0.119 & -1.000 & 0.008 & -0.004 & 0.062 & 0.000 \\
-			Vowel & 0.003 & 0.002 & -1.000 & 0.063 & -0.003 & 0.073 & -1.000 \\
-			Wine & 0.725 & 0.528 & -1.000 & 0.360 & 0.367 & 0.348 & -0.001 \\
-			Zoo & 0.185 & 0.157 & 0.435 & 0.642 & 0.450 & 0.353 & -1.000 \\
+			Appendicitis & \textbf{0.957} & 0.296 & - & 0.305 & 0.284 & 0.025 & -0.006 \\
+			Breast Cancer & 0.788 & 0.772 & \textbf{1.000} & 0.486 & 0.502 & 0.000 & 0.037 \\
+			Bupa & 0.984 & 0.840 & \textbf{1.000} & -0.005 & -0.007 & -0.007 & 0.001 \\
+			Circles & \textbf{1.000} & 0.828 & \textbf{1.000} & -0.003 & 0.375 & 0.973 & 0.105 \\
+			Ecoli & 0.134 & 0.015 & - & 0.387 & 0.372 & \textbf{0.719} & - \\
+			Glass & 0.057 & 0.017 & - & \textbf{0.280} & 0.253 & 0.229 & - \\
+			Haberman & \textbf{1.000} & 0.866 & \textbf{1.000} & -0.002 & 0.075 & 0.219 & -0.050 \\
+			Hayesroth & \textbf{0.386} & 0.107 & - & 0.106 & 0.107 & 0.150 & 0.135 \\
+			Heart & \textbf{1.000} & 0.692 & \textbf{1.000} & 0.025 & 0.033 & 0.442 & 0.000 \\
+			Ionosphere & 0.970 & 0.803 & \textbf{1.000} & 0.178 & 0.212 & 0.000 & 0.057 \\
+			Iris & \textbf{0.850} & 0.412 & - & 0.730 & 0.547 & 0.421 & 0.684 \\
+			Led7Digit & 0.020 & 0.004 & - & 0.425 & \textbf{0.490} & 0.324 & - \\
+			Monk2 & 0.902 & 0.751 & \textbf{1.000} & 0.072 & 0.170 & -0.002 & 0.007 \\
+			Moons & \textbf{1.000} & 0.958 & \textbf{1.000} & 0.241 & 0.436 & 0.987 & 0.095 \\
+			Movement Libras & 0.025 & 0.006 & -0.742 & \textbf{0.293} & 0.255 & 0.000 & - \\
+			Newthyroid & 0.440 & 0.320 & - & 0.568 & 0.356 & \textbf{0.923} & 0.052 \\
+			Saheart & 0.862 & 0.749 & \textbf{1.000} & 0.020 & 0.037 & 0.221 & 0.000 \\
+			Sonar & \textbf{0.981} & 0.800 & - & 0.004 & 0.019 & 0.000 & 0.000 \\
+			Soybean & 0.469 & 0.428 & 0.584 & 0.545 & \textbf{0.605} & 0.000 & 0.000 \\
+			Spectfheart & \textbf{1.000} & 0.924 & 0.983 & -0.107 & -0.117 & 0.000 & -0.070 \\
+			Spiral & \textbf{1.000} & 0.847 & - & -0.003 & 0.014 & 0.006 & 0.051 \\
+			Tae & \textbf{0.299} & 0.119 & - & 0.008 & -0.004 & 0.062 & 0.000 \\
+			Vowel & 0.003 & 0.002 & - & 0.063 & -0.003 & \textbf{0.073} & - \\
+			Wine & \textbf{0.725} & 0.528 & - & 0.360 & 0.367 & 0.348 & -0.001 \\
+			Zoo & 0.185 & 0.157 & 0.435 & \textbf{0.642} & 0.450 & 0.353 & - \\
+			\hline
+			Mean & \textbf{0.641} & 0.490 & -0.070 & 0.225 & 0.233 & 0.258 & -0.196 \\
 			\hline
 			
 		\end{tabular}}
 		%\end{adjustwidth}
 		
-		\caption{Experimental results obtained for $CS_{10}$ comparing SHADE$_{CC}$ and the state-of-the-art.}
-		\label{tab:results15SOTA}
+		\caption{Experimental results obtained for $CS_{15}$ comparing DILS$_{CC}$ and the state-of-the-art.}
+		\label{tab:results15}
 	\end{table}
 
 \begin{table}[!h]
@@ -584,38 +654,40 @@ It should be noted that there are some missing results in these tables. In the c
 			\hline
 			Dataset & DILS & BRKGA & COPKM & LCVQE & RDPM & TVClust & CEKM \\
 			\hline
-			Appendicitis & 1.000 & 1.000 & -1.000 & 0.305 & 0.331 & 0.012 & -0.006 \\
-			Breast Cancer & 0.807 & 0.807 & 1.000 & 0.486 & 0.502 & 0.000 & 0.000 \\
-			Bupa & 0.991 & 0.936 & 1.000 & -0.005 & -0.007 & -0.006 & 0.000 \\
-			Circles & 1.000 & 0.935 & 1.000 & -0.003 & 0.629 & 1.000 & 0.138 \\
-			Ecoli & 0.201 & 0.028 & -1.000 & 0.387 & 0.459 & 0.763 & -1.000 \\
-			Glass & 0.322 & 0.038 & -1.000 & 0.271 & 0.287 & 0.218 & -1.000 \\
-			Haberman & 1.000 & 0.943 & 1.000 & -0.002 & 0.106 & 0.737 & 0.000 \\
-			Hayesroth & 0.812 & 0.548 & -1.000 & 0.106 & 0.107 & 0.208 & 0.056 \\
-			Heart & 1.000 & 0.942 & 1.000 & 0.025 & 0.033 & 1.000 & 0.000 \\
-			Ionosphere & 0.982 & 0.902 & 1.000 & 0.173 & 0.309 & 0.000 & 0.115 \\
-			Iris & 0.968 & 0.691 & -1.000 & 0.708 & 0.540 & 0.585 & 0.684 \\
-			Led7Digit & 0.017 & 0.007 & -1.000 & 0.425 & 0.571 & 0.327 & -1.000 \\
-			Monk2 & 0.904 & 0.855 & 1.000 & 0.072 & 0.253 & -0.002 & 0.160 \\
-			Moons & 1.000 & 0.937 & 1.000 & 0.241 & 0.831 & 1.000 & 0.180 \\
-			Movement Libras & 0.018 & 0.006 & -1.000 & 0.293 & 0.293 & 0.000 & -1.000 \\
-			Newthyroid & 0.842 & 0.848 & -1.000 & 0.568 & 0.393 & 0.933 & 0.004 \\
-			Saheart & 0.881 & 0.881 & 1.000 & 0.018 & 0.026 & 1.000 & -0.006 \\
-			Sonar & 1.000 & 0.992 & 1.000 & 0.004 & 0.127 & 0.000 & 0.003 \\
-			Soybean & 0.564 & 0.416 & -0.218 & 0.545 & 0.631 & 0.000 & -0.016 \\
-			Spectfheart & 1.000 & 0.953 & 1.000 & -0.107 & -0.112 & 0.000 & -0.054 \\
-			Spiral & 1.000 & 0.921 & 1.000 & -0.003 & 0.011 & 0.006 & 0.045 \\
-			Tae & 0.892 & 0.351 & -1.000 & 0.008 & 0.000 & 0.035 & 0.000 \\
-			Vowel & 0.003 & 0.002 & -1.000 & 0.063 & -0.003 & 0.071 & -1.000 \\
-			Wine & 0.916 & 0.937 & -1.000 & 0.360 & 0.363 & 0.380 & 0.015 \\
-			Zoo & 0.203 & 0.176 & 0.821 & 0.642 & 0.439 & 0.335 & -1.000 \\
+			Appendicitis & \textbf{1.000} & \textbf{1.000} & - & 0.305 & 0.331 & 0.012 & -0.006 \\
+			Breast Cancer & 0.807 & 0.807 & \textbf{1.000} & 0.486 & 0.502 & 0.000 & 0.000 \\
+			Bupa & 0.991 & 0.936 & \textbf{1.000} & -0.005 & -0.007 & -0.006 & 0.000 \\
+			Circles & \textbf{1.000} & 0.935 & \textbf{1.000} & -0.003 & 0.629 & 1.000 & 0.138 \\
+			Ecoli & 0.201 & 0.028 & - & 0.387 & 0.459 & \textbf{0.763} & - \\
+			Glass & \textbf{0.322} & 0.038 & - & 0.271 & 0.287 & 0.218 & - \\
+			Haberman & \textbf{1.000} & 0.943 & \textbf{1.000} & -0.002 & 0.106 & 0.737 & 0.000 \\
+			Hayesroth & \textbf{0.812} & 0.548 & - & 0.106 & 0.107 & 0.208 & 0.056 \\
+			Heart & \textbf{1.000} & 0.942 & \textbf{1.000} & 0.025 & 0.033 & 1.000 & 0.000 \\
+			Ionosphere & 0.982 & 0.902 & \textbf{1.000} & 0.173 & 0.309 & 0.000 & 0.115 \\
+			Iris & \textbf{0.968} & 0.691 & - & 0.708 & 0.540 & 0.585 & 0.684 \\
+			Led7Digit & 0.017 & 0.007 & - & 0.425 & \textbf{0.571} & 0.327 & - \\
+			Monk2 & 0.904 & 0.855 & \textbf{1.000} & 0.072 & 0.253 & -0.002 & 0.160 \\
+			Moons & \textbf{1.000} & 0.937 & \textbf{1.000} & 0.241 & 0.831 & 1.000 & 0.180 \\
+			Movement Libras & 0.018 & 0.006 & - & \textbf{0.293} & \textbf{0.293} & 0.000 & - \\
+			Newthyroid & 0.842 & 0.848 & - & 0.568 & 0.393 & \textbf{0.933} & 0.004 \\
+			Saheart & 0.881 & 0.881 & \textbf{1.000} & 0.018 & 0.026 & \textbf{1.000} & -0.006 \\
+			Sonar & \textbf{1.000} & 0.992 & \textbf{1.000} & 0.004 & 0.127 & 0.000 & 0.003 \\
+			Soybean & 0.564 & 0.416 & -0.218 & 0.545 & \textbf{0.631} & 0.000 & -0.016 \\
+			Spectfheart & \textbf{1.000} & 0.953 & \textbf{1.000} & -0.107 & -0.112 & 0.000 & -0.054 \\
+			Spiral & \textbf{1.000} & 0.921 & \textbf{1.000} & -0.003 & 0.011 & 0.006 & 0.045 \\
+			Tae & \textbf{0.892} & 0.351 & - & 0.008 & 0.000 & 0.035 & 0.000 \\
+			Vowel & 0.003 & 0.002 & - & 0.063 & -0.003 & \textbf{0.071} & - \\
+			Wine & 0.916 & \textbf{0.937} & - & 0.360 & 0.363 & 0.380 & 0.015 \\
+			Zoo & 0.203 & 0.176 & \textbf{0.821} & 0.642 & 0.439 & 0.335 & - \\
+			\hline
+			Mean & \textbf{0.733} & 0.642 & 0.064 & 0.223 & 0.285 & 0.344 & -0.187 \\
 			\hline
 			
 		\end{tabular}}
 		%\end{adjustwidth}
 		
-		\caption{Experimental results obtained for $CS_{10}$ comparing SHADE$_{CC}$ and the state-of-the-art.}
-		\label{tab:results25SOTA}
+		\caption{Experimental results obtained for $CS_{20}$ comparing DILS$_{CC}$ and the state-of-the-art.}
+		\label{tab:results20}
 	\end{table}
 	
 	
@@ -623,57 +695,42 @@ It should be noted that there are some missing results in these tables. In the c
 
 \section{Statistical Analysis of Results} \label{sec:analisis}
 
-With the results obtained by all methods for a total of 75 different datasets---the 25 datasets in combination with the 3 constraint sets for each one of them---we can perform an empirical analysis of them. This way we can statistically determine whether SHADE$_{CC}$ represents a significant improvement over previous proposals.
+With the results obtained by all methods for a total of 75 different datasets---the 25 datasets in combination with the 3 constraint sets for each one of them---we can perform an empirical analysis of them. This way we can statistically determine whether DILS$_{CC}$ represents a significant improvement over previous proposals.
 
-In order to carry out this study we will use Bayesian statistical tests, instead of the classic Hull Hypothesis Statistical Tests (NHST). In \cite{benavoli2017time} we find an in-depth analysis of the disadvantages of NHST, and a new model is proposed for carrying out comparisons researchers are interested in. \textit{"In a nutshell: NHST do not answer the question we ask"}. To put it clear, the disadvantages of the NHST that the authors highlight in \cite{benavoli2017time} are based on the trap of black-and-white thinking, this is: to reject, or not to reject?
+Having in mind the notation introduced in Section \ref{sec:ValidtnMethod}, and as far as the comparison of population-based methods is concerned, we will refer to the results obtained by a given state-of-the-art method as sample $A$, and to the results obtained with DILS$_{CC}$ as sample $B$.
 
-To start with, NHST do not provide us with the probabilities associated to the analyzed hypotheses, and therefore it is not possible to answer the question: what is the probability that two methods are different? Another pitfall of NHST is that, with a sufficiently large number of observations, it is possible to reject almost any hypothesis. This is because the p-value does not allow us to separate between the effective size and the sample size, which is established by the researcher.
-
-Also, NHST do not provide information about the magnitude of the effects and the uncertainty of its estimate. As a consequence, NHST may reject hypotheses despite very small effects, or even if there is significant uncertainty in the magnitude of the effects.
-
-Furthermore, and this is a situation that all researchers have faced, NHST do not provide any information about the null hypothesis! That is: What can we conclude when NHST do not reject the null hypothesis? We can not infer anything since NHST can not provide evidence in its favor.
-
-Finally, there are two other problems that researchers face when performing NHST. The first one is the choice of the significance level $\alpha$, for which there are no objective guidelines despite being critical to the test results. The second one is the need to previously formalize the intentions of the sampling of the results, which are usually fixed a posteriori; this could lead to a misreading of said results.
-
-As shown in \cite{benavoli2017time}, most of these problems can be avoided by using Bayesian tests instead of NHST. In particular we will use the Bayesian sign test, which is the Bayesian version of the frequentist non-parametric sign test. To make use of it we will employ the R package \texttt{rNPBST}, whose documentation and guide can be found in \cite{carrasco2017rnpbst}.
-
-From now on, and as far as the comparison of population-based methods is concerned, we will refer to the results obtained by BRKGA$_{CC}$ as sample $A$, and to the results obtained with SHADE$_{CC}$ as sample $B$.
-
-The Bayesian sign test is based on obtaining the statistical distribution of a certain parameter $\rho$ according to the difference between the results, under the assumption that said distribution is a Dirichlet distribution. To get the distribution of $\rho$ we count the number of times that $A - B < 0$, the number of times where there are no significant differences, and the number of times that $A - B > 0$. In order to identify cases where there are no significant differences, we define the region of practical equivalence (rope) $[r_\text{min}, r_\text{max}]$, so that $P(A \approx B) = P(\rho \in \text{rope})$. Using these results we calculate the weights of the Dirichlet distribution and sample it to get a set of triplets with the following form: 
-$$[P(\rho < r_\text{min}) = P(A - B < 0),\;\; P(\rho \in \text{rope}),\;\; P(\rho > r_\text{max}) = P(A - B > 0)]$$
-
-One of the major advantages of the Bayesian sign test over the null hypothesis tests such as the (Wilcoxon's signed-rank test) is that we can obtain a visual representation of its results. We can produce a representation of the triplet set in the form of a heatmap where each triplet constitutes one point whose location is given by barycentric coordinates. With this in mind, we will associate each of the triplet values with each of the three vertices of an equilateral triangle. In order to find out where a certain triplet will be placed within the triangle, we will take each of its three values and draw a parallel line to the opposing side of the corresponding vertex; the separation between a triangle side and its parallel line will be proportional to the associated triplet value, so that the higher the value, the closer the line will be to the vertex. The location where the three lines intersect is where we draw a point. Since the values of every triplet describe a probability distribution and therefore they must add up to one, we can be sure that all triplets will lie in some point within the triangle. The color indicates the density of points in a given region, with yellow representing a high density and red a low density.
+One of the major advantages of the Bayesian sign test is that we can obtain a very illustrative visual representation of its results. We can produce a representation of the triplet set in the form of a heatmap where each triplet constitutes one point whose location is given by barycentric coordinates. With this in mind, we will associate each of the triplet values with each of the three vertices of an equilateral triangle. In order to find out where a certain triplet will be placed within the triangle, we will take each of its three values and draw a parallel line to the opposing side of the corresponding vertex; the separation between a triangle side and its parallel line will be proportional to the associated triplet value, so that the higher the value, the closer the line will be to the vertex. The location where the three lines intersect is where we draw a point. Since the values of every triplet describe a probability distribution and therefore they must add up to one, we can be sure that all triplets will lie in some point within the triangle. The color indicates the density of points in a given region, with yellow representing a high density and red a low density.
 
 \begin{figure}[ht!]
 	\centering
 	\begin{subfigure}{.45\textwidth}
 		\includegraphics[width=1\linewidth]{Figures/DILSvsBRKGA.pdf}
-		\caption{ARI}
+		\caption{BRKGA}
 		\label{fig:DILSvsBRKGA}
 	\end{subfigure}
 	\begin{subfigure}{.45\textwidth}
 		\includegraphics[width=1\linewidth]{Figures/DILSvsCOPKM.pdf}
-		\caption{Time}
+		\caption{COPKM}
 		\label{fig:DILSvsCOPKM}
 	\end{subfigure}
 	\begin{subfigure}{.45\textwidth}
 		\includegraphics[width=1\linewidth]{Figures/DILSvsLCVQE.pdf}
-		\caption{Unsat}
+		\caption{LCVQE}
 		\label{fig:DILSvsLCVQE}
 	\end{subfigure}
 	\begin{subfigure}{.45\textwidth}
 		\includegraphics[width=1\linewidth]{Figures/DILSvsTVClust.pdf}
-		\caption{Unsat}
+		\caption{TVClust}
 		\label{fig:DILSvsTVClust}
 	\end{subfigure}
 	\begin{subfigure}{.45\textwidth}
 		\includegraphics[width=1\linewidth]{Figures/DILSvsRDPM.pdf}
-		\caption{Unsat}
+		\caption{RDPM}
 		\label{fig:DILSvsRDPM}
 	\end{subfigure}
 	\begin{subfigure}{.45\textwidth}
 		\includegraphics[width=1\linewidth]{Figures/DILSvsCEKM.pdf}
-		\caption{Unsat}
+		\caption{CEKM}
 		\label{fig:DILSvsCEKM}
 	\end{subfigure}
 	\caption{Heat diagrams.}
