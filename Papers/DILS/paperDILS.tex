@@ -21,7 +21,7 @@
 \epstopdfDeclareGraphicsRule{.tiff}{png}{.png}{convert #1 \OutputFile}
 \AppendGraphicsExtensions{.tiff}
 
-\journal{Applied Soft Computing}
+\journal{Computers and Operations Research}
 
 %%%%%%%%%%%%%%%%%%%%%%%
 %% Elsevier bibliography styles
@@ -76,11 +76,11 @@
 \address[mysecondaddress]{Dept. of Computer Science, EPS of Linares, University of Ja\'en, Campus Cient\'ifico Tecnol\'ogico de Linares, Cintur\'on Sur S/N, Linares 23700, Ja\'en, Spain}
 
 \begin{abstract}
-Clustering has always been a powerful tool in knowledge discovery. Traditionally unsupervised, it received renewed attention when it was shown to produce better results when provided with new types of information, thus leading to a new kind of semi-supervised learning. This new information can be given in form of instance-level must-link and cannot-link constraints, in which this paper focuses on. We propose the first application of Differential Evolution to the constrained clustering problem, which is a generalization of traditional clustering that considers additional information in the form of constraints. We will compare the results obtained by this proposal to those obtained by previous nature-inspired techniques and by some of the state-of-the-art algorithms on 25 datasets with incremental levels of constraint-based information, supporting our conclusions with the aid of Bayesian statistical tests.
+Clustering has always been a powerful tool in knowledge discovery. Traditionally unsupervised, it received renewed attention when it was shown to produce better results when provided with new types of information, thus leading to a new kind of semi-supervised learning. This new information can be given in form of instance-level must-link and cannot-link constraints, in which this paper focuses on. We propose a new heuristic algorithm, the Dual Iterative Local Search, and prrove its capability to provide quiality results for the constrained clustering problem. We will compare the results obtained by this proposal to those obtained by some of the state-of-the-art algorithms on 25 datasets with incremental levels of constraint-based information, supporting our conclusions with the aid of Bayesian statistical tests.
 \end{abstract}
 
 \begin{keyword}
-constrained clustering, instance-level, must-link, cannot-link, genetic algorithm, differential evolution, Bayesian statistical tests.
+constrained clustering, instance-level, must-link, cannot-link, dual iterative local search.
 \end{keyword}
 
 \end{frontmatter}
@@ -107,17 +107,16 @@ Regarding the degree to which the constraints have to be satisfied, we can make 
 
 Finding the optimal partition in a dataset, with respect to any kind of reasonable criteria, is known to be a $\mathbf{NP}$-hard problem. Therefore, the incorporation of constraints may modify the complexity of the clustering problem, depending on the type of constraints used. As we will study in more depth in Section \ref{sec:BackFeas}, the use of ML and CL constraints makes the constrained clustering problem $\mathbf{NP}$-complete \cite{davidson2005clustering}.
 
-The constrained clustering problem can be formulated in terms of optimization, so that we can apply various optimization techniques to solve it. As mentioned earlier, it is a difficult problem to solve, so nature-inspired techniques are presented as a promising option to find quality approximate solutions. Nature is the best example of adaptive problem solving since it can apply an optimal strategy suited for each natural phenomenon \cite{fausto2019ants}. Nature-inspired algorithms are designed to emulate natural optimization phenomena, such as evolution, collective behavior of animals, physics laws or even human being-related processes. There have been attempts to solve the constrained clustering problem with nature-inspired algorithms, such as the adaptation of the Biased Random-key Genetic Algorithm (BRKGA) presented in \cite{de2017comparison}. Swarm-based methods have also been applied to constrained clustering, such as the one presented in \cite{xu2013improving}.
+The constrained clustering problem can be formulated in terms of optimization, so that we can apply various optimization techniques to solve it. As mentioned earlier, it is a difficult problem to solve, so heuristic techniques are presented as a promising option to find quality approximate solutions. Heuristic algorithms are designed to explore the solution space associated with a problem guided by a fitness (heuristic) function \textcolor{red}{CITA}. In this type of approaches the key is to find a good exploration-exploitation tradeoff. This is the reason why the classic Local Search (LS) algorithm derived in the Iterative Local Search (ILS) algorithm, which introduces periodics perturbations in the exploration of the solutions space to avoid local optima \textcolor{red}{CITA}. Even in ILS the exloitation-exploration tradeoff is unbalanced towards exploitationm, lacking from exploration. 
 
-Differential Evolution (DE) is an evolution-based algorithm that has proven to be excellent in real-domain problem solving \cite{das2011differential}. In this paper we propose the first DE application to find quality solutions for the constrained clustering problem. In particular, we will take as basis for our proposal one of the DE variants which showed excellent behavior in worldwide competitions, known as SHADE \cite{molina2018insight}. We will make use of the Random-key concept from BRKGA, along with proposing a new fitness function, to build the already mentioned DE variant. We will properly compare the results obtained by our new method with previous nature-inspired algorithms, as well as with the constrained clustering state-of-the-art.
 
-Regarding the organization of this paper, Section \ref{sec:background} reviews the existing knowledge concerning constrained clustering and DE. In Section \ref{sec:brkga} the BRKGA algorithm and its adaptation for constrained clustering will be briefly reviewed. Afterward, the SHADE variant of DE algorithm will be presented in Section \ref{sec:SHADE}. In Section \ref{sec:SHADEadapt} the scheme that allow us to apply SHADE to constrained clustering, including the proposal of a new fitness function, will be presented. Sections from \ref{sec:expSetup} to \ref{sec:analisis} present the experimental setup, results and their analysis respectively. Finally, in Section \ref{sec:conclusiones} conclusions are discussed.
+In this paper we propose the Dual Iterative Local Search (DILS) algorithm, which aims to address the exploration lacking problem by using techniques typical of nature-inspired algorithms such as genetic algorithms \textcolor{red}{CITA}. To put it simple, we use ILS as the host algorithm and introduce genetic algorithm operators and an adaptative reinitialization method to encourage exploration of the solution space. This is contrary to the well-known tendency to introduce exploitation techniques in over-explorative algorithm \textcolor{red}{CITA}. In them the host algorithm is usually evolutionary and methods such as LS or simulated annealing \textcolor{red}{CITA} are used to find a better balance between exploration and exploitation \textcolor{red}{CITA}. An example of this are memetic algorithms \textcolor{red}{CITA}. 
 
-\textcolor{red}{Decir que mientras que en los algoritmos memeticos el host es el GA en DILS el host es ILS, conservando todas sus caracteristicas y añadiendo algunas tecnicas de los GA}
+Regarding the organization of this paper, Section \ref{sec:background} reviews the existing knowledge concerning constrained clustering and the state-of-the-art. In Sections \ref{sec:DILS} and \ref{sec:DILS_CC} the DILS algorithm and its constrained clustering formulation will be reviewed. Sections from \ref{sec:expSetup} to \ref{sec:analisis} present the experimental setup, results and their analysis respectively. Finally, in Section \ref{sec:conclusiones} conclusions are discussed.
 
 \section{Background} \label{sec:background}
 
-In this section we present the background knowledge concerning constrained clustering (Section \ref{sec:BackCC}), its computational complexity (Section \ref{sec:BackFeas}) and a brief description of some of the state-of-the-art methods for constrained clustering (Section \ref{sec:BackSOTA}). We will also present the basis of the DE optimization method (Section \ref{sec:BackDE}).
+In this section we present the background knowledge concerning constrained clustering (Section \ref{sec:BackCC}), its computational complexity (Section \ref{sec:BackFeas}) and a brief description of some of the state-of-the-art methods for constrained clustering (Section \ref{sec:BackSOTA}).
 
 \subsection{Constrained Clustering} \label{sec:BackCC}
 
@@ -176,19 +175,19 @@ Intractable problems are hard to solve with deterministic and exact methods. Tha
 
 \subsection{State-of-the-art Methods} \label{sec:BackSOTA}
 
-Constrained clustering has many applications and has been widely studied in the literature. The first adaptation of a classic clustering method for constrained clustering was proposed in \cite{wagstaff2001constrained}. It involved modifying the widely studied K-means algorithm to take into account instance-level constraints: the already known ML and CL. This method was named COP-kmeans, it introduces a modification to the assignation rule of instances to clusters of the K-means algorithm so that an instance can be assigned to a cluster only if the assignment does not violate any constraint.
+The first adaptation of a classic clustering method for constrained clustering was proposed in \cite{wagstaff2001constrained}. It involved modifying the widely studied K-means algorithm to take into account instance-level constraints: the already known ML and CL. This method was named COP-kmeans, it introduces a modification to the assignation rule of instances to clusters of the K-means algorithm so that an instance can be assigned to a cluster only if the assignment does not violate any constraint.
 
-In \cite{antoine2012cecm} Constrained Evidential c-means (CECM), a variant of the Evidential c-means (ECM \cite{masson2008ecm}) algorithm is proposed, within the fuzzy clustering family of methods. The particularity of this algorithm is that the membership of instances to a cluster is defined by a probabilistic belief function. This method redefines constraints from the point of view of belief functions and includes them in the fitness function.
+In \cite{antoine2012cecm} Constrained Evidential c-means (CECM), a variant of the Evidential c-means (ECM \cite{masson2008ecm}) algorithm is proposed, within the fuzzy clustering family of methods. The particularity of this algorithm is that the membership of instances to a cluster is defined by a probabilistic belief function. This method redefines constraints from the point of view of belief functions and includes them in the cost function.
 
 A modification of the Constrained Vector Quantization Error algorithm (CVQE \cite{davidson2005clustering}) is proposed in \cite{pelleg2007k}. The CVQE algorithm proved to produce high quality results, at the cost of a very high computational complexity. Linear CVQE (LCVQE) introduces a modification of the cost function of CVQE to make it more intuitive and less computationally complex. The experimentation resulted in a dramatic improvement of clustering quality over both noisy and clean constraint sets.
 
 Two Views Clustering (TVClust) and Relation Dirichlet Process - Means (RDPM) were proposed in \cite{khashabi2015clustering}. TVClust is able to incorporate the constraints into the clustering problem by making a soft interpretation of them. The authors model the dataset and constraints in different ways, perform clustering methods on them and try to find a consensus between both interpretations. Using this model as a basis, the authors derive the deterministic algorithm RDP-means. This method can be viewed as an extension of K-means that includes side information (constraints) and has the property that the number of clusters ($k$) does not need to be specified.
 
-\textcolor{red}{Poner aqui una descripción del BRKGA?}
+An adaptation of the Biased Random-Key Genetic Algorithm (BRKGA) \cite{gonccalves2011biased}---a variant of the Random-Key genetic algorithm \cite{bean1994genetic}---for the constrained clustering problem is proposed in \cite{de2017comparison}. It uses a genetic algorithm, combined with a local search procedure and guided by a penalty-style fitness function, to obtain a partition of the input dataset. It constitutes one of the few approaches to constrained clustering from the point of view of the evolutionary computing.
 
 \clearpage 
 
-\section{The Dual Iterative Local Search Method}
+\section{The Dual Iterative Local Search Method} \label{sec:DILS}
 
 The Dual Iterative Local Search (DILS) is a new variant of the classic Iterated Local Search (ILS) method. Its goal is to perform a search in the solutions space to find the solution with the best fitness function $f$ value by introducing diversity in a guided way. While ILS works with a single individual, DILS keeps two of them $\{m_b, m_w\}$ in memory at all times, which allows it to guide diversity-introducing methods and to avoid local optima. The individual $m_b$ is the one providing the best fitness value, so $m_w$ provides the worst fitness value.
 
@@ -225,6 +224,8 @@ m_{w,G} &  \text{otherwise}
 It is crucial to note that in Figure \ref{img:DILS_diag} arrows in red indicate stages of the algorithm where $m_b$ and $m_w$ are reasigned to the true best and worst individual respectively. This way, at the point where the reinitialization criterion is tested, it is possible that $f(m_w)$ provides a better value than $f(m_b)$, so that $f(m_b) - f(m_w)$ can be either positive or negative. 
 
 This leads us to note the influence of the parameter $\xi$. In one hand, if we are dealing with a minimization problem and we set $\xi > 0$, then the true worst individual is only reinitializatized when the trial individual $m_t$ replaced $m_w$ and is also better than $m_b$ by a margin. On the other hand and also for the minimization case but this time with $\xi < 0$ we allow DILS to reinitialize the true worst individual even $m_t$ is not better than $m_b$ but they are close. It comes clear that when $\xi = 0$ the worst individual is restarted if $f(m_b) = f(m_w)$. Note that $\xi$ could take any real value, but it is not realistic to set it outside of the range $[-1,1]$. To summarize, the closer $\xi$ is to 1 the more restrictive the reinitialization criterion is---in the minimization case. It is also worth noting that in early stages of the optimization process the reinitialization criterion tends to be met more often than in later stages, resembling some fatures of the simmulated annealing algorithm \cite{van1987simulated}. Algorithm \ref{alg:DILS} summarizes the overall DILS optimization process.
+
+\textcolor{red}{Poner los inputs}
 
 \begin{algorithm}
 	\SetNlSty{textbf}{[}{]}
@@ -272,11 +273,9 @@ This leads us to note the influence of the parameter $\xi$. In one hand, if we a
 
 For the mutation and crossover operators that appear in the Algorithm \ref{alg:DILS}, we use the uniform crossover operator \cite{spears1995virtues} and the segment mutation operator \textcolor{red}{REFERENCIA?} respectively. This type of mutation consists of selecting a fixed size segment from the features of the individual and replacing it with a random segment of the same size. The size of the segment must be fixed at the beginning of the optimization process.
 
-Cabe destacar que el proceso de optimización descrito hasta el momento es aplicable a cualquier problema de minimización, aunque es claro que axiste una adaptación directa de DILS para problemas de maximización. Además el proceso de búsqueda local empleado para obtener el individuo trial debe ser especificado para cada problema, así como cuestiones de representación numérica y las criterios de parada.
-
 It should be noted that the optimization process described so far is applicable to any minimization problem, although it is clear that there is a direct adaptation of DILS for maximization problems. In addition, the local search procedure used to obtain the trial individual $m_t$ must be specified for each problem, as well as numerical representation matters and termination criteria.
 
-\section{DILS optimization scheme for constrained clustering}
+\section{DILS optimization scheme for constrained clustering} \label{sec:DILS_CC}
 
 In this section, we present an optimization scheme for the DILS algorithm when applied to constrained clustering. We will call this new approach DILS$_{CC}$. To begin with, we will use an integer-based representation for all the individuals DILS$_{CC}$ work with; this way, each individual $m$ is defined as a vector of $n$ integers---being $n$ the number of instances of the dataset. Each integer $m_i \in [0,k)$ in $m$ represent the label of the cluster that instance $x_i$ belongs to, si each individual $m$ is a solution to the clustering problem. Additionally, in order to not bias the exploration of the solution space, we will use a random initialization to intially set $m_b$ and $m_w$, this procedure will also be used when $m_w$ must be reinitialized.
 
@@ -334,8 +333,8 @@ We also need to specify a local search procedure for DILS to be able to improve 
 
 \section{Experimental Setup} \label{sec:expSetup}
 
-For our experiments we will compare the results obtained by BRKGA$_{CC}$ and SHADE$_{CC}$ over 25 datasets and 3 constraints set for each one of them. Most of these datasets can be found at the \href{https://sci2s.ugr.es/keel/category.php?cat=clas}{Keel-dataset repository} \cite{triguero2017keel}, though some of them have been obtained via
-\href{https://scikit-learn.org/stable/datasets/index.html}{\texttt{scikit-learn} python package} \cite{scikit-learn}. We also include 3 artificial datasets in our analysis, namely: \textit{Circles}, \textit{Moons} and \textit{Spiral}, which can be found at GitHub. Table \ref{tab:datasets} displays a summary of every dataset.
+For our experiments we will compare the results obtained by DILS$_{CC}$ and state-of-the-art methods over 25 datasets and 3 constraint sets for each one of them. Most of these datasets can be found at the \href{https://sci2s.ugr.es/keel/category.php?cat=clas}{Keel-dataset repository} \cite{triguero2017keel}, though some of them have been obtained via
+\href{https://scikit-learn.org/stable/datasets/index.html}{\texttt{scikit-learn} python package} \cite{scikit-learn}. We also include 3 artificial datasets in our analysis, namely: \textit{Circles}, \textit{Moons} and \textit{Spiral}, which can be found at \href{https://github.com/GermangUgr/DILS_CC}{GitHub}. Table \ref{tab:datasets} displays a summary of every dataset.
 
 \begin{table}[!h]
 	\centering
@@ -381,8 +380,6 @@ For our experiments we will compare the results obtained by BRKGA$_{CC}$ and SHA
 \end{table}
 
 Classification datasets are commonly used in the literature to test constrained clustering algorithms; the reason behind this is that they enable us to generate constraints with respect to the true labels (see Section \ref{sec:ConstGent}). They also facilitate an easy evaluation of the quality of the algorithm by means of measures like the Adjusted Rand Index (see Section \ref{sec:EvalMet}).
-
-\clearpage
 
 \subsection{Constraint Generation} \label{sec:ConstGent}
 
@@ -484,7 +481,7 @@ $$[P(\rho < r_\text{min}) = P(A - B < 0),\;\; P(\rho \in \text{rope}),\;\; P(\rh
 
 \subsection{Calibration}
 
-Table \ref{tab:params} shows a summary of the parameter setup used for DILS$_{CC}$.
+Table \ref{tab:params} shows a summary of the parameter setup used for the DILS$_{CC}$.
 
 \begin{table}[!h]
 	\centering
@@ -511,9 +508,11 @@ Table \ref{tab:params} shows a summary of the parameter setup used for DILS$_{CC
 	\label{tab:params}
 \end{table}
 
-The stop criterion is given by the number of evaluations of the fitness function $f$, which at most will be 300000.
+The stop criterion is given by the number of evaluations of the fitness function $f$, which at most will be 300000. The implementation for DILS$_{CC}$ can be found at \href{https://github.com/GermangUgr/DILS_CC}{GitHub}.
 
-To compare with the state-of-the-art methods mentioned in Section \ref{sec:BackSOTA} we will use the parameters setup shown in Table \ref{tab:paramsSOTA} for the implementation that can be found at \href{https://github.com/GermangUgr/TFG/tree/master/Software}{GitHub}. In all cases the value for $k$ is equal to the number of classes displayed in Table \ref{tab:datasets}.
+To compare with the state-of-the-art methods mentioned in Section \ref{sec:BackSOTA} we will use the parameters setup shown in Table \ref{tab:paramsSOTA} for the implementation that can be found at \href{https://github.com/GermangUgr/TFG/tree/master/Software}{GitHub}. The implementation for the BRKGA algorith can be found in the same link as DILS$_{CC}$. In all cases the value for $k$ is equal to the number of classes displayed in Table \ref{tab:datasets}.
+
+\textcolor{red}{Meter todos los algoritmos en el mismo repo?}
 
 \begin{table}[!h]
 	\centering
@@ -549,8 +548,6 @@ In this section we present Tables from \ref{tab:results10} to \ref{tab:results20
 Since some of the methods we are comparing involve non-deterministic procedures, the results may vary from one run to another. To lessen the effect this may have on the results, we will apply each method 5 times to every dataset and constraint set, so that the measures shown in the previously mentioned tables correspond to the average of the 5 runs.
 
 It should be noted that there are some missing results in these tables. In the case of the COPKM algorithm, this is due to the fact that it is highly dependent on the order in which constraints are analyzed. It is possible that COPKM cannot find a solution, even though it is always feasible, since the constraints have been generated based on the true labels. In the case of CECM, some of the results are not available because the memory structures that hold the algorithm grow non-linearly with the number of classes and the number of features of the dataset to be analyzed.
-
-Table \ref{tab:results10} shows the results for the $SC_{10}$ constraint set. We can note that DILS$_{CC}$ represents a consistent improvement over BRKGA$_{CC}$ in both Unsat and Time, while in terms of ARI both methods are similar. This is because the penalty applied to the fitness function of both methods has little presence when operating with a small constraint set, and since they are population-based and heuristic-guided methods, they have similar exploration and exploitation capabilities.
 	
 \begin{table}[!h]
 	\centering
@@ -560,7 +557,7 @@ Table \ref{tab:results10} shows the results for the $SC_{10}$ constraint set. We
 	\resizebox{\textwidth}{!}{
 		\begin{tabular}{lccccccc}
 			\hline
-			Dataset & DILS & BRKGA & COPKM & LCVQE & RDPM & TVClust & CEKM \\
+			Dataset & DILS$_{CC}$ & BRKGA & COPKM & LCVQE & RDPM & TVClust & CEKM \\
 			\hline
 			Appendicitis & \textbf{0.611} & 0.022 & - & 0.335 & 0.316 & 0.025 & -0.005 \\
 			Breast Cancer & \textbf{0.755} & 0.395 & -0.604 & 0.486 & 0.502 & 0.000 & 0.000 \\
@@ -594,9 +591,11 @@ Table \ref{tab:results10} shows the results for the $SC_{10}$ constraint set. We
 		\end{tabular}}
 		%\end{adjustwidth}
 		
-	\caption{Experimental results obtained for $CS_{10}$ comparing DILS$_{CC}$ and the state-of-the-art.}
+	\caption{Experimental results obtained for $CS_{10}$ by DILS$_{CC}$ and the state-of-the-art methods.}
 	\label{tab:results10}
 \end{table}
+
+Table \ref{tab:results10} shows the results for the $SC_{10}$ constraint set. We can note that DILS$_{CC}$ represents a consistent improvement over all other 5 methods, specially in the case of BRKGA. This is due to the fact that the exploitation capacity of DILS$_{CC}$ allows it to take better advantage of the information contained in the constraint set than the rest of the methods.
 
 \begin{table}[!h]
 	\centering
@@ -606,7 +605,7 @@ Table \ref{tab:results10} shows the results for the $SC_{10}$ constraint set. We
 	\resizebox{\textwidth}{!}{
 		\begin{tabular}{lccccccc}
 			\hline
-			Dataset & DILS & BRKGA & COPKM & LCVQE & RDPM & TVClust & CEKM \\
+			Dataset & DILS$_{CC}$ & BRKGA & COPKM & LCVQE & RDPM & TVClust & CEKM \\
 			\hline
 			Appendicitis & \textbf{0.957} & 0.296 & - & 0.305 & 0.284 & 0.025 & -0.006 \\
 			Breast Cancer & 0.788 & 0.772 & \textbf{1.000} & 0.486 & 0.502 & 0.000 & 0.037 \\
@@ -640,9 +639,11 @@ Table \ref{tab:results10} shows the results for the $SC_{10}$ constraint set. We
 		\end{tabular}}
 		%\end{adjustwidth}
 		
-		\caption{Experimental results obtained for $CS_{15}$ comparing DILS$_{CC}$ and the state-of-the-art.}
-		\label{tab:results15}
-	\end{table}
+	\caption{Experimental results obtained for $CS_{15}$ by DILS$_{CC}$ and the state-of-the-art methods.}
+	\label{tab:results15}
+\end{table}
+
+Results obtained with the $SC_{15}$ constraint set are presented in Table \ref{tab:results15}. We observe how DILS$_{CC}$ and COPKM are able to obtain partitions of the datasets perfectly coincidents with the true partitions. The fact that DILS$_{CC}$ is always able to output a partition of the datasets is worth the advantage over COPKM. It is even the case that COPKM is not able to provide an output partition while DILS finds the optimal partition or very close to the optimal partition for the same datasets.
 
 \begin{table}[!h]
 	\centering
@@ -652,7 +653,7 @@ Table \ref{tab:results10} shows the results for the $SC_{10}$ constraint set. We
 	\resizebox{\textwidth}{!}{
 		\begin{tabular}{lccccccc}
 			\hline
-			Dataset & DILS & BRKGA & COPKM & LCVQE & RDPM & TVClust & CEKM \\
+			Dataset & DILS$_{CC}$ & BRKGA & COPKM & LCVQE & RDPM & TVClust & CEKM \\
 			\hline
 			Appendicitis & \textbf{1.000} & \textbf{1.000} & - & 0.305 & 0.331 & 0.012 & -0.006 \\
 			Breast Cancer & 0.807 & 0.807 & \textbf{1.000} & 0.486 & 0.502 & 0.000 & 0.000 \\
@@ -686,9 +687,11 @@ Table \ref{tab:results10} shows the results for the $SC_{10}$ constraint set. We
 		\end{tabular}}
 		%\end{adjustwidth}
 		
-		\caption{Experimental results obtained for $CS_{20}$ comparing DILS$_{CC}$ and the state-of-the-art.}
-		\label{tab:results20}
-	\end{table}
+	\caption{Experimental results obtained for $CS_{20}$ by DILS$_{CC}$ and the state-of-the-art methods.}
+	\label{tab:results20}
+\end{table}
+	
+In Table \ref{tab:results15}, which shows the results obtained with the $SC_{15}$ constraint set, we can see how DILS$_{CC}$ scales the quality of its results with the number of restrictions, as well as methods such as BRKGA or COPKM, the latter being more limited in other aspects.
 	
 	
 \clearpage
@@ -733,21 +736,31 @@ One of the major advantages of the Bayesian sign test is that we can obtain a ve
 		\caption{CEKM}
 		\label{fig:DILSvsCEKM}
 	\end{subfigure}
-	\caption{Heat diagrams.}
+	\caption{Heat diagrams comparing DILS with the state-of-the-art methods.}
+	\label{fig:heatDiag}
 \end{figure}
 
+Figure \ref{fig:heatDiag} shows all six heatmaps obtained when applying the Bayesian sign test to DILS$_{CC}$ and the state-of-the-art methods. All heatmaps suggest that the test assigns a high probability to $A - B < 0$, since most triplets are presented in the lower left third of the triangle. Bearing this in mind, and considering that ARI is a measure to maximize, we can say that the Bayesian sign test provides strog evidence that DILS$_{CC}$ does represent a significan improvement over all other six methods, being te results offered by the latter non equivalent to those offered by DILS$_{CC}$ and lower in quality.
+
+\textcolor{red}{No estan citadas las subimagenes una por una}
 
 \clearpage
 
 \section{Conclusions} \label{sec:conclusiones}
 
-In this paper we proposed SHADE$_{CC}$, the first application of a DE-based algorithm to the SSL constrained clustering problem. Focusing on the instance-level ML and CL constraints, SHADE$_{CC}$ has proven that nature-inspired evolution-based techniques constitute a good approach to constrained clustering, being able to scale the quality of the results in a way directly proportional to the number of constraints.
+In this paper we proposed the DILS heuristic method, along with its application to the SSL constrained clustering problem, which we called DILS$_{CC}$. Focusing on the instance-level ML and CL constraints, DILS$_{CC}$ has proven that heuristic techniques constitute a good approach to constrained clustering, being able to scale the quality of the results in a way directly proportional to the number of constraints.
  
-Supported by the Bayesian statistical tests, we were able to objectively prove that the SHADE$_{CC}$ approach is significantly better than previous evolution-based proposals. As far as the state-of-the-art is concerned, the SHADE$_{CC}$ approach has proven to be equivalent or better when considering the quality of the solutions, especially in cases where large sets of constraints are analyzed.
+Supported by the Bayesian statistical tests, we were able to objectively prove that the DILS$_{CC}$ approach is significantly better than the state-of-the-art methods. DILS$_{CC}$ has proven to be better when considering the quality and availability of the solutions, especially in cases where large sets of constraints are analyzed.
 
-\section{Acknowledgements}
+\section*{Acknowledgements}
 
 Our work has been supported by the research project TIN2017-89517-P and PP2016.PRI.I.02.
+
+\section*{Compliance with ethical standards}
+
+\section*{Declaration of competing interest}
+
+The authors declare that there is no conflict of interest.
 
 \clearpage
 
