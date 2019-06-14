@@ -177,8 +177,12 @@ class ILSNueva:
 
 		self.init_ils()
 		gen_times = []
+		nb_restarts = 0
+		nb_restarts_array = []
 
-		while self._evals_done < max_evals:
+		#while self._evals_done < max_evals:
+		while len(gen_times) < self._max_neighbors:
+
 			start_gen = time.time()
 			worst = np.argmax(self._best_fitness)
 			best = (worst + 1) % 2
@@ -199,10 +203,16 @@ class ILSNueva:
 				self._best_solution[worst, :] = np.random.randint(0, self._result_nb_clust, self._dim)
 				self._best_fitness[worst] = self.get_single_fitness(self._best_solution[worst, :])[0]
 
+				nb_restarts += 1
+
 			gen_times.append(time.time() - start_gen)
+			nb_restarts_array.append(nb_restarts)
+
+			#print(str(np.size(gen_times)) + " " + str(nb_restarts) + " (" + str(self._evals_done) + ")")
 
 		best = np.argmin(self._best_fitness)
-		return self._best_solution[best, :], np.sum(gen_times)
+		return nb_restarts_array
+		#return self._best_solution[best, :], np.sum(gen_times)
 
 
 

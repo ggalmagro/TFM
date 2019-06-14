@@ -18,7 +18,7 @@ def main():
     labels_array = labels_array[0:1]
 
     const_percent_vector = [0.05, 0.1, 0.15, 0.2]
-    const_percent_vector = [0.05]
+    const_percent_vector = [0.1]
     const_array = load_constraints(names_array, const_percent_vector)
 
     general_table_file = open("Results/ILSNueva_general_table_file.txt", "w+")
@@ -26,8 +26,8 @@ def main():
 
     #BUCLE DE OBTENCION DE DATOS
 
-    nb_runs = 1
-    max_eval = 300000
+    nb_runs = 5
+    max_eval = 30000
     population_size = 100
     run_ls = True
 
@@ -60,9 +60,9 @@ def main():
 
             for j in range(nb_runs):
 
-                ilsn = ILSNueva(data_set, ml_const, cl_const, nb_clust, 0.3, 300, 0.3, 0.003)
+                ilsn = ILSNueva(data_set, ml_const, cl_const, nb_clust, 0.3, 300, 0.3, xi)
                 start = time.time()
-                ilsn_assignment = ilsn.run(max_eval)[1]
+                ilsn_assignment = ilsn.run(max_eval)[0]
                 end = time.time()
                 mean_ars += adjusted_rand_score(labels, ilsn_assignment)
                 mean_execution_time += end - start
@@ -85,19 +85,5 @@ def main():
 
     general_table_file.close()
     results_file.close()
-
-    #REPRESENTANDO ALGUNOS RESULTADOS
-    # iris_plot1 = draw_data_2DNC(iris_set, np.asarray(iris_labels, np.uint8), 3, alg + "Iris Dataset ML")
-    # iris_plot2 = draw_data_2DNC(iris_set, np.asarray(iris_labels, np.uint8), 3, alg + "Iris Dataset CL")
-    #
-    # iris_plot3 = draw_data_2DNC(iris_set, np.asarray(iris_ilsn_assignment, np.float), 3, alg + "Iris Dataset Results ML")
-    # iris_plot4 = draw_data_2DNC(iris_set, np.asarray(iris_ilsn_assignment, np.float), 3, alg + "Iris Dataset Results CL")
-    #
-    # ax1, ax2 = draw_const(iris_set, iris_const, iris_plot1, iris_plot2, "Ml Original", "Cl Original")
-    #
-    # ax3, ax4 = draw_const(iris_set, iris_const, iris_plot3, iris_plot4, "Ml Calculado", "Cl Calculado")
-    #
-    # plt.show()
-
 
 if __name__ == "__main__": main()

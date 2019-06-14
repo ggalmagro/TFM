@@ -59,7 +59,7 @@
 
 \begin{frontmatter}
 
-\title{Enhancing instance-level constrained clustering through differential evolution}
+\title{Improving instance-level constrained clustering through Dual Iterative Local Search}
 
 \author[mymainaddress]{Germ\'an Gonz\'alez-Almagro\corref{mycorrespondingauthor}}
 \cortext[mycorrespondingauthor]{Corresponding author}
@@ -76,7 +76,7 @@
 \address[mysecondaddress]{Dept. of Computer Science, EPS of Linares, University of Ja\'en, Campus Cient\'ifico Tecnol\'ogico de Linares, Cintur\'on Sur S/N, Linares 23700, Ja\'en, Spain}
 
 \begin{abstract}
-Clustering has always been a powerful tool in knowledge discovery. Traditionally unsupervised, it received renewed attention when it was shown to produce better results when provided with new types of information, thus leading to a new kind of semi-supervised learning. This new information can be given in form of instance-level must-link and cannot-link constraints, in which this paper focuses on. We propose a new heuristic algorithm, the Dual Iterative Local Search, and prrove its capability to provide quiality results for the constrained clustering problem. We will compare the results obtained by this proposal to those obtained by some of the state-of-the-art algorithms on 25 datasets with incremental levels of constraint-based information, supporting our conclusions with the aid of Bayesian statistical tests.
+Clustering has always been a powerful tool in knowledge discovery. Traditionally unsupervised, it received renewed attention when it was shown to produce better results when provided with new types of information, thus leading to a new kind of semi-supervised learning. This new information can be given in form of instance-level must-link and cannot-link constraints, in which this paper focuses on. We propose a new metaheuristic algorithm, the Dual Iterative Local Search, and prove its capability to provide quiality results for the constrained clustering problem. We will compare the results obtained by this proposal to those obtained by some of the state-of-the-art algorithms on 25 datasets with incremental levels of constraint-based information, supporting our conclusions with the aid of Bayesian statistical tests.
 \end{abstract}
 
 \begin{keyword}
@@ -93,7 +93,7 @@ One of the most widely known and studied data analysis problems is clustering. I
 
 In the literature, clustering methods are often divided into two subsets: partitional clustering and hierarchical clustering. In hierarchical clustering the result is not a partition of the data with a certain number of clusters---as in partitional clustering---, but instead a dendrogram in which there are partitions that include from the whole dataset to particular individuals \cite{Everitt:2009:CA:1538772}. A representative example of partitional clustering is the widely studied and well-known algorithm K-means \cite{wu2009top}, while for hierarchical clustering the CURE method should be highlighted \cite{guha1998cure}. In this paper we will focus on partitional clustering.
 
-We can define partitional clustering as the task of grouping the instances of a dataset into $k$ clusters, so that new information can be extracted from them. A dataset $X$ is composed of $n$ instances, each one of them described by $d$ features. More formally, $X = \{x_1, \cdots, x_n\}$, with the $i$th instance noted as $x_i = (x_{[i,1]}, \cdots, x_{[i,u]})$. A typical clustering algorithm assigns a class label $l_i$ to each instance $x_i \in X$. As a result, we obtain the set of labels $L = \{l_1, \cdots, l_n\}$, with $l_i \in \{1, \cdots, k\}$, that effectively splits $X$ into $k$ non-overlapping clusters $c_i$ to form a partition called $C$. The criterion used to assign an instance to a given cluster is the similarity to the rest of elements in that cluster, and the dissimilarity to the rest of instances of the dataset, which can be obtained with some kind of distance measurement $d(\cdot, \cdot)$ \cite{jain1999data}.
+We can define partitional clustering as the task of grouping the instances of a dataset into $k$ clusters, so that new information can be extracted from them. A dataset $X$ is composed of $n$ instances, each one of them described by $d$ features. More formally, $X = \{x_1, \cdots, x_n\}$, with the $i$th instance noted as $x_i = (x_{[i,1]}, \cdots, x_{[i,u]})$. A typical clustering algorithm assigns a class label $l_i$ to each instance $x_i \in X$. As a result, we obtain the set of labels $L = \{l_1, \cdots, l_n\}$, with $l_i \in \{1, \cdots, k\}$, that effectively splits $X$ into $k$ non-overlapping clusters $c_i$ to form a partition called $C$. The criterion used to assign an instance to a given cluster is the similarity to the rest of elements in that cluster, and the dissimilarity to the rest of instances of the dataset, which can be obtained with some kind of distance measurement \cite{jain1999data}.
 
 Semi-supervised learning (SSL) is a machine learning paradigm that arises from adding incomplete information to unsupervised learning. We can divide SSL methods into two broad categories according to their objective: semi-supervised classification and semi-supervised clustering \cite{chapelle2009semi}. The first method has partial information about the labels, so it tries to minimize the error based on them while taking into account the distribution of unlabeled instances. The second tries to obtain better defined clusters incorporating background information to the clustering process, this is known as constrained clustering and is the main subject of the study presented in this paper \cite{triguero2015self}. 
 
@@ -107,10 +107,9 @@ Regarding the degree to which the constraints have to be satisfied, we can make 
 
 Finding the optimal partition in a dataset, with respect to any kind of reasonable criteria, is known to be a $\mathbf{NP}$-hard problem. Therefore, the incorporation of constraints may modify the complexity of the clustering problem, depending on the type of constraints used. As we will study in more depth in Section \ref{sec:BackFeas}, the use of ML and CL constraints makes the constrained clustering problem $\mathbf{NP}$-complete \cite{davidson2005clustering}.
 
-The constrained clustering problem can be formulated in terms of optimization, so that we can apply various optimization techniques to solve it. As mentioned earlier, it is a difficult problem to solve, so heuristic techniques are presented as a promising option to find quality approximate solutions. Heuristic algorithms are designed to explore the solution space associated with a problem guided by a fitness (heuristic) function \textcolor{red}{CITA}. In this type of approaches the key is to find a good exploration-exploitation tradeoff. This is the reason why the classic Local Search (LS) algorithm derived in the Iterative Local Search (ILS) algorithm, which introduces periodics perturbations in the exploration of the solutions space to avoid local optima \textcolor{red}{CITA}. Even in ILS the exloitation-exploration tradeoff is unbalanced towards exploitationm, lacking from exploration. 
+The constrained clustering problem can be formulated in terms of optimization, so that we can apply various optimization techniques to solve it. As mentioned earlier, it is a difficult problem to solve, so metaheuristic are presented as a promising option to find quality approximate solutions. Metaheuristic algorithms are designed to explore the solution space associated with a problem guided by a fitness (heuristic) function \cite{Gendreau:2010:HM:1941310}. In this type of approaches the key is to find a good diversification-intensification tradeoff. This is the reason why the classic Local Search (LS) heuristic algorithm derived in the Iterative Local Search (ILS) metaheuristic algorithm, which introduces periodics perturbations in the exploration of the solution space to avoid local optima \cite{lourencco2010iterated}. ILS---or variants of it---has been applied to a wide variety of problems, including the traveling salesman \cite{archetti2018iterated}, the quadratic multiple knapsack \cite{avci2017multi} or the vehicle routing problem \cite{chentli2018impact, estrada2019biased}. ILS is also very commonly used to design hybrid methods with good diversification-intensification tradeoff, such as its combination with expediting mechanisms \cite{zohali2019reformulation} or with the success history based differential evolution algorithm \cite{zhao2019hybrid}.
 
-
-In this paper we propose the Dual Iterative Local Search (DILS) algorithm, which aims to address the exploration lacking problem by using techniques typical of nature-inspired algorithms such as genetic algorithms \textcolor{red}{CITA}. To put it simple, we use ILS as the host algorithm and introduce genetic algorithm operators and an adaptative reinitialization method to encourage exploration of the solution space. This is contrary to the well-known tendency to introduce exploitation techniques in over-explorative algorithm \textcolor{red}{CITA}. In them the host algorithm is usually evolutionary and methods such as LS or simulated annealing \textcolor{red}{CITA} are used to find a better balance between exploration and exploitation \textcolor{red}{CITA}. An example of this are memetic algorithms \textcolor{red}{CITA}. 
+In this paper we propose a new variant of the ILS method, the Dual Iterative Local Search (DILS), which introduces diversity in the exploration of the solution space in an adaptative and guided way. We apply it to the constrained clustering problem, prooving that it constitute a good approach to obtain quality results.
 
 Regarding the organization of this paper, Section \ref{sec:background} reviews the existing knowledge concerning constrained clustering and the state-of-the-art. In Sections \ref{sec:DILS} and \ref{sec:DILS_CC} the DILS algorithm and its constrained clustering formulation will be reviewed. Sections from \ref{sec:expSetup} to \ref{sec:analisis} present the experimental setup, results and their analysis respectively. Finally, in Section \ref{sec:conclusiones} conclusions are discussed.
 
@@ -171,7 +170,7 @@ In \cite{davidson2005clustering} it is proven that, when $k_l = 1$ and $k_u \ge 
 
 These complexity results show that the feasibility problem with CL constraints is intractable and hence constrained clustering is intractable too. For more details on the complexity of constrained clustering see \cite{davidson2005clustering}.
 
-Intractable problems are hard to solve with deterministic and exact methods. That is the reason why nature-inspired algorithms constitute good approaches to find quality solutions to the constrained clustering problem.
+Intractable problems are hard to solve with deterministic and exact methods. That is the reason why metaheuristic algorithms constitute good approaches to find quality solutions to the constrained clustering problem.
 
 \subsection{State-of-the-art Methods} \label{sec:BackSOTA}
 
@@ -183,15 +182,15 @@ A modification of the Constrained Vector Quantization Error algorithm (CVQE \cit
 
 Two Views Clustering (TVClust) and Relation Dirichlet Process - Means (RDPM) were proposed in \cite{khashabi2015clustering}. TVClust is able to incorporate the constraints into the clustering problem by making a soft interpretation of them. The authors model the dataset and constraints in different ways, perform clustering methods on them and try to find a consensus between both interpretations. Using this model as a basis, the authors derive the deterministic algorithm RDP-means. This method can be viewed as an extension of K-means that includes side information (constraints) and has the property that the number of clusters ($k$) does not need to be specified.
 
-An adaptation of the Biased Random-Key Genetic Algorithm (BRKGA) \cite{gonccalves2011biased}---a variant of the Random-Key genetic algorithm \cite{bean1994genetic}---for the constrained clustering problem is proposed in \cite{de2017comparison}. It uses a genetic algorithm, combined with a local search procedure and guided by a penalty-style fitness function, to obtain a partition of the input dataset. It constitutes one of the few approaches to constrained clustering from the point of view of the evolutionary computing.
+An adaptation of the Biased Random-Key Genetic Algorithm (BRKGA) \cite{gonccalves2011biased}---a variant of the Random-Key genetic algorithm \cite{bean1994genetic}---for the constrained clustering problem is proposed in \cite{de2017comparison}. It uses a genetic algorithm, combined with an LS procedure and guided by a penalty-style fitness function, to obtain a partition of the input dataset. It constitutes one of the few approaches to constrained clustering from the point of view of the evolutionary computing.
 
 \clearpage 
 
 \section{The Dual Iterative Local Search Method} \label{sec:DILS}
 
-The Dual Iterative Local Search (DILS) is a new variant of the classic Iterated Local Search (ILS) method. Its goal is to perform a search in the solutions space to find the solution with the best fitness function $f$ value by introducing diversity in a guided way. While ILS works with a single individual, DILS keeps two of them $\{m_b, m_w\}$ in memory at all times, which allows it to guide diversity-introducing methods and to avoid local optima. The individual $m_b$ is the one providing the best fitness value, so $m_w$ provides the worst fitness value.
+The Dual Iterative Local Search (DILS) is a new variant of the classic ILS method. Its goal is to perform a search in the solution space to find the solution with the best fitness function $f$ value by introducing diversity in an adaptative and guided way. While ILS works with a single individual, DILS keeps two of them $\{m_b, m_w\}$ in memory at all times, which allows it to guide diversity-introducing methods and to avoid local optima. The individual $m_b$ is the one providing the best fitness value, so $m_w$ provides the worst fitness value.
 
-DILS mimics some of the genetic algorithms techniques to introduce diversity into the optimization process, while also manteining the esentials of ILS. In each generation $G$ of the optimization process DILS builds a new individual by applying a crossover operator to $m_b$ and $m_w$. After that, it applies a strong mutation operator to the newly generated individual. This is the invidual DILS applies the local search procedure to in order to improve its fitness value, resulting in the trail individual $m_t$. The trial individual $m_t$ replace the worst of its parents $m_w$ if it provides a better fitness value, this operation makes the replacement operator for DILS. Equation \ref{eq1} displays the expression for this operator in the case of a minimization problem.
+In each generation $G$ of the optimization process DILS builds a new individual by applying a recombination operator to $m_b$ and $m_w$. After that, it applies a strong mutation operator to the newly generated individual. This is the invidual DILS applies the LS procedure to in order to improve its fitness value, resulting in the trail individual $m_t$. The trial individual $m_t$ replace the worst of its parents $m_w$ if it provides a better fitness value, this operation makes the acceptance criterion for DILS. Equation \ref{eq1} displays the expression for this criterion in the case of a minimization problem.
 
 \begin{equation}
 m_{w,G} = \left\{ \begin{array}{lc}
@@ -202,7 +201,7 @@ m_{w,G} &  \text{otherwise}
 \label{eq1}
 \end{equation}
 
-Now, the process described so far will most likely fall into a local optimum, effectively stopping the exploration of the solutions space. To avoid it DILS implements a reinitialization method for $m_w$ based on the difference between the two individuals it keeps in memory $\{m_b, m_w\}$, Equation \ref{eq2} shows the reinitialization criterion for a minimization problem.
+Now, the process described so far will most likely fall into a local optimum, effectively stopping the exploration of the solution space. To avoid it DILS implements a reinitialization method for $m_w$ based on the difference between the two individuals it keeps in memory $\{m_b, m_w\}$, Equation \ref{eq2} shows the reinitialization criterion for a minimization problem.
 
 \begin{equation}
 m_{w,G+1} = \left\{ \begin{array}{lc}
@@ -213,19 +212,17 @@ m_{w,G} &  \text{otherwise}
 \label{eq2}
 \end{equation}
 
-\noindent where RandInit$()$ is a function that returns a randomly initialized individual and $\xi \in [-1,1]$ is the parameter that controls the tolerance of the reinitialization method. This way the best individual is always preserved and therefore always takes part in the process of generating new individuals (via crossover operator) as the best parent. Figure \ref{img:DILS_diag} summarizes the DILS optimization process.
+\noindent where RandInit$()$ is a function that returns a randomly initialized individual and $\xi \in [-1,1]$ is the parameter that controls the tolerance of the reinitialization method. This way the best individual is always preserved and therefore always takes part in the process of generating new individuals (via recombination operator) as the best parent. Figure \ref{img:DILS_diag} summarizes the DILS optimization process.
 
 \begin{figure}[!h]
 	\centering
 	\includegraphics[scale=0.25]{Figures/DILSDiagram.png}
-	\caption{Diagram summarizing DILS optimization process. \textcolor{red}{La figura es horrible (llamar a javi)}}\label{img:DILS_diag}
+	\caption{Diagram summarizing DILS optimization process.}\label{img:DILS_diag}
 \end{figure}
 
 It is crucial to note that in Figure \ref{img:DILS_diag} arrows in red indicate stages of the algorithm where $m_b$ and $m_w$ are reasigned to the true best and worst individual respectively. This way, at the point where the reinitialization criterion is tested, it is possible that $f(m_w)$ provides a better value than $f(m_b)$, so that $f(m_b) - f(m_w)$ can be either positive or negative. 
 
-This leads us to note the influence of the parameter $\xi$. In one hand, if we are dealing with a minimization problem and we set $\xi > 0$, then the true worst individual is only reinitializatized when the trial individual $m_t$ replaced $m_w$ and is also better than $m_b$ by a margin. On the other hand and also for the minimization case but this time with $\xi < 0$ we allow DILS to reinitialize the true worst individual even $m_t$ is not better than $m_b$ but they are close. It comes clear that when $\xi = 0$ the worst individual is restarted if $f(m_b) = f(m_w)$. Note that $\xi$ could take any real value, but it is not realistic to set it outside of the range $[-1,1]$. To summarize, the closer $\xi$ is to 1 the more restrictive the reinitialization criterion is---in the minimization case. It is also worth noting that in early stages of the optimization process the reinitialization criterion tends to be met more often than in later stages, resembling some fatures of the simmulated annealing algorithm \cite{van1987simulated}. Algorithm \ref{alg:DILS} summarizes the overall DILS optimization process.
-
-\textcolor{red}{Poner los inputs}
+This leads us to note the influence of the parameter $\xi$. In one hand, if we are dealing with a minimization problem and we set $\xi > 0$, then the true worst individual is only reinitializatized when the trial individual $m_t$ replaced $m_w$ and is also better than $m_b$ by a margin. On the other hand, and also for the minimization case, but this time with $\xi < 0$, we allow DILS to reinitialize the true worst individual even when $m_t$ is not better than $m_b$. It comes clear that when $\xi = 0$ the worst individual is restarted if $f(m_b) = f(m_w)$. Note that $\xi$ could take any real value, but it is not realistic to set it outside of the range $[-1,1]$, and we recommend $[-0.5, 0.5]$. To summarize, the closer $\xi$ is to 1 the more restrictive the reinitialization criterion is---in the minimization case. It is also worth noting that in early stages of the optimization process the reinitialization criterion tends to be met more often than in later stages. The reason being is that the fitness value of the best individual $f(m_b)$ never deteriorate ($f(m_{b,G}) \ge f(m_{b,G+1})$), so it become harder for $m_b$ to get better o close to it.  Algorithm \ref{alg:DILS} summarizes the overall DILS optimization process.
 
 \begin{algorithm}
 	\SetNlSty{textbf}{[}{]}
@@ -234,10 +231,10 @@ This leads us to note the influence of the parameter $\xi$. In one hand, if we a
 	\SetKwFunction{RandInit}{RandInit}
 	\SetKwFunction{Best}{Best}
 	\SetKwFunction{Worst}{Worst}
-	\SetKwFunction{Crossover}{Crossover}
+	\SetKwFunction{Recombination}{Recombination}
 	\SetKwFunction{Mutation}{Mutation}
 	\SetKwFunction{LocalSearch}{LocalSearch}
-	\KwIn{}
+	\KwIn{Probability for recombination operator $p_r$, segment size for mutation operator $p_s$, reinitialization method tolerance $\xi$.}
 	\tcp{Initialization phase}
 	$G \leftarrow 0$\\
 	$m_b \leftarrow$ \RandInit{};
@@ -248,7 +245,7 @@ This leads us to note the influence of the parameter $\xi$. In one hand, if we a
 		$m_b \leftarrow $ \Best{$ \{m_b, m_w\} $};
 		$m_w \leftarrow $ \Worst{$ \{m_b, m_w\} $}\\
 		\tcp{Generate new individual}
-		$m_t \leftarrow $ \Crossover{$m_b, \; m_w$}\\
+		$m_t \leftarrow $ \Recombination{$m_b, \; m_w$}\\
 		$m_t \leftarrow $ \Mutation{$m_t$}\\
 		\tcp{Improve new individual}
 		$m_t \leftarrow $ \LocalSearch{$m_t$}\\
@@ -271,13 +268,13 @@ This leads us to note the influence of the parameter $\xi$. In one hand, if we a
 \caption{DILS}\label{alg:DILS}
 \end{algorithm}
 
-For the mutation and crossover operators that appear in the Algorithm \ref{alg:DILS}, we use the uniform crossover operator \cite{spears1995virtues} and the segment mutation operator \textcolor{red}{REFERENCIA?} respectively. This type of mutation consists of selecting a fixed size segment from the features of the individual and replacing it with a random segment of the same size. The size of the segment must be fixed at the beginning of the optimization process.
+For the recombination and mutation operators that appear in Algorithm \ref{alg:DILS}, we use the uniform recombination and the segment mutation operator respectively. The uniform recombination consists of selecting features from the best individual $m_b$ based on a given probability $p_r$ to introduce them in the resulting individual, so the rest of the features are taken from $m_w$ \cite{spears1995virtues}. The segment mutation operator consists of replacing a fixed size segment from the features of the individual for randomly generated features CITA. The size of the segment $p_s$ must be fixed at the beginning of the optimization process.
 
-It should be noted that the optimization process described so far is applicable to any minimization problem, although it is clear that there is a direct adaptation of DILS for maximization problems. In addition, the local search procedure used to obtain the trial individual $m_t$ must be specified for each problem, as well as numerical representation matters and termination criteria.
+It should be noted that the optimization process described so far is applicable to any minimization problem, although it is clear that there is a direct adaptation of DILS for maximization problems. In addition, the LS procedure used to obtain the trial individual $m_t$ must be specified for each problem, as well as numerical representation matters and termination criteria.
 
 \section{DILS optimization scheme for constrained clustering} \label{sec:DILS_CC}
 
-In this section, we present an optimization scheme for the DILS algorithm when applied to constrained clustering. We will call this new approach DILS$_{CC}$. To begin with, we will use an integer-based representation for all the individuals DILS$_{CC}$ work with; this way, each individual $m$ is defined as a vector of $n$ integers---being $n$ the number of instances of the dataset. Each integer $m_i \in [0,k)$ in $m$ represent the label of the cluster that instance $x_i$ belongs to, si each individual $m$ is a solution to the clustering problem. Additionally, in order to not bias the exploration of the solution space, we will use a random initialization to intially set $m_b$ and $m_w$, this procedure will also be used when $m_w$ must be reinitialized.
+In this section, we present an optimization scheme for the DILS algorithm when applied to constrained clustering. We will call this new approach DILS$_{CC}$. To begin with, we will use an integer-based representation for all the individuals DILS$_{CC}$ work with; this way, each individual $m$ is defined as a vector of $n$ integers---being $n$ the number of instances of the dataset. Each integer $m_i \in [0,k)$ in $m$ represent the label of the cluster that instance $x_i$ belongs to, so each individual $m$ is a solution to the clustering problem. Additionally, in order to not bias the exploration of the solution space, we will use a random initialization to intially set $m_b$ and $m_w$, this procedure will also be used when $m_w$ must be reinitialized.
 
 Regarding the fitness function $f$, for each individual $m$ its fitness value $f_m$ can be calculated as in Equation \ref{eq3}.
 
@@ -293,7 +290,7 @@ z_m = \sum_{c_i \in C_m} \left[ \frac{\sum_{x_a, x_b \in c_i} d^2(x_a,x_b)}{|c_i
 \label{eq4}
 \end{equation}
 
-We also need to specify a local search procedure for DILS to be able to improve the mutant individual to obtain the trial vector $m_t$. Algorithm \ref{alg:LS} shows the local search precedure used in DILS$_{CC}$. Note that, in order to not to bias the search, indices from vector $m$ and labels from the set of labels are randomly chosen to generate a random subset of the neighborhood of $m$. We also stablish a maximum number of neighbors $max\_neighbors$ that can be generated, this is done to find a better exploration-exploitation balance.
+We also need to specify an LS procedure for DILS to be able to improve the mutant individual to obtain the trial vector $m_t$. Algorithm \ref{alg:LS} shows the LS used in DILS$_{CC}$. Note that, in order to not to bias the search, indices from vector $m$ and labels from the set of labels are randomly chosen to generate a random subset of the neighborhood of $m$. We also stablish the maximum number of neighbors $p_m$ that can be generated in each call, this is done to find a better diversification-intensification tradeoff.
 
 \begin{algorithm}
 	\SetNlSty{textbf}{[}{]}
@@ -302,9 +299,9 @@ We also need to specify a local search procedure for DILS to be able to improve 
 	\SetKwFunction{RandomShuffle}{RandomShuffle}
 	\SetKwFunction{Rand}{Rand}
 	\SetKwRepeat{Do}{do}{while}
-	\KwIn{Dataset $X$, constraint sets $C_=$ and $C_{\neq}$, individual (solution) $m$, number of clusters $k$, maximum number of neighbors that can be generated $max\_neighbors$.}
+	\KwIn{Dataset $X$, constraint sets $C_=$ and $C_{\neq}$, individual (solution) $m$, number of clusters $k$, maximum number of neighbors that can be generated $p_m$.}
 	\BlankLine
-	\While{$improvement$ {\bf and} $generated < max\_neighbors$}{
+	\While{$improvement$ {\bf and} $generated < p_m$}{
 		$improvement \leftarrow$ \texttt{false} \\
 		\tcp{Select random index (object) from $m$}
 		$i \leftarrow $ \Rand{$1$,$n$} \\
@@ -442,7 +439,7 @@ Note that the greater the number of classes present in the dataset, the fewer ML
 
 \subsection{Evaluation Method} \label{sec:EvalMet}
 
-Since we have the true labels associated to each of the datasets, we can use them in post-processing to evaluate the results provided by each method. We will use the Adjusted Rand Index (ARI) to measure the accuracy of the predictions resulting from each method we test \cite{hubert1985comparing}. The basic Rand Index computes the degree of agreement between two partitions $C_1$ and $C_2$ of a given dataset $X$. $C_1$ and $C_2$ are viewed as collections of $n(n - 1)/2$ pairwise decisions \cite{rand1971objective}.
+Since we have the true labels associated to each of the datasets, we can use them to evaluate the results provided by each method. We will use the Adjusted Rand Index (ARI) to measure the accuracy of the predictions resulting from each method we test \cite{hubert1985comparing}. The basic Rand Index computes the degree of agreement between two partitions $C_1$ and $C_2$ of a given dataset $X$. $C_1$ and $C_2$ are viewed as collections of $n(n - 1)/2$ pairwise decisions \cite{rand1971objective}.
 
 For each pair of instances $x_i$ and $x_j$ in $X$, a partition assigns them to the same cluster or to different clusters. We take $a$ as the number of pairings where $x_i$ is in the same cluster as $x_j$ in both $C_1$ and $C_2$, and $b$ as the opposite event ($x_i$ and $x_j$ are in different clusters in $C_1$ and $C_2$). Then, the degree of similarity between $C_1$ and $C_2$ is calculated as in Equation \eqref{eq15}.
 
@@ -494,9 +491,9 @@ Table \ref{tab:params} shows a summary of the parameter setup used for the DILS$
 			Parameter & Meaning & Value \\
 			\hline
 			Evals & Fitness function evaluations & 300000 \\
-			$segment\_size$ & Segment size for the mutation operator & $0.3 \times n$ \\
-			$max\_neighbors$ & Maximum number of neighbors generated in the local search procedure & Evals $\times 0.01$ \\
-			$p_\text{inherit}$ & Probability that a feature is inherited from $m_b$ & $0.3$ \\
+			$p_s$ & Segment size for the mutation operator & $0.3 \times n$ \\
+			$p_m$ & Maximum number of neighbors generated in each call to the LS procedure & Evals $\times 0.01$ \\
+			$p_r$ & Probability that a feature is selected from $m_b$ for recombination & $0.3$ \\
 			$\xi$ & Reinitialization method tolerance & $0.2$ \\
 			$k$ & Output partition number of clusters & No. Classes (Table \ref{tab:datasets}) \\
 			\hline
@@ -512,7 +509,7 @@ The stop criterion is given by the number of evaluations of the fitness function
 
 To compare with the state-of-the-art methods mentioned in Section \ref{sec:BackSOTA} we will use the parameters setup shown in Table \ref{tab:paramsSOTA} for the implementation that can be found at \href{https://github.com/GermangUgr/TFG/tree/master/Software}{GitHub}. The implementation for the BRKGA algorith can be found in the same link as DILS$_{CC}$. In all cases the value for $k$ is equal to the number of classes displayed in Table \ref{tab:datasets}.
 
-\textcolor{red}{Meter todos los algoritmos en el mismo repo?}
+\textcolor{red}{Meter todos los algoritmos en el mismo repo para no tener que poner tantos enlaces a github? Poner los enlaces como notas a pie de pagina tambien?}
 
 \begin{table}[!h]
 	\centering
@@ -595,7 +592,7 @@ It should be noted that there are some missing results in these tables. In the c
 	\label{tab:results10}
 \end{table}
 
-Table \ref{tab:results10} shows the results for the $SC_{10}$ constraint set. We can note that DILS$_{CC}$ represents a consistent improvement over all other 5 methods, specially in the case of BRKGA. This is due to the fact that the exploitation capacity of DILS$_{CC}$ allows it to take better advantage of the information contained in the constraint set than the rest of the methods.
+Table \ref{tab:results10} shows the results for the $SC_{10}$ constraint set. We can note that DILS$_{CC}$ represents a consistent improvement over all other 5 methods. This is due to the fact that the intensification capacity of DILS$_{CC}$ allows it to take better advantage of the information contained in the constraint set than the rest of the methods, even with the lower level of constraint-based information we work with.
 
 \begin{table}[!h]
 	\centering
@@ -643,7 +640,7 @@ Table \ref{tab:results10} shows the results for the $SC_{10}$ constraint set. We
 	\label{tab:results15}
 \end{table}
 
-Results obtained with the $SC_{15}$ constraint set are presented in Table \ref{tab:results15}. We observe how DILS$_{CC}$ and COPKM are able to obtain partitions of the datasets perfectly coincidents with the true partitions. The fact that DILS$_{CC}$ is always able to output a partition of the datasets is worth the advantage over COPKM. It is even the case that COPKM is not able to provide an output partition while DILS finds the optimal partition or very close to the optimal partition for the same datasets.
+Results obtained with the $SC_{15}$ constraint set are presented in Table \ref{tab:results15}. We observe how DILS$_{CC}$ and COPKM are able to obtain ARI values equal to 1, meaning that the resulting partitions of the datasets perfectly match the true partitions. The fact that DILS$_{CC}$ is always able to output a partition of the datasets is worth the advantage over COPKM. It is even the case that COPKM is not able to provide an output partition while DILS finds the optimal partition or very close to the optimal partition for the same datasets.
 
 \begin{table}[!h]
 	\centering
@@ -691,7 +688,7 @@ Results obtained with the $SC_{15}$ constraint set are presented in Table \ref{t
 	\label{tab:results20}
 \end{table}
 	
-In Table \ref{tab:results15}, which shows the results obtained with the $SC_{15}$ constraint set, we can see how DILS$_{CC}$ scales the quality of its results with the number of restrictions, as well as methods such as BRKGA or COPKM, the latter being more limited in other aspects.
+In Table \ref{tab:results15}, which shows the results obtained with the $SC_{15}$ constraint set, we can see how DILS$_{CC}$ scales the quality of its results with the number of restrictions, as well as methods such as BRKGA or COPKM, the latter being more limited in other aspects. It is also woth noting how DILS$_{CC}$ provides the better average result for each of the three constraint set analyzed in this paper.
 	
 	
 \clearpage
@@ -741,8 +738,6 @@ One of the major advantages of the Bayesian sign test is that we can obtain a ve
 \end{figure}
 
 Figure \ref{fig:heatDiag} shows all six heatmaps obtained when applying the Bayesian sign test to DILS$_{CC}$ and the state-of-the-art methods. All heatmaps suggest that the test assigns a high probability to $A - B < 0$, since most triplets are presented in the lower left third of the triangle. Bearing this in mind, and considering that ARI is a measure to maximize, we can say that the Bayesian sign test provides strog evidence that DILS$_{CC}$ does represent a significan improvement over all other six methods, being te results offered by the latter non equivalent to those offered by DILS$_{CC}$ and lower in quality.
-
-\textcolor{red}{No estan citadas las subimagenes una por una}
 
 \clearpage
 
