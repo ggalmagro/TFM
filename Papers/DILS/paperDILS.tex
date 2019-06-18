@@ -76,7 +76,7 @@
 \address[mysecondaddress]{Dept. of Computer Science, EPS of Linares, University of Ja\'en, Campus Cient\'ifico Tecnol\'ogico de Linares, Cintur\'on Sur S/N, Linares 23700, Ja\'en, Spain}
 
 \begin{abstract}
-Clustering has always been a powerful tool in knowledge discovery. Traditionally unsupervised, it received renewed attention when it was shown to produce better results when provided with new types of information, thus leading to a new kind of semi-supervised learning. This new information can be given in form of instance-level must-link and cannot-link constraints, in which this paper focuses on. We propose a new metaheuristic algorithm, the Dual Iterative Local Search, and prove its capability to provide quiality results for the constrained clustering problem. We will compare the results obtained by this proposal to those obtained by some of the state-of-the-art algorithms on 25 datasets with incremental levels of constraint-based information, supporting our conclusions with the aid of Bayesian statistical tests.
+Clustering has always been a powerful tool in knowledge discovery. Traditionally unsupervised, it received renewed attention when it was shown to produce better results when provided with new types of information, thus leading to a new kind of semi-supervised learning. This new information can be given in form of instance-level must-link and cannot-link constraints, in which this paper focuses on. We propose a new metaheuristic algorithm, the Dual Iterative Local Search, and prove its capability to provide quality results for the constrained clustering problem. We will compare the results obtained by this proposal to those obtained by some of the state-of-the-art algorithms on 25 datasets with incremental levels of constraint-based information, supporting our conclusions with the aid of Bayesian statistical tests.
 \end{abstract}
 
 \begin{keyword}
@@ -107,9 +107,9 @@ Regarding the degree to which the constraints have to be satisfied, we can make 
 
 Finding the optimal partition in a dataset, with respect to any kind of reasonable criteria, is known to be a $\mathbf{NP}$-hard problem. Therefore, the incorporation of constraints may modify the complexity of the clustering problem, depending on the type of constraints used. As we will study in more depth in Section \ref{sec:BackFeas}, the use of ML and CL constraints makes the constrained clustering problem $\mathbf{NP}$-complete \cite{davidson2005clustering}.
 
-The constrained clustering problem can be formulated in terms of optimization, so that we can apply various optimization techniques to solve it. As mentioned earlier, it is a difficult problem to solve, so metaheuristic are presented as a promising option to find quality approximate solutions. Metaheuristic algorithms are designed to explore the solution space associated with a problem guided by a fitness (heuristic) function \cite{Gendreau:2010:HM:1941310}. In this type of approaches the key is to find a good diversification-intensification tradeoff. This is the reason why the classic Local Search (LS) heuristic algorithm derived in the Iterative Local Search (ILS) metaheuristic algorithm, which introduces periodics perturbations in the exploration of the solution space to avoid local optima \cite{lourencco2010iterated}. ILS---or variants of it---has been applied to a wide variety of problems, including the traveling salesman \cite{archetti2018iterated}, the quadratic multiple knapsack \cite{avci2017multi} or the vehicle routing problem \cite{chentli2018impact, estrada2019biased}. ILS is also very commonly used to design hybrid methods with good diversification-intensification tradeoff, such as its combination with expediting mechanisms \cite{zohali2019reformulation} or with the success history based differential evolution algorithm \cite{zhao2019hybrid}.
+The constrained clustering problem can be formulated in terms of optimization, so that we can apply various optimization techniques to solve it. As mentioned earlier, it is a difficult problem to solve, so metaheuristic are presented as a promising option to find quality approximate solutions. Metaheuristic algorithms are designed to explore the solution space associated with a problem guided by a fitness (heuristic) function \cite{Gendreau:2010:HM:1941310}. In this type of approaches the key is to find a good exploration-exploitation tradeoff. This is the reason why the classic Local Search (LS) heuristic algorithm derived in the Iterative Local Search (ILS) metaheuristic algorithm, which introduces periodics perturbations in the exploration of the solution space to avoid local optima \cite{lourencco2010iterated}. ILS---or variants of it---has been applied to a wide variety of problems, including the traveling salesman \cite{archetti2018iterated}, the quadratic multiple knapsack \cite{avci2017multi} or the vehicle routing problem \cite{chentli2018impact, estrada2019biased}. ILS is also very commonly used to design hybrid methods with good exploration-exploitation tradeoff, such as its combination with expediting mechanisms \cite{zohali2019reformulation} or with the success history based differential evolution algorithm \cite{zhao2019hybrid}.
 
-In this paper we propose a new variant of the ILS method, the Dual Iterative Local Search (DILS), which introduces diversity in the exploration of the solution space in an adaptative and guided way. We apply it to the constrained clustering problem, prooving that it constitute a good approach to obtain quality results.
+In this paper we propose a new variant of the ILS method, the Dual Iterative Local Search (DILS), which introduces diversity in the exploration of the solution space in an adaptive and guided way. We apply it to the constrained clustering problem, prooving that it constitute a good approach to obtain quality results.
 
 Regarding the organization of this paper, Section \ref{sec:background} reviews the existing knowledge concerning constrained clustering and the state-of-the-art. In Sections \ref{sec:DILS} and \ref{sec:DILS_CC} the DILS algorithm and its constrained clustering formulation will be reviewed. Sections from \ref{sec:expSetup} to \ref{sec:analisis} present the experimental setup, results and their analysis respectively. Finally, in Section \ref{sec:conclusiones} conclusions are discussed.
 
@@ -188,9 +188,9 @@ An adaptation of the Biased Random-Key Genetic Algorithm (BRKGA) \cite{gonccalve
 
 \section{The Dual Iterative Local Search Method} \label{sec:DILS}
 
-The Dual Iterative Local Search (DILS) is a new variant of the classic ILS method. Its goal is to perform a search in the solution space to find the solution with the best fitness function $f$ value by introducing diversity in an adaptative and guided way. While ILS works with a single individual, DILS keeps two of them $\{m_b, m_w\}$ in memory at all times, which allows it to guide diversity-introducing methods and to avoid local optima. The individual $m_b$ is the one providing the best fitness value, so $m_w$ provides the worst fitness value.
+The Dual Iterative Local Search (DILS) is a new variant of the classic ILS method. Its goal is to perform a search in the solution space to find the solution with the best fitness function $f$ value by introducing diversity in an adaptive and guided way. While ILS works with a single individual, DILS keeps two of them $\{m_b, m_w\}$ in memory at all times, which allows it to guide diversity-introducing methods and to avoid local optima. The individual $m_b$ is the one providing the best fitness value, so $m_w$ provides the worst fitness value.
 
-In each generation $G$ of the optimization process DILS builds a new individual by applying a recombination operator to $m_b$ and $m_w$. After that, it applies a strong mutation operator to the newly generated individual. This is the invidual DILS applies the LS procedure to in order to improve its fitness value, resulting in the trail individual $m_t$. The trial individual $m_t$ replace the worst of its parents $m_w$ if it provides a better fitness value, this operation makes the acceptance criterion for DILS. Equation \ref{eq1} displays the expression for this criterion in the case of a minimization problem.
+In each generation $G$ of the optimization process DILS builds a new individual by applying a recombination operator to $m_b$ and $m_w$. After that, it applies a strong mutation operator to the newly generated individual. This is the individual DILS applies the LS procedure to in order to improve its fitness value, resulting in the trail individual $m_t$. The trial individual $m_t$ replace the worst of its parents $m_w$ if it provides a better fitness value, this operation makes the acceptance criterion for DILS. Equation \ref{eq1} displays the expression for this criterion in the case of a minimization problem.
 
 \begin{equation}
 m_{w,G} = \left\{ \begin{array}{lc}
@@ -216,7 +216,7 @@ m_{w,G} &  \text{otherwise}
 
 \begin{figure}[!h]
 	\centering
-	\includegraphics[scale=0.25]{Figures/DILSDiagram.png}
+	\includegraphics[scale=0.25]{Figures/DILSDiagram.jpg}
 	\caption{Diagram summarizing DILS optimization process.}\label{img:DILS_diag}
 \end{figure}
 
@@ -263,18 +263,21 @@ This leads us to note the influence of the parameter $\xi$. In one hand, if we a
 			
 		}
 		
-	$G \leftarrow G + 1$
-}
+		$G \leftarrow G + 1$
+	}
+	
+	$m_b \leftarrow $ \Best{$ \{m_b, m_w\} $}\\
+	\KwRet{$m_b$}
 \caption{DILS}\label{alg:DILS}
 \end{algorithm}
 
-For the recombination and mutation operators that appear in Algorithm \ref{alg:DILS}, we use the uniform recombination and the segment mutation operator respectively. The uniform recombination consists of selecting features from the best individual $m_b$ based on a given probability $p_r$ to introduce them in the resulting individual, so the rest of the features are taken from $m_w$ \cite{spears1995virtues}. The segment mutation operator consists of replacing a fixed size segment from the features of the individual for randomly generated features CITA. The size of the segment $p_s$ must be fixed at the beginning of the optimization process.
+For the recombination and mutation operators that appear in Algorithm \ref{alg:DILS}, we use the uniform recombination and the segment mutation operator respectively. The uniform recombination consists of selecting features from the best individual $m_b$ based on a given probability $p_r$ to introduce them in the resulting individual, so the rest of the features are taken from $m_w$ \cite{spears1995virtues}. The segment mutation operator consists of replacing a fixed size segment from the features of the individual for randomly generated features. The size of the segment $p_s$ must be fixed at the beginning of the optimization process.
 
 It should be noted that the optimization process described so far is applicable to any minimization problem, although it is clear that there is a direct adaptation of DILS for maximization problems. In addition, the LS procedure used to obtain the trial individual $m_t$ must be specified for each problem, as well as numerical representation matters and termination criteria.
 
 \section{DILS optimization scheme for constrained clustering} \label{sec:DILS_CC}
 
-In this section, we present an optimization scheme for the DILS algorithm when applied to constrained clustering. We will call this new approach DILS$_{CC}$. To begin with, we will use an integer-based representation for all the individuals DILS$_{CC}$ work with; this way, each individual $m$ is defined as a vector of $n$ integers---being $n$ the number of instances of the dataset. Each integer $m_i \in [0,k)$ in $m$ represent the label of the cluster that instance $x_i$ belongs to, so each individual $m$ is a solution to the clustering problem. Additionally, in order to not bias the exploration of the solution space, we will use a random initialization to intially set $m_b$ and $m_w$, this procedure will also be used when $m_w$ must be reinitialized.
+In this section, we present an optimization scheme for the DILS algorithm when applied to constrained clustering. We will call this new approach DILS$_{CC}$. To begin with, we will use an integer-based representation for all the individuals DILS$_{CC}$ work with; this way, each individual $m$ is defined as a vector of $n$ integers---being $n$ the number of instances of the dataset. Each integer $m_i \in [0,k)$ in $m$ represent the label of the cluster that instance $x_i$ belongs to, so each individual $m$ is a solution to the clustering problem. Additionally, in order to not bias the exploration of the solution space, we will use a random initialization to initially set $m_b$ and $m_w$, this procedure will also be used when $m_w$ must be reinitialized.
 
 Regarding the fitness function $f$, for each individual $m$ its fitness value $f_m$ can be calculated as in Equation \ref{eq3}.
 
@@ -290,7 +293,7 @@ z_m = \sum_{c_i \in C_m} \left[ \frac{\sum_{x_a, x_b \in c_i} d^2(x_a,x_b)}{|c_i
 \label{eq4}
 \end{equation}
 
-We also need to specify an LS procedure for DILS to be able to improve the mutant individual to obtain the trial vector $m_t$. Algorithm \ref{alg:LS} shows the LS used in DILS$_{CC}$. Note that, in order to not to bias the search, indices from vector $m$ and labels from the set of labels are randomly chosen to generate a random subset of the neighborhood of $m$. We also stablish the maximum number of neighbors $p_m$ that can be generated in each call, this is done to find a better diversification-intensification tradeoff.
+We also need to specify an LS procedure for DILS to be able to improve the mutant individual to obtain the trial vector $m_t$. Algorithm \ref{alg:LS} shows the LS used in DILS$_{CC}$. Note that, in order to not to bias the search, indices from vector $m$ and labels from the set of labels are randomly chosen to generate a random subset of the neighborhood of $m$. We also stablish the maximum number of neighbors $p_m$ that can be generated in each call, this is done to find a better exploration-exploitation tradeoff.
 
 \begin{algorithm}
 	\SetNlSty{textbf}{[}{]}
@@ -319,7 +322,7 @@ We also need to specify an LS procedure for DILS to be able to improve the mutan
 		}
 	}
 	\BlankLine
-	\KwRet ($m$)
+	\KwRet{$m$}
 	
 	\caption{Local Search}\label{alg:LS}
 \end{algorithm}
@@ -507,7 +510,7 @@ Table \ref{tab:params} shows a summary of the parameter setup used for the DILS$
 
 The stop criterion is given by the number of evaluations of the fitness function $f$, which at most will be 300000. The implementation for DILS$_{CC}$ can be found at \href{https://github.com/GermangUgr/DILS_CC}{GitHub}.
 
-To compare with the state-of-the-art methods mentioned in Section \ref{sec:BackSOTA} we will use the parameters setup shown in Table \ref{tab:paramsSOTA} for the implementation that can be found at \href{https://github.com/GermangUgr/TFG/tree/master/Software}{GitHub}. The implementation for the BRKGA algorith can be found in the same link as DILS$_{CC}$. In all cases the value for $k$ is equal to the number of classes displayed in Table \ref{tab:datasets}.
+To compare with the state-of-the-art methods mentioned in Section \ref{sec:BackSOTA} we will use the parameters setup shown in Table \ref{tab:paramsSOTA} for the implementation that can be found at \href{https://github.com/GermangUgr/TFG/tree/master/Software}{GitHub}. The implementation for the BRKGA algorithm can be found in the same link as DILS$_{CC}$. In all cases the value for $k$ is equal to the number of classes displayed in Table \ref{tab:datasets}.
 
 \textcolor{red}{Meter todos los algoritmos en el mismo repo para no tener que poner tantos enlaces a github? Poner los enlaces como notas a pie de pagina tambien?}
 
@@ -592,7 +595,7 @@ It should be noted that there are some missing results in these tables. In the c
 	\label{tab:results10}
 \end{table}
 
-Table \ref{tab:results10} shows the results for the $SC_{10}$ constraint set. We can note that DILS$_{CC}$ represents a consistent improvement over all other 5 methods. This is due to the fact that the intensification capacity of DILS$_{CC}$ allows it to take better advantage of the information contained in the constraint set than the rest of the methods, even with the lower level of constraint-based information we work with.
+Table \ref{tab:results10} shows the results for the $SC_{10}$ constraint set. We can note that DILS$_{CC}$ represents a consistent improvement over all other 5 methods. This is due to the fact that the exploitation capacity of DILS$_{CC}$ allows it to take better advantage of the information contained in the constraint set than the rest of the methods, even with the lower level of constraint-based information we work with.
 
 \begin{table}[!h]
 	\centering
@@ -688,7 +691,7 @@ Results obtained with the $SC_{15}$ constraint set are presented in Table \ref{t
 	\label{tab:results20}
 \end{table}
 	
-In Table \ref{tab:results15}, which shows the results obtained with the $SC_{15}$ constraint set, we can see how DILS$_{CC}$ scales the quality of its results with the number of restrictions, as well as methods such as BRKGA or COPKM, the latter being more limited in other aspects. It is also woth noting how DILS$_{CC}$ provides the better average result for each of the three constraint set analyzed in this paper.
+In Table \ref{tab:results15}, which shows the results obtained with the $SC_{15}$ constraint set, we can see how DILS$_{CC}$ scales the quality of its results with the number of restrictions, as well as methods such as BRKGA or COPKM, the latter being more limited in other aspects. It is also worth noting how DILS$_{CC}$ provides the better average result for each of the three constraint set analyzed in this paper.
 	
 	
 \clearpage
@@ -737,7 +740,7 @@ One of the major advantages of the Bayesian sign test is that we can obtain a ve
 	\label{fig:heatDiag}
 \end{figure}
 
-Figure \ref{fig:heatDiag} shows all six heatmaps obtained when applying the Bayesian sign test to DILS$_{CC}$ and the state-of-the-art methods. All heatmaps suggest that the test assigns a high probability to $A - B < 0$, since most triplets are presented in the lower left third of the triangle. Bearing this in mind, and considering that ARI is a measure to maximize, we can say that the Bayesian sign test provides strog evidence that DILS$_{CC}$ does represent a significan improvement over all other six methods, being te results offered by the latter non equivalent to those offered by DILS$_{CC}$ and lower in quality.
+Figure \ref{fig:heatDiag} shows all six heatmaps obtained when applying the Bayesian sign test to DILS$_{CC}$ and the state-of-the-art methods. All heatmaps suggest that the test assigns a high probability to $A - B < 0$, since most triplets are presented in the lower left third of the triangle. Bearing this in mind, and considering that ARI is a measure to maximize, we can say that the Bayesian sign test provides strong evidence that DILS$_{CC}$ does represent a significant improvement over all other six methods, being te results offered by the latter non equivalent to those offered by DILS$_{CC}$ and lower in quality.
 
 \clearpage
 

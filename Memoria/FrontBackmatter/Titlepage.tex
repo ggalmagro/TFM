@@ -1,0 +1,42 @@
+\begin{titlepage}
+ 
+    \newlength{\centeroffset}
+    \setlength{\centeroffset}{-0.5\oddsidemargin}
+    \addtolength{\centeroffset}{0.5\evensidemargin}
+    \thispagestyle{empty}
+
+    \noindent\hspace*{\centeroffset}\begin{minipage}{\textwidth}
+
+    \centering
+    \includegraphics[width=\textwidth]{logougr.jpg}\\[2.4cm]
+
+    \textsc{ \Large Master's Thesis\\[0.2cm]}
+    \textsc{ \myDegree}\\[1cm]
+    % Upper part of the page
+    % 
+    % Title
+    \begingroup
+        %\color{Maroon}{\Huge\myTitle} \\
+        \Huge\myTitle \\
+    \endgroup
+    \noindent\rule[-1ex]{\textwidth}{3pt}\\[3.5ex]
+    {\large\bfseries \mySubtitle}
+    \end{minipage}
+
+    \vspace{2.5cm}
+    \noindent\hspace*{\centeroffset}
+    \begin{minipage}{\textwidth}
+    \centering
+
+    \textbf{Author}\\ {\spacedlowsmallcaps{\myName}}\\[2.5ex]
+    \textbf{Supervisors}\\
+    \spacedlowsmallcaps{\myProf}\\[2.5cm]
+    \includegraphics[width=0.35\textwidth]{etsiitlogo.png}\\[0.1cm]
+    \textsc{\myFaculty}\\
+    \textsc{---}\\
+    \myLocation, \myTime
+    \end{minipage}
+
+\end{titlepage}
+
+\cleardoublepage
