@@ -9,137 +9,149 @@ Classification can be understood as a way of simplifying the information contain
 
 The need to analyze information in this way grows with the emergence and availability of large datasets in science. The analysis of this type of information by classification, or clustering, is known today as \textit{Data Science}. In the 21st century a particular interest in data science arises from the appearance of the \textit{World Wide Web}, known as the Internet, where the aim has become to extract relevant information from the Web pages that make up this vast network.
 
-Es importante destacar que, en la mayoría de las ocasiones, no hay un sólo criterio de clasificación para un mismo conjunto de datos, sino que existe una amplia variedad de los mismos. En el caso de las personas, podrían ser clasificadas, por ejemplo, en base a sus ingresos económicos, o según la cantidad de calorías que consumen a lo largo de un periodo de tiempo definido. Así, distintos criterios de clasificación no tienen por qué dar como resultado la misma división en grupos del conjunto a clasificar; de esta manera, diferentes criterios servirán a diferentes propósitos.
+It is important to note that, in most cases, there is no single classification criterion for the same data set, but rather a wide variety of data. In the case of individuals, they could be classified, for example, on the basis of their income, or according to the amount of calories they consume over a defined period of time. Thus, different classification criteria do not necessarily result in the same division into groups of the set to be classified; in that way, different criteria will serve different purposes.
 
-\section{Métodos numéricos para el Clustering}
+\section{Numerical Methods of Classification}
 
-Los métodos numéricos para el clustering surgen en ramas de las ciencias naturales, como la biología o la zoología, en un intento de eliminar la subjetividad implícita en el proceso de clasificación que se desencadena al descubrir una nueva especie. El objetivo es proporcionar un método no subjetivo y estable para clasificar y agrupar elementos.
+Numerical methods for clustering arise in branches of the natural sciences, such as biology or zoology, in an attempt to eliminate the subjectivity implicit in the classification process that is triggered by the discovery of a new species. The aim is to provide a non-subjective and stable method for classifying and grouping elements.
 
-Estos métodos adoptan diversos nombres que varían según el campo en el que se apliquen: taxonomía numérica (\textit{numerical taxonomy}) en biología, $Q$ análisis (\textit{$Q$ analysis}) en psicología, o reconocimiento de patrones no supervisado (\textit{unsupervised pattern recognition}) en el campo de la inteligencia artificial. No obstante, hoy en día, análisis de clusters (\textit{Clusters analysis}) o simplemente clustering son los términos más ampliamente aceptados y extendidos para referirse a tareas que involucran el descubrimiento de subgrupos dentro de un conjunto de elementos.
+These methods adopt different names that depend on the field in which they are applied: numerical taxonomy in biology, $Q$ analysis in psychology, or unsupervised pattern recognition in \acf{AI}. However, today, cluster analysis, or just clustering, are the most widely accepted and extended terms for tasks that involve the discovery of subgroups within a set of elements.
 
-En la mayoría de las aplicaciones del clustering, el objetivo es obtener una partición de los datos, en la que cada instancia u objeto pertenezca a un único cluster, y la unión de todos ellos contenga a todos los objetos individuales. Dicho esto, debe destacarse que, en algunas circunstancias, son aceptables soluciones en las que existe solapamiento entre clusters, así como el hecho de que puede no existir una partición aceptable de los datos.
+In most clustering applications, the objective is to obtain a data partition, in which each instance or object belongs to a single cluster, and the union of all of them contains all the individual objects. That said, it should be noted that, in some circumstances, solutions where there is overlap between clusters are acceptable, as well as the fact that there may not be an acceptable partition of the data.
 
-La manera más ampliamente extendida de representar la información sobre la que se debe aplicar clustering es una matriz $X$ de dimensión $n\times p$, en la que cada fila corresponde a una instancia u objeto a procesar, y cada columna corresponde a una de las variables que caracterizan dichas instancias u objetos. El término comúnmente aceptado para referirse a cada fila es el de \textit{vector de características}.
+In the literature, clustering methods are often divided into two subsets: partitional clustering and hierarchical clustering. In hierarchical clustering the result is not a partition of the data with a certain number of clusters---as in partitional clustering---, but instead a dendrogram in which there are partitions that include from the whole dataset to particular individuals \cite{Everitt:2009:CA:1538772}. A representative example of partitional clustering is the widely studied and well-known algorithm K-means \cite{wu2009top}, while for hierarchical clustering the CURE method should be highlighted \cite{guha1998cure}. In this study we will focus on partitional clustering.
+
+The most widely used way to represent the information on which clustering is applied is an array $X$ of dimension $n\times u$, in which each row corresponds to an instance or object to be processed, and each column corresponds to one of the variables that characterize those instances or objects. The commonly accepted term to refer to each row is \textit{features vector}, and the features vector set is referred as \textit{dataset}.
 
 
 $$ X = \left( \begin{array}{cccc}
 
-x_{1,1} & x_{1,2} & \cdots & x_{1,p} \\
+x_{1,1} & x_{1,2} & \cdots & x_{1,u} \\
 
 x_{2,1} & \cdots & \cdots & \cdots  \\
 
 \vdots & \vdots & \vdots & \vdots \\
 
-x_{n,1} & \cdots & \cdots & x_{n,p} \\
+x_{n,1} & \cdots & \cdots & x_{n,u} \\
 
 \end{array} \right) $$
 
-La entrada $x_{i,j}$ en $X$ se corresponde con el valor de la variable $j$-esima en la instancia $i$.
+The entry $x_{i,j}$ in $X$ corresponds to the value of the variable $j$th in the instance $i$. We will refer to the $i$th instance in $X$ as $x_i = (x_{[i,1]}, \cdots, x_{[i,u]})$, which is a feature vector.
 
-Las variables en $X$ pueden ser una mezcla de atributos en un dominio continuo, discreto o categórico. Además, es posible que, en problemas reales, algunas entradas no estén disponibles. Esta mezcla de tipos de variables y los valores perdidos pueden complicar la tarea del clustering. Sin embargo, existen métodos para tratar estos casos, como la inferencia de valores perdidos o las transformaciones de dominio.
+We can define partitional clustering as the task of grouping the instances of the dataset $X$ into $k$ clusters, so that new information can be extracted from them. A typical clustering algorithm assigns a class label $l_i$ to each instance $x_i \in X$. As a result, we obtain the set of labels $L = \{l_1, \cdots, l_n\}$, with $l_i \in \{1, \cdots, k\}$, that effectively splits $X$ into $k$ non-overlapping clusters $\{c_i, \cdots, c_k\}$ to form a partition called $C$. The criterion used to assign an instance to a given cluster is the similarity to the rest of elements in that cluster, and the dissimilarity to the rest of instances of the dataset, which can be obtained with some kind of distance measurement \cite{jain1999data}.
 
-En algunas aplicaciones, las filas de la matriz pueden contener medidas repetidas de la misma variable, aunque bajo diferentes condiciones, o en diferentes momentos, incluso en diferentes localizaciones espaciales. Un ejemplo de ello pueden ser las medidas de altura de un grupo de niños en un mismo mes a lo largo de diferentes años. Este tipo de datos posee una estructura que, de nuevo, puede complicar la tarea del clustering.
+Variables in $X$ can be a mixture of attributes in a continuous, discrete, or categorical domain. In addition, it is possible that, in real problems, some entries may not be available. This mix of variable types and missing values can complicate the clustering task. However, there are methods to deal with these cases, such as inference of missing values or domain transformations.
 
-Algunos métodos de clustering conllevan realizar transformaciones sobre la matriz $X$ para transformarla en una matriz de $n \times n$ en la que se almacenan medidas extraídas de la matriz $X$ que relacionen una instancia con todas las demás, como pueden ser la similitud, distancia o disimilitud.
+In some applications, matrix rows may contain repeated measurements of the same variable, although under different conditions, or at different times, even at different spatial locations. An example of this can be the height measurements of a group of children in the same month over different years. This type of data has a structure that, again, can complicate the task of clustering.
 
-El clustering es, dicho de manera simple, descubrimiento de grupos en datos, y no debe ser en ningún caso confundido con los métodos de discriminación o asignación, conocidos en el ámbito de la inteligencia artificial como aprendizaje supervisado. En ellos los grupos son conocidos a priori y el objetivo del análisis es obtener una regla de clasificación o clasificador que permita asignar nuevas instancias o individuos a uno de los grupos ya conocidos.
+Some clustering methods involve making transformations on the $X$ matrix to convert it into a $u\times u$ matrix in which measurements extracted from the $X$ matrix are stored that relate one instance to all the others, such as similarity, distance or dissimilarity.
 
+Clustering is, put simply, the discovery of groups in data, and should never be confused with methods of discrimination or assignment, known in \acs{AI} as Supervised Learning, as we have already mentioned in Section \ref{sec:TypesOfML}. 
 
-Una vez definida la estructura general de los métodos de clustering, estaría justificado preguntar, ¿qué es un cluster? La Sección \ref{QueEsCluster} intentará dar respuesta a esta pregunta.
+Once the general structure of clustering methods has been defined, it would be justified to ask, what is a cluster? The Section \ref{sec:WhatIsCluster} will try to answer this question.
 
-\subsection{¿Qué es un cluster?} \label{QueEsCluster}
+\subsection{What is a Cluster?} \label{sec:WhatIsCluster}
 
-Hasta este momento, los términos cluster, grupo y clase han sido empleados de una manera completamente intuitiva, sin necesidad alguna de definición formal, una prueba más de lo innato de estos conceptos en el ser humano. De hecho, dar una definición formal de cluster resulta una tarea, no sólo complicada, sino en muchas ocasiones poco útil. Bonner, por ejemplo, propuso en 1964 una definición de cluster completamente dependiente de la interpretación del usuario. En lo que a este autor respecta, un cluster es aquello que el usuario entiende como cluster sin haberle propuesto una definición formal del mismo.
+So far, the terms cluster, group and class have been used in a completely intuitive way, with no need for any formal definition, a further proof of the innate nature of these concepts in the human being. In fact, to give a formal definition of cluster is a task, not only complicated, but in many occasions not very useful. For example, in \cite{lance1967general} a cluster definition completely dependent on the user's interpretation is proposed by Bonner. As far as this definition is concerned, a cluster is what the user understands as a cluster without having proposed a formal definition of it.
 
-Aunque la definición de Bonner es acertada en un amplio rango de situaciones, autores como Cormack, en 1971, o Gordon en 1999, proponen una definición algo más analítica desde el punto de vista matemático, definiendo un cluster en términos de cohesión interna (homogeneidad), y aislamiento externo (separación). La Figura \ref{fig:figure1} muestra de manera informal las propiedades descritas anteriormente, de forma que a cualquier observador le resultarán aparentes los clusters presentes en ella sin necesidad de una definición formal de cluster. Este hecho puede explicar por qué alcanzar una definición matemáticamente precisa de homogeneidad y separación puede llegar a ser innecesario.
+\begin{quotation}{\slshape
+		The value judgment of the user is the ultimate criterion for evaluating the meaning of these terms [cluster]. If using them produces an answer of value, no more need be asked of them.}
+	\begin{flushright}
+		\textbf{R.E. Bonner, On Some Clustering Techniques, 1964} 
+	\end{flushright}
+\end{quotation}
 
-No queda completamente clara la manera en que las personas reconocen diferentes clusters cuando éstos son representados en un plano, pero una de las variables que con certeza influye es la distribución de distancias relativas entre los objetos o puntos.
-
-\clearpage
+Although Bonner's definition is accurate in a wide range of situations, authors such as Cormack, in 1971 \cite{cormack1971review}, or Gordon in 1999 \cite{gordon:1999}, propose a somewhat more analytical definition from the mathematical point of view, defining a cluster in terms of internal cohesion---homogeneity---, and external isolation---separation. Figure \ref{fig:clusters_properties} informally illustrates the properties described above, so that any observer will find the clusters present in it apparent without the need for a formal cluster definition. This may explain why achieving a mathematically accurate definition of homogeneity and separation may become unnecessary.
 
 \begin{figure}[bth]
 	\myfloatalign
-	{\includegraphics[width=.3\linewidth]{imagenes/c2/TwoBasicsClusters}}
-	{\includegraphics[width=.3\linewidth]{imagenes/c2/MoonsBasics}}
-	{\includegraphics[width=.3\linewidth]{imagenes/c2/ThreeBasicClusters}}
-	\caption[Clusters con cohesión interna y/o aislamiento externo]{Clusters con cohesión interna y/o aislamiento externo.}\label{fig:figure1}
+	{\includegraphics[width=.3\linewidth]{gfx/Clustering/TwoBasicsClusters}}
+	{\includegraphics[width=.3\linewidth]{gfx/Clustering/MoonsBasics}}
+	{\includegraphics[width=.3\linewidth]{gfx/Clustering/ThreeBasicClusters}}
+	\caption[Clusters with internal cohesion and/or external isolation]{Clusters with internal cohesion and/or external isolation}\label{fig:clusters_properties}
 \end{figure}
 
-Por otra parte, como ya mencionamos anteriormente en esta sección, puede darse el caso de que en un conjunto de datos no exista una partición justificada. En la Figura \ref{fig:figure2} se muestra un conjunto de datos para el que la mayoría de observadores llegaría a la conclusión de que no existen grupos diferenciados, simplemente una nube de puntos uniformemente distribuidos. Idealmente, es de esperar que un método de clustering aplicado a este mismo conjunto de datos llegue a la misma conclusión.
+It is not entirely clear how people recognize different clusters when they are represented on a plane, but one of the variables that certainly influences is the distribution of relative distances between objects or points.
+
+On the other hand, as mentioned earlier in this section, it may be the case that there is no justified partition in a dataset. Figure \ref{fig:uniform_cloud} shows a dataset for which most observers would conclude that there are no distinct groups, just a cloud of uniformly distributed points. Ideally, one would expect a clustering method applied to this same dataset to reach the same conclusion.
 
 \begin{figure}[!h]
 	\centering
-	\includegraphics[scale=0.2]{imagenes/c2/rand.png} 
-	\caption{Distribución uniforme de puntos.}\label{fig:figure2}
+	\includegraphics[scale=0.2]{gfx/Clustering/rand.png} 
+	\caption{Cloud of uniformly distributed points.}\label{fig:uniform_cloud}
 \end{figure}
 
-Sin embargo, la mayoría de métodos de aprendizaje no supervisado darán como resultado un particionamiento uniforme como el que se muestra en la Figura \ref{fig:figure3}. El número de particiones encontradas dependerá del método aplicado, si bien en cualquier caso obtendremos un particionamiento uniforme.
+However, most unsupervised learning methods will result in uniform partitioning as shown in Figure \ref{fig:uniform_partition}. The number of partitions found will depend on the method applied, although uniform partitioning will be achieved in any case.
 
 \begin{figure}[!h]
 	\centering
-	\includegraphics[scale=0.2]{imagenes/c2/randClasif.png} 
-	\caption{Distribución uniforme de puntos clasificados.}\label{fig:figure3}
+	\includegraphics[scale=0.2]{gfx/Clustering/randClasif.png} 
+	\caption{Classified cloud of uniformly distributed points.}\label{fig:uniform_partition}
 \end{figure}
 
-El proceso de dividir una distribución homogénea de datos en diferentes grupos se conoce como disección, y tal proceso puede ser útil en ciertas circunstancias. Sin embargo, dado que en la mayoría de las ocasiones de aplicación real de métodos de clusters, no se conoce a priori la estructura de los datos, existe el riesgo de interpretar todas las soluciones en términos de existencia de subgrupos, lo que conllevaría la imposición de una estructura ficticia en datos en los que no hay estructura presente.
+The process of dividing a homogeneous distribution of data into different groups is known as dissection, and such a process may be useful in certain circumstances. However, since in most cases of actual application of cluster methods, the structure of the data is not known a priori, there is a risk of interpreting all the solutions in terms of the existence of subgroups, which would lead to the imposition of a fictitious structure on data in which there is no structure present.
 
-\section{Aplicaciones del clustering}
+\section{Applications of Clustering}
 
-Como ya se ha indicado, el problema general al que intenta dar solución el clustering está presente en muchas disciplinas: biología, botánica, medicina, psicología, geografía, marketing, procesamiento de imágenes, psiquiatría, arqueología, etc. En esta sección se presentan algunas de las aplicaciones del clustering relacionadas con los citados campos.
+As it has been already mentioned, the general problem clustering attempts to solve is present in many disciplines: biology, botany, medicine, psychology, geography, marketing, image processing, psychiatry, archaeology, etc. This section presents some of the clustering applications related to these various knowledge fields.
 
-\subsection{Aplicaciones en marketing}
+\subsection{Marketing}
 
-Dividir los clientes en grupos homogéneos es una de las tareas más frecuentes en marketing. Un director de marketing podría preguntarse cómo agrupar los posibles clientes según los beneficios potenciales del producto que intenta introducir en el mercado. Por otra parte, un analista de marketing podría estar interesado en agrupar las empresas según sus características financieras, para poder analizarlas y predecir sus estrategias de mercado.
+Dividing customers into homogeneous groups is one of the most common marketing tasks. A marketing manager might wonder how to group potential customers according to the potential benefits of the product he or she is trying to introduce to the market. On the other hand, a marketing analyst might be interested in grouping companies according to their financial characteristics, in order to be able to analyze them and predict their market strategies.
 
-Un ejemplo de aplicación del clustering en este ámbito fue publicado por Green et al. (1967). Así, con un gran número de ciudades disponibles para el análisis, debieron restringir los lugares en los que llevar a cabo sus estudios debido a motivos económicos. Para ello hicieron uso del análisis de clusters, clasificando las ciudades en pequeños grupos basándose en 14 características de las mismas, entre ellas el tamaño e ingresos medios \textit{per capita}. Dado que se esperaba que las ciudades incluidas en un mismo grupo fueran muy similares, escogieron una ciudad de cada uno de ellos para realizar sus estudios.
+An example of the application of clustering in this field was published in \cite{green1967cluster}. Thus, with a large number of cities available for analysis, they had to restrict the places in which to carry out their studies for economic reasons. For this they relied on cluster analysis, classifying cities into small groups based on 14 city characteristics, including size and average income \textit{per capita}. Since the cities in the same group were expected to be very similar, they chose one city from each of them to conduct their studies.
 
-Otra aplicación del análisis de clusters en el marketing fue descrita por Chakrapani (2004). En este caso, un fabricante de coches cree que comprar un coche deportivo no es una decisión basada sólo en capacidades económicas o edad, sino que es una decisión relacionada con el estilo de vida que llevan aquellos que deciden comprar un coche de estas características, frente a aquellos que no lo hacen. En consecuencia, el fabricante decide realizar un estudio, empleando análisis de clusters, que le permita identificar todas las características relacionadas con las personas que comprarían un coche deportivo, para así enfocar sus campañas de marketing a este sector específicamente.
+Another application of cluster analysis in marketing was described in \cite{chakrapani2004statistics}. In this case, a car manufacturer believes that buying a sports car is not a decision based solely on economic capabilities or age, but is a lifestyle decision made by those who decide to buy a sports car, as opposed to those who do not. Consequently, the manufacturer decides to carry out a study, using cluster analysis, which allows it to identify all the characteristics related to the people who would buy a sports car, in order to focus its marketing campaigns specifically on this sector.
 
-\subsection{Aplicaciones en astronomía}
+\subsection{Astronomy}
 
-Dado un conjunto de datos astronómicos, los investigadores quieren saber, por ejemplo, cuantas clases de estrellas hay presentes en ellos, basándose en algun criterio estadístico. Las preguntas más frecuentes dentro de este ámbito son: ¿Cuantos objetos estadísticamente diferentes están presentes en los datos y a qué clase debe ser asignado cada objeto? ¿Aparecen clases de objetos previamente desconocidas?. El análisis de clusters puede ser aplicado para dar respuesta a estas cuestiones, ayudando a detectar objetos estadísticamente anómalos, así como a guiar el proceso de clasificación de los mismos. Algunos ejemplos incluyen el descubrimiento de quasars con alto corrimiento al rojo, quasars de tipo 2 (altamente luminosos, núcleos galácticos activos a menudo oscurecidos por polvo y gas), y enanas marrones.
+Given a set of astronomical data, researchers want to know, for example, how many classes of stars are present in them, based on some statistical criteria. The most frequently asked questions in this area are: How many statistically different objects are present in the data and to which class should each object be assigned? Do previously unknown classes of objects appear? Cluster analysis can be applied to answer these questions, helping to detect statistically anomalous objects, as well as to guide the process of classifying them. Examples include the discovery of high redshift quasars, type 2 quasars (highly luminous, active galactic nuclei often obscured by dust and gas), and brown dwarfs.
 
-Un ejemplo específico viene dado por el estudio de Faúndez-Abans et al. (1996), quienes aplicaron técnicas de clustering a datos sobre la composición química de 192 nebulosas planetarias. Se identificaron 6 grupos diferentes que eran similares en muchos aspectos a una clasificación previa de dichos objetos, pero que también mostraban diferencias interesantes que hasta ese momento los investigadores habían pasado por alto.
+In \cite{faundez1996classification} a specific example of the above can be found. Clustering techniques are applied to data on the chemical composition of 192 planetary nebulae. Six different groups were identified that were similar in many respects to a previous classification of such objects, but also showed interesting differences that researchers had so far missed.
 
-Un segundo ejemplo lo encontramos en el estudio de Celeux y Govaert (1992), quienes aplicaron clustering basado en distribuciones normales a un conjunto de 2370 estrellas, descritas por su velocidad relativa al núcleo galáctico y a la rotación galáctica. Usando un modelo de tres clusters, encontraron un cluster de gran tamaño y pequeño volumen, y dos de pequeño tamaño y gran volumen.
+Clustering based on normal distributions is applied to a set of 2370 stars in \cite{celeux1992classification}. They were described by their speed relative to the galactic nucleus and galactic rotation. Using a model of three clusters, they found one cluster of large size and small volume, and two of small size and large volume.
 
-\subsection{Aplicaciones en psiquiatría}
+\subsection{Psychiatry}
 
-Las enfermedades de la mente son a menudo más difíciles de diagnosticar que las enfermedades del cuerpo; es por ello que en el campo de la psiquiatría ha crecido el interés por las técnicas de análisis de clusters que permitan refinar, o incluso redefinir, las técnicas de diagnosis para este tipo de enfermedades. Gran parte de este trabajo involucra pacientes deprimidos, casos en los que el interés reside en distinguir entre dos tipos de depresión, la endógena (congénita), y la neurótica.
+Mind disorders are often more difficult to diagnose than body pathologies, which is why in the field of psychiatry there has been a growing interest in cluster analysis techniques to refine, or even redefine, diagnostic techniques for this type of disease. Much of this work involves depressed patients, cases in which the interest lies in distinguishing between two types of depression, endogenous (congenital) and neurotic.
 
-Pilowsky et al. (1968), por ejemplo, usando métodos desarrollados por otros autores, aplicaron técnicas de clustering a 200 pacientes en base a sus respuestas a un cuestionario sobre la depresión, junto a información sobre su sexo, edad, estado mental y enfermedad padecida. Éste es un claro ejemplo de variables de diferentes tipos incluidas en el mismo conjunto de datos. Uno de los grupos obtenidos como resultado de este estudio fue identificado como marcador de la depresión endógena.
+In \cite{pledger2008using} clustering techniques are applied to 200 patients based on their responses to a questionnaire about depression, along with information about their sex, age, mental state, and illness. This is a clear example of different types of variables included in the same data set. One of the groups obtained as a result of this study was identified as a marker of endogenous depression.
 
-El análisis de clusters también ha sido empleado para encontrar una clasificación de individuos que intentaron cometer suicidio, que podría sentar las bases para estudios posteriores sobre las causas y tratamientos del problema. Paykey y Rassaby (1978), por ejemplo, estudiaron 236 casos de suicidas fallidos registrados por el servicio de emergencias de una ciudad de los Estados Unidos de América. Del conjunto de posibles variables, 14 fueron seleccionadas como particularmente relevantes para la clasificación y, por tanto, fueron usadas en el análisis. Entre ellas se encontraban: edad, número de intentos de suicidio, gravedad de la depresión y grado de hostilidad, además de una serie de características demográficas. Al conjunto de datos resultante se le aplicó métodos de clustering; el resultado más significativo obtenido corresponde a una división en tres clusters bien definidos.
+Cluster analysis has also been used to find a classification of individuals who attempted suicide, which could lay the groundwork for further studies on the causes and treatments of the problem. In \cite{paykel1978classification} a study on 236 cases of failed suicides recorded by the emergency service of a city in the United States of America is presented. Of the set of possible variables, 14 were selected as particularly relevant for classification and, therefore, were used in the analysis. Among them were: age, number of suicide attempts, severity of depression and degree of hostility, in addition to a series of demographic characteristics. Clustering methods were applied to the resulting data set; the most significant result obtained corresponds to a division into three well-defined clusters.
 
 \subsection{Aplicaciones en meteorología y climatología}
 
-Diariamente se recogen enormes cantidades de datos sobre la meteorología mundial. Explorar estos datos mediante técnicas de clustering puede aportar nuevos enfoques para la climatología y el medio ambiente.
+Huge amounts of global weather data are collected daily. Exploring these data using clustering techniques can bring new approaches to study climatology and the environment.
 
-Littmann (2000), por ejemplo, aplicó clustering a los datos recogidos sobre los cambios diarios en la presión superficial en la cuenca Mediterránea, y encontró 20 grupos que explicaban la varianza de las lluvias en las regiones centrales del Mediterráneo. Otro ejemplo viene de la mano de Liu y George (2005), quienes usaron el algoritmo K-medias difuso (\textit{Fuzzy K-means}, \acs{FKM}) con datos espaciotemporales de la climatología de las regiones del sur central de EEUU. 
+In \cite{littmann2000empirical} clustering techniques are applied to data collected on daily changes in surface pressure in the Mediterranean basin, and found 20 groups explaining the variance of rainfall in the central Mediterranean regions. Another example can be found in \cite{liu2005mining}, in which the Fuzzy K-means algorithm is applied to spatial-temporal data of the climatology of the southern-central regions of the USA. 
 
-\subsection{Aplicaciones en arqueología}
+\subsection{Archaeology}
 
-La arqueología es otra de las disciplinas en la que resulta útil la aplicación del clustering. La clasificación de los diferentes objetos encontrados en los yacimientos puede ayudar a descubrir su uso, los periodos a los que pertenecen, así como la población que los utilizó. De forma similar, el estudio de materiales fosilizados puede ayudar a revelar como vivieron las sociedades prehistóricas. 
+Archaeology is another discipline in which clustering is useful. The classification of the different objects found in the deposits can help to discover their use, the periods to which they belong, as well as the population that used them. Similarly, studying fossilized materials can help reveal how prehistoric societies lived. 
 
-Un ejemplo temprano de la aplicación de clustering a objetos arqueológicos viene dado por Hodson et al. (1966), quienes aplicaron técnicas de clustering a un grupo de broches que datan de la Edad de Hierro, encontrando una clasificación para los mismos de demostrada relevancia arqueológica. Otro ejemplo de la mano de Hodson (1971) es la aplicación del algoritmo K-medias (\acs{KM}, Apéndice \ref{ap:kmeans}) para construir una taxonomía de hachas de mano encontradas en las Islas Británicas. Las variables tenidas en cuenta para describir cada hacha incluyen longitud, anchura y valores en una escala que describen cómo de puntiaguda era la herramienta. El clustering dio como resultado dos grupos de hachas, uno formado por las pequeñas y delgadas, y otro formado por las grandes y gruesas.
+An early example of the application of clustering to archaeological objects is given in \cite{hodson1966some}, where clustering techniques are applied to a group of brooches dating from the Iron Age, finding a classification for them of proven archaeological relevance. Another example found in \cite{hodson1971numerical} is the application of the K-means algorithm to construct a taxonomy of hand axes found in the British Isles. The variables taken into account to describe each axe include length, width and pointedness. Clustering resulted in two groups of axes, one made up of small and thin axes and the other made up of large and thick axes.
 
-Respecto a materiales fosilizados, Sutton y Reinhard (1995) realizaron un estudio sobre 155 coprolitos encontrados en \textit{Antelope House}, un yacimiento prehistórico en el Cañón de Chelly en Arizona. El estudio arrojó como resultado una interpretación de las diferencias entre coprolitos basada en la alimentación.
+Regarding fossilized materials, in \cite{sutton1995cluster} a study of 155 coprolites found at Antelope House, a prehistoric site at Chelly Canyon in Arizona is conducted. The study resulted in a diet-based interpretation of the differences between coprolites.
 
 \subsection{Aplicaciones en bioinformática y genética}
 
-Tiempos recientes están siendo testigo de un tremendo auge en el interés por la Bioinformática, acompañada por la biología molecular, ciencias de la computación, matemáticas y estadística. Tal aumento ha sido acelerado por la siempre creciente base de datos genómica y proteica, que son por sí mismas resultado de un grandísimo avance en las técnicas de secuenciación del ADN, medidas de expresión de los genes y compresión de las estructuras macromoleculares. La estadística ha resultado relevante en el estudio de la expresión de los genes. Los genes contenidos en el ADN de cada célula proporcionan las plantillas necesarias para la generación de las proteínas implicadas en la mayoría de los procesos estructurales y biomecánicos que tienen lugar en cada uno de nosotros. Sin embargo, aunque la mayoría de las células en los seres humanos contienen todos los complementos genéticos que componen el genoma humano, los genes se expresan de manera selectiva en cada célula dependiendo del tipo de la misma, del tejido y de las condiciones generales tanto dentro como fuera de la célula. La biología molecular ha puesto de manifiesto que la mayoría de los procesos en la vida de una célula están regulados por factores que afectan a la expresión de sus genes.
+Recent times are witnessing a tremendous boom in interest in Bioinformatics, complemented by molecular biology, computer science, mathematics and statistics. Such an increase has been accelerated by the ever-growing database of genomic and protein data, which are themselves the result of a major advance in DNA sequencing techniques, gene expression measurements, and compression of macromolecular structures. Statistics have been relevant in the study of gene expression. The genes contained in the DNA of each cell provide the necessary templates for the generation of the proteins involved in most of the structural and biomechanical processes that take place in each of us. However, although most cells in humans contain all the genetic components that make up the human genome, genes are expressed selectively in each cell depending on cell type, tissue and general conditions inside and outside the cell. Molecular biology has shown that most of the processes in a cell's life are regulated by factors that affect the expression of its genes.
 
-Como hemos visto, uno de los campos de investigación más activos hoy en día es el que estudia los procesos que regulan la expresión de los genes. Con el fin de almacenar la información relativa a esta área de estudio surgen los microarrays, (Cortesse, 2000). Desde el punto de vista del análisis de datos, una de las características relevantes en este tipo de información es que el número de atributos de cada instancia ($p$), supera con creces al número de instancias disponibles ($n$); conjuntos de datos como este son calificados como \textit{datos de alta dimensionalidad}.
+As we have seen, one of the most active fields of research today is the study of the processes that regulate gene expression. In order to store the information related to this area of study, microarrays arise \cite{cortese2000array}. From the data analysis point of view, one of the relevant features in this type of information is that the number of attributes of each instance ($u$) far exceeds the number of available instances ($n$); data sets such as this are qualified as \textit{high dimensionality data}.
 
-La mayoría de métodos estadísticos clásicos no pueden ser aplicados a este tipo de conjuntos de datos sin ser modificados de forma sustancial. Sin embargo, el análisis de clusters acepta bien tales conjuntos de datos y puede ser empleado para identificar grupos de genes con patrones de expresión similares, y dar respuesta a preguntas como por qué un gen se ve afectado por cierta enfermedad, o qué genes son responsables de enfermedades genéticas hereditarias.
+Most classical statistical methods cannot be applied to this type of dataset without being substantially modified. However, cluster analysis accepts such data sets well and can be used to identify groups of genes with similar expression patterns, and answer questions such as why a gene is affected by a certain disease, or which genes are responsible for hereditary genetic diseases.
 
-Un ejemplo de aplicación lo encontramos en el trabajo de Selinski e Ickstadt (2008), quienes usaron clustering sobre polimorfismos de nucleótidos simples para detectar diferencias entre enfermedades a nivel genético.
+An example of application is found in \cite{selinski2008cluster}, who used clustering on single-nucleotide polymorphisms to detect differences between diseases at the genetic level.
 
-\section{Resumen}
+\section{Recent Applications}
 
-El clustering consiste en la exploración de conjuntos de datos. Su objetivo es discernir si pueden o no ser resumidos de manera significativa, en términos de un número relativamente pequeño de grupos o clusters de objetos o individuos, que se parecen unos a otros y que se diferencian de los que se encuentran en otros clusters.
+Although the examples of practical clustering applications presented so far are illustrative, it should be noted that clustering techniques are applied in a multitude of modern problems. Since it is not humanly possible to cover all the practical uses of clustering, a brief list of some of them is presented here: cartographic labeling \cite{araujo2019improving} and image segmentation in various fields, ranging from general applications \cite{wang2018non} to very specific ones such as in medicine \cite{verma2016improved, aparajeeta2016modified}. \textcolor{red}{Poner mas ejemplos de aplicación recientes}. It seems clear that clustering is an extremely powerful tool, no only for the development of any branch of science, but also because it can be applied to directly help people though medicine or society management.
 
-Muchas ramas de la ciencia han hecho uso de las técnicas de clustering de manera exitosa, para avanzar en sus respectivos campos, y procesar grandes cantidades de datos, cuyo análisis sería impensable afrontar con técnicas tradicionales.
+\section{Summary}
+
+Clustering consists of exploring datasets. Its goal is to determine whether or not they can be summarized in a meaningful way, in terms of a relatively small number of groups or clusters of objects or individuals which resemble each other and differ from those found in other clusters.
+
+Many branches of science have successfully made use of clustering techniques to advance in their respective fields and to process large amounts of data, whose analysis would be unthinkable to confront with traditional techniques.
 
 %Para referir un acronimo completo \acf
 %Para referir un acronimo solo con las siglas \acs
