@@ -12,7 +12,7 @@ We are now in a new scenario: it is possible to incorporate additional informati
 
 The new type of information that we incorporate to clustering is given in the form of instance-level constraints, that is, to specify if two instances ($x_i$ and $x_j$) from the dataset ($X$) must be in the same cluster or, on the contrary, they must be in separate clusters.
 
-Constraints that indicate that two instances must be placed in the same cluster are called \acf{ML}, and are noted with $C_=(x_i,x_j)$. Similarly, constraints that specify that two instances must not be placed in the same cluster are called \acf{CL}, and are noted with $C_\neq(x_i,x_j)$ \cite{wagstaff2000clustering}.
+Constraints that indicate that two instances must be placed in the same cluster are called \acf{ML}, and are noted with $C_=(x_i,x_j)$. Similarly, constraints that specify that two instances must not be placed in the same cluster are called \acf{CL}, and are noted with $C_{\neq}(x_i,x_j)$ \cite{wagstaff2000clustering}.
 
 Although they may seem simple, constraints defined as above have some very interesting properties. Must-link constraints are an example of an equivalence relationship, and therefore are symmetrical, reflexive and transitive, formalizing:
 
@@ -20,9 +20,9 @@ Although they may seem simple, constraints defined as above have some very inter
 	\textbf{Must-link constraints are transitive.} Let $CC_i$ and $CC_j$ be connected components (completely connected subgraphs by \acs{ML} constraints), and let $x_i$ and $x_j$ be the instances in $CC_i$ and $CC_j$ respectively. Then $C_=(x,y): x \in CC_i, y \in CC_j \rightarrow C_=(a,b) \forall a,b: a\in CC_i, b \in CC_j$. \cite{davidson2007survey}
 \end{observation}
 
-\begin{observacion}
-	\textbf{Cannot-link constraints can be entailed.} Let $CC_i$ and $CC_j$ be connected components (completely connected subgraphs by \acs{CL} constraints) and let $x_i$ and $x_j$ be the instances in $CC_i$ and $CC_j$ respectively. Then $C_\neq(x,y): x \in CC_i, y \in CC_j \rightarrow _\neq(a,b) \forall a,b: a\in CC_i, b \in CC_j$. \cite{davidson2007survey}
-\end{observacion}
+\begin{observation}
+	\textbf{Cannot-link constraints can be entailed.} Let $CC_i$ and $CC_j$ be connected components (completely connected subgraphs by \acs{CL} constraints) and let $x_i$ and $x_j$ be the instances in $CC_i$ and $CC_j$ respectively. Then $C_{\neq}(x,y): x \in CC_i, y \in CC_j \rightarrow _{\neq}(a,b) \forall a,b: a\in CC_i, b \in CC_j$. \cite{davidson2007survey}
+\end{observation}
 
 A clear example of constraint use can be found in clustering applications where there are distance measurement limitations, as in the case of GPS data. Thus, if we want that instances forming two clusters to be separated by a distance greater or equal to $\delta$, it is enough to set \acs{ML} constraints between all instances separated by less than $\delta$ units. Similarly, if we want the diameter of the clusters to be at most $\epsilon$, we must set \acs{CL} constraint between instances separated by more than $\epsilon$ units. Figure \ref{fig:DistanceConstraints} shows a graphical representation of these two types of constraints.
 
@@ -106,16 +106,16 @@ Figure \ref{fig:CMUFacesDatabase} shows a sample from the CMU (Carnegie Mellon U
 	\caption[CMU database faces.]{CMU database faces. \cite{davidson2007survey}}\label{fig:CMUFacesDatabase}
 \end{figure}
 
-The method used to obtain the constraints is one of the most popular in the literature: set the number of clusters of the resulting partition equal to the number of classes in the database, and generate the constraints from a subset of tagged instances; that is, if two instances have different labels, set a \acf{CL} constraint between them, otherwise one of \acf{ML} type. Thus, between the images shown in Figure \ref{fig:CMUFacesDatabase} \acf{CL} constraints are set, since, although they belong to the same person, they do not have the same orientation.
+The method used to obtain the constraints is one of the most popular in the literature: set the number of clusters of the resulting partition equal to the number of classes in the database, and generate the constraints from a subset of tagged instances; that is, if two instances have different labels, set a \acf{CL} constraint between them, otherwise one of \acf{ML} type. Thus, between the images shown in Figure \ref{fig:FacesDatabaseCL} \acf{CL} constraints are set, since, although they belong to the same person, they do not have the same orientation.
 
 \begin{figure}[bth]
 	\myfloatalign
 	{\includegraphics[width=.35\linewidth]{gfx/ConstClust/AnalisisImagenes/CarasDifOr1}} \quad
 	{\includegraphics[width=.35\linewidth]{gfx/ConstClust/AnalisisImagenes/CarasDifOr2}}
-	\caption[\acs{CL} constraints between faces of the same person.]{\acs{CL} constraints between faces of the same person. \cite{davidson2007survey}}\label{fig:figure10}
+	\caption[\acs{CL} constraints between faces of the same person.]{\acs{CL} constraints between faces of the same person. \cite{davidson2007survey}}\label{fig:FacesDatabaseCL}
 \end{figure}
 
-Figure \ref{fig:AiboRoboRobtoClustSys} shows another set of image data on which constrained clustering techniques are applied. In this case, the task is to perform object recognition to incorporate the method into the navigation system of the Aibo robot \cite{davidson2005clustering}. Distance constraints such as $\delta$ and $\epsilon$ are used as described in Figure \ref{fig:DistanceConstraints}. In this way well differentiated clusters are obtained and therefore they are useful for the path-finding techniques performed by the robot during navigation.
+Figure \ref{fig:AiboRobotClustSys} shows another set of image data on which constrained clustering techniques are applied. In this case, the task is to perform object recognition to incorporate the method into the navigation system of the Aibo robot \cite{davidson2005clustering}. Distance constraints such as $\delta$ and $\epsilon$ are used as described in Figure \ref{fig:DistanceConstraints}. In this way well differentiated clusters are obtained and therefore they are useful for the path-finding techniques performed by the robot during navigation.
 
 \begin{figure}[bth]
 	\myfloatalign
@@ -125,7 +125,7 @@ Figure \ref{fig:AiboRoboRobtoClustSys} shows another set of image data on which 
 	{\includegraphics[width=.3\linewidth]{gfx/ConstClust/AnalisisImagenes/Aibo2}} \quad
 	\subfloat[Clustering con restricciones]
 	{\includegraphics[width=.3\linewidth]{gfx/ConstClust/AnalisisImagenes/Aibo3}} \quad
-	\caption[Clustering method used in Aibo Robot navigation system.]{Clustering method used in Aibo Robot navigation system. \cite{davidson2007survey}\cite{davidson2005clustering}}\label{fig:AiboRobtoClustSys}
+	\caption[Clustering method used in Aibo Robot navigation system.]{Clustering method used in Aibo Robot navigation system. \cite{davidson2007survey}\cite{davidson2005clustering}}\label{fig:AiboRobotClustSys}
 \end{figure}
 
 \subsection{Video Analysis}
@@ -149,7 +149,7 @@ Video databases are one example where constraints can be generated directly from
 
 In Figure \ref{fig:ConstExtractionVideo}, image (a) corresponds to constraints extracted from tracking a person over a period of time, (b) corresponds to spatial constraints associating two objects located in the same frame, image (c) corresponds to restrictions obtained through facial recognition and (d) to those provided by the user.
 
-With so many constraint extraction methods, one might ask: what happens if too many constraints are imposed? Does this make the problem over-constrained? In Section \ref{sec:CCDisadvantages} we will address these questions.
+With so many constraint extraction methods, one might ask: what happens if too many constraints are imposed? Does this make the problem over-constrained? In Section \ref{sec:ConstraintsProblems} we will address these questions.
 
 \subsection{Biological Data}
 
@@ -173,7 +173,7 @@ El clustering con restricciones resulta de gran utilidad en el procesamiento de 
 
 Constrained clustering is very useful in the processing of search data on web pages. Here, the aim is to automatically group the results of an ambiguous query in the search engine into clusters of \acs{URL}s, which refer to the concept introduced as a query in different contexts. In this area it is possible to extract constraints from searches previously performed by users, so that a \acf{ML} constraint is set between visited \acs{URL}s in the same user session. Clustering using these constraints can help biasing search results towards user preferences.
 
-\subsection{Aplicaciones en datos de GPS} \label{EjemploGPS}
+\subsection{Aplicaciones en datos de GPS} \label{sec:GPSApp}
 
 As mentioned at the beginning of Chapter \ref{ch:ConstrainedClustering}, constrained clustering can be applied to \acs{GPS} data to identify the lane in which each vehicle is running, as shown in Figure \ref{fig:GPSClustData}. Each instance is represented by the position it occupies on the road in two-dimensional Cartesian coordinates $(x,y)$, obtained from \acs{GPS} data. Figure \ref{fig:figure15} graphically shows this representation of the data (note that multiple instances can refer to the same vehicle at different times).
 
@@ -184,7 +184,7 @@ As mentioned at the beginning of Chapter \ref{ch:ConstrainedClustering}, constra
 \end{figure}
 
 
-In this domain, real clusters have an elongated shape on the horizontal axis and are aligned perpendicular to the motion direction. To get the resulting clusters to have this shape, we can make use of the constraints. We will set a \acf{CL} constraint between those instances more than 4 meters perpendicularly to the motion direction (since the lanes have a maximum width of 4 meters), and \acf{ML} constraints between those instances that present continuity in the motion direction axis, since it is likely that the vehicles they represent are in the same lane. This clustering model has proven to be very useful in real-time navigation \cite{wagstaff2001constrained}, allowing the user to be notified when to change lanes, or when not to leave them.
+In this domain, real clusters have an elongated shape on the horizontal axis and are aligned perpendicularly to the motion direction. To get the resulting clusters to have this shape, we can make use of the constraints. We will set a \acf{CL} constraint between those instances more than 4 meters perpendicularly to the motion direction (since the lanes have a maximum width of 4 meters), and \acf{ML} constraints between those instances that present continuity in the motion direction axis, since it is likely that the vehicles they represent are in the same lane. This clustering model has proven to be very useful in real-time navigation \cite{wagstaff2001constrained}, allowing the user to be notified when to change lanes, or when not to leave them.
 
 \begin{figure}[!h]
 	\centering
@@ -192,165 +192,165 @@ In this domain, real clusters have an elongated shape on the horizontal axis and
 	\caption[Resulting Clustering from GPS data with no constraints.]{Resulting Clustering from GPS data with no constraints. \cite{davidson2007survey} \cite{wagstaff2001constrained}}\label{fig:figure15}
 \end{figure}
 
-\section{Beneficios del uso de restricciones}
+\subsection{Recent Applications}
 
-Encontramos dos beneficios principales en el uso de restricciones: 
+The named constrained clustering applications are the most studied in the literature, but it is worth noting that is has been applied to many other fields in recent times. The following is a list of some of those applications: advanced robotics applications \cite{davidson2005clustering, semnani2016constrained}, applied marketing \cite{seret2014new}, obstructive sleep apnea analysis \cite{mai2018evolutionary}, handwritten digits classification \cite{li2015scalable}, Internet traffic classification \cite{wang2014internet}, electoral district designing, \cite{brieden2017constrained}, among others. \textcolor{red}{Poner mas ejemplos de aplicación recientes}
+
+\section{Benefits of Using Constraints}
+
+Two main benefits are found in the use of constraints:
 
 \begin{itemize}
 	
-	\item Incremento de la exactitud en las predicciones de las etiquetas al generar restricciones en base a un subconjunto de instancias etiquetadas.
+	\item Increased accuracy in label predictions by generating constraints based on a subset of labeled instances.
 	
-	\item Obtención de clusters con geometría adaptable a cada problema.
+	\item Obtaining clusters with adaptable geometry to each problem.
 	
 \end{itemize}
 
-A continuación se analizan estos dos beneficios:
+These two benefits are discussed below:
 
-Dado $X = \{x_1 \cdots x_u\}$, un gran conjunto de instancias no etiquetadas, y $L = \{(x_{u+1}, y_{u+1})\cdots (x_{u+l}, y_{u+l})\}$, un pequeño conjunto de instancias etiquetadas, es común escoger dos elementos de $L$ (con reemplazamiento) y establecer una restricción \acs{ML} entre ellos si pertenecen a la misma clase o, en caso contrario, una de tipo \acs{CL}. Un método apropiado para evaluar los resultados ofrecidos por un método de clustering es medir el nivel de exactitud de éste a la hora de predecir las etiquetas del conjunto $X$. Esto normalmente requiere que se especifique el número de clusters deseados igual al número de clases conocidas en $X$ ($K = K^*$). Para medir la exactitud se emplean métodos como \textit{Rand Index} \cite{rand1971objective}.
+Given $X = \{x_1 \cdots x_u\}$, a large set of unlabeled instances, and $L = \{(x_{u+1}, y_{u+1}) \cdots (x_{u+l}, y_{u+l})\}$, a small set of labeled instances, it is common to choose two elements from $L$ (with replacement) and set a \acs{ML} constraint between them if they belong to the same class, or a \acs{CL} constraints otherwise. An appropriate method to evaluate the results provided by a clustering method is to measure the level of accuracy of this when predicting dataset $X$ labels. This normally requires specifying the number of desired clusters equal to the number of known classes in $X$ ($k = k^*$). Methods such as the RandIndex \cite{rand1971objective} or its variants, which will be discussed later, are used to measure the degree of agreement between two given partitions (clusterings).
 
-El trabajo de Wagstaff y Cardie \cite{wagstaff2000clustering}, en el que generaban las restricciones de la manera descrita anteriormente, demostraba que, cuando se realiza un promedio de la exactitud de las predicciones obtenidas con algoritmos de clustering con restricciones, variando estas últimas entre experimentos, se obtienen resultados hasta un 20\% mejores que con las técnicas clásicas.
+In \cite{wagstaff2000clustering}, where constraints are generated as described above, it is shown that, when an average of the accuracy of the predictions obtained with constrained clustering algorithms is made, varying the latter between experiments, results are obtained up to 20\% better than with classical clustering techniques.
 
-\begin{observacion}
+\begin{observation}
 	
-	\textbf{El uso de restricciones, en promedio, incrementa la precisión.}
-	El rendimiento de un método al predecir etiquetas aumenta cuando se promedia empleando numerosos conjuntos de restricciones diferentes. \cite{davidson2007survey}
-	\label{ob:observacion33}
+	\textbf{Using constraints increases accuracy on average.}
+	The performance of a method in predicting labels increases when averaged using numerous different constraint sets. \cite{davidson2007survey}
+	\label{ob:AccuracyIncrease}
 	
-\end{observacion}
+\end{observation}
 
-Esta regla, sin embargo, no es cierta en todos los casos, pues en conjuntos de datos como \textit{Tic-Tac-Toe Endgame}, no se consigue ningún incremento en las predicciones sea cual sea el número de restricciones empleadas. La explicación dada por los autores citados para estas excepciones se basa en que establecer $K = K^*$ no es apropiado en este caso.
+This rule, however, is not true in all cases, as in data sets such as \textit{Tic-Tac-Toe Endgame}, no increase in predictions is achieved regardless of the number of constraints used. A possible explanation for these exceptions is based on the fact that setting $k = k^*$ is not appropriate in these cases.
 
-El otro beneficio que reporta el uso de restricciones es la posibilidad de obtener clusters con la geometría deseada, como el ejemplo de aplicar clustering a datos \acs{GPS}, analizado en la Sección \ref{EjemploGPS} de este trabajo.
+The other benefit of using constraints is the possibility of obtaining clusters with the desired geometry, such as the example of \acs{GPS} data clustering, analyzed in the Section \ref{sec:GPSApp}.
 
-\section{Problemas del uso de restricciones} \label{Problemas}
+\section{Problems of Using Constraints} \label{sec:ConstraintsProblems}
 
-Aunque, tal y como hemos comprobado, la incorporación de restricciones a los métodos de clustering reporta beneficios en algunas aplicaciones, existen dos inconvenientes principales que se exponen a continuación, así como posibles soluciones a los mismos.
+Although, as we have seen, the incorporation of constraints to clustering methods brings benefits in some applications, there are two main drawbacks that are discussed below, as well as possible solutions to them.
 
-\subsection{El problema de la factibilidad}
+\subsection{The Feasibility Problem}
 
-La introducción de restricciones en el clustering cambia el problema al que éste da solución, que pasa a ser: \textit{Encontrar la mejor partición que satisfaga todas las restricciones}. De esta manera, si aquellas no están bien especificadas o si los métodos de extracción son inadecuados, podemos encontrar que las restricciones se contradicen, lo que deriva en que no existe una asignación de instancias a clusters que las satisfaga todas. Por ejemplo, no existe asignación que satisfaga las restricciones $ML(x_1,x_2)$ y $CL(x_1,x_2)$, independientemente del valor de $K$. Lo mismo sucede para $K = 2$, y las restricciones $CL(x_1, x_2)$, $CL(x_2, x_3)$ y $CL(x_1, x_3)$. Formalizando, el problema de la factibilidad para problemas de clustering (no jerárquico) con restricciones viene definido por:
+Introducing constraints in clustering changes the problem it solves, which becomes: \textit{Find the best partition that satisfies all constraints}. This way, if constraints are not properly specified or if the extraction methods are inadequate, we can find that the constraints contradict each other, which means that there is no partition that satisfies them all. For instance, there is no partition that satisfies the constraints $C_=(x_i,x_j)$ and $C_{\neq}(x_i,x_j)$, regardless of the value of $k$. The same happens for $k = 2$, and the constraints $C_{\neq}(x_i, x_j)$, $C_{\neq}(x_j, x_q)$ and $CL(x_i, x_q)$. Definition \ref{def:FeasibilityProblem} formalizes the feasibility problem for non-hierarchical instance-level constrained clustering:
 
-\begin{definicion}
+\begin{definition}
 	
-	\textbf{Problema de la factibilidad para clustering con restricciones:} Dado un conjunto de datos $X$, un conjunto de restricciones $R$, un umbral superior $K_l$ y un umbral superior $K_u$ para el número de clusters resultantes, ¿Existe una partición de $X$ en bloques tal que $K_l \le K \le K_u$ y todas las restricciones en $R$ se satisfacen? \cite{davidson2005clustering} \cite{davidson2007survey}
+	\textbf{Feasibility problem for non-hierarchical instance-level constrained clustering:} Given a dataset $X$, a constraint set $CS$, and the bounds on the number of clusters $k_l \leq k \leq k_u$, does there exist a partition $C$ of $X$ with $k$ clusters such that all constraints in $CS$ are satisfied? \cite{davidson2005clustering} \cite{davidson2007survey}
 	
-\end{definicion}
+	\label{def:FeasibilityProblem}
+	
+\end{definition}
 
-La complejidad teórica del problema dependerá del tipo de restricciones que se combinen en él. La Tabla \ref{tab:tabla1} presenta, de manera resumida, la complejidad esperada en cada caso. 
+ The theoretical complexity of a constrained clustering problem depends on the type of constraints combined in it. Table \ref{tab:CCComplexity} summarizes the expected complexity in each case. 
 
-\begin{table}[h]
+\begin{table}[!h]
 	\centering
-	\setlength{\arrayrulewidth}{1mm}
-	\setlength{\tabcolsep}{10pt}
-	\renewcommand{\arraystretch}{1}
-	
-	\rowcolors{2}{gray!25}{white}
+	%\setlength{\arrayrulewidth}{1mm}
+	\setlength{\tabcolsep}{7pt}
+	\renewcommand{\arraystretch}{1.2}
+	%\resizebox{\textwidth}{!}{
 	\begin{tabular}{ >{\centering\arraybackslash}m{4cm}  >{\centering\arraybackslash}m{4cm} }
 		\hline
-		\rowcolor{black}
-		\multicolumn{2}{c}{\bf \color{white}{Complejidad del clustering con restricciones}}\\
-		\hline
-		\rowcolor{gray!50}
-		\textbf{Restricciones} & \textbf{Complejidad} \\
-		Restricciones $\delta$ & $\mathbf{P}$ \\
-		Restricciones $\epsilon$ & $\mathbf{P}$ \\
-		\acs{ML} y $\delta$ & $\mathbf{P}$ \\
-		\acs{ML} y $\epsilon$ & $\mathbf{NP}$-completo \\
-		$\epsilon$ y $\delta$ & $\mathbf{P}$ \\
-		\acs{CL} y otra & $\mathbf{NP}$-completo \\
+		\textbf{Constraints} & \textbf{Complexity} \\
+		$\delta$ & $\mathbf{P}$ \\
+		$\epsilon$ & $\mathbf{P}$ \\
+		\acs{ML} and $\delta$ & $\mathbf{P}$ \\
+		\acs{ML} and $\epsilon$ & $\mathbf{NP}$-complete \\
+		$\epsilon$ and $\delta$ & $\mathbf{P}$ \\
+		\acs{CL} and other & $\mathbf{NP}$-complete \\
 		\hline
 		
-	\end{tabular}
-	\caption[Complejidad del problema del clustering en función del tipo de restricciones]{Complejidad del problema del clustering en función del tipo de restricciones. \cite{davidson2007survey}}
-	\label{tab:tabla1}
+	\end{tabular}%}
+	\caption[Complexity of the constrained clustering problem depending on the type of constraints.]{Complexity of the constrained clustering problem depending on the type of constraints. \cite{davidson2007survey}}
+\label{tab:CCComplexity}
 \end{table}
 
-Tal y como queda reflejado en la Tabla \ref{tab:tabla1}, la utilización de restricciones \acf{CL} eleva el nivel de complejidad del clustering a $\mathbf{NP}$-completo y, por tanto, el problema del clustering con restricciones es intratable. De manera intuitiva puede entenderse fácilmente que, si encontrar una sola partición que satisfaga las restricciones es un problema complejo, más complejo es aún encontrar la mejor. 
+As shown in Table \ref{tab:CCComplexity}, the use of \acf{CL} constraints increases the constrained clustering complexity level to $\mathbf{NP}$-complete and therefore constrained clustering is intractable. Intuitively it can be easily understood that if finding a single partition that satisfies the constraints is a complex problem, finding the best of them is harder.
 
-\begin{observacion}
+\begin{observation}
 	
-	\textbf{Saber que existe una solución factible no nos ayuda a encontrarla.} Las consecuencias de este resultado sobre la complejidad del clustering con restricciones implican que, aun en caso de que exista una partición factible, no será fácil de encontrar, hablando en términos de complejidad algorítmica. \cite{davidson2007survey}
-	\label{ob:observacion34}
+	\textbf{Knowing a feasible solution exists does not help us find it.} The consequences of this result on the constrained clustering complexity imply that, even if there is a feasible partition, it will not be easy to find, speaking in terms of algorithmic complexity \cite{davidson2007survey}.
+	\label{ob:FeasibleSolution}
 	
-\end{observacion} 
+\end{observation}
 
-Los autores Wagstaff \cite{wagstaff2002intelligent} y Davidson y Ravi \cite{davidson2007hierarchical} muestran que aun especificando el número de clusters de salida igual al de clases verdaderas ($K = K*$), cosa que garantiza que existe una solución factible, algoritmos simples como la adaptación de K-medias (\acs{KM}, Apéndice \ref{ap:kmeans}) al clustering con restricciones (\textit{COP-K-means} \cite{wagstaff2001constrained}, Sección \ref{copkm}), pueden no converger debido al problema de la factibilidad.
+In \cite{wagstaff2002intelligent} and \cite{davidson2007hierarchical} is shown that, even in the number of clusters in the output partition is set equal to the number of classes in the dataset ($k = k*$), which guarantees that a feasible solution does exists, simple algorithms like the COP-kmeans \cite{wagstaff2001constrained} may not converge due to the feasibility problem.
 
-\subsection{El problema de la utilidad de conjuntos de restricciones} \label{ProbRestr}
+\subsection{The Constraint Set Utility Problem} \label{sec:UtilityProblem}
 
-En el clustering con restricciones se asume que éstas son indicaciones que guían al algoritmo para encontrar la partición de los datos deseada. Entonces, está justificado pensar que, de cuanta más información adicional (restricciones) dispongamos, más cercano estará el resultado que obtengamos al que buscamos, tal y como la Observación \ref{ob:observacion33} afirmaba. Sin embargo, y a pesar de lo dispuesto en dicha observación, encontramos casos en los que, aun generando las restricciones sin ruido y en base a las etiquetas verdaderas, existen conjuntos de restricciones que, lejos de mejorar los resultados, los empeoran considerablemente \cite{davidson2006proceedings}. Esto parece estar en desacuerdo con la Observación \ref{ob:observacion33}, sin embargo, recordemos que en ella se hace referencia al caso medio, y no a casos particulares.
+In constrained clustering it is assumed that constraints are a guide for an algorithm to find de desired data partition. So, it is reasonable to think that the more additional information (constraints) we have available, the closer the result we get to the one we are looking for, as Observation \ref{ob:AccuracyIncrease} stated. However, and despite the stipulations of this observation, we find cases in which, even generating the constraints without noise and on the basis of the true labels, there are constraint sets that, far from improving the results, worsen them considerably \cite{davidson2006proceedings}. This seems to disagree with the Observation \ref{ob:AccuracyIncrease}, however, let us remember that it refers to the average case, and not to particular cases.
 
-\begin{observacion}
+\begin{observation}
 	
-	\textbf{Conjuntos de restricciones particulares pueden causar efectos adversos}. Algunos conjuntos de restricciones generados en base a las etiquetas verdaderas y libres de ruido pueden resultar en una pérdida de precisión a la hora de predecir esas mismas etiquetas. \cite{davidson2007survey}
+	\textbf{Individual constraint sets can have adverse effects}. Some constraint sets generated on the same ground truth labels that evaluate the clusters can cause a loss of accuracy at predicting those very labels \cite{davidson2007survey}.
 	
-\end{observacion}
+\end{observation}
 
-\subsection{Soluciones al problema de la factibilidad} \label{problemaFactib}
+\subsection{Solutions for the Feasibility Problem} \label{sec:FeasibilityProblemSolutions}
 
-El problema de la factibilidad puede ser abordado de varias maneras. La más inmediata quizá sea mantener el número de restricciones bajo, en proporción al número de instancias totales, para minimizar la probabilidad de que surjan inconsistencias. Sin embargo, no poder aumentar el número de restricciones si el problema lo requiere no es el escenario ideal. Por ello se debe poner interés en analizar cuando un problema pasa a estar sobrerestringido, ya que, como hemos estudiamos en la Sección \ref{ProbRestr}, incluso generando las restricciones en base a las etiquetas verdaderas, algoritmos como COP-K-medias (Sección \ref{copkm}) dejan de ser efectivos conforme aumenta el número de restricciones a satisfacer, incluso reiniciado de manera aleatoria el algoritmo varias veces.
+The feasibility problem can be tackled in several ways. The most immediate may be to keep the number of constraints low, in proportion to the number of total instances, to minimize the likelihood of inconsistencies. However, not being able to increase the number of constraints if the problem requires it is not the ideal scenario. Therefore, interest should be given to analyzing when a problem becomes over-constrained, since, as we have studied in Section \ref{sec:ConstraintsProblems}, even generating constraints based on the ground truth, algorithms such as COP-kmeans are no longer effective as the number of constraints to be satisfied increases, even if the algorithm is randomly restarted several times.
 
-El fenómeno de la sobrerestricción de problemas mediante el uso de restricciones \acf{CL} está íntimamente relacionado con el problema del coloreado de grafos; de hecho, ha sido demostrado que éste es equivalente al problema del clustering con restricciones \acs{CL} \cite{davidson2006identifying}. Así, encontramos que resolver un problema con restricciones \acs{CL} mediante algoritmos como COP-K-medias es, a efectos prácticos, resolver el problema del coloreado de grafos.
+The problem over-constraining phenomenon through the use of \acf{CL} constraints is intimately related to the graph coloring problem; in fact, it has been proven that it is equivalent to constrained clustering with \acf{CL} \cite{davidson2006identifying}. Thus, we find that solving a problem with \acf{CL} constraints using algorithms such as COP-K-medias is, for practical purposes, solving the graph coloring problem.
 
-\begin{observacion}
+\begin{observation}
 	
-	\textbf{El problema del clustering con restricciones \acs{CL} es análogo al problema del coloreado de grafos.} \cite{davidson2007survey}
+	\textbf{Constrained clustering with \acs{CL} is analogous to the graph coloring problem.} \cite{davidson2007survey}
 	
-\end{observacion}
+\end{observation}
 
-Este resultado permite trasladar muchas de las propiedades del problema del coloreado de grafos al problema de clustering con restricciones. Por ejemplo, el teorema de Brook establece que el coloreado de grafos es sencillo cuando el número de colores disponibles ($K$ en nuestro caso), es mayor que el máximo grado del grafo. 
+This result allows you to transfer many of the properties of the graph coloring problem to the constrained clustering problem. For example, Brook's theorem states that graph coloring is simple when the number of available colors ($k$ in our case) is greater than the maximum degree of the graph.
 
-\begin{observacion}
+\begin{observation}
 	
-	\textbf{El teorema de Brook es aplicable al problema del clustering con restricciones.}
-	Si $ K > $ (Mayor número de restricciones \acs{CL} sobre una instancia), entonces siempre existirá una partición factible. \cite{davidson2007survey} \label{ob:observacion37}
+	\textbf{Brook's theorem applies to the constrained clustering.}
+	If $ k > $ (Most \acs{CL} constraints on an instance), then there always exists a feasible partition. \cite{davidson2007survey} \label{ob:BrooksTheorem}
 	
-\end{observacion}
+\end{observation}
 
-Con esto, y aunque la Observación \ref{ob:observacion34} indique lo contrario, cuando el problema del clustering cumple la condición expuesta en la Observación \ref{ob:observacion37}, podemos garantizar que siempre se encontrará una solución al problema en tiempo polinómico. Para asegurar la condición de Brook, es posible construir el conjunto de restricciones de manera que ninguna instancia tome partido en más de $K$ restricciones \acf{CL}. \cite{davidson2006identifying}
+With this, and although Observation \ref{ob:FeasibleSolution} indicates differently, when constrained clustering meets the condition set out in Observation \ref{ob:BrooksTheorem}, we can guarantee that a solution will always be found in polynomial time. To ensure Brook's condition, it is possible to build the constraint set so that no instance takes a side in more than $K$ \acf{CL} constraints \cite{davidson2006identifying}.
 
-\subsection{Soluciones al problema de la utilidad de conjuntos de restricciones}
+\subsection{Solutions for the Constraint Set Utility Problem}
 
-La solución al problema es simple: identificar aquellos conjuntos de restricciones verdaderamente útiles. Sin embargo, esto involucra aplicar algún tipo de métrica que permita evaluar cuándo un conjunto de restricciones dado cumple esta condición. A tal fin, Davidson, Wagstaff y Basu propusieron dos medidas: informatividad y coherencia.\\
+The solution to this problem is simple: identify those truly useful constraint sets. However, this involves applying some kind of metric that allows us to evaluate when a given set of constraints meets this condition. To this end two measures are proposed: informativity and coherence.
 
-La \textbf{informatividad} es una medida referida a la cantidad de información presente en el conjunto de restricciones que el algoritmo no puede determinar por sí mismo. Por ejemplo, en la Figura \ref{fig:figure16}, un algoritmo como COP-K-medias (Sección \ref{copkm}) se vería inclinado a agrupar instancias cercanas en el espacio y colocar en clusters separados aquellas que se encuentren lejanas; sin embargo, las restricciones sesgan el espacio de soluciones evitando que esto suceda. 
+The \textbf{informativity} measure refers to the amount of information present in the constraint set that an algorithm cannot determine for itself. For example, in Figure \ref{fig:Informativity}, an algorithm such as COP-kmeans would tend to group nearby instances and place those that are far away in separate clusters; however, constraints bias the solution space preventing this from happening. 
 
 \begin{figure}[!h]
 	\centering
 	\includegraphics[scale=0.4]{gfx/ConstClust/Inform/Inform} 
-	\caption[Ejemplo de conjunto de restricciones informativo.]{Ejemplo de conjunto de restricciones informativo. \cite{davidson2007survey}}\label{fig:figure16}
+	\caption[Informative constraint set.]{Informative constraint set \cite{davidson2007survey}}\label{fig:Informativity}.
 \end{figure}
 
 
-La informatividad se estima utilizando el conjunto de restricciones como un conjunto de test, de manera que se mide la habilidad del algoritmo para predecir las restricciones presentes en él. Formalizando, dado un conjunto de restricciones $R$ y un algoritmo $A$, obtenemos la partición $P_A$ aplicando el algoritmo al conjunto de datos de entrada especificando el conjunto de restricciones vacío. Calculamos entonces la fracción de las restricciones incumplidas por $P_A$ \cite{davidson2007survey}:
+Informativity is estimated using the constraint set as a test set, so the ability of the algorithm to predict the constraints present in it is measured. Formalizing, given a set of constraints $CS$ and a constrained clustering algorithm $A$, we get the partition $P_A$ by applying the algorithm to the input dataset specifying an empty constraint set. We can compute the number of unsatisfied constraints in $P_A$ a in Equation \ref{eq:Informativity} \cite{davidson2007survey}.
 
 \begin{equation}
 I_A(R) = \frac{1}{|R|}\left[ \sum_{r \in R} unsat(r, P_A) \right] 
+\label{eq:Informativity}
 \end{equation}
 
-\clearpage
-
-Por otra parte, la \textbf{coherencia} mide el grado de concordancia dentro del propio conjunto de restricciones respecto a una métrica dada ($D$). Por ejemplo, la Figura \ref{fig:figure17} muestra dos restricciones paralelas y muy cercanas, pero de distinto tipo. Es en casos como este en los que se da una contradicción, ya que las restricciones \acf{ML} indican que la distancia entre las instancias involucradas en ellas es pequeña, mientras que las de tipo \acf{CL} deben indicar lo contrario.
+\textbf{Coherence} measures the degree of agreement within the set of constraints itself with respect to a given metric ($D$). For instance, Figure \ref{fig:Coherence} shows two parallel and very close constraints of different type. It is in cases like this that the contradiction occurs, as the \acf{ML} constraints indicate that distance between instances involved in them is small, while \acf{CL}s indicate the opposite.
 
 \begin{figure}[!h]
 	\centering
 	\includegraphics[scale=0.4]{gfx/ConstClust/Coherencia/Coher1}
-	\caption[Ejemplo de conjunto de restricciones contradictorio.]{Ejemplo de conjunto de restricciones contradictorio. \cite{davidson2007survey}}\label{fig:figure17}
+	\caption[Non-coherent constraint set.]{Non-coherent constraint set. \cite{davidson2007survey}}\label{fig:Coherence}
 \end{figure}
 
-Entonces, la medida de coherencia viene dada por el grado de solapamiento que presentan las restricciones al interpretarlas como vectores en el espacio y proyectarlas sobre uno de los ejes, tal y como se muestra en la Figura \ref{fig:figure18}.
+Then, the coherence measure is given by the degree of overlap that constraints produce by interpreting them as vectors in space and projecting them along one of the axes, as shown in Figure \ref{fig:CoherenceOverlap}.
 
 \begin{figure}[!h]
 	\centering
 	\includegraphics[scale=0.4]{gfx/ConstClust/Coherencia/Coher2}
-	\caption[Representación de la medida de coherencia.]{Representación de la medida de coherencia. \cite{davidson2007survey}}\label{fig:figure18}
+	\caption[Coherence measure representation.]{Coherence measure representation. \cite{davidson2007survey}}\label{fig:CoherenceOverlap}
 \end{figure}
 
-\section{Resumen}
+\section{Summary}
 
-El clustering con restricciones incorpora nueva información al problema del clustering original, esta viene dada en forma de especificaciones de pertenencia al mismo o a diferentes clusters sobre parejas de instancias. Las restricciones, ya sean \acf{ML}, \acf{CL}, o restricciones de distancia, son utilizadas para guiar al método de clustering que apliquemos al conjunto de datos en cuestión, en la búsqueda de la partición resultado.
+Constrained clustering adds a new type of information to the original clustering problem, which is given in the form of specifications of belonging to the same or to different clusters on pairs of instances. Constraints, whether if they are the pairwise \acf{ML} and \acf{CL} constraints, or the distance-based $\delta$ and $\epsilon$ constraints, they are used to guide the clustering method we apply to a dataset in the search for a result partition that meets certain desired characteristics.
 
-Los método de clustering derivados de este concepto han demostrado ser de gran utilidad en múltiples ámbitos, así como presenta problemas que pueden ser subsanados estudiando en profundidad las restricciones a emplear para resolver cada problema.
+Clustering methods derived from this concept have proved to be very useful in many areas, as well as they present some problems that can be solved by deeply studying the constraints to be used to solve each individual problem.
 
 
 
