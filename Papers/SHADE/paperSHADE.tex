@@ -76,7 +76,7 @@
 \address[mysecondaddress]{Dept. of Computer Science, EPS of Linares, University of Ja\'en, Campus Cient\'ifico Tecnol\'ogico de Linares, Cintur\'on Sur S/N, Linares 23700, Ja\'en, Spain}
 
 \begin{abstract}
-Clustering has always been a powerful tool in knowledge discovery. Traditionally unsupervised, it received renewed attention when it was shown to produce better results when provided with new types of information, thus leading to a new kind of semi-supervised learning: constrained clustering. This technique is a generalization of traditional clustering that considers additional information encoded by constraints. Constraints can be given in the form of instance-level must-link and cannot-link constraints, in which this paper focuses on. We propose the first application of Differential Evolution to the constrained clustering problem, which has proven to produce a better exploration-exploitation trade-off when comparing with previous approaches. We will compare the results obtained by this proposal to those obtained by previous nature-inspired techniques and by some of the state-of-the-art algorithms on 25 datasets with incremental levels of constraint-based information, supporting our conclusions with the aid of Bayesian statistical tests.
+Clustering has always been a powerful tool in knowledge discovery. Traditionally unsupervised, it received renewed attention when it was shown to produce better results when provided with new types of information, thus leading to a new kind of semi-supervised learning: constrained clustering. This technique is a generalization of traditional clustering that considers additional information encoded by constraints. Constraints can be given in the form of instance-level must-link and cannot-link constraints, which this paper focuses on. We propose the first application of Differential Evolution to the constrained clustering problem, which has proven to produce a better exploration-exploitation trade-off when comparing with previous approaches. We will compare the results obtained by this proposal to those obtained by previous nature-inspired techniques and by some of the state-of-the-art algorithms on 25 datasets with incremental levels of constraint-based information, supporting our conclusions with the aid of Bayesian statistical tests.
 \end{abstract}
 
 \begin{keyword}
@@ -93,7 +93,7 @@ One of the most widely known and studied data analysis problems is clustering. I
 
 In the literature, clustering methods are often divided into two subsets: partitional clustering and hierarchical clustering. In hierarchical clustering the result is not a partition of the data with a certain number of clusters---as in partitional clustering---, but instead a dendrogram in which there are partitions that include from the whole dataset to particular individuals \cite{Everitt:2009:CA:1538772}. A representative example of partitional clustering is the widely studied and well-known algorithm K-means \cite{wu2009top}, while for hierarchical clustering the CURE method should be highlighted \cite{guha1998cure}. In this paper we will focus on partitional clustering.
 
-We can define partitional clustering as the task of grouping the instances of a dataset into $k$ clusters, so that new information can be extracted from them. A dataset $X$ is composed of $n$ instances, each one of them described by $d$ features. More formally, $X = \{x_1, \cdots, x_n\}$, with the $i$th instance noted as $x_i = (x_{[i,1]}, \cdots, x_{[i,u]})$. A typical clustering algorithm assigns a class label $l_i$ to each instance $x_i \in X$. As a result, we obtain the set of labels $L = \{l_1, \cdots, l_n\}$, with $l_i \in \{1, \cdots, k\}$, that effectively splits $X$ into $k$ non-overlapping clusters $c_i$ to form a partition called $C$. The criterion used to assign an instance to a given cluster is the similarity to the rest of elements in that cluster, and the dissimilarity to the rest of instances of the dataset, which can be obtained with some kind of distance measurement $d(\cdot, \cdot)$ \cite{jain1999data}.
+We can define partitional clustering as the task of grouping the instances of a dataset into $k$ clusters, so that new information can be extracted from them. A dataset $X$ is composed of $n$ instances, each one of them described by $u$ features. More formally, $X = \{x_1, \cdots, x_n\}$, with the $i$th instance noted as $x_i = (x_{[i,1]}, \cdots, x_{[i,u]})$. A typical clustering algorithm assigns a class label $l_i$ to each instance $x_i \in X$. As a result, we obtain the set of labels $L = \{l_1, \cdots, l_n\}$, with $l_i \in \{1, \cdots, k\}$, that effectively splits $X$ into $k$ non-overlapping clusters $c_i$ to form a partition called $C$. The criterion used to assign an instance to a given cluster is the similarity to the rest of elements in that cluster, and the dissimilarity to the rest of instances of the dataset, which can be obtained with some kind of distance measurement $d(\cdot, \cdot)$ \cite{jain1999data}.
 
 Semi-supervised learning (SSL) is a machine learning paradigm that arises from adding incomplete information to unsupervised learning. We can divide SSL methods into two broad categories according to their objective: semi-supervised classification and semi-supervised clustering \cite{chapelle2009semi}. The first method has partial information about the labels, so it tries to minimize the error based on them while taking into account the distribution of unlabeled instances. The second tries to obtain better defined clusters incorporating background information to the clustering process, this is known as constrained clustering and is the main subject of the study presented in this paper \cite{triguero2015self}. 
 
@@ -502,7 +502,7 @@ Algorithm \ref{alg:SHADE} describes the overall SHADE$_{CC}$ optimization proces
 			$CR_{[i,G]} \leftarrow$ randn$_i(M_{[CR,r_i]}, 0.1)$\\
 			$F_{[i,G]} \leftarrow$ randc$_i(M_{[F,r_i]}, 0.1)$\\
 			$p_{[i,G]} \leftarrow$ rand$[N/2, 0.2]$\\
-			\tcp{Generate trial vector $t_{[i,G]}$ by current-to-$p$best/1/bin}
+			Generate trial vector $t_{[i,G]}$ by current-to-$p$best/1/bin\\
 
 			\eIf{$f(t_{[i,G]}) \le f(p_{[i,G]})$}{
 				$p_{[i,G + 1]} \leftarrow t_{[i,G]}$
@@ -897,6 +897,7 @@ Table \ref{tab:results15} presents the results obtained with the $CS_{15}$ const
 			\cline{2-4} \cline{6-8}
 			& ARI & Unsat(\%) & Time(s) && ARI & Unsat(\%) & Time(s) \\
 			\hline
+			Appendicitis & 1.000 & 0.000 & 389.905 && 1.000 & 0.000 & 371.579 \\
 			Breast Cancer & 0.807 & 9.086 & 4061.162 && \textbf{0.977} & 0.891 & 3984.370 \\
 			Bupa & 0.936 & 2.975 & 1529.151 && \textbf{0.993} & 0.281 & 1508.772 \\
 			Circles & 0.935 & 2.814 & 1180.268 && \textbf{1.000} & 0.000 & 1170.452 \\

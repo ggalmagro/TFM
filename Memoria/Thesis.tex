@@ -28,6 +28,7 @@
 % PLEASE SEE ALSO THE AUTHORS' NOTE REGARDING THIS LICENSE
 % IN THE DOCUMENTATION (ClassicThesis.pdf --> Chapter 1 / Chapter01.tex)
 % **************************************************************************************************************
+
 \RequirePackage{silence} % :-\
     \WarningFilter{scrreprt}{Usage of package `titlesec'}
     \WarningFilter{titlesec}{Non standard sectioning command detected}
@@ -40,6 +41,19 @@
 %********************************************************************
 % Note: Make all your adjustments in here
 %*******************************************************
+\usepackage{graphics, float, url}
+\usepackage{lineno}
+\usepackage{mathtools}
+\usepackage{multirow}
+\usepackage{adjustbox}
+\usepackage{chngpage}
+\usepackage{setspace}
+\usepackage{amsfonts}
+\usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
+
+\newtheorem{observation}{Observation}[chapter]
+\newtheorem{definition}{Definition}[chapter]
+
 \input{classicthesis-config}
 \AtBeginDocument{\renewcommand{\thepart}{\Roman{part}}}
 
@@ -47,9 +61,6 @@
 % Bibliographies
 %*******************************************************
 \addbibresource{Bibliography.bib}
-
-\newtheorem{observation}{Observation}[chapter]
-\newtheorem{definition}{Definition}[chapter]
 
 %********************************************************************
 % Hyphenation
@@ -94,6 +105,11 @@
 	\part{Background}\label{pt:background}
 	\include{Chapters/Clustering}
 	\include{Chapters/ConstrainedClustering}
+	\part{New Proposals}\label{pt:NewProposals}
+	\include{Chapters/NewProposals}
+	\part{Experiments}\label{pt:Experiments}
+	\include{Chapters/ExperimentalSetup}
+	\include{Chapters/ExperimentalResults}
 
 
 	% Backmatter

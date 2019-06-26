@@ -236,7 +236,7 @@ The other benefit of using constraints is the possibility of obtaining clusters 
 
 Although, as we have seen, incorporating constraints to clustering methods brings benefits in some applications, there are two main drawbacks that are discussed below, as well as possible solutions to them.
 
-\subsection{The Feasibility Problem}
+\subsection{The Feasibility Problem} \label{sec:FeasibilityProblem}
 
 Introducing constraints in clustering changes the problem it solves, which becomes: \textit{Find the best partition that satisfies all constraints}. This way, if constraints are not properly specified or if the extraction methods are inadequate, we can find that the constraints contradict each other, which means that there is no partition that satisfies them all. For instance, there is no partition that satisfies the constraints $C_=(x_i,x_j)$ and $C_{\neq}(x_i,x_j)$, regardless of the value of $k$. The same happens for $k = 2$, and the constraints $C_{\neq}(x_i, x_j)$, $C_{\neq}(x_j, x_q)$ and $C_{\neq}(x_i, x_q)$. Definition \ref{def:FeasibilityProblem} formalizes the feasibility problem for non-hierarchical instance-level constrained clustering:
 
