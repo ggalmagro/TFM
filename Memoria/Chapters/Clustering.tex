@@ -1,9 +1,9 @@
 
 \chapter{Short Introduction to Clustering}\label{ch:IntroClustering}
 
-Firstly, it will be necessary to provide an introduction, albeit a brief one, to clustering and its applications, in order to ease the understanding of the following chapters. For this purpose we will follow the study carried out in \cite{Everitt:2009:CA:1538772}.
+Firstly, it will be necessary to provide an introduction, albeit a brief one, to clustering and its applications, in order to ease the understanding of the following chapters. For this purpose we will follow the study carried out in \cite{Everitt:2009:CA:1538772}. In Section  \ref{sec:ReasonsClassif} we present the reasons that lead humans to develop automatic classification methods. The numerical formulation for the latter is given in Section \ref{sec:NumMethClassif}. We give an intuitive definition for ``cluster'' in Section \ref{sec:WhatIsCluster}. Lastly a list of clustering application is presented in Section \ref{sec:ClusteringApplications}.
 
-\section{Reasons for Classifying}
+\section{Reasons for Classifying} \label{sec:ReasonsClassif}
 
 Classification can be understood as a way of simplifying the information contained in large datasets in a way that is easily understood by humans. In this way, the processes of extracting useful information and applying it are simplified. Thus, if we are able to meaningfully divide a large dataset into subsets or groups, we can extract information common to elements of one of these subsets and provide a precise description that encompasses them.
 
@@ -11,7 +11,7 @@ The need to analyze information in this way grows with the emergence and availab
 
 It is important to note that, in most cases, there is no single classification criterion for the same dataset, but rather a wide variety of data. In the case of individuals, they could be classified, for example, on the basis of their income, or according to the amount of calories they consume over a defined period of time. Thus, different classification criteria do not necessarily result in the same division into groups of the set to be classified; in that way, different criteria will serve different purposes.
 
-\section{Numerical Methods of Classification}
+\section{Numerical Methods of Classification} \label{sec:NumMethClassif}
 
 Numerical methods for clustering arise in branches of natural sciences, such as biology or zoology, in an attempt to eliminate the subjectivity implicit in the classification process triggered by the discovery of a new species. The aim is to provide a non-subjective and stable method for classifying and grouping elements.
 
@@ -50,7 +50,7 @@ Clustering is, put simply, the discovery of groups in data, and should never be 
 
 Once the general structure of clustering methods has been defined, it would be justified to ask, what is a cluster? Section \ref{sec:WhatIsCluster} will try to answer this question.
 
-\subsection{What is a Cluster?} \label{sec:WhatIsCluster}
+\section{What is a Cluster?} \label{sec:WhatIsCluster}
 
 So far, the terms cluster, group and class have been used in a completely intuitive way, with no need for any formal definition, a further proof of the innate nature of these concepts in the human being. In fact, giving a formal definition of cluster is a task, not only complicated, but in many occasions not very useful. For example, in \cite{lance1967general} a cluster definition completely dependent on the user's interpretation is proposed. As far as this definition is concerned, a cluster is what the user understands as a cluster without having proposed a formal definition of it.
 
@@ -91,7 +91,7 @@ However, most unsupervised learning methods will result in uniform partitioning 
 
 The process of dividing a homogeneous distribution of data into different groups is known as dissection, and such a process may be useful in certain circumstances. However, since in most cases of actual application of cluster methods, the structure of the data is not known a priori, there is risk of interpreting all solutions in terms of the existence of subgroups, which would lead to the imposition of a fictitious structure on data in which there is no structure present.
 
-\section{Applications of Clustering}
+\section{Applications of Clustering} \label{sec:ClusteringApplications}
 
 As it has been already mentioned, the general problem clustering attempts to solve is present in many disciplines: biology, botany, medicine, psychology, geography, marketing, image processing, psychiatry, archaeology, etc. This section presents some of the clustering applications related to these and others knowledge fields.
 

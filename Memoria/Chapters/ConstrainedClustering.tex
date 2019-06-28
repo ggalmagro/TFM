@@ -1,14 +1,14 @@
 \chapter{Constrained Clustering}\label{ch:ConstrainedClustering}
 
-Once the basics concepts about clustering have been introduced, we can focus im defining the concepts related to constrained clustering, as well as to give examples of its application and highlight the benefits and problems presented by its use. To this end we take as our main reference the survey presented in \cite{davidson2007survey}.
+Once the basics concepts about clustering have been introduced, we can focus im defining the concepts related to constrained clustering, as well as to give examples of its application and highlight the benefits and problems presented by its use. To this end we take as our main reference the survey presented in \cite{davidson2007survey}. We will start by describing the motivation for constrained clustering in Section \ref{sec:CCMotiv}. We formalize the concept of constraints and discuss their use in Sections \ref{sec:ConstDef} and \ref{sec:ConstUse} respectively. Afterwards a list of constrained clustering application is presented in Section \ref{sec:CCApplications}. Benefits and problems, as well as solutions for these problems, are discussed in Sections \ref{sec:ConstraintsBenefits} and \ref{sec:ConstraintsProblems} respectively.
 
-\section{Motivation for Constrained Clustering}
+\section{Motivation for Constrained Clustering} \label{sec:CCMotiv}
 
 As we discussed in Chapter \ref{ch:IntroClustering}, unsupervised clustering methods are useful for structuring data referring to a particular area. An example of this can be found in text classification; In \cite{cohn2003semi} a problem proposed by Yahoo! is addressed. The problem consist of, given a large number of text documents, grouping them according to a taxonomy in which documents with similar topics are conceptually nearby. To solve this problem, unsupervised clustering methods are useful, as the information on the problem initially available is limited. However, in \cite{wagstaff2001constrained} is shown that applying unsupervised clustering to certain problems, such as grouping \acf{GPS} data in such a way that clusters define the lanes of a road, does not produce significant results, as the clusters obtained are far from the elongated shape that would be expected as a result. To tackle the problem, they introduced a new element in clustering, the constraints, which made it possible to include domain knowledge that would guide the clustering methods to obtain the expected results. It was enough to indicate that the lanes of the road on which the vehicles circulate are four meters wide, and therefore any vehicle that is at a distance of more than 4 meters from another, perpendicular to the motion direction, must be located in a different cluster.
 
 We are now in a new scenario: it is possible to incorporate additional information to the clustering process, in addition to that contained in the dataset itself, to guide it in the formation of the output partition and obtain more accurate results. This new approach is known as constrained clustering, a \acf{SSL} paradigm, unlike traditional clustering methods which fall within the area of unsupervised learning. 
 
-\section{Constraints Definition}
+\section{Constraints Definition} \label{sec:ConstDef}
 
 The new type of information that we incorporate to clustering is given in the form of instance-level constraints, that is, to specify if two instances ($x_i$ and $x_j$) from the dataset ($X$) must be in the same cluster or, on the contrary, they must be in separate clusters.
 
@@ -35,7 +35,7 @@ A clear example of constraint use can be found in clustering applications where 
 \end{figure}
 
 
-\section{Use of Constraints}
+\section{Use of Constraints} \label{sec:ConstUse}
 
 While supervised learning involves knowing the label associated with each instance, \acs{SSL} has only a subset of labeled instances. On the other hand, in many domains the available information refers to relations between instances, and not to the specific class to which they belong. Moreover, in interactive clustering systems, a user who is not expert in the problem domain will probably be able to provide information in the form of constraints such as \acs{ML} and \acs{CL}, rather than providing information on what particular class certain instances belong to \cite{cohn2003semi,davidson2007hierarchical}.
 
@@ -59,32 +59,34 @@ Regarding the degree to which the constraints have to be satisfied, we can make 
 	
 \end{itemize}
 
-Figure \ref{fig:ConstOverDataset} shows a dataset together with its associated constraints. Figure \ref{fig:ClusteringSatAllConst} proposes a possible clustering that satisfies all constraints.
+Figure \ref{fig:ConstClustOverDataset} shows a dataset together with its associated constraints and proposes a possible clustering that satisfies all constraints.
 
 \begin{figure}[bth]
 	\myfloatalign
-	{\includegraphics[width=.6\linewidth]{gfx/ConstClust/InputInstancesAndConst1}
-	\caption[Constraints on a dataset.]{Constraints on a dataset \cite{davidson2007survey}.} \label{fig:ConstOverDataset}
-	}
-	{\includegraphics[width=.6\linewidth]{gfx/ConstClust/ClusteringSatAll}
-	\caption[Clustering satisfying all constraints.]{Clustering satisfying all constraints \cite{davidson2007survey}.} \label{fig:ClusteringSatAllConst}
-	}
+	\subfloat[Constraints over a dataset.]
+	{\includegraphics[width=.45\linewidth]{gfx/ConstClust/InputInstancesAndConst1}}
+	\hspace{1cm}
+	\subfloat[Clustering satisfying all constraints.]
+	{\includegraphics[width=.45\linewidth]{gfx/ConstClust/ClusteringSatAll}}
+	
+	\caption[Constraints and clustering over a dataset]{Constraints and clustering over a dataset \cite{davidson2007survey}.} \label{fig:ConstClustOverDataset}
 \end{figure}
 
 \subsection{Distance-based Methods}
 
 In distance-based approaches, classic clustering methods that use a distance measurement are employed, so that the distance measurement is modified to incorporate the constraints. In this context, satisfying constraints means that instances related to constraints \acs{ML} are placed together in the space, and those related by \acs{CL} are separated.
 
-Figure \ref{fig:MetricLearned} shows a possible clustering based on a metric learned from the constraints specified in Figure \ref{fig:ConstOverDataset2}. It should be noted that in Figure \ref{fig:MetricLearned} the data space has been compressed on the vertical axis and widened on the horizontal axis to match the learned distance metric.
+Figure \ref{fig:ConstrainsAndMetricLearned} shows a possible clustering based on a metric learned from the constraints. It should be noted that in Figure \ref{fig:MetricLearned} the data space has been compressed on the vertical axis and widened on the horizontal axis to match the learned distance metric.
 
 \begin{figure}[bth]
 	\myfloatalign
-	{\includegraphics[width=.6\linewidth]{gfx/ConstClust/InputInstancesAndConst2}
-	\caption[Constraints on a dataset.]{Constraints on a dataset \cite{davidson2007survey}.} \label{fig:ConstOverDataset2}
-	}
-	{\includegraphics[width=.6\linewidth]{gfx/ConstClust/MetricaAprendida}
-	\caption[Clustering based on a metric learned based on constraints.]{Clustering based on a metric learned based on constraints \cite{davidson2007survey}.} \label{fig:MetricLearned}
-	}
+	\subfloat[Constraints over a dataset.]
+	{\includegraphics[width=.45\linewidth]{gfx/ConstClust/InputInstancesAndConst2}} 
+	\hspace{0.5cm}
+	\subfloat[Clustering based on a metric learned from constraints.]
+	{\includegraphics[width=.45\linewidth]{gfx/ConstClust/MetricaAprendida}
+	\label{fig:MetricLearned}}
+	\caption[Clustering based on a metric learned from constraints.]{Clustering based on a metric learned based on constraints \cite{davidson2007survey}.} \label{fig:ConstrainsAndMetricLearned}
 \end{figure}
 
 \section{Constrained Clustering Applications} \label{sec:CCApplications}
@@ -93,9 +95,7 @@ This section shows some application cases in which constrained clustering has tu
 
 \subsection{Image Analysis}
 
-Figure \ref{fig:CMUFacesDatabase} shows a sample from the CMU (Carnegie Mellon University) faces dataset, where the task is to group faces based on different criteria. In this case, the goal is to group the faces according to their orientation.
-
-\clearpage
+Figure \ref{fig:CMUFacesDatabase} shows a sample from the CMU (Carnegie Mellon University) faces dataset, where the task is to group faces based on different criteria. In this case, the goal is to group faces according to their orientation.
 
 \begin{figure}[bth]
 	\myfloatalign
@@ -202,7 +202,7 @@ In this domain, real clusters have an elongated shape on the horizontal axis and
 
 The already mentioned constrained clustering applications are the most studied in the literature, although the reader may have the impression that constrained clustering is no longer used in real-world problems. To prevent that we provide a list of some more recent applications of constrained clustering to modern problems: advanced robotics navigation systems \cite{semnani2016constrained}, applied marketing \cite{seret2014new}, obstructive sleep apnea analysis \cite{mai2018evolutionary}, handwritten digits classification \cite{li2015scalable}, Internet traffic classification \cite{wang2014internet}, electoral district designing, \cite{brieden2017constrained}, semantically similar relations identification \cite{wang2015constrained}, cooperative team building \cite{yang2014team}, video face clustering \cite{zhou2014video}, image clustering \cite{habashi2017semi} and storage location assignment in warehouses \cite{yang2016constrained} among others.
 
-\section{Benefits of Using Constraints}
+\section{Benefits of Using Constraints} \label{sec:ConstraintsBenefits}
 
 Two main benefits are found in the use of constraints:
 

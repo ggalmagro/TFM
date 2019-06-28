@@ -1,5 +1,48 @@
 \chapter{Experimental Results} \label{ch:ExperimentalResults}
 
+This chapter presents the results obtained by the two new proposals introduced in this work (in Chapter \ref{ch:NewProposals}) and those obtained by the state-of-the-art. Being the mentioned its main purpose, we firstly introduce a brief study on the influence of the parameter $\xi$ in the \acs{DILS} method in Section \ref{sec:XiInfl}, so the reader gets a better comprehension of theory presented in Section \ref{sec:DILS}. Afterwards we will carry out an in-depth comparison between \acs{BRKGA}$_{CC}$ and \acs{SHADE}$_{CC}$ in Section \ref{sec:BRKGAvsSHADE}, as both are population-based and heuristic-guided methods. Finally, in Section \ref{sec:NewPropvsSOTA}  we will present a more general comparison that will include all state-of-the-art methods and the new proposals.
+
+It is worth noting that, since the methods we are comparing involve non-deterministic procedures, the results may vary from one run to another. To lessen the effect this may have on the results, we will apply each method 5 times to every dataset and constraint set, so that the measures shown in the previously mentioned tables correspond to the average of the 5 runs.
+
+\section{On the Influence of $\xi$} \label{sec:XiInfl}
+
+Parameter $\xi$ from \acs{DILS} plays a key role in the development of its optimization process. It was theoretically introduced in Section \ref{sec:DILS}. The aim of this section is to prove its influence in the \acs{DILS} constrained clustering application (\acs{DILS}$_{CC}$). With this in mind we set up the following experiment: apply \acs{DILS}$_{CC}$ to the Iris dataset and its associated $CS_{10}$ constraint set and save the number of worst individual ($m_w$) reinitializations in each generations. We have to keep in mind that \acs{DILS}$_{CC}$ is a non deterministic algorithm, due to its \acf{ILS} procedure. To mitigate the effect this could have of our study we will repeat the experiment 20 times, with the objective of analyzing average results and standard deviation.
+
+\begin{figure}[bth]
+	\myfloatalign
+	\subfloat[Restarts per generation with $\xi \le 0$]
+	{\includegraphics[width=0.45\linewidth]{gfx/ExpResults/RestartsXiMenor.pdf}} 
+	\hspace{1cm}
+	\subfloat[Restarts per generation with $\xi \ge 0$]
+	{\includegraphics[width=0.45\linewidth]{gfx/ExpResults/RestartsXiMayor.pdf}}
+	\caption{Visual representation of the influence of $\xi$ over the \acs{DILS}$_{CC}$ optimization process.}
+	\label{fig:RestartsLines}
+\end{figure}
+
+Figure \ref{fig:RestartsLines} shows the number of total reinitializations per generation for $\xi \in [-0.5,0.5]$. Note that the $y$ axis is on a continuous scale due to the averaging process. As we expected this number grows in a logarithmic way with respect to the number of generations, which means that the algorithm tends to converge if a sufficient number of generations. Also it is clear that the higher $\xi$ the less reinitializations per generations are done.
+
+
+\begin{figure}[bth]
+	\myfloatalign
+	\subfloat[Hisogram showing values]
+	{\includegraphics[width=0.45\linewidth]{gfx/ExpResults/HistValues.pdf}} 
+	\hspace{1cm}
+	\subfloat[Hisogram showing variance]
+	{\includegraphics[width=0.45\linewidth]{gfx/ExpResults/HistVar.pdf}}
+	\caption{Mean number of reinitializations histogram for $\xi \in [-0.5,0.5]$.}
+	\label{fig:RestartsHist}
+\end{figure}
+
+Figure \ref{fig:RestartsHist} aims to present a more clear visual representation of the average number of reinitializations and the standard deviation found in the total number of reinitializations for the 20 runs and for each $\xi$ value. We observe how the average number of reinitializations grows in an irregular way as $\xi$ decreases. This effect would tend to lessen as we increase the size of the sample runs increases. To put it clear: the more runs the more regular the grow of the average number reinitializations would be. Regarding the variance, we can clearly see how the more permissive the reinitilization rule is the higher it gets. Which is exactly what we would expect in a non deterministic method such as \acs{DILS}$_{CC}$.
+
+We can conclude that the parameter $\xi$ has the expected influence over the \acs{DILS}$_{CC}$ optimization process. Note that in a problem in which the \acs{LS} procedure used is deterministic we would also find differences between consecutive runs over the same datasets, given that the \acs{DILS} general optimization scheme uses stochastic tools---such as the recombination and mutation operators---to make sure that diversity is introduced in the search of the global optima for the problem we apply it to.
+
+\section{Comparing BRKGA$_{CC}$ with SHADE$_{CC}$} \label{sec:BRKGAvsSHADE}
+
+Tables from \ref{tab:resultsBRKGAvsSHADE10} to \ref{tab:resultsBRKGAvsSHADE20} present the comparison between \acs{BRKGA}$_{CC}$ and \acs{SHADE}$_{CC}$. In them the \acs{ARI} columns shows the Adjusted Rand Index for each case, the Unsat columns displays the percentage of violated constraints and the Time columns shows the time taken for each algorithm to deliver results, measured in seconds.
+
+\clearpage
+
 \begin{table}[!h]
 	\centering
 	\setlength{\tabcolsep}{7pt}
@@ -9,9 +52,9 @@
 		\begin{tabular}{l ccc c ccc}
 			\hline
 			\multirow{2}{*}{Dataset} &
-			\multicolumn{3}{c}{BRKGA$_{CC}$} &&  \multicolumn{3}{c}{SHADE$_{CC}$} \\
+			\multicolumn{3}{c}{\acs{BRKGA}$_{CC}$} &&  \multicolumn{3}{c}{\acs{SHADE}$_{CC}$} \\
 			\cline{2-4} \cline{6-8}
-			& ARI & Unsat(\%) & Time(s) && ARI & Unsat(\%) & Time(s) \\
+			& \acs{ARI} & Unsat(\%) & Time(s) && \acs{ARI} & Unsat(\%) & Time(s) \\
 			\hline
 			Appendicitis & 0.022 & 5.454 & 383.642 && \textbf{0.086} & 5.091 & 366.491 \\
 			Breast Cancer & \textbf{0.395} & 17.444 & 3651.263 && 0.159 & 22.256 & 3602.665 \\
@@ -34,15 +77,17 @@
 			Vowel & \textbf{0.003} & 13.330 & 4245.672 && 0.002 & 11.523 & 4290.154 \\
 			Zoo & \textbf{0.105} & 1.091 & 336.345 && 0.098 & 2.182 & 317.674 \\
 			\hline
-			Mean & \textbf{0.161} & 11.771 & 1675.618 && 0.156 & 10.828 & 1652.02 \\
+			Mean & \textbf{0.165} & 10.437 & 1328.026 && 0.162 & 9.837 & 1306.276 \\
 			\hline
 			
 	\end{tabular}}
 	%\end{adjustwidth}
 	
-	\caption{Experimental results obtained for $CS_{10}$ comparing SHADE$_{CC}$ and BRKGA$_{CC}$.}
-	\label{tab:results10}
+	\caption[Experimental results obtained for $CS_{10}$ comparing SHADE$_{CC}$ and BRKGA$_{CC}$.]{Experimental results obtained for $CS_{10}$ comparing \acs{SHADE}$_{CC}$ and \acs{BRKGA}$_{CC}$.}
+	\label{tab:resultsBRKGAvsSHADE10}
 \end{table}
+
+Table \ref{tab:resultsBRKGAvsSHADE10} shows the results for the $SC_{10}$ constraint set. We can note that \acs{SHADE}$_{CC}$ represents a consistent improvement over \acs{BRKGA}$_{CC}$ in both Unsat and Time, while in terms of \acs{ARI} both methods are similar. This is because the penalty applied to the fitness function of both methods has little presence when operating with a small constraint set, and since they are population-based and heuristic-guided methods, they have similar exploration and exploitation capabilities.
 
 \begin{table}[!h]
 	\centering
@@ -53,9 +98,9 @@
 		\begin{tabular}{l ccc c ccc}
 			\hline
 			\multirow{2}{*}{Dataset} &
-			\multicolumn{3}{c}{BRKGA$_{CC}$} &&  \multicolumn{3}{c}{SHADE$_{CC}$} \\
+			\multicolumn{3}{c}{\acs{BRKGA}$_{CC}$} &&  \multicolumn{3}{c}{\acs{SHADE}$_{CC}$} \\
 			\cline{2-4} \cline{6-8}
-			& ARI & Unsat(\%) & Time(s) && ARI & Unsat(\%) & Time(s) \\
+			& \acs{ARI} & Unsat(\%) & Time(s) && \acs{ARI} & Unsat(\%) & Time(s) \\
 			\hline
 			Appendicitis & 0.296 & 6.167 & 381.625 && \textbf{0.332} & 5.833 & 362.106 \\
 			Breast Cancer & 0.772 & 10.172 & 3854.911 && \textbf{0.911} & 3.310 & 3766.402 \\
@@ -78,15 +123,17 @@
 			Vowel & \textbf{0.002} & 14.486 & 4807.165 && 0.001 & 13.341 & 4867.849 \\
 			Zoo & \textbf{0.157} & 3.500 & 333.984 && 0.128 & 2.834 & 315.131 \\
 			\hline
-			Mean & 0.483 & 9.456 & 1784.931 && \textbf{0.507} & 6.997 & 1751.368 \\
+			Mean & 0.535 & 7.79 & 1402.49 && \textbf{0.547} & 5.777 & 1369.658 \\
 			\hline
 			
 	\end{tabular}}
 	%\end{adjustwidth}
 	
-	\caption{Experimental results obtained for $CS_{15}$ comparing SHADE$_{CC}$ and BRKGA$_{CC}$.}
-	\label{tab:results15}
+	\caption[Experimental results obtained for $CS_{15}$ comparing SHADE$_{CC}$ and BRKGA$_{CC}$.]{Experimental results obtained for $CS_{15}$ comparing \acs{SHADE}$_{CC}$ and \acs{BRKGA}$_{CC}$.}
+	\label{tab:resultsBRKGAvsSHADE15}
 \end{table}
+
+Table \ref{tab:resultsBRKGAvsSHADE15} presents the results obtained with the $CS_{15}$ constraint set. While conclusions for Unsat and Time remain unchanged, we see a clear difference as far as \acs{ARI} is concerned. We observe that both methods already report \acs{ARI} results above 0.7, which in an \acs{ARI} ranking is considered to be an acceptable result. We can even observe that the \acs{SHADE}$_{CC}$ method provides an \acs{ARI} higher than 0.9 for 7 datasets, compared to \acs{BRKGA}$_{CC}$ that only obtains similar results in 2 datasets.
 
 \begin{table}[!h]
 	\centering
@@ -97,9 +144,9 @@
 		\begin{tabular}{l ccc c ccc}
 			\hline
 			\multirow{2}{*}{Dataset} &
-			\multicolumn{3}{c}{BRKGA$_{CC}$} &&  \multicolumn{3}{c}{SHADE$_{CC}$} \\
+			\multicolumn{3}{c}{\acs{BRKGA}$_{CC}$} &&  \multicolumn{3}{c}{\acs{SHADE}$_{CC}$} \\
 			\cline{2-4} \cline{6-8}
-			& ARI & Unsat(\%) & Time(s) && ARI & Unsat(\%) & Time(s) \\
+			& \acs{ARI} & Unsat(\%) & Time(s) && \acs{ARI} & Unsat(\%) & Time(s) \\
 			\hline
 			Appendicitis & 1.000 & 0.000 & 389.905 && 1.000 & 0.000 & 371.579 \\
 			Breast Cancer & 0.807 & 9.086 & 4061.162 && \textbf{0.977} & 0.891 & 3984.370 \\
@@ -122,16 +169,68 @@
 			Vowel & 0.002 & 14.682 & 5450.331 && \textbf{0.003} & 13.766 & 5514.052 \\
 			Zoo & \textbf{0.176} & 5.429 & 335.715 && 0.153 & 4.191 & 320.186 \\
 			\hline
-			Mean & 0.602 & 8.086 & 1895.671 && \textbf{0.647} & 5.443 & 1880.921 \\
+			Mean & 0.666 & 6.575 & 1481.007 && \textbf{0.713} & 4.087 & 1461.155 \\
 			\hline
 			
 	\end{tabular}}
 	%\end{adjustwidth}
 	
-	\caption{Experimental results obtained for $CS_{20}$ comparing SHADE$_{CC}$ and BRKGA$_{CC}$.}
-	\label{tab:results20}
+	\caption[Experimental results obtained for $CS_{20}$ comparing SHADE$_{CC}$ and BRKGA$_{CC}$.]{Experimental results obtained for $CS_{20}$ comparing \acs{SHADE}$_{CC}$ and \acs{BRKGA}$_{CC}$.}
+	\label{tab:resultsBRKGAvsSHADE20}
 \end{table}
 
+It is in Table \ref{tab:resultsBRKGAvsSHADE20}, which gathers results obtained for the constraint set $CS_{20}$, that we observe major differences between the two methods. We find that \acs{SHADE}$_{CC}$ is capable of producing clusters identical to the original ones for 4 datasets, regardless the single dataset for which \acs{BRKGA}$_{CC}$ achieves it. Let us remember that an \acs{ARI} of 1 represents a perfect match between the two partitions given to compute it. This improvement in \acs{ARI} is clearly reflected in the percentage of violated constraints---Unsat column---, value for which, once again, \acs{SHADE}$_{CC}$ outperforms \acs{BRKGA}$_{CC}$. Conclusions on execution time remain the same.
+
+\newpage
+
+\section{Comparing SHADE$_{CC}$ and DILS$_{CC}$ with The-State-Of-The-Art} \label{sec:NewPropvsSOTA}
+
+In this section we present Tables from \ref{tab:resultsSOTA10} to \ref{tab:resultsSOTA20}, which display the results obtained by the new proposals---\acs{DILS}$_{CC}$ and \acs{SHADE}$_{CC}$---and six state-of-the-art methods---including \acs{BRKGA}$_{CC}$---to be compared for each dataset and constraint set.
+
+It should be noted that there are some missing results in these tables. In the case of the \acs{COPKM} algorithm, this is due to the fact that it is highly dependent on the order in which constraints are analyzed. It is possible that \acs{COPKM} cannot find a solution, even though it is always feasible, since the constraints have been generated based on the true labels. In the case of CECM, some of the results are not available because the memory structures that hold the algorithm grow non-linearly with the number of classes and the number of features of the dataset to be analyzed. We establish that in these cases the \acs{ARI} value considered for the mean calculation---and the forthcoming statistical analysis of results---is -1.000, which is the worst value the \acs{ARI} measure can deliver.
+
+\begin{table}[!h]
+	\centering
+	\setlength{\tabcolsep}{7pt}
+	\renewcommand{\arraystretch}{1.2}
+	%\begin{adjustwidth}{-1in}{-1in}
+	\resizebox{\textwidth}{!}{
+		\begin{tabular}{lcccccccc}
+			\hline
+			Dataset & \acs{SHADE}$_{CC}$ & \acs{DILS}$_{CC}$ & \acs{BRKGA}$_{CC}$ & \acs{COPKM} & \acs{LCVQE} & \acs{RDPM} & \acs{TVClust} & \acs{CECM} \\
+			\hline
+			Appendicitis & 0.086 & 0.611 & 0.022 & - & 0.335 & 0.316 & 0.025 & -0.005 \\
+			Breast Cancer & 0.159 & 0.755 & 0.395 & -0.604 & 0.486 & 0.502 & 0.000 & 0.000 \\
+			Bupa & 0.104 & 0.870 & 0.281 & - & -0.005 & -0.005 & -0.004 & -0.011 \\
+			Circles & 0.063 & 0.798 & 0.166 & - & -0.003 & 0.162 & 0.137 & 0.133 \\
+			Ecoli & 0.020 & 0.069 & 0.009 & - & 0.387 & 0.417 & 0.265 & - \\
+			Glass & 0.013 & 0.009 & 0.016 & 0.184 & 0.268 & 0.197 & 0.211 & - \\
+			Haberman & 0.084 & 0.638 & 0.047 & - & -0.002 & 0.127 & 0.218 & -0.004 \\
+			Hayesroth & 0.025 & 0.031 & 0.027 & - & 0.106 & 0.097 & 0.054 & 0.139 \\
+			Ionosphere & 0.332 & 0.792 & 0.125 & - & 0.168 & 0.197 & 0.000 & 0.030 \\
+			Iris & 0.342 & 0.621 & 0.238 & -0.285 & 0.730 & 0.607 & 0.244 & 0.684 \\
+			Monk2 & 0.270 & 0.815 & 0.421 & 0.982 & 0.072 & 0.094 & -0.002 & 0.007 \\
+			Moons & 0.272 & 0.968 & 0.277 & - & 0.241 & 0.319 & 0.785 & 0.092 \\
+			Saheart & 0.265 & 0.800 & 0.147 & 0.974 & 0.018 & 0.020 & 0.068 & 0.000 \\
+			Sonar & 0.116 & 0.649 & 0.124 & - & 0.004 & 0.013 & 0.000 & 0.000 \\
+			Soybean & 0.515 & 0.304 & 0.496 & 0.503 & 0.545 & 0.621 & 0.000 & 0.244 \\
+			Spectfheart & 0.343 & 0.896 & 0.334 & - & -0.107 & -0.114 & 0.000 & 0.050 \\
+			Spiral & 0.114 & 0.856 & 0.058 & - & -0.003 & 0.012 & 0.034 & -0.002 \\
+			Tae & 0.024 & 0.031 & 0.018 & - & 0.009 & -0.000 & 0.067 & 0.000 \\
+			Vowel & 0.002 & 0.002 & 0.003 & - & 0.063 & -0.003 & 0.067 & - \\
+			Zoo & 0.098 & 0.151 & 0.105 & 0.715 & 0.666 & 0.412 & 0.335 & - \\
+			\hline
+			Mean & 0.162 & \textbf{0.533} & 0.165 & -0.527 & 0.199 & 0.199 & 0.125 & -0.132 \\
+			\hline
+			
+	\end{tabular}}
+	%\end{adjustwidth}
+	
+	\caption{Experimental results obtained for $CS_{10}$ by the new proposals and the state-of-the-art methods.}
+	\label{tab:resultsSOTA10}
+\end{table}
+
+Table \ref{tab:resultsSOTA10} presents the results obtained for the $CS_{10}$ constraint set. \acs{LCVQE}, \acs{RDPM} and \acs{TVClust} methods stand out of \acs{SHADE}$_{CC}$, achieving results as competitive as it with a low number of constraints. Nevertheless \acs{DILS}$_{CC}$ represents a consistent improvement over all other 6 state-of-the-art methods. This is due to the fact that the exploitation capacity of \acs{DILS}$_{CC}$ allows it to take better advantage of the information contained in the constraint set than the rest of the methods, even with the lowest level of constraint-based information we work with.
 
 \begin{table}[!h]
 	\centering
@@ -139,40 +238,42 @@
 	\renewcommand{\arraystretch}{1.4}
 	%\begin{adjustwidth}{-1in}{-1in}
 	\resizebox{\textwidth}{!}{
-		\begin{tabular}{lccccccc}
+		\begin{tabular}{lcccccccc}
 			\hline
-			Dataset & DILS$_{CC}$ & BRKGA & COPKM & LCVQE & RDPM & TVClust & CEKM \\
+			Dataset & \acs{SHADE}$_{CC}$ & \acs{DILS}$_{CC}$ & \acs{BRKGA}$_{CC}$ & \acs{COPKM} & \acs{LCVQE} & \acs{RDPM} & \acs{TVClust} & \acs{CECM} \\
 			\hline
-			Appendicitis & \textbf{0.611} & 0.022 & - & 0.335 & 0.316 & 0.025 & -0.005 \\
-			Breast Cancer & \textbf{0.755} & 0.395 & -0.604 & 0.486 & 0.502 & 0.000 & 0.000 \\
-			Bupa & \textbf{0.870} & 0.281 & - & -0.005 & -0.005 & -0.004 & -0.011 \\
-			Circles & \textbf{0.798} & 0.166 & - & -0.003 & 0.162 & 0.137 & 0.133 \\
-			Ecoli & 0.069 & 0.009 & - & 0.387 & \textbf{0.417} & 0.265 & - \\
-			Glass & 0.009 & 0.016 & 0.184 & \textbf{0.268} & 0.197 & 0.211 & - \\
-			Haberman & \textbf{0.638} & 0.047 & - & -0.002 & 0.127 & 0.218 & -0.004 \\
-			Hayesroth & 0.031 & 0.027 & - & \textbf{0.106} & 0.097 & 0.054 & 0.139 \\
-			Ionosphere & \textbf{0.792} & 0.125 & - & 0.168 & 0.197 & 0.000 & 0.030 \\
-			Iris & 0.621 & 0.238 & -0.285 & \textbf{0.730} & 0.607 & 0.244 & 0.684 \\
-			Monk2 & 0.815 & 0.421 & \textbf{0.982} & 0.072 & 0.094 & -0.002 & 0.007 \\
-			Moons & \textbf{0.968} & 0.277 & - & 0.241 & 0.319 & 0.785 & 0.092 \\
-			Saheart & 0.800 & 0.147 & \textbf{0.974} & 0.018 & 0.020 & 0.068 & 0.000 \\
-			Sonar & \textbf{0.649} & 0.124 & - & 0.004 & 0.013 & 0.000 & 0.000 \\
-			Soybean & 0.304 & 0.496 & 0.503 & 0.545 & \textbf{0.621} & 0.000 & 0.244 \\
-			Spectfheart & \textbf{0.896} & 0.334 & - & -0.107 & -0.114 & 0.000 & 0.050 \\
-			Spiral & \textbf{0.856} & 0.058 & - & -0.003 & 0.012 & 0.034 & -0.002 \\
-			Tae & \textbf{0.031} & 0.018 & - & 0.009 & -0.000 & 0.067 & 0.000 \\
-			Vowel & 0.002 & 0.003 & - & 0.063 & -0.003 & \textbf{0.067} & - \\
-			Zoo & 0.151 & 0.105 & \textbf{0.715} & 0.666 & 0.412 & 0.335 & - \\
+			Appendicitis & 0.332 & 0.957 & 0.296 & - & 0.305 & 0.284 & 0.025 & -0.006 \\
+			Breast Cancer & 0.911 & 0.788 & 0.772 & 1.000 & 0.486 & 0.502 & 0.000 & 0.037 \\
+			Bupa & 0.801 & 0.984 & 0.840 & 1.000 & -0.005 & -0.007 & -0.007 & 0.001 \\
+			Circles & 0.982 & 1.000 & 0.828 & 1.000 & -0.003 & 0.375 & 0.973 & 0.105 \\
+			Ecoli & 0.025 & 0.134 & 0.015 & - & 0.387 & 0.372 & 0.719 & - \\
+			Glass & 0.031 & 0.057 & 0.017 & - & 0.280 & 0.253 & 0.229 & - \\
+			Haberman & 0.796 & 1.000 & 0.866 & 1.000 & -0.002 & 0.075 & 0.219 & -0.050 \\
+			Hayesroth & 0.099 & 0.386 & 0.107 & - & 0.106 & 0.107 & 0.150 & 0.135 \\
+			Ionosphere & 0.591 & 0.970 & 0.803 & 1.000 & 0.178 & 0.212 & 0.000 & 0.057 \\
+			Iris & 0.260 & 0.850 & 0.412 & - & 0.730 & 0.547 & 0.421 & 0.684 \\
+			Monk2 & 0.945 & 0.902 & 0.751 & 1.000 & 0.072 & 0.170 & -0.002 & 0.007 \\
+			Moons & 0.995 & 1.000 & 0.958 & 1.000 & 0.241 & 0.436 & 0.987 & 0.095 \\
+			Saheart & 0.945 & 0.862 & 0.749 & 1.000 & 0.020 & 0.037 & 0.221 & 0.000 \\
+			Sonar & 0.890 & 0.981 & 0.800 & - & 0.004 & 0.019 & 0.000 & 0.000 \\
+			Soybean & 0.422 & 0.469 & 0.428 & 0.584 & 0.545 & 0.605 & 0.000 & 0.000 \\
+			Spectfheart & 0.778 & 1.000 & 0.924 & 0.983 & -0.107 & -0.117 & 0.000 & -0.070 \\
+			Spiral & 0.949 & 1.000 & 0.847 & - & -0.003 & 0.014 & 0.006 & 0.051 \\
+			Tae & 0.066 & 0.299 & 0.119 & - & 0.008 & -0.004 & 0.062 & 0.000 \\
+			Vowel & 0.001 & 0.003 & 0.002 & - & 0.063 & -0.003 & 0.073 & - \\
+			Zoo & 0.128 & 0.185 & 0.157 & 0.435 & 0.642 & 0.450 & 0.353 & - \\
 			\hline
-			Mean & \textbf{0.474} & 0.158 & -0.510 & 0.226 & 0.212 & 0.175 & -0.186 \\
+			Mean & 0.547 & \textbf{0.691} & 0.535 & 0.05 & 0.197 & 0.216 & 0.221 & -0.148 \\
 			\hline
 			
 	\end{tabular}}
 	%\end{adjustwidth}
 	
-	\caption{Experimental results obtained for $CS_{10}$ by DILS$_{CC}$ and the state-of-the-art methods.}
-	\label{tab:results10}
+	\caption{Experimental results obtained for $CS_{15}$ by the new proposals and the state-of-the-art methods.}
+	\label{tab:resultsSOTA15}
 \end{table}
+
+In one hand, Table \ref{tab:resultsSOTA15}, which shows the results for the $CS_{15}$ constraint set, we observe that there is a significant improvement in precision in the results obtained by \acs{SHADE}$_{CC}$. On the other hand, methods that obtained better results for smaller constraint sets do not present an improvement comparable to that presented by \acs{SHADE}$_{CC}$, with the exception of \acs{COPKM}. Also we observe how \acs{DILS}$_{CC}$ and \acs{COPKM} are able to obtain \acs{ARI} values equal to 1, meaning that the resulting partitions of the datasets perfectly match the true partitions. The fact that \acs{DILS}$_{CC}$ is always able to output a partition of the datasets is a noteworthy advantage over \acs{COPKM}. Even in the cases where \acs{COPKM} is unable to produce a partition, \acs{DILS} often finds the optimal or a near-optimal partition.
 
 \begin{table}[!h]
 	\centering
@@ -180,79 +281,62 @@
 	\renewcommand{\arraystretch}{1.4}
 	%\begin{adjustwidth}{-1in}{-1in}
 	\resizebox{\textwidth}{!}{
-		\begin{tabular}{lccccccc}
+		\begin{tabular}{lcccccccc}
 			\hline
-			Dataset & DILS$_{CC}$ & BRKGA & COPKM & LCVQE & RDPM & TVClust & CEKM \\
+			Dataset & \acs{SHADE}$_{CC}$ & \acs{DILS}$_{CC}$ & \acs{BRKGA}$_{CC}$ & \acs{COPKM} & \acs{LCVQE} & \acs{RDPM} & \acs{TVClust} & \acs{CECM} \\
 			\hline
-			Appendicitis & \textbf{0.957} & 0.296 & - & 0.305 & 0.284 & 0.025 & -0.006 \\
-			Breast Cancer & 0.788 & 0.772 & \textbf{1.000} & 0.486 & 0.502 & 0.000 & 0.037 \\
-			Bupa & 0.984 & 0.840 & \textbf{1.000} & -0.005 & -0.007 & -0.007 & 0.001 \\
-			Circles & \textbf{1.000} & 0.828 & \textbf{1.000} & -0.003 & 0.375 & 0.973 & 0.105 \\
-			Ecoli & 0.134 & 0.015 & - & 0.387 & 0.372 & \textbf{0.719} & - \\
-			Glass & 0.057 & 0.017 & - & \textbf{0.280} & 0.253 & 0.229 & - \\
-			Haberman & \textbf{1.000} & 0.866 & \textbf{1.000} & -0.002 & 0.075 & 0.219 & -0.050 \\
-			Hayesroth & \textbf{0.386} & 0.107 & - & 0.106 & 0.107 & 0.150 & 0.135 \\
-			Ionosphere & 0.970 & 0.803 & \textbf{1.000} & 0.178 & 0.212 & 0.000 & 0.057 \\
-			Iris & \textbf{0.850} & 0.412 & - & 0.730 & 0.547 & 0.421 & 0.684 \\
-			Monk2 & 0.902 & 0.751 & \textbf{1.000} & 0.072 & 0.170 & -0.002 & 0.007 \\
-			Moons & \textbf{1.000} & 0.958 & \textbf{1.000} & 0.241 & 0.436 & 0.987 & 0.095 \\
-			Saheart & 0.862 & 0.749 & \textbf{1.000} & 0.020 & 0.037 & 0.221 & 0.000 \\
-			Sonar & \textbf{0.981} & 0.800 & - & 0.004 & 0.019 & 0.000 & 0.000 \\
-			Soybean & 0.469 & 0.428 & 0.584 & 0.545 & \textbf{0.605} & 0.000 & 0.000 \\
-			Spectfheart & \textbf{1.000} & 0.924 & 0.983 & -0.107 & -0.117 & 0.000 & -0.070 \\
-			Spiral & \textbf{1.000} & 0.847 & - & -0.003 & 0.014 & 0.006 & 0.051 \\
-			Tae & \textbf{0.299} & 0.119 & - & 0.008 & -0.004 & 0.062 & 0.000 \\
-			Vowel & 0.003 & 0.002 & - & 0.063 & -0.003 & \textbf{0.073} & - \\
-			Zoo & 0.185 & 0.157 & 0.435 & \textbf{0.642} & 0.450 & 0.353 & - \\
+			Appendicitis & 1.000 & 1.000 & 1.000 & - & 0.305 & 0.331 & 0.012 & -0.006 \\
+			Breast Cancer & 0.977 & 0.807 & 0.807 & 1.000 & 0.486 & 0.502 & 0.000 & 0.000 \\
+			Bupa & 0.993 & 0.991 & 0.936 & 1.000 & -0.005 & -0.007 & -0.006 & 0.000 \\
+			Circles & 1.000 & 1.000 & 0.935 & 1.000 & -0.003 & 0.629 & 1.000 & 0.138 \\
+			Ecoli & 0.047 & 0.201 & 0.028 & - & 0.387 & 0.459 & 0.763 & - \\
+			Glass & 0.082 & 0.322 & 0.038 & - & 0.271 & 0.287 & 0.218 & - \\
+			Haberman & 0.997 & 1.000 & 0.943 & 1.000 & -0.002 & 0.106 & 0.737 & 0.000 \\
+			Hayesroth & 0.531 & 0.812 & 0.548 & - & 0.106 & 0.107 & 0.208 & 0.056 \\
+			Ionosphere & 0.993 & 0.982 & 0.902 & 1.000 & 0.173 & 0.309 & 0.000 & 0.115 \\
+			Iris & 0.553 & 0.968 & 0.691 & - & 0.708 & 0.540 & 0.585 & 0.684 \\
+			Monk2 & 0.991 & 0.904 & 0.855 & 1.000 & 0.072 & 0.253 & -0.002 & 0.160 \\
+			Moons & 0.995 & 1.000 & 0.937 & 1.000 & 0.241 & 0.831 & 1.000 & 0.180 \\
+			Saheart & 0.981 & 0.881 & 0.881 & 1.000 & 0.018 & 0.026 & 1.000 & -0.006 \\
+			Sonar & 1.000 & 1.000 & 0.992 & 1.000 & 0.004 & 0.127 & 0.000 & 0.003 \\
+			Soybean & 0.563 & 0.564 & 0.416 & -0.218 & 0.545 & 0.631 & 0.000 & -0.016 \\
+			Spectfheart & 1.000 & 1.000 & 0.953 & 1.000 & -0.107 & -0.112 & 0.000 & -0.054 \\
+			Spiral & 0.998 & 1.000 & 0.921 & 1.000 & -0.003 & 0.011 & 0.006 & 0.045 \\
+			Tae & 0.392 & 0.892 & 0.351 & - & 0.008 & 0.000 & 0.035 & 0.000 \\
+			Vowel & 0.003 & 0.003 & 0.002 & - & 0.063 & -0.003 & 0.071 & - \\
+			Zoo & 0.153 & 0.203 & 0.176 & 0.821 & 0.642 & 0.439 & 0.335 & - \\
 			\hline
-			Mean & \textbf{0.641} & 0.490 & -0.070 & 0.225 & 0.233 & 0.258 & -0.196 \\
-			\hline
-			
-	\end{tabular}}
-	%\end{adjustwidth}
-	
-	\caption{Experimental results obtained for $CS_{15}$ by DILS$_{CC}$ and the state-of-the-art methods.}
-	\label{tab:results15}
-\end{table}
-
-
-\begin{table}[!h]
-	\centering
-	\setlength{\tabcolsep}{7pt}
-	\renewcommand{\arraystretch}{1.4}
-	%\begin{adjustwidth}{-1in}{-1in}
-	\resizebox{\textwidth}{!}{
-		\begin{tabular}{lccccccc}
-			\hline
-			Dataset & DILS$_{CC}$ & BRKGA & COPKM & LCVQE & RDPM & TVClust & CEKM \\
-			\hline
-			Appendicitis & \textbf{1.000} & \textbf{1.000} & - & 0.305 & 0.331 & 0.012 & -0.006 \\
-			Breast Cancer & 0.807 & 0.807 & \textbf{1.000} & 0.486 & 0.502 & 0.000 & 0.000 \\
-			Bupa & 0.991 & 0.936 & \textbf{1.000} & -0.005 & -0.007 & -0.006 & 0.000 \\
-			Circles & \textbf{1.000} & 0.935 & \textbf{1.000} & -0.003 & 0.629 & 1.000 & 0.138 \\
-			Ecoli & 0.201 & 0.028 & - & 0.387 & 0.459 & \textbf{0.763} & - \\
-			Glass & \textbf{0.322} & 0.038 & - & 0.271 & 0.287 & 0.218 & - \\
-			Haberman & \textbf{1.000} & 0.943 & \textbf{1.000} & -0.002 & 0.106 & 0.737 & 0.000 \\
-			Hayesroth & \textbf{0.812} & 0.548 & - & 0.106 & 0.107 & 0.208 & 0.056 \\
-			Ionosphere & 0.982 & 0.902 & \textbf{1.000} & 0.173 & 0.309 & 0.000 & 0.115 \\
-			Iris & \textbf{0.968} & 0.691 & - & 0.708 & 0.540 & 0.585 & 0.684 \\
-			Monk2 & 0.904 & 0.855 & \textbf{1.000} & 0.072 & 0.253 & -0.002 & 0.160 \\
-			Moons & \textbf{1.000} & 0.937 & \textbf{1.000} & 0.241 & 0.831 & 1.000 & 0.180 \\
-			Saheart & 0.881 & 0.881 & \textbf{1.000} & 0.018 & 0.026 & \textbf{1.000} & -0.006 \\
-			Sonar & \textbf{1.000} & 0.992 & \textbf{1.000} & 0.004 & 0.127 & 0.000 & 0.003 \\
-			Soybean & 0.564 & 0.416 & -0.218 & 0.545 & \textbf{0.631} & 0.000 & -0.016 \\
-			Spectfheart & \textbf{1.000} & 0.953 & \textbf{1.000} & -0.107 & -0.112 & 0.000 & -0.054 \\
-			Spiral & \textbf{1.000} & 0.921 & \textbf{1.000} & -0.003 & 0.011 & 0.006 & 0.045 \\
-			Tae & \textbf{0.892} & 0.351 & - & 0.008 & 0.000 & 0.035 & 0.000 \\
-			Vowel & 0.003 & 0.002 & - & 0.063 & -0.003 & \textbf{0.071} & - \\
-			Zoo & 0.203 & 0.176 & \textbf{0.821} & 0.642 & 0.439 & 0.335 & - \\
-			\hline
-			Mean & \textbf{0.733} & 0.642 & 0.064 & 0.223 & 0.285 & 0.344 & -0.187 \\
+			Mean & 0.713 & \textbf{0.777} & 0.666 & 0.23 & 0.195 & 0.273 & 0.298 & -0.135 \\
 			\hline
 			
 	\end{tabular}}
 	%\end{adjustwidth}
 	
-	\caption{Experimental results obtained for $CS_{20}$ by DILS$_{CC}$ and the state-of-the-art methods.}
-	\label{tab:results20}
+	\caption{Experimental results obtained for $CS_{20}$ by the new proposals and the state-of-the-art methods.}
+	\label{tab:resultsSOTA20}
 \end{table}
+
+Table \ref{tab:resultsSOTA20} presents the results obtained for $CS_{20}$. For \acs{SHADE}$_{CC}$ and \acs{DILS}$_{CC}$ we continue to observe its progression in accuracy, as well as for methods such as \acs{BRKGA}$_{CC}$ or \acs{COPKM} (the latter being more limited in other aspects). As far as the state-of-the-art methods are concerned, we find a general improvement in \acs{ARI}, except for CECM. Even with this, it is \acs{SHADE}$_{CC}$ and \acs{COPKM} that seem to obtain the highest quality results, with the difference that \acs{SHADE}$_{CC}$ is able to produce results in all cases. It is also worth noting how \acs{DILS}$_{CC}$ provides the best average \acs{ARI} for each of the three constraint sets analyzed in this paper.
+
+Regarding the comparison between the two new proposals---\acs{DILS}$_{CC}$ and \acs{SHADE}$_{CC}$---, we have seen how both of them represent an improvement over previous constrained clustering approaches, being \acs{DILS}$_{CC}$ the best of the two. This is due to the fact that a real-based problem representation does not provide any other advantage that the possibility to apply real-coding evolutionary methods. This way, given that the \acs{SHADE} method proved to be the best approach to real optimization problems we expected it to outperform \acs{BRKGA}, though \acs{SHADE} imposes an arithmetic relationship between individuals---through the mutation operator---which is hard to understand in the clustering domain. This is, applying an arithmetic operator to two labels does not provide easily understandable combination of them. Judging from the raw results, and with its straight integer-based problem representation and its strong exploitation capability \acs{DILS}$_{CC}$ stands out as the best of all methods we obtained results for.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
