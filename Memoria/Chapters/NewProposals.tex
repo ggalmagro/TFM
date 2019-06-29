@@ -43,7 +43,7 @@ The optimization process of \acs{DE} the works through a simple cycle of stages,
 
 Even though \acs{DE} was a major breakthrough in terms of real optimization, many variants have been developed since its invention that provide better results. We will focus on the SHADE variant, which adaptively optimizes some of the parameters of \acs{DE}. To carry out this task SHADE uses a historic record of values for these parameters that allows it to set them in favor of the optimization process, based on how good the algorithm behaved with certain parameter values in the past (see Section \ref{sec:SHADE}).
 
-\section{Brief Review of the BRKGA Algorithm} \label{sec:brkga}
+\subsection{Brief Review of the BRKGA Algorithm} \label{sec:brkga}
 
 \acp{GA} emerged as one of the first metaheuristics inspired by the concept of natural selection and evolution. It is one of the most studied and successful evolutionary algorithms, thanks in part to its simplicity and ease of implementation \cite{fausto2019ants, goldberg1989genetic}. 
 
@@ -101,7 +101,7 @@ In \cite{de2017comparison}, the authors also added a new element to \acs{BRKGA},
 
 \begin{figure}[!h]
 	\centering
-	\includegraphics[scale=0.4]{gfx/NewProp/SHADE/BRKGA_Diagram.jpg} 
+	\includegraphics[scale=0.31]{gfx/NewProp/SHADE/BRKGA_Diagram.jpg} 
 	\caption[BRKGA$_{CC}$ optimization process for constrained clustering.]{\acs{BRKGA}$_{CC}$ optimization process for constrained clustering. \cite{de2017comparison}.}\label{fig:BRKGA_CC}
 \end{figure}
 
@@ -245,7 +245,7 @@ p\text{best}_i = \text{randn}[2/N, 0.2],
 
 \noindent such that there is always at least two individuals to choose between.
 
-\section{SHADE optimization scheme for constrained clustering} \label{sec:SHADEadapt}
+\subsection{SHADE optimization scheme for constrained clustering} \label{sec:SHADEadapt}
 
 In this section, we present an optimization scheme for the \acs{SHADE} algorithm when applied to constrained clustering. We will call this new approach \acs{SHADE}$_{CC}$. To begin with, we will use random-keys to create the individuals of the population; this way, each individual is defined as a vector of $n$ random-keys ($v = n$). Additionally, we will also make use of the initialization method and the decoder found in Section \ref{sec:AdaptationofBRKGA}. However, we propose a new fitness function to evaluate the quality of the individuals of the population, Equation \eqref{eq14}, whose element $z_i$ is obtained as in Equation \eqref{eq2}.
 
@@ -264,13 +264,13 @@ To make these concepts clear we consider a toy dataset and three partitions over
 
 \begin{figure}[bth]
 	\myfloatalign
-	{\includegraphics[width=.45\linewidth]{gfx/NewProp/SHADE/Dataset}} \quad
+	{\includegraphics[width=.41\linewidth]{gfx/NewProp/SHADE/Dataset}} \quad
 	%\subfloat[Imagen original]
-	{\includegraphics[width=.45\linewidth]{gfx/NewProp/SHADE/C0}} \quad
+	{\includegraphics[width=.41\linewidth]{gfx/NewProp/SHADE/C0}} \quad
 	%\subfloat[Clustering sin restricciones]
-	{\includegraphics[width=.45\linewidth]{gfx/NewProp/SHADE/C1}} \quad
+	{\includegraphics[width=.41\linewidth]{gfx/NewProp/SHADE/C1}} \quad
 	%\subfloat[Clustering con restricciones]
-	{\includegraphics[width=.45\linewidth]{gfx/NewProp/SHADE/C2}} \quad
+	{\includegraphics[width=.41\linewidth]{gfx/NewProp/SHADE/C2}} \quad
 	\caption[Three partitions over a toy dataset.]{Three partitions over a toy dataset.}
 	\label{fig:toydatasets}
 \end{figure}
@@ -309,7 +309,7 @@ As in \cite{de2017comparison} we apply a local optimization procedure to the ind
 
 \begin{figure}[!h]
 	\centering
-	\includegraphics[scale=0.4]{gfx/NewProp/SHADE/SHADE_Diagram.jpg} 
+	\includegraphics[scale=0.31]{gfx/NewProp/SHADE/SHADE_Diagram.jpg} 
 	\caption[SHADE$_{CC}$ optimization process for constrained clustering.]{\acs{SHADE}$_{CC}$ optimization process for constrained clustering.}\label{fig:SHADE_CC}
 \end{figure}
 
@@ -364,6 +364,8 @@ Algorithm \ref{alg:SHADE} describes the overall \acs{SHADE}$_{CC}$ optimization 
 	\caption[SHADE$_{CC}$]{\acs{SHADE}$_{CC}$}\label{alg:SHADE}
 \end{algorithm}
 
+\newpage
+
 \begin{algorithm}
 	\SetNlSty{textbf}{[}{]}
 	\SetNlSkip{0.5em}
@@ -391,17 +393,14 @@ Algorithm \ref{alg:SHADE} describes the overall \acs{SHADE}$_{CC}$ optimization 
 	\BlankLine
 	\KwRet{$S$}
 	
-	\caption{Local Search}\label{alg:SHADE_LS}
+	\caption[SHADE$_{CC}$ Local Search]{\acs{SHADE}$_{CC}$ Local Search}\label{alg:SHADE_LS}
 \end{algorithm}
-
-
 
 \section{Constrained Clustering Through Local Search} \label{sec:DILS}
 
-
 Following the stream of thought introduced at the beginning of this chapter, it is justified to think that metaheuristics constitute a promising approach to fin approximate quality solutions to the tough challenge that constrained clustering constitutes. Metaheuristic algorithms are designed to explore the solution space of a problem with the guidance of a fitness (heuristic) function \cite{Gendreau:2010:HM:1941310}. In this type of approaches the key is to find a good exploration-exploitation tradeoff. This is the reason why the classic \acf{LS} heuristic algorithm derived in the \acf{ILS} metaheuristic algorithm, which introduces periodic perturbations in the exploration of the solution space to escape local optima \cite{lourencco2010iterated}. \acs{ILS}---or variants of it---has been applied to a wide variety of problems, including the traveling salesman \cite{archetti2018iterated}, the quadratic multiple knapsack \cite{avci2017multi} or the vehicle routing problem \cite{chentli2018impact, estrada2019biased}. \acs{ILS} is also very commonly used in the design of hybrid methods with good exploration-exploitation tradeoff, such as its combination with expediting mechanisms \cite{zohali2019reformulation} or with the success history based differential evolution algorithm \cite{zhao2019hybrid}. In this section we propose a new variant of the \acs{ILS} method, the \acs{DILS}, which introduces diversity in the exploration of the solution space in an adaptive and guided way.
 
-\subsection{Short Introduction to Iterated Local Search}
+\subsection{A Glimpse to Iterated Local Search}
 
 Before defining the \acs{ILS}---from now on \acs{ILS}---,it is necessary to understand the \acs{LS} and the motivation that leads to designing methods with greater exploratory capacity.
 
@@ -489,11 +488,11 @@ The method for generating the perturbation applied to the local optimum $s^*$ ma
 
 In the \acs{ILS} scheme described in Algorithm \ref{alg:ILS} the acceptance criterion only use the difference in the cost of the solutions to be compared to choose between them. This is the most simple scheme and does not depends on previous solutions recorded in the history.
 
-\section{The Dual Iterative Local Search Method}
+\subsection{The Dual Iterative Local Search Method}
 
-The \acf{DILS} is a new variant of the classic \acs{ILS} method. Its goal is to perform a search in the solution space to find the solution with the best fitness value (given by fitness function $f$) by introducing diversity in an adaptive and guided way. While \acs{ILS} works with a single individual, \acs{DILS} keeps two of them $\{m_b, m_w\}$ in memory at all times, which allows it to guide diversity-inducing methods and to avoid local optima. The individual $m_b$ is the one providing the best fitness value, whereas $m_w$ provides the worst fitness value.
+The \acf{DILS} is a new variant of the classic \acs{ILS} method. Its goal is to perform a search in the solution space to find the solution with the best fitness value (given by fitness function $f$) by introducing diversity in an adaptive and guided way. While \acs{ILS} works with a single individual, \acs{DILS} keeps two of them $\{m_b, m_w\}$ in memory at all times, which allows it to guide diversity-inducing methods and to avoid local optima. The individual $m_b$ is the one providing the best fitness value, whereas $m_w$ provides the worst fitness value at the end of each stage (generation) of the optimization process.
 
-In each generation $G$ of the optimization process \acs{DILS} builds a new individual by applying a recombination operator to $m_b$ and $m_w$. After that, it applies a strong mutation operator to the newly generated individual. This is the individual \acs{DILS} applies the \acs{LS} procedure to in order to improve its fitness value, resulting in the trial individual $m_t$. The trial individual $m_t$ replaces the worst of its parents, $m_w$, if it achieves a better fitness value; this operation represents the acceptance criterion for \acs{DILS}. Equation \ref{eq2.1} displays the expression for this criterion in the case of a minimization problem.
+In each generation $G$ of the optimization process \acs{DILS} builds a new individual by applying a recombination operator to $m_b$ and $m_w$. After that, it applies a strong mutation operator to the newly generated individual. This is the individual \acs{DILS} applies the \acs{LS} procedure to in order to improve its fitness value, resulting in the trial individual $m_t$. The trial individual $m_t$ replaces the worst of its predecessors, $m_w$, if it achieves a better fitness value; this operation represents the acceptance criterion for \acs{DILS}. Equation \ref{eq2.1} displays the expression for this criterion in the case of a minimization problem.
 
 \begin{equation}
 m_{w,G} = \left\{ \begin{array}{lc}
@@ -515,17 +514,19 @@ m_{w,G} &  \text{otherwise}
 \label{eq2.2}
 \end{equation}
 
-\noindent where RandInit$()$ is a function that returns a randomly initialized individual and $\xi \in [-1,1]$ is the parameter that controls the tolerance of the reinitialization method. This way the best individual is always preserved and therefore always takes part in the process of generating new individuals (via the recombination operator) as the best parent. Figure \ref{img:DILS_diag} summarizes the \acs{DILS} optimization process.
+\noindent where RandInit$()$ is a function that returns a randomly initialized individual and $\xi \in [-1,1]$ is the parameter that controls the tolerance of the reinitialization method. This way the best individual is always preserved and therefore always takes part in the process of generating new individuals (via the recombination operator) as the best predecessor. Figure \ref{img:DILS_diag} summarizes the \acs{DILS} optimization process.
 
 \begin{figure}[!h]
 	\centering
-	\includegraphics[scale=0.25]{gfx/NewProp/DILS/DILSDiagram.jpg}
+	\includegraphics[scale=0.27]{gfx/NewProp/DILS/DILSDiagram.jpg}
 	\caption{Diagram summarizing \acs{DILS} optimization process.}\label{img:DILS_diag}
 \end{figure}
 
 It is crucial to note that in Figure \ref{img:DILS_diag} arrows in red indicate stages of the algorithm where $m_b$ and $m_w$ are reassigned to the true best and worst individual respectively. This way, at the point where the reinitialization criterion is tested, it is possible for $f(m_w)$ to yield a smaller value than $f(m_b)$, so that $f(m_b) - f(m_w)$ can be either positive or negative. 
 
 This highlights the influence of the parameter $\xi$. Let us assume again a minimization problem. On one hand, if $\xi > 0$, then the true worst individual is only reinitialized when $m_t$ replaces $m_w$ and is also better than $m_b$ by a margin. On the other hand, if $\xi < 0$, we allow \acs{DILS} to reinitialize the true worst individual even when $m_t$ is not better than $m_b$. It becomes clear that when $\xi = 0$ the worst individual is restarted if $f(m_b) = f(m_w)$. Note that $\xi$ could take any real value, but it is not realistic to set it outside of the range $[-1,1]$, and we recommend $[-0.5, 0.5]$. To summarize, the closer $\xi$ is to 1 the more restrictive the reinitialization criterion is---in the minimization case. It is also worth noting that in early stages of the optimization process the reinitialization criterion tends to be met more often than in later stages. The reason for this is that the fitness value of the best individual $f(m_b)$ never worsens ($f(m_{b,G}) \ge f(m_{b,G+1})$), so it becomes increasingly harder for $m_w$ to achieve similar or better scores. Algorithm \ref{alg:DILS} summarizes the overall \acs{DILS} optimization process.
+
+\newpage
 
 \begin{algorithm}
 	\SetNlSty{textbf}{[}{]}
@@ -578,9 +579,9 @@ For the recombination and mutation operators that appear in Algorithm \ref{alg:D
 
 It should be noted that the optimization process described so far is applicable to any minimization problem, although it is clear that there is a direct adaptation of \acs{DILS} for maximization problems. In addition, the \acs{LS} procedure used to obtain the trial individual $m_t$ must be specified for each problem, as well as numerical representation details and termination criteria.
 
-\section{DILS optimization scheme for constrained clustering} \label{sec:DILS_CC}
+\subsection{DILS optimization scheme for constrained clustering} \label{sec:DILS_CC}
 
-In this section, we present an optimization scheme for the \acs{DILS} algorithm when applied to constrained clustering. We will call this new approach \acs{DILS}$_{CC}$. We will use an integer-based representation for all the individuals \acs{DILS}$_{CC}$ work with; this way, each individual $m$ is defined as a vector of $n$ integers---with $n$ being the number of instances of the dataset. Each integer $m_i \in [0,k)$ in $m$ represents the label of the cluster that instance $x_i$ is assigned to, and therefore each individual $m$ is a solution to the clustering problem. Additionally, in order not to bias the exploration of the solution space, we will use random initialization to set $m_b$ and $m_w$; this procedure will also be used in the reinitialization of $m_w$.
+In this section, we present the application scheme of \acs{DILS} to constrained clustering. We will call this new approach \acs{DILS}$_{CC}$. We will use an integer-based representation for all the individuals \acs{DILS}$_{CC}$ work with; this way, each individual $m$ is defined as a vector of $n$ integers---with $n$ being the number of instances of the dataset. Each integer $m_i \in [0,k)$ in $m$ represents the label of the cluster that instance $x_i$ is assigned to, and therefore each individual $m$ is a solution to the clustering problem. Additionally, in order not to bias the exploration of the solution space, we will use random initialization to set $m_b$ and $m_w$; this procedure will also be used in the reinitialization of $m_w$.
 
 Regarding the fitness function $f$, for each individual $m$ its fitness value $f_m$ can be calculated as in Equation \ref{eq2.3}.
 
@@ -627,7 +628,7 @@ We also need to specify an \acs{LS} procedure for \acs{DILS} to be able to impro
 	\BlankLine
 	\KwRet{$m$}
 	
-	\caption{Local Search}\label{alg:DISL_LS}
+	\caption[DILS$_{CC}$ Local Search]{\acs{DILS}$_{CC}$ Local Search}\label{alg:DISL_LS}
 \end{algorithm}
 
 

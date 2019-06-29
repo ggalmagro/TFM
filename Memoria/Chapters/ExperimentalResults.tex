@@ -15,7 +15,7 @@ Parameter $\xi$ from \acs{DILS} plays a key role in the development of its optim
 	\hspace{1cm}
 	\subfloat[Restarts per generation with $\xi \ge 0$]
 	{\includegraphics[width=0.45\linewidth]{gfx/ExpResults/RestartsXiMayor.pdf}}
-	\caption{Visual representation of the influence of $\xi$ over the \acs{DILS}$_{CC}$ optimization process.}
+	\caption[Visual representation of the influence of $\xi$ over the DILS$_{CC}$ optimization process.]{Visual representation of the influence of $\xi$ over the \acs{DILS}$_{CC}$ optimization process.}
 	\label{fig:RestartsLines}
 \end{figure}
 
@@ -35,7 +35,7 @@ Figure \ref{fig:RestartsLines} shows the number of total reinitializations per g
 
 Figure \ref{fig:RestartsHist} aims to present a more clear visual representation of the average number of reinitializations and the standard deviation found in the total number of reinitializations for the 20 runs and for each $\xi$ value. We observe how the average number of reinitializations grows in an irregular way as $\xi$ decreases. This effect would tend to lessen as we increase the size of the sample runs increases. To put it clear: the more runs the more regular the grow of the average number reinitializations would be. Regarding the variance, we can clearly see how the more permissive the reinitilization rule is the higher it gets. Which is exactly what we would expect in a non deterministic method such as \acs{DILS}$_{CC}$.
 
-We can conclude that the parameter $\xi$ has the expected influence over the \acs{DILS}$_{CC}$ optimization process. Note that in a problem in which the \acs{LS} procedure used is deterministic we would also find differences between consecutive runs over the same datasets, given that the \acs{DILS} general optimization scheme uses stochastic tools---such as the recombination and mutation operators---to make sure that diversity is introduced in the search of the global optima for the problem we apply it to.
+We can conclude that parameter $\xi$ has the expected influence over the \acs{DILS}$_{CC}$ optimization process. Note that in a problem in which the \acs{LS} procedure used is deterministic we would also find differences between consecutive runs over the same datasets, given that the \acs{DILS} general optimization scheme uses stochastic tools---such as the recombination and mutation operators---to make sure that diversity is introduced in the search of the global optima for the problem we apply it to.
 
 \section{Comparing BRKGA$_{CC}$ with SHADE$_{CC}$} \label{sec:BRKGAvsSHADE}
 
@@ -318,8 +318,9 @@ In one hand, Table \ref{tab:resultsSOTA15}, which shows the results for the $CS_
 
 Table \ref{tab:resultsSOTA20} presents the results obtained for $CS_{20}$. For \acs{SHADE}$_{CC}$ and \acs{DILS}$_{CC}$ we continue to observe its progression in accuracy, as well as for methods such as \acs{BRKGA}$_{CC}$ or \acs{COPKM} (the latter being more limited in other aspects). As far as the state-of-the-art methods are concerned, we find a general improvement in \acs{ARI}, except for CECM. Even with this, it is \acs{SHADE}$_{CC}$ and \acs{COPKM} that seem to obtain the highest quality results, with the difference that \acs{SHADE}$_{CC}$ is able to produce results in all cases. It is also worth noting how \acs{DILS}$_{CC}$ provides the best average \acs{ARI} for each of the three constraint sets analyzed in this paper.
 
-Regarding the comparison between the two new proposals---\acs{DILS}$_{CC}$ and \acs{SHADE}$_{CC}$---, we have seen how both of them represent an improvement over previous constrained clustering approaches, being \acs{DILS}$_{CC}$ the best of the two. This is due to the fact that a real-based problem representation does not provide any other advantage that the possibility to apply real-coding evolutionary methods. This way, given that the \acs{SHADE} method proved to be the best approach to real optimization problems we expected it to outperform \acs{BRKGA}, though \acs{SHADE} imposes an arithmetic relationship between individuals---through the mutation operator---which is hard to understand in the clustering domain. This is, applying an arithmetic operator to two labels does not provide easily understandable combination of them. Judging from the raw results, and with its straight integer-based problem representation and its strong exploitation capability \acs{DILS}$_{CC}$ stands out as the best of all methods we obtained results for.
+\newpage
 
+All comparisons carried out in this sections are merely supported by the raw results. To prove whether the new proposals represent an improvement over the state-of-the-art methods it is necessary to perform an statistic-based empirical analysis of the results. The last chapter (Chapter \ref{ch:AnalysisResults}) of Part \ref{pt:Experiments} will address this question.
 
 
 
