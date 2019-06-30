@@ -133,14 +133,14 @@ Since we have the true labels associated with each of the datasets, we can use t
 For each pair of instances $x_i$ and $x_j$ in $X$, a partition assigns them to the same cluster or to different clusters. We take $a$ as the number of pairings where $x_i$ is in the same cluster as $x_j$ in both $C_1$ and $C_2$, and $b$ as the opposite event ($x_i$ and $x_j$ are in different clusters in $C_1$ and $C_2$). Then, the degree of similarity between $C_1$ and $C_2$ is calculated as in Equation \eqref{eq15}.
 
 \begin{equation}
-\text{Rand}(C_1, C_2) = \frac{a + b}{n(n - 1)/2}
+\text{Rand}(C_1, C_2) = \frac{a + b}{n(n - 1)/2}.
 \label{eq15}
 \end{equation}
 
 The \acs{ARI} is a corrected-for-chance version of the Rand Index. This correction uses the expected similarity of all comparisons between clusterings specified by a random model to set up a baseline. The \acs{ARI} is computed as in Equation \eqref{eq16}.
 
 \begin{equation}
-\text{ARI}(C_1, C_2) = \frac{\text{Rand}(C_1, C_2) - \text{Expected Index}}{\text{Maximum Index} - \text{Expected Index}},
+\text{ARI}(C_1, C_2) = \frac{\text{Rand}(C_1, C_2) - \text{Expected Index}}{\text{Maximum Index} - \text{Expected Index}}\;\;,
 \label{eq16}
 \end{equation}
 
@@ -150,7 +150,7 @@ Our objective is to quantify the quality of the solutions obtained as a result o
 
 \section{Validation of results} \label{sec:ValidtnMethod}
 
-In order to validate the results which will be presented in Section \ref{sec:results} we will use Bayesian statistical tests, instead of the classic \acf{NHST}. In \cite{benavoli2017time} we find an in-depth analysis of the disadvantages of \acs{NHST}, and a new model is proposed for carrying out comparisons researchers are interested in. \textit{"In a nutshell: \acs{NHST} do not answer the question we ask"}. To put it clear, the disadvantages of the \acs{NHST} that the authors highlight in \cite{benavoli2017time} are based on the trap of black-and-white thinking, this is: to reject, or not to reject?
+In order to validate the results which will be presented in Chapter \ref{ch:ExperimentalResults} we will use Bayesian statistical tests, instead of the classic \acf{NHST}. In \cite{benavoli2017time} we find an in-depth analysis of the disadvantages of \acs{NHST}, and a new model is proposed for carrying out comparisons researchers are interested in. \textit{"In a nutshell: \acs{NHST} do not answer the question we ask"}. To put it clear, the disadvantages of the \acs{NHST} that the authors highlight in \cite{benavoli2017time} are based on the trap of black-and-white thinking, this is: to reject, or not to reject?
 
 To start with, \acs{NHST} do not provide us with the probabilities associated to the analyzed hypotheses, and therefore it is not possible to answer the question: what is the probability that two methods are different? Another pitfall of \acs{NHST} is that, with a sufficiently large number of observations, it is possible to reject almost any hypothesis. This is because the p-value does not allow us to separate between the effective size and the sample size, which is established by the researcher.
 
@@ -197,7 +197,7 @@ Table \ref{tab:paramsSHADE} shows a summary of the parameter setup used for both
 
 \newpage
 
-Table \ref{tab:paramsDILS} shows a summary of the parameter setup used for the \acs{DILS}$_{CC}$ method.
+Table \ref{tab:paramsDILS} shows a summary of the parameter setup used for the \acs{DILS}$_{CC}$ method. All parameters related to the new proposals---\acs{SHADE}$_{CC}$ and \acs{DILS}$_{CC}$---have been set experimentally, no theoretical or in-depth experimental analysis have been carried out to find an optimal tune for them.
 
 \begin{table}[!h]
 	\centering
@@ -224,7 +224,7 @@ Table \ref{tab:paramsDILS} shows a summary of the parameter setup used for the \
 	\label{tab:paramsDILS}
 \end{table}
 
-In all three cases---\acs{BRKGA}$_{CC}$, \acs{SHADE}$_{CC}$ and \acs{DILS}$_{CC}$---the stop criterion is given by the number of evaluations of the fitness function, which at most will be 300000. To compare with the state-of-the-art methods mentioned in Section \ref{sec:SOTA} we will use the parameters setup shown in Table \ref{tab:paramsSOTA}.
+In all three cases---\acs{BRKGA}$_{CC}$, \acs{SHADE}$_{CC}$ and \acs{DILS}$_{CC}$---the stopping criterion is given by the number of evaluations of the fitness function, which at most will be 300000. To compare with the state-of-the-art methods mentioned in Section \ref{sec:SOTA} we will use the parameters setup shown in Table \ref{tab:paramsSOTA}.
 
 \clearpage
 
@@ -260,6 +260,6 @@ In all three cases---\acs{BRKGA}$_{CC}$, \acs{SHADE}$_{CC}$ and \acs{DILS}$_{CC}
 
 
 
-Parameter values have been assigned following the guidelines of the original creators of the different proposals. Since the evaluation in the experimental stage makes use of a high number of datasets, tuning each parameter specifically for each dataset is not feasible. Indeed, our goal is not optimization in a case-by-case basis but instead a comparison in the most general scenario possible. Therefore, given that the purpose of this work is to draw a fair comparison between the algorithms and assess their robustness in a common environment with multiple datasets, we have not included a tuning step to maximize any particular performance metric. All parameters described above are ment to be used for the implementation that can be found at \href{https://github.com/GermangUgr}{GitHub}\footnote{https://github.com/GermangUgr}.
+Parameter values have been assigned following the guidelines of the original creators of the different proposals. Since the evaluation in the experimental stage makes use of a high number of datasets, tuning each parameter specifically for each dataset is not feasible. Indeed, our goal is not optimization in a case-by-case basis but instead a comparison in the most general scenario possible. Therefore, given that the purpose of this work is to draw a fair comparison between the algorithms and assess their robustness in a common environment with multiple datasets, we have not included a tuning step to maximize any particular performance metric. All parameters described above are meant to be used for the Python implementation that can be found at \href{https://github.com/GermangUgr}{GitHub}\footnote{https://github.com/GermangUgr}, which will be used to obtain our results.
 
 
