@@ -1,87 +1,87 @@
 \chapter{Empirical Analysis of Results} \label{ch:AnalysisResults}
 
-With the results obtained by all methods for a total of 60 different datasets---the 20 datasets in combination with the 3 constraint sets for each one of them---we can perform an empirical analysis of them. This way we can statistically determine whether the new proposals---\acs{SHADE}$_{CC}$ and \acs{DILS}$_{CC}$---represent a significant improvement over previous proposals.
+With the results obtained by all methods for a total of sixty different datasets---the twenty datasets in combination with the three constraint sets for each one of them---we can perform an empirical analysis of them. This way, we can statistically determine whether the new proposals {SHADE}$_{CC}$ and \acs{DILS}$_{CC}$ represent a significant improvement over previous proposals. To this end, we make use of Bayesian sign tests.
 
-One of the major advantages of the Bayesian sign test---introduced in Section \ref{sec:ValidtnMethod}---is that we can obtain a very illustrative visual representation of its results. We can produce a representation of the triplet set in the form of a heatmap where each triplet constitutes one point whose location is given by barycentric coordinates. With this in mind, we will associate each of the triplet values with each of the three vertices of an equilateral triangle. In order to find out where a certain triplet will be placed within the triangle, we will take each of its three values and draw a parallel line to the opposing side of the corresponding vertex; the separation between a triangle side and its parallel line will be proportional to the associated triplet value, so that the higher the value, the closer the line will be to the vertex. The location where the three lines intersect is where we draw a point. Since the values of every triplet describe a probability distribution and therefore they must add up to one, we can be sure that all triplets will lie in some point within the triangle. The color indicates the density of points in a given region, with yellow representing a high density and red a low density.
+One of the major advantages of the Bayesian sign test (introduced in Section \ref{sec:ValidtnMethod}) is that we can obtain a very illustrative visual representation of its results. We can produce a representation of the triplet set in the form of a heatmap where each triplet constitutes one point whose location is given by barycentric coordinates. With this in mind, we will associate each of the triplet values with each of the three vertices of an equilateral triangle. In order to find out where a certain triplet will be placed within the triangle, we will take each of its three values and draw a parallel line to the opposing side of the corresponding vertex; the separation between a triangle side and its parallel line will be proportional to the associated triplet value, so that the higher the value, the closer the line will be to the vertex. The location where the three lines intersect is where we draw a point. Since the values of every triplet describe a probability distribution and therefore they must add up to one, we can be sure that all triplets will lie in some point within the triangle. The color indicates the density of points in a given region, with yellow representing a high density and red a low density.
 
-\section{Testing SHADE$_{CC}$} \label{sec:TestSHADE}
+\section[Testing \acsfont{SHADE}$_{CC}$]{Testing SHADE$_{CC}$} \label{sec:TestSHADE}
 
-In this section we will determine if there are significant differences between \acs{SHADE}$_{CC}$ and all 6 state-of-the-art-method. To do so we will perform an in-depth statistical comparison between \acs{SHADE}$_{CC}$ and \acs{BRKGA}$_{CC}$, as well as a more general comparison concerning the state-of-the-art methods.
+In this section we determine if there are significant differences between \acs{SHADE}$_{CC}$ and all six state-of-the-art-method. To do so we perform an in-depth statistical comparison between \acs{SHADE}$_{CC}$ and \acs{BRKGA}$_{CC}$, as well as a more general comparison concerning the state-of-the-art methods.
 
-Having in mind the notation introduced in Section \ref{sec:ValidtnMethod}, and as far as the comparison of population-based methods is concerned, we will refer to the results obtained by \acs{BRKGA}$_{CC}$ as sample $A$, and to the results obtained with \acs{SHADE}$_{CC}$ as sample $B$.
+Having in mind the notation introduced in Section \ref{sec:ValidtnMethod}, and as far as the comparison of population-based methods is concerned, we refer to the results obtained by \acs{BRKGA}$_{CC}$ as sample $A$, and to the results obtained with \acs{SHADE}$_{CC}$ as sample $B$.
 
 
 \begin{figure}[bth]
 	\myfloatalign
-	\subfloat[\acs{ARI}]
+	\subfloat[\acs{ARI}.]
 	{\includegraphics[width=0.5\linewidth]{gfx/AnalysisResults/BRKGAvsSHADE_ARI.pdf}\label{fig:bayesARI}} \quad
-	\subfloat[Time]
+	\subfloat[Time.]
 	{\includegraphics[width=0.5\linewidth]{gfx/AnalysisResults/BRKGAvsSHADE_TIME.pdf}\label{fig:bayesTime}}
-	\subfloat[Unsat]
+	\subfloat[Unsat.]
 	{\includegraphics[width=0.5\linewidth]{gfx/AnalysisResults/BRKGAvsSHADE_UNSAT.pdf}\label{fig:bayesUnsat}}
-	\caption[Heatmaps for the comparison of SHADE$_{CC}$ with BRKGA$_{CC}$.]{Heatmaps for the comparison of \acs{SHADE}$_{CC}$ with \acs{BRKGA}$_{CC}$.}
+	\caption{Heatmaps comparing \acs{SHADE}$_{CC}$ with \acs{BRKGA}$_{CC}$.}
 	\label{fig:HeatmapsSHADEvsBRKGA}
 \end{figure}
 
-In one hand, figure \ref{fig:bayesARI} shows the heatmap associated with the \acs{ARI} measurement. The diagram suggests that the Bayesian sign test assigns a high probability to $A - B < 0$, since most triplets are represented in the lower left third of the triangle. It also indicates that in some cases there are no significant differences between $A$ and $B$, since we also find triplets in the rope area. Bearing this in mind, and considering that \acs{ARI} is a measure to maximize, we can say that, for cases where there are significant differences, \acs{SHADE}$_{CC}$ performs better than \acs{BRKGA}$_{CC}$. On the other hand, Figures \ref{fig:bayesTime} and \ref{fig:bayesUnsat} which show the heatmaps obtained for Time and Unsat measurements, are very similar. In both, all triplets are represented in the lower right third of the triangle, indicating that the Bayesian sign test assigns a high probability to $A - B > 0$. With this, and bearing in mind that both measures must be minimized, we conclude that \acs{SHADE}$_{CC}$ represents a solid improvement over \acs{BRKGA}$_{CC}$ as far as this measures are concerned.
+On one hand, Figure \ref{fig:bayesARI} shows the heatmap associated with the \acs{ARI} measurement. The diagram suggests that the Bayesian sign test assigns a high probability to $A - B < 0$, since most triplets are represented in the lower left third of the triangle. It also indicates that in some cases there are no significant differences between $A$ and $B$, since we also find triplets in the rope area. Bearing this in mind, and considering that \acs{ARI} is a measure to maximize, we can say that, for cases where there are significant differences, \acs{SHADE}$_{CC}$ performs better than \acs{BRKGA}$_{CC}$. On the other hand, Figures \ref{fig:bayesTime} and \ref{fig:bayesUnsat}, which show the heatmaps obtained for Time and Unsat measurements, are very similar. In both, all triplets are represented in the lower right third of the triangle, indicating that the Bayesian sign test assigns a high probability to $A - B > 0$. With this, and bearing in mind that both measures must be minimized, we conclude that \acs{SHADE}$_{CC}$ represents a solid improvement over \acs{BRKGA}$_{CC}$ as far as these measures are concerned.
 
-Regarding the comparison of \acs{SHADE}$_{CC}$ with the state-of-the-art, we will keep the results obtained by \acs{SHADE}$_{CC}$ as $B$, and note the results obtained by the state-of-the-art methods as $A$.
+Regarding the comparison of \acs{SHADE}$_{CC}$ with the state-of-the-art, we keep the results obtained by \acs{SHADE}$_{CC}$ as $B$, and note the results obtained by the state-of-the-art methods as $A$.
 
-This way, we apply the process described earlier in this section to obtain the heatmaps corresponding to the comparison of \acs{SHADE}$_{CC}$ with each of the remaining 5 state-of-the-art methods. This time the only measure we compare is \acs{ARI}. Figure \ref{fig:HeatmapsSHADEvsSOTA} show said comparison.
+This way, we apply the process described earlier in this chapter to obtain the heatmaps corresponding to the comparison of \acs{SHADE}$_{CC}$ with each of the remaining five state-of-the-art methods. This time the only measure we compare is \acs{ARI}. Figure \ref{fig:HeatmapsSHADEvsSOTA} shows said comparison.
 
 \begin{figure}[bth]
 	\myfloatalign
-	\subfloat[\acs{COPKM} vs \acs{SHADE}$_{CC}$]
+	\subfloat[\acs{COPKM} vs \acs{SHADE}$_{CC}$.]
 	{\includegraphics[width=0.5\linewidth]{gfx/AnalysisResults/COPKMvsSHADE.pdf}\label{fig:COPKMvsSHADE}}
-	\subfloat[\acs{LCVQE} vs \acs{SHADE}$_{CC}$]
+	\subfloat[\acs{LCVQE} vs \acs{SHADE}$_{CC}$.]
 	{\includegraphics[width=0.5\linewidth]{gfx/AnalysisResults/LCVQEvsSHADE.pdf}\label{fig:LCVQEvsSHADE}} \quad
-	\subfloat[\acs{RDPM} vs \acs{SHADE}$_{CC}$]
+	\subfloat[\acs{RDPM} vs \acs{SHADE}$_{CC}$.]
 	{\includegraphics[width=0.5\linewidth]{gfx/AnalysisResults/RDPMvsSHADE.pdf}\label{fig:RDPMvsSHADE}}
-	\subfloat[\acs{TVClust} vs \acs{SHADE}$_{CC}$]
+	\subfloat[\acs{TVClust} vs \acs{SHADE}$_{CC}$.]
 	{\includegraphics[width=0.5\linewidth]{gfx/AnalysisResults/TVClustvsSHADE.pdf}\label{fig:TVClustvsSHADE}} \quad
-	\subfloat[\acs{CECM} vs \acs{SHADE}$_{CC}$]
+	\subfloat[\acs{CECM} vs \acs{SHADE}$_{CC}$.]
 	{\includegraphics[width=0.5\linewidth]{gfx/AnalysisResults/CEKMvsSHADE.pdf}\label{fig:CECMvsSHADE}}
-	\caption[Heatmaps for the comparison of SHADE$_{CC}$ with the state-of-the-art.]{Heatmaps for the comparison of \acs{SHADE}$_{CC}$ with the state-of-the-art.}
+	\caption{Heatmaps comparing \acs{SHADE}$_{CC}$ with the state-of-the-art.}
 	\label{fig:HeatmapsSHADEvsSOTA}
 \end{figure}
 
-We see very similar diagrams for \acs{COPKM} (\ref{fig:COPKMvsSHADE}), LVCQE (\ref{fig:LCVQEvsSHADE}), \acs{RDPM} (\ref{fig:RDPMvsSHADE}) and \acs{TVClust} (\ref{fig:TVClustvsSHADE}). In all of them most of the triplets are represented in the lower middle region of the diagram, with a slight shift of the point cloud to the left. That is indicative that there are indeed significant differences between the two methods---since there are no triplets with representation in the rope area---, but the advantage is for one or the other depending on the case, being \acs{SHADE}$_{CC}$ the one that gets it in most of them. However, this does not apply in the case of \acs{CECM} (\ref{fig:CECMvsSHADE}), where the advantage is indisputably for \acs{SHADE}$_{CC}$.
+We see very similar diagrams for \acs{COPKM} (\ref{fig:COPKMvsSHADE}), LVCQE (\ref{fig:LCVQEvsSHADE}), \acs{RDPM} (\ref{fig:RDPMvsSHADE}) and \acs{TVClust} (\ref{fig:TVClustvsSHADE}). In all of them most of the triplets are represented in the lower middle region of the diagram, with a slight shift of the point cloud to the left. That is indicative that there are indeed significant differences between the two methods---since there are no triplets with representation in the rope area---but the advantage is for one or the other depending on the case; \acs{SHADE}$_{CC}$ is usually the one that gets it in most of them. However, this does not apply in the case of \acs{CECM} (\ref{fig:CECMvsSHADE}), where the advantage is indisputably for \acs{SHADE}$_{CC}$.
 
-\section{Testing DILS$_{CC}$} \label{sec:TestDILS}
+\section[Testing \acsfont{DILS}$_{CC}$]{Testing DILS$_{CC}$} \label{sec:TestDILS}
 
-In this case we will refer to the results obtained by a given state-of-the-art method as sample $A$, and to the results obtained with \acs{DILS}$_{CC}$ as sample $B$.
+In this case we refer to the results obtained by a given state-of-the-art method as sample $A$, and to the results obtained with \acs{DILS}$_{CC}$ as sample $B$.
 
 \begin{figure}[bth]
 	\myfloatalign
-	\subfloat[\acs{BRKGA}$_{CC}$ vs \acs{DILS}$_{CC}$]
+	\subfloat[\acs{BRKGA}$_{CC}$ vs \acs{DILS}$_{CC}$.]
 	{\includegraphics[width=0.5\linewidth]{gfx/AnalysisResults/BRKGAvsDILS.pdf}\label{fig:BRKGAvsDILS}}
-	\subfloat[\acs{COPKM} vs \acs{DILS}$_{CC}$]
+	\subfloat[\acs{COPKM} vs \acs{DILS}$_{CC}$.]
 	{\includegraphics[width=0.5\linewidth]{gfx/AnalysisResults/COPKMvsDILS.pdf}\label{fig:COPKMvsDILS}} \quad
-	\subfloat[\acs{LCVQE} vs \acs{DILS}$_{CC}$]
+	\subfloat[\acs{LCVQE} vs \acs{DILS}$_{CC}$.]
 	{\includegraphics[width=0.5\linewidth]{gfx/AnalysisResults/LCVQEvsDILS.pdf}\label{fig:LCVQEvsDILS}}
-	\subfloat[\acs{RDPM} vs \acs{DILS}$_{CC}$]
+	\subfloat[\acs{RDPM} vs \acs{DILS}$_{CC}$.]
 	{\includegraphics[width=0.5\linewidth]{gfx/AnalysisResults/RDPMvsDILS.pdf}\label{fig:RDPMvsDILS}} \quad
-	\subfloat[\acs{TVClust} vs \acs{DILS}$_{CC}$]
+	\subfloat[\acs{TVClust} vs \acs{DILS}$_{CC}$.]
 	{\includegraphics[width=0.5\linewidth]{gfx/AnalysisResults/TVClustvsDILS.pdf}\label{fig:TVClustvsDILS}}
-	\subfloat[\acs{CECM} vs \acs{DILS}$_{CC}$]
+	\subfloat[\acs{CECM} vs \acs{DILS}$_{CC}$.]
 	{\includegraphics[width=0.5\linewidth]{gfx/AnalysisResults/CEKMvsDILS.pdf}\label{fig:CECMvsDILS}}
-	\caption[Heatmaps for the comparison of DILS$_{CC}$ with the state-of-the-art.]{Heatmaps for the comparison of \acs{DILS}$_{CC}$ with the state-of-the-art.}
+	\caption{Heatmaps comparing \acs{DILS}$_{CC}$ with the state-of-the-art.}
 	\label{fig:HeatmapsDILSvsSOTA}
 \end{figure}
 
-Figure \ref{fig:HeatmapsDILSvsSOTA} shows all six heatmaps obtained when applying the Bayesian sign test to \acs{DILS}$_{CC}$ and the state-of-the-art methods. Diagrams for \acs{BRKGA}$_{CC}$ (\ref{fig:BRKGAvsDILS}), \acs{LCVQE} (\ref{fig:LCVQEvsDILS}), \acs{RDPM} (\ref{fig:RDPMvsDILS}), \acs{TVClust} (\ref{fig:TVClustvsDILS}) and \acs{CECM} (\ref{fig:CECMvsDILS}) are very similar. They suggest that the test assigns a high probability to $A - B < 0$, since most triplets are presented in the lower left third of the triangle. Bearing this in mind, and considering that \acs{ARI} is a measure to maximize, we can say that the Bayesian sign test provides strong evidence that \acs{DILS}$_{CC}$ does represent a significant improvement over the named 5 methods, being the results offered by the latter non equivalent to those offered by \acs{DILS}$_{CC}$ and lower in quality. In the case of \acs{COPKM} (Figure \ref{fig:BRKGAvsDILS}) we find the cloud of triplets closer to the lower-middle of the diagram, indicating that results offered by \acs{COPKM} and \acs{DILS}$_{CC}$ remain being significantly different but in some cases the advantage would be for \acs{COPKM}. However, in most cases \acs{DILS}$_{CC}$ will offer better results.
+Figure \ref{fig:HeatmapsDILSvsSOTA} shows all six heatmaps obtained after applying the Bayesian sign test to \acs{DILS}$_{CC}$ and the state-of-the-art methods. Diagrams for \acs{BRKGA}$_{CC}$ (\ref{fig:BRKGAvsDILS}), \acs{LCVQE} (\ref{fig:LCVQEvsDILS}), \acs{RDPM} (\ref{fig:RDPMvsDILS}), \acs{TVClust} (\ref{fig:TVClustvsDILS}) and \acs{CECM} (\ref{fig:CECMvsDILS}) are very similar. They suggest that the test assigns a high probability to $A - B < 0$, since most triplets are presented in the lower left third of the triangle. Bearing this in mind, and considering that \acs{ARI} is a measure to maximize, we can say that the Bayesian sign test provides strong evidence that \acs{DILS}$_{CC}$ does represent a significant improvement over the named five methods, the results offered by the latter being non-equivalent to those offered by \acs{DILS}$_{CC}$ and lower in quality. In the case of \acs{COPKM} (Figure \ref{fig:BRKGAvsDILS}) we find the cloud of triplets closer to the lower-middle region of the diagram, indicating that the results offered by \acs{COPKM} and \acs{DILS}$_{CC}$ remain significantly different but in some cases \acs{COPKM} has an advantage. However, in most cases \acs{DILS}$_{CC}$ offers better results.
 
-\section{SHADE$_{CC}$ or DILS$_{CC}$?} \label{sec:SHADEorDILS}
+\section[\acsfont{SHADE}$_{CC}$ or \acsfont{DILS}$_{CC}$?]{SHADE$_{CC}$ or DILS$_{CC}$?} \label{sec:SHADEorDILS}
 
-Regarding the comparison between the two new proposals---\acs{DILS}$_{CC}$ and \acs{SHADE}$_{CC}$---, we have seen how both of them represent an improvement over previous constrained clustering approaches. In Section \ref{sec:NewPropvsSOTA} we saw how \acs{DILS}$_{CC}$ seemed to offer better results than \acs{SHADE}$_{CC}$, but it is worth empirically analyze this conclusions through the Bayesian sign test. We will refer to the results obtained \acs{SHADE}$_{CC}$ $A$, and to the results obtained with \acs{DILS}$_{CC}$ as sample $B$. Figure \ref{fig:SHADEvsDILS} shows the heatmap obtained with this setup.
+Regarding the comparison between the two new proposals, we have seen how both of them represent an improvement over previous constrained clustering approaches. In Section \ref{sec:NewPropvsSOTA} we saw how \acs{DILS}$_{CC}$ seemed to offer better results than \acs{SHADE}$_{CC}$, but it is worth empirically analyzing these conclusions through the Bayesian sign test. We refer to the results obtained \acs{SHADE}$_{CC}$ as sample $A$, and to the results obtained with \acs{DILS}$_{CC}$ as sample $B$. Figure \ref{fig:SHADEvsDILS} shows the heatmap obtained with this setup.
 
 \begin{figure}[!h]
 	\centering
 	\includegraphics[scale=0.6]{gfx/AnalysisResults/SHADEvsDILS.pdf}
-	\caption[Heatmap for the comparison of SHADE$_{CC}$ with DILS$_{CC}$]{Heatmap for the comparison of \acs{SHADE}$_{CC}$ with \acs{DILS}$_{CC}$}\label{fig:SHADEvsDILS}
+	\caption{Heatmap comparing \acs{SHADE}$_{CC}$ with \acs{DILS}$_{CC}$.}\label{fig:SHADEvsDILS}
 \end{figure}
 
-As we could expect, the test assigns a high probability to $A - B < 0$, being the most of the triplets represented in the lower-left third of the triangle. This indicates that there are significant differences between both methods in most cases, and the test gives a clear lead to \acs{DILS}$_{CC}$. We conclude that the reason behind this is that a real-based problem representation does not provide any other advantage that the possibility to apply real-coding evolutionary methods. This way, given that the \acs{SHADE} method proved to be the best approach to real optimization problems we expected it to outperform \acs{BRKGA}, though \acs{SHADE} imposes an arithmetic relationship between individuals---through the mutation operator---which is hard to understand in the clustering domain. This is, applying an arithmetic operator to two labels does not provide easily understandable combination of them. Judging from the raw results and the empirical analysis, and with its straight integer-based problem representation and its strong exploitation capability \acs{DILS}$_{CC}$ stands out as the best of all methods we obtained results for.
+As we could expect, the test assigns a high probability to $A - B < 0$, with most of the triplets being represented in the lower-left third of the triangle. This indicates that there are significant differences between both methods in most cases, and the test gives a clear lead to \acs{DILS}$_{CC}$. We conclude that the reason behind this is that a real-coded problem representation does not provide any advantages other  than the possibility to apply real-coded evolutionary methods. This way, given that \acs{SHADE} proved to be the best approach to real-coded optimization problems, we expected it to outperform \acs{BRKGA}, although \acs{SHADE} imposes an arithmetic relationship between individuals (through the mutation operator) which is difficult to understand in the clustering domain. This is, applying an arithmetic operator to two labels does not provide easily understandable combinations of them. Judging from the raw results and the empirical analysis, and with its straightforward integer-based problem representation and strong exploitation capabilities, \acs{DILS}$_{CC}$ stands out as the best of all methods we obtained results for.
 
 
 

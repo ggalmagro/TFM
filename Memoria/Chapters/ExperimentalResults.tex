@@ -1,45 +1,45 @@
 \chapter{Experimental Results} \label{ch:ExperimentalResults}
 
-This chapter presents the results obtained by the two new proposals introduced in this work (in Chapter \ref{ch:NewProposals}) and those obtained by the state-of-the-art. Being the mentioned the main purpose of this chapter, we firstly introduce a brief study on the influence of the parameter $\xi$ in the \acs{DILS} method in Section \ref{sec:XiInfl}, so the reader gets a better comprehension of theory presented in Section \ref{sec:DILS}. Afterwards we will carry out an in-depth comparison between \acs{BRKGA}$_{CC}$ and \acs{SHADE}$_{CC}$ in Section \ref{sec:BRKGAvsSHADE}, as both are population-based and heuristic-guided methods. Finally, in Section \ref{sec:NewPropvsSOTA}  we will present a more general comparison that will include all state-of-the-art methods and the new proposals.
+This chapter presents the results obtained by the two new proposals introduced in this work (in Chapter \ref{ch:NewProposals}) and those obtained by the state-of-the-art. Being the mentioned the main purpose of this chapter, we firstly introduce a brief study on the influence of the parameter $\xi$ in the \acs{DILS} method in Section \ref{sec:XiInfl}, so the reader gets a better comprehension of theory presented in Section \ref{sec:DILS}. Afterwards, we carry out an in-depth comparison between \acs{BRKGA}$_{CC}$ and \acs{SHADE}$_{CC}$ in Section \ref{sec:BRKGAvsSHADE}, as both are population-based and heuristic-guided methods. Finally, in Section \ref{sec:NewPropvsSOTA} a more general comparison that will include all state-of-the-art methods and the new proposals is presented.
 
-It is worth noting that, since the methods we are comparing involve non-deterministic procedures, the results may vary from one run to another. To lessen the effect this may have on the results, we will apply each method 5 times to every dataset and constraint set, so that the measures shown in the previously mentioned tables correspond to the average of the 5 runs.
+It is worth noting that, since the methods we are comparing involve non-deterministic behavior, the results may vary between runs. To attenuate the effect this may have on the results, we will apply each method five times to every dataset and constraint set, so that the resulting measures correspond to a five-run average.
 
 \section{On the Influence of $\xi$} \label{sec:XiInfl}
 
-Parameter $\xi$ from \acs{DILS} plays a key role in the development of its optimization process. It was theoretically introduced in Section \ref{sec:DILS}. The aim of this section is to prove its influence in the \acs{DILS} constrained clustering application (\acs{DILS}$_{CC}$). With this in mind we set up the following experiment: apply \acs{DILS}$_{CC}$ to the Iris dataset and its associated $CS_{10}$ constraint set and save the number of worst individual ($m_w$) reinitializations in each generations. We have to keep in mind that \acs{DILS}$_{CC}$ is a non deterministic algorithm, due to its \acf{ILS} procedure. To mitigate the effect this could have of our study we will repeat the experiment 20 times, with the objective of analyzing average results and standard deviation.
+The parameter $\xi$ of \acs{DILS}, which was theoretically introduced in Section \ref{sec:DILS}, plays a key role in the optimization process. The aim of this section is to prove its influence in the application of \acs{DILS} to constrained clustering (\acs{DILS}$_{CC}$). With this in mind, we set up the following experiment: apply \acs{DILS}$_{CC}$ to the Iris dataset and its associated $CS_{10}$ constraint set and save the number of worst individual ($m_w$) reinitializations in each generation. We have to keep in mind that \acs{DILS}$_{CC}$ is a non-deterministic algorithm. To mitigate the effect this could have on our study, the experiment is repeated twenty times with the aim of analyzing average results and standard deviation.
 
 \begin{figure}[bth]
 	\myfloatalign
-	\subfloat[Restarts per generation with $\xi \le 0$]
+	\subfloat[Restarts per generation with $\xi \le 0$.]
 	{\includegraphics[width=0.45\linewidth]{gfx/ExpResults/RestartsXiMenor.pdf}} 
 	\hspace{1cm}
-	\subfloat[Restarts per generation with $\xi \ge 0$]
+	\subfloat[Restarts per generation with $\xi \ge 0$.]
 	{\includegraphics[width=0.45\linewidth]{gfx/ExpResults/RestartsXiMayor.pdf}}
-	\caption[Visual representation of the influence of $\xi$ over the DILS$_{CC}$ optimization process.]{Visual representation of the influence of $\xi$ over the \acs{DILS}$_{CC}$ optimization process.}
+	\caption{Visual representation of the influence of $\xi$ over the \acs{DILS}$_{CC}$ optimization process.}
 	\label{fig:RestartsLines}
 \end{figure}
 
-Figure \ref{fig:RestartsLines} shows the number of total reinitializations per generation for $\xi \in [-0.5,0.5]$. Note that the $y$ axis is on a continuous scale due to the averaging process. As we expected this number grows in a logarithmic way with respect to the number of generations, which means that the algorithm tends to converge if a sufficient number of generations. Also it is clear that the higher $\xi$ the less reinitializations per generations are done.
+Figure \ref{fig:RestartsLines} shows the number of total reinitializations per generation for $\xi \in [-0.5,0.5]$. Note that the $y$ axis is real-valued due to the averaging process. As expected, this number grows in a logarithmic fashion with respect to the number of generations. This means that the algorithm tends to converge. It is also clear that the higher $\xi$ is, the fewer reinitializations per generation are done.
 
 
 \begin{figure}[bth]
 	\myfloatalign
-	\subfloat[Hisogram showing values]
+	\subfloat[Histogram of values.]
 	{\includegraphics[width=0.45\linewidth]{gfx/ExpResults/HistValues.pdf}} 
 	\hspace{1cm}
-	\subfloat[Hisogram showing variance]
+	\subfloat[Histogram of variance.]
 	{\includegraphics[width=0.45\linewidth]{gfx/ExpResults/HistVar.pdf}}
-	\caption{Mean number of reinitializations histogram for $\xi \in [-0.5,0.5]$.}
+	\caption{Histogram of the average number of reinitializations for $\xi \in [-0.5,0.5]$.}
 	\label{fig:RestartsHist}
 \end{figure}
 
-Figure \ref{fig:RestartsHist} aims to present a more clear visual representation of the average number of reinitializations and the standard deviation found in the total number of reinitializations for the 20 runs and for each $\xi$ value. We observe how the average number of reinitializations grows in an irregular way as $\xi$ decreases. This effect would tend to lessen as we increase the size of the sample runs increases. To put it clear: the more runs the more regular the grow of the average number reinitializations would be. Regarding the variance, we can clearly see how the more permissive the reinitilization rule is the higher it gets. Which is exactly what we would expect in a non deterministic method such as \acs{DILS}$_{CC}$.
+Figure \ref{fig:RestartsHist} aims to present a clearer visual representation of the twenty-run average number of reinitializations and its standard deviation for each value of $\xi$. We can observe how the average number of reinitializations grows in an irregular way as $\xi$ decreases. This effect would tend to lessen as the size of the sample runs increases. To put it clear: the higher the amount of runs, the more regular the growth of the average number of reinitializations. Regarding the variance, we can clearly see how the more permissive the reinitialization rule is, the higher it gets; this is exactly what would be expected in a non-deterministic method such as \acs{DILS}$_{CC}$.
 
-We can conclude that parameter $\xi$ has the expected influence over the \acs{DILS}$_{CC}$ optimization process. Note that in a problem in which the \acs{LS} procedure used is deterministic we would also find differences between consecutive runs over the same datasets, given that the \acs{DILS} general optimization scheme uses stochastic tools---such as the recombination and mutation operators---to make sure that diversity is introduced in the search of the global optima for the problem we apply it to.
+We can conclude that $\xi$ has the expected influence on the \acs{DILS}$_{CC}$ optimization process. Note that, in a problem in which the \acs{LS} procedure used was deterministic, we would also find differences between consecutive runs over the same datasets; the general optimization scheme in \acs{DILS} uses stochastic tools---such as the recombination and mutation operators---to make sure that diversity is introduced in the search for problem-specific global optima.
 
-\section{Comparing BRKGA$_{CC}$ with SHADE$_{CC}$} \label{sec:BRKGAvsSHADE}
+\section[Comparing \acsfont{BRKGA}$_{CC}$ with \acsfont{SHADE}$_{CC}$]{Comparing BRKGA$_{CC}$ with SHADE$_{CC}$} \label{sec:BRKGAvsSHADE}
 
-Tables from \ref{tab:resultsBRKGAvsSHADE10} to \ref{tab:resultsBRKGAvsSHADE20} present the comparison between \acs{BRKGA}$_{CC}$ and \acs{SHADE}$_{CC}$. In them the \acs{ARI} columns shows the Adjusted Rand Index for each case, the Unsat columns displays the percentage of violated constraints and the Time columns shows the time taken for each algorithm to deliver results, measured in seconds.
+Tables from \ref{tab:resultsBRKGAvsSHADE10} to \ref{tab:resultsBRKGAvsSHADE20} present the comparison between \acs{BRKGA}$_{CC}$ and \acs{SHADE}$_{CC}$. In them the \acs{ARI} columns show the Adjusted Rand Index for each case, the Unsat column displays the percentage of violated constraints and the Time columns show the time taken for each algorithm to produce results, measured in seconds.
 
 \clearpage
 
@@ -83,7 +83,7 @@ Tables from \ref{tab:resultsBRKGAvsSHADE10} to \ref{tab:resultsBRKGAvsSHADE20} p
 	\end{tabular}}
 	%\end{adjustwidth}
 	
-	\caption[Experimental results obtained for $CS_{10}$ comparing SHADE$_{CC}$ and BRKGA$_{CC}$.]{Experimental results obtained for $CS_{10}$ comparing \acs{SHADE}$_{CC}$ and \acs{BRKGA}$_{CC}$.}
+	\caption{Experimental results obtained for $CS_{10}$ comparing \acs{SHADE}$_{CC}$ and \acs{BRKGA}$_{CC}$.}
 	\label{tab:resultsBRKGAvsSHADE10}
 \end{table}
 
@@ -129,11 +129,11 @@ Table \ref{tab:resultsBRKGAvsSHADE10} shows the results for the $SC_{10}$ constr
 	\end{tabular}}
 	%\end{adjustwidth}
 	
-	\caption[Experimental results obtained for $CS_{15}$ comparing SHADE$_{CC}$ and BRKGA$_{CC}$.]{Experimental results obtained for $CS_{15}$ comparing \acs{SHADE}$_{CC}$ and \acs{BRKGA}$_{CC}$.}
+	\caption{Experimental results obtained for $CS_{15}$ comparing \acs{SHADE}$_{CC}$ and \acs{BRKGA}$_{CC}$.}
 	\label{tab:resultsBRKGAvsSHADE15}
 \end{table}
 
-Table \ref{tab:resultsBRKGAvsSHADE15} presents the results obtained with the $CS_{15}$ constraint set. While conclusions for Unsat and Time remain unchanged, we see a clear difference as far as \acs{ARI} is concerned. We observe that both methods already report \acs{ARI} results above 0.7, which in an \acs{ARI} ranking is considered to be an acceptable result. We can even observe that the \acs{SHADE}$_{CC}$ method provides an \acs{ARI} higher than 0.9 for 7 datasets, compared to \acs{BRKGA}$_{CC}$ that only obtains similar results in 2 datasets.
+Table \ref{tab:resultsBRKGAvsSHADE15} presents the results obtained with the $CS_{15}$ constraint set. While conclusions for Unsat and Time remain unchanged, we can see a clear difference as far as \acs{ARI} is concerned. We observe that both methods already report \acs{ARI} results above 0.7, which in an \acs{ARI} ranking is considered to be an acceptable result. We can even observe that \acs{SHADE}$_{CC}$ achieves an \acs{ARI} higher than 0.9 for seven datasets, compared to \acs{BRKGA}$_{CC}$ that only obtains similar results in two datasets.
 
 \begin{table}[!h]
 	\centering
@@ -175,19 +175,19 @@ Table \ref{tab:resultsBRKGAvsSHADE15} presents the results obtained with the $CS
 	\end{tabular}}
 	%\end{adjustwidth}
 	
-	\caption[Experimental results obtained for $CS_{20}$ comparing SHADE$_{CC}$ and BRKGA$_{CC}$.]{Experimental results obtained for $CS_{20}$ comparing \acs{SHADE}$_{CC}$ and \acs{BRKGA}$_{CC}$.}
+	\caption{Experimental results obtained for $CS_{20}$ comparing \acs{SHADE}$_{CC}$ and \acs{BRKGA}$_{CC}$.}
 	\label{tab:resultsBRKGAvsSHADE20}
 \end{table}
 
-It is in Table \ref{tab:resultsBRKGAvsSHADE20}, which gathers results obtained for the constraint set $CS_{20}$, that we observe major differences between the two methods. We find that \acs{SHADE}$_{CC}$ is capable of producing clusters identical to the original ones for 4 datasets, regardless the single dataset for which \acs{BRKGA}$_{CC}$ achieves it. Let us remember that an \acs{ARI} of 1 represents a perfect match between the two partitions given to compute it. This improvement in \acs{ARI} is clearly reflected in the percentage of violated constraints---Unsat column---, value for which, once again, \acs{SHADE}$_{CC}$ outperforms \acs{BRKGA}$_{CC}$. Conclusions on execution time remain the same.
+It is in Table \ref{tab:resultsBRKGAvsSHADE20}, which gathers results obtained for the constraint set $CS_{20}$, that we observe major differences between the two methods. We find that \acs{SHADE}$_{CC}$ is capable of producing clusters identical to the original ones for four datasets, against the single dataset for which \acs{BRKGA}$_{CC}$ achieves it. Let us remember that an \acs{ARI} of 1 represents a perfect match between the two partitions for which it is computed. This improvement in \acs{ARI} is clearly reflected in the percentage of violated constraints (Unsat column) for which, once again, \acs{SHADE}$_{CC}$ outperforms \acs{BRKGA}$_{CC}$. Conclusions on execution time remain the same.
 
 \newpage
 
-\section{Comparing SHADE$_{CC}$ and DILS$_{CC}$ with The-State-Of-The-Art} \label{sec:NewPropvsSOTA}
+\section[Comparing \acsfont{SHADE}$_{CC}$ and \acsfont{DILS}$_{CC}$ with The-State-Of-The-Art]{Comparing SHADE$_{CC}$ and DILS$_{CC}$ with the State-Of-The-Art} \label{sec:NewPropvsSOTA}
 
-In this section we present Tables from \ref{tab:resultsSOTA10} to \ref{tab:resultsSOTA20}, which display the results obtained by the new proposals---\acs{DILS}$_{CC}$ and \acs{SHADE}$_{CC}$---and six state-of-the-art methods---including \acs{BRKGA}$_{CC}$---to be compared for each dataset and constraint set.
+In this section we present Tables from \ref{tab:resultsSOTA10} to \ref{tab:resultsSOTA20}, which display the results obtained by the new proposals---\acs{DILS}$_{CC}$ and \acs{SHADE}$_{CC}$---and six state-of-the-art methods including \acs{BRKGA}$_{CC}$ to be compared for each dataset and constraint set.
 
-It should be noted that there are some missing results in these tables. In the case of the \acs{COPKM} algorithm, this is due to the fact that it is highly dependent on the order in which constraints are analyzed. It is possible that \acs{COPKM} cannot find a solution, even though it is always feasible, since the constraints have been generated based on the true labels. In the case of CECM, some of the results are not available because the memory structures that hold the algorithm grow non-linearly with the number of classes and the number of features of the dataset to be analyzed. We establish that in these cases the \acs{ARI} value considered for the mean calculation---and the forthcoming statistical analysis of results---is -1.000, which is the worst value the \acs{ARI} measure can deliver.
+It should be noted that there are some missing values in these tables. In the case of \acs{COPKM}, this is due to the fact that it is highly dependent on the order in which constraints are analyzed. It is possible that \acs{COPKM} cannot find a solution, even though it is always feasible since the constraints have been generated based on the true labels. In the case of \acs{CECM}, some of the results are not available because the in-memory data structures that hold the algorithm grow non-linearly with the number of classes and the number of features. We establish that in these cases the \acs{ARI} value considered for the mean calculation---and the forthcoming statistical analysis of results---is $-1.000$, which is the worst possible \acs{ARI} value.
 
 \begin{table}[!h]
 	\centering
@@ -230,7 +230,7 @@ It should be noted that there are some missing results in these tables. In the c
 	\label{tab:resultsSOTA10}
 \end{table}
 
-Table \ref{tab:resultsSOTA10} presents the results obtained for the $CS_{10}$ constraint set. \acs{LCVQE}, \acs{RDPM} and \acs{TVClust} methods stand out of \acs{SHADE}$_{CC}$, achieving results as competitive as it with a low number of constraints. Nevertheless \acs{DILS}$_{CC}$ represents a consistent improvement over all other 6 state-of-the-art methods. This is due to the fact that the exploitation capacity of \acs{DILS}$_{CC}$ allows it to take better advantage of the information contained in the constraint set than the rest of the methods, even with the lowest level of constraint-based information we work with.
+Table \ref{tab:resultsSOTA10} presents the results obtained for the $CS_{10}$ constraint set. \acs{LCVQE}, \acs{RDPM} and \acs{TVClust} stand out over \acs{SHADE}$_{CC}$, achieving comparable results with a low number of constraints. Nevertheless, \acs{DILS}$_{CC}$ represents a consistent improvement over all six state-of-the-art methods. This is due to the fact that the exploitation capacity of \acs{DILS}$_{CC}$ allows it to take better advantage of the information contained in the constraint set than the rest of the methods, even with the lowest level of constraint-based information we work with.
 
 \begin{table}[!h]
 	\centering
@@ -273,7 +273,7 @@ Table \ref{tab:resultsSOTA10} presents the results obtained for the $CS_{10}$ co
 	\label{tab:resultsSOTA15}
 \end{table}
 
-In one hand, Table \ref{tab:resultsSOTA15}, which shows the results for the $CS_{15}$ constraint set, we observe that there is a significant improvement in precision in the results obtained by \acs{SHADE}$_{CC}$. On the other hand, methods that obtained better results for smaller constraint sets do not present an improvement comparable to that presented by \acs{SHADE}$_{CC}$, with the exception of \acs{COPKM}. Also we observe how \acs{DILS}$_{CC}$ and \acs{COPKM} are able to obtain \acs{ARI} values equal to 1, meaning that the resulting partitions of the datasets perfectly match the true partitions. The fact that \acs{DILS}$_{CC}$ is always able to output a partition of the datasets is a noteworthy advantage over \acs{COPKM}. Even in the cases where \acs{COPKM} is unable to produce a partition, \acs{DILS} often finds the optimal or a near-optimal partition.
+On one hand, in Table \ref{tab:resultsSOTA15}, which shows the results for the $CS_{15}$ constraint set, we observe that there is a significant improvement in accuracy in the results obtained by \acs{SHADE}$_{CC}$. On the other hand, methods that obtained better results for smaller constraint sets do not present an improvement comparable to that of \acs{SHADE}$_{CC}$ (with the exception of \acs{COPKM}). We can also observe how \acs{DILS}$_{CC}$ and \acs{COPKM} are able to obtain \acs{ARI} values equal to 1, meaning that the resulting dataset partitions perfectly match the true partitions. The fact that \acs{DILS}$_{CC}$ is always able to output a partition is a noteworthy advantage over \acs{COPKM}. Even in the cases where \acs{COPKM} is unable to produce a partition, \acs{DILS} often finds the optimal or a near-optimal partition.
 
 \begin{table}[!h]
 	\centering
@@ -316,11 +316,11 @@ In one hand, Table \ref{tab:resultsSOTA15}, which shows the results for the $CS_
 	\label{tab:resultsSOTA20}
 \end{table}
 
-Table \ref{tab:resultsSOTA20} presents the results obtained for $CS_{20}$. For \acs{SHADE}$_{CC}$ and \acs{DILS}$_{CC}$ we continue to observe its progression in accuracy, as well as for methods such as \acs{BRKGA}$_{CC}$ or \acs{COPKM} (the latter being more limited in other aspects). As far as the state-of-the-art methods are concerned, we find a general improvement in \acs{ARI}, except for CECM. Even with this, it is \acs{SHADE}$_{CC}$ and \acs{COPKM} that seem to obtain the highest quality results, with the difference that \acs{SHADE}$_{CC}$ is able to produce results in all cases. It is also worth noting how \acs{DILS}$_{CC}$ provides the best average \acs{ARI} for each of the three constraint sets analyzed in this paper.
+Table \ref{tab:resultsSOTA20} presents the results obtained for $CS_{20}$. For \acs{SHADE}$_{CC}$ and \acs{DILS}$_{CC}$ we continue to observe their progression in accuracy, as well as for methods such as \acs{BRKGA}$_{CC}$ or \acs{COPKM}---the latter being more limited in other aspects. As far as the state-of-the-art methods are concerned, we find a general improvement in \acs{ARI}, except for \acs{CECM}. The \acs{TVClust} method should be highlighted, since it is able to find the optimal solution in three cases, which implies a significant improvement over its performance on previous constraint sets. Even with this, it is \acs{SHADE}$_{CC}$ and \acs{COPKM} that seem to obtain the highest quality results, with the difference being that \acs{SHADE}$_{CC}$ is able to produce results in all cases. It is also worth noting how \acs{DILS}$_{CC}$ provides the best average \acs{ARI} for each of the three constraint sets analyzed here.
 
 \newpage
 
-All comparisons carried out in this sections are merely supported by the raw results. To prove whether the new proposals represent an improvement over the state-of-the-art methods it is necessary to perform an statistic-based empirical analysis of the results. The last chapter (Chapter \ref{ch:AnalysisResults}) of Part \ref{pt:Experiments} will address this question.
+All comparisons carried out in these sections are merely supported by the raw results. To prove whether the new proposals represent an improvement over the state-of-the-art methods it is necessary to perform a statistics-based empirical analysis of the results. The last chapter (Chapter \ref{ch:AnalysisResults}) of Part \ref{pt:Experiments} will address this question.
 
 
 

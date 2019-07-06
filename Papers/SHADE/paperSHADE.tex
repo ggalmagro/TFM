@@ -561,8 +561,8 @@ Algorithm \ref{alg:SHADE} describes the overall SHADE$_{CC}$ optimization proces
 
 \section{Experimental Setup} \label{sec:expSetup}
 
-For our experiments we will compare the results obtained by BRKGA$_{CC}$ and SHADE$_{CC}$ over 25 datasets and 3 constraint sets for each one of them. Most of these datasets can be found at the \href{https://sci2s.ugr.es/keel/category.php?cat=clas}{Keel-dataset repository} \cite{triguero2017keel}, though some of them have been obtained via
-\href{https://scikit-learn.org/stable/datasets/index.html}{\texttt{scikit-learn} python package} \cite{scikit-learn}. We also include 3 artificial datasets in our analysis, namely: \textit{Circles}, \textit{Moons} and \textit{Spiral}, which can be found at \href{https://github.com/GermangUgr/SHADE_CC}{GitHub}. Table \ref{tab:datasets} displays a summary of every dataset.
+For our experiments we will compare the results obtained by BRKGA$_{CC}$ and SHADE$_{CC}$ over 25 datasets and 3 constraint sets for each one of them. Most of these datasets can be found at the \href{https://sci2s.ugr.es/keel/category.php?cat=clas}{Keel-dataset repository}\footnote{https://sci2s.ugr.es/keel/category.php?cat=clas} \cite{triguero2017keel}, though some of them have been obtained via
+\href{https://scikit-learn.org/stable/datasets/index.html}{\texttt{scikit-learn} python package}\footnote{https://scikit-learn.org/stable/datasets/index.html} \cite{scikit-learn}. We also include 3 artificial datasets in our analysis, namely: \textit{Circles}, \textit{Moons} and \textit{Spiral}, which can be found at \href{https://github.com/GermangUgr/SHADE_CC}{GitHub}\footnote{https://github.com/GermangUgr/SHADE\_CC}. Table \ref{tab:datasets} displays a summary of every dataset.
 
 \begin{table}[!h]
 	\centering
@@ -736,9 +736,9 @@ Table \ref{tab:params} shows a summary of the parameter setup used for both BRKG
 	\label{tab:params}
 \end{table}
 
-In both cases---BRKGA$_{CC}$ and SHADE$_{CC}$---the population size will be 100 individuals, and the stop criterion is given by the number of evaluations of the fitness function, which at most will be 300000. A Python implementation for both algorithms can be found at \href{https://github.com/GermangUgr/SHADE\_CC}{GitHub}
+In both cases---BRKGA$_{CC}$ and SHADE$_{CC}$---the population size will be 100 individuals, and the stop criterion is given by the number of evaluations of the fitness function, which at most will be 300000. A Python implementation for both algorithms can be found at \href{https://github.com/GermangUgr/SHADE_CC}{GitHub}\footnote{https://github.com/GermangUgr/SHADE\_CC}
 
-To compare with the state-of-the-art methods mentioned in Section \ref{sec:BackSOTA} we will use the parameters setup shown in Table \ref{tab:paramsSOTA} for the implementation that can be found at \href{https://github.com/GermangUgr/TFG/tree/master/Software}{GitHub}.
+To compare with the state-of-the-art methods mentioned in Section \ref{sec:BackSOTA} we will use the parameters setup shown in Table \ref{tab:paramsSOTA} for the implementation that can be found at \href{https://github.com/GermangUgr/TFG/tree/master/Software}{GitHub}\footnote{https://github.com/GermangUgr/TFG/tree/master/Software}.
 
 \begin{table}[!h]
 	\centering
@@ -780,7 +780,7 @@ Since the methods we are comparing involve non-deterministic procedures, the res
 
 \subsection{Comparing BRKGA$_{CC}$ with SHADE$_{CC}$}
 
-In Tables from \ref{tab:results10} to \ref{tab:results20} the ARI columns shows the Adjusted Rand Index for each case, the Unsat columns displays the percentage of violated constraints and the Time columns shows the time taken for each algorithm to deliver results, measured in seconds.
+In Tables from \ref{tab:results10} to \ref{tab:results20} the ARI columns show the Adjusted Rand Index for each case, the Unsat columns displays the percentage of violated constraints and the Time columns shows the time taken for each algorithm to deliver results, measured in seconds.
 
 \begin{table}[!h]
 	\centering
@@ -939,7 +939,7 @@ It is in Table \ref{tab:results20}, which gathers results obtained for the const
 
 In this section we present a brief comparison between the proposed SHADE$_{CC}$ method and some of the state-of-the-art methods. Tables from \ref{tab:results10SOTA} to \ref{tab:results20SOTA} show the results obtained by these methods. To shorten the presented results this time we will only compare the ARI.
 
-It should be noted that there are some missing results in these tables. In the case of the COPKM algorithm, this is due to the fact that it is highly dependent on the order in which constraints are analyzed. It is possible that COPKM cannot find a solution, even though it is always feasible, since the constraints have been generated based on the true labels. In the case of CECM, some of the results are not available because the memory structures that hold the algorithm grow non-linearly with the number of classes and the number of features of the dataset to be analyzed.
+It should be noted that there are some missing results in these tables. In the case of the COPKM algorithm, this is due to the fact that it is highly dependent on the order in which constraints are analyzed. It is possible that COPKM cannot find a solution, even though it is always feasible, since the constraints have been generated based on the true labels. In the case of CECM, some of the results are not available because the memory structures that hold the algorithm grow non-linearly with the number of classes and the number of features of the dataset to be analyzed. We establish that in these cases the ARI value considered for the mean calculation---and the forthcoming statistical analysis of results---is $-1.000$, which is the worst possible ARI value.
 	
 \begin{table}[!h]
 	\centering
@@ -1080,7 +1080,7 @@ In one hand, Table \ref{tab:results15SOTA}, which shows the results for the $CS_
 	\label{tab:results20SOTA}
 \end{table}
 
-Table \ref{tab:results20SOTA} presents the results obtained for $CS_{20}$. For SHADE$_{CC}$ we continue to observe its progression in accuracy. As far as the state-of-the-art methods are concerned, we find a general improvement in ARI, except for CECM. Even with this, it is SHADE$_{CC}$ and COPKM that seem to obtain the highest quality results, with the difference that SHADE$_{CC}$ is able to produce results in all cases.
+Table \ref{tab:results20SOTA} presents the results obtained for $CS_{20}$. For SHADE$_{CC}$ we continue to observe its progression in accuracy. As far as the state-of-the-art methods are concerned, we find a general improvement in ARI, except for CECM. Even with this, it is SHADE$_{CC}$ and COPKM that obtain the highest quality results, with the difference that SHADE$_{CC}$ is able to produce results in all cases. The TVClust method should also be highlighted, since it is able to find the optimal solution in 4 cases, which implies a significant improvement over its performance on previous constraint sets
 
 \clearpage
 
@@ -1109,7 +1109,7 @@ One of the major advantages of the Bayesian sign test is that we can obtain a ve
 		\caption{Unsat}
 		\label{fig:bayesUnsat}
 	\end{subfigure}
-	\caption{Heat diagrams for the comparison with BRKGA$_{CC}$.}
+	\caption{Heatmaps for the comparison with BRKGA$_{CC}$.}
 \end{figure}
 
 In one hand, figure \ref{fig:bayesARI} shows the heatmap associated with the ARI measurement. The diagram suggests that the Bayesian sign test assigns a high probability to $A - B < 0$, since most triplets are represented in the lower left third of the triangle. It also indicates that in some cases there are no significant differences between $A$ and $B$, since we also find triplets in the rope area. Bearing this in mind, and considering that ARI is a measure to maximize, we can say that, for cases where there are significant differences, SHADE$_{CC}$ performs better than BRKGA$_{CC}$. On the other hand, Figures \ref{fig:bayesTime} and \ref{fig:bayesUnsat} which show the heatmaps obtained for Time and Unsat measurements, are very similar. In both, all triplets are represented in the lower right third of the triangle, indicating that the Bayesian sign test assigns a high probability to $A - B > 0$. With this, and bearing in mind that both measures must be minimized, we conclude that SHADE$_{CC}$ represents a solid improvement over BRKGA$_{CC}$ as far as this measures are concerned.

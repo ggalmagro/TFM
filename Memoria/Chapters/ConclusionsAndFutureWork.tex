@@ -1,1 +1,24 @@
 \chapter{Conclusions and Future Work}\label{ch:ConclFW}
+
+
+In this work we proposed the first application of \acf{DE} to the \acf{SSL} constrained clustering problem, taking as a basis its \acf{SHADE} variant and designing a new heuristic function and an unbiased \acf{LS} procedure. We called this applied method \acs{SHADE}$_{CC}$. We also presented the newly created \acf{DILS} heuristic method, along with its application to the constrained clustering problem, which we called \acs{DILS}$_{CC}$. Focusing on instance-level \acf{ML} and \acf{CL} constraints, \acs{SHADE}$_{CC}$ and \acs{DILS}$_{CC}$ have proven that nature-inspired and metaheuristic techniques constitute a competitive approach to constrained clustering, being able to scale the quality of the results in a directly proportional way to the number of constraints.  
+
+Supported by Bayesian statistical tests, we were able to objectively prove that the \acs{DILS}$_{CC}$ approach is significantly better than the state-of-the-art. Its integer-based problem representation and its exploitation capabilities allow \acs{DILS}$_{CC}$ to outperform the current state-of-the-art, with \acs{SHADE}$_{CC}$ being able to achieve competitive results. Both \acs{SHADE}$_{CC}$ and \acs{DILS}$_{CC}$ have proven to be better in terms of quality and availability of the solutions when compared to the state-of-the-art, especially in cases where large constraint sets are analyzed.
+
+Regarding future research lines, we have been able to see how in some cases no constrained clustering algorithm is able to achieve quality results. Leaving aside parameter tuning, which will surely improve results in some cases, we find that there is no preprocessing method designed to consider side data-related information, such as constraints. A quality preprocessing phase is crucial to obtain quality results when applying data analysis techniques. This is why constraint-oriented preprocessing methods need to be developed in order to keep constrained clustering research on the right track.
+
+We can also mention two other unexplored approaches to constrained clustering: multi-objective optimization and data streaming. On one hand, as we have studied in this work, in constrained clustering the aim is to optimize two different measures: the intra-cluster distance and the number of unsatisfied constraints. Penalty-style fitness functions are able to reunite these two measures, but a multi-objective alternative might be able to do it better. On the other hand, we have shown how constraints can be automatically generated from a set of labeled data. This principle can be applied to data streaming clustering techniques so that constraints can also guide clustering methods within this framework.
+
+
+
+
+
+
+
+
+
+
+
+
+
+

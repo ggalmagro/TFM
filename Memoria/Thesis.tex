@@ -57,9 +57,9 @@
 \usepackage{libertine}
 
 \usepackage{array}
-\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
-\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
-\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+%\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+%\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+%\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
 
 %\usepackage{subfigure}
 \usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
@@ -81,6 +81,14 @@
 \DeclareMathSymbol{7}\mathalpha{sfnumbers}{"37}
 \DeclareMathSymbol{8}\mathalpha{sfnumbers}{"38}
 \DeclareMathSymbol{9}\mathalpha{sfnumbers}{"39}
+
+\usepackage{makecell}
+
+\renewcommand\theadalign{bc}
+\renewcommand\theadfont{\bfseries}
+\renewcommand\theadgape{\Gape[4pt]}
+\renewcommand\cellgape{\Gape[4pt]}
+
 
 \newtheorem{observation}{Observation}[chapter]
 \newtheorem{definition}{Definition}[chapter]
@@ -117,12 +125,11 @@
 	\include{FrontBackmatter/Titlepage}
 	\include{FrontBackmatter/SecondTitlepage}
 	\include{FrontBackmatter/Titleback}
-	\cleardoublepage\include{FrontBackmatter/Dedication}
-	\cleardoublepage\include{FrontBackmatter/Resumen}
-	\cleardoublepage\include{FrontBackmatter/Abstract}
 	\cleardoublepage\include{FrontBackmatter/Legality}
 	\cleardoublepage\include{FrontBackmatter/Acknowledgment}
-	%\cleardoublepage\include{FrontBackmatter/Acknowledgments}
+	\cleardoublepage\include{FrontBackmatter/Resumen}
+	\cleardoublepage\include{FrontBackmatter/Abstract}
+	\cleardoublepage\include{FrontBackmatter/Dedication}
 	\cleardoublepage\include{FrontBackmatter/Contents}
 	%********************************************************************
 	% Mainmatter
